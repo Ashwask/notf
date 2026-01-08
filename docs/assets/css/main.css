@@ -44,7 +44,7 @@ body {
     background: var(--color-bg);
 }
 
-/* Header & Navigation */
+/* Header & Navigation - COOL COLORS */
 header {
     background: linear-gradient(135deg, var(--color-green) 0%, var(--color-teal) 100%);
     box-shadow: var(--shadow-md);
@@ -81,10 +81,10 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.15);
 }
 
-/* Hero Section */
+/* Hero Section - WARM COLORS (contrasting) */
 .hero {
-    background: linear-gradient(135deg, var(--color-green) 0%, var(--color-teal) 50%, var(--color-teal) 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-yellow) 100%);
+    color: var(--color-text);
     padding: 6rem 2rem;
     text-align: center;
     position: relative;
@@ -98,7 +98,7 @@ nav a:hover {
     right: 0;
     bottom: 0;
     left: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(251, 200, 49, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
 }
 
 .hero-content {
@@ -113,17 +113,16 @@ nav a:hover {
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    background: linear-gradient(to right, var(--color-yellow), var(--color-pink));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--color-text);
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .hero-subtitle {
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: var(--color-text);
     margin-bottom: 2.5rem;
-    font-weight: 300;
+    font-weight: 400;
+    opacity: 0.9;
 }
 
 .hero-cta {
@@ -145,40 +144,40 @@ nav a:hover {
 }
 
 .btn-primary {
-    background: var(--color-yellow);
-    color: var(--color-text);
+    background: var(--color-teal);
+    color: white;
     box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-    background: #e5b82d;
+    background: var(--color-green);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {
     background: white;
-    color: var(--color-teal);
+    color: var(--color-text);
     border: 2px solid white;
 }
 
 .btn-secondary:hover {
-    background: transparent;
+    background: var(--color-text);
     color: white;
-    border-color: white;
+    border-color: var(--color-text);
     transform: translateY(-2px);
 }
 
 .btn-primary-large {
     padding: 1.25rem 3rem;
     font-size: 1.125rem;
-    background: var(--color-yellow);
-    color: var(--color-text);
+    background: var(--color-teal);
+    color: white;
     box-shadow: var(--shadow-lg);
 }
 
 .btn-primary-large:hover {
-    background: #e5b82d;
+    background: var(--color-green);
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl);
 }
@@ -444,11 +443,11 @@ nav a:hover {
     line-height: 1.7;
 }
 
-/* CTA Section */
+/* CTA Section - WARM COLORS (contrasting) */
 .cta-section {
     padding: 5rem 0;
-    background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-green) 100%);
-    color: white;
+    background: linear-gradient(135deg, var(--color-yellow) 0%, var(--color-pink) 100%);
+    color: var(--color-text);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -461,7 +460,7 @@ nav a:hover {
     right: 0;
     bottom: 0;
     left: 0;
-    background: radial-gradient(circle at 70% 50%, rgba(251, 200, 49, 0.15) 0%, transparent 50%);
+    background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
 }
 
 .cta-section .container {
@@ -472,12 +471,14 @@ nav a:hover {
 .cta-section h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    color: var(--color-text);
 }
 
 .cta-section p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    opacity: 0.95;
+    color: var(--color-text);
+    opacity: 0.9;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -488,7 +489,7 @@ nav a:hover {
     margin-top: 2.5rem;
 }
 
-/* Footer */
+/* Footer - COOL COLORS */
 footer {
     background: var(--color-green);
     color: white;
@@ -658,14 +659,4 @@ article h4 {
 /* Utility Classes */
 main {
     min-height: calc(100vh - 200px);
-}
-
-/* Accent Elements */
-.accent-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-yellow);
-    margin: 0 0.5rem;
 }
