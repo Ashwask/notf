@@ -4,17 +4,114 @@ title: Home
 ---
 
 <section class="hero">
-    <h1>Neighbourhoods of the Future</h1>
-    <p>Building place-based collaboration for urban transformation</p>
+    <div class="hero-content">
+        <h1>Neighbourhoods of the Future</h1>
+        <p class="hero-subtitle">Building place-based collaboration for urban transformation across India</p>
+        <div class="hero-cta">
+            <a href="{{ '/about/' | url }}" class="btn btn-primary">Learn More</a>
+            <a href="{{ '/communities/' | url }}" class="btn btn-secondary">Explore Communities</a>
+        </div>
+    </div>
 </section>
 
 <section class="stats">
-    <div class="stat">
-        <h2>4</h2>
-        <p>Cities</p>
+    <div class="stat-card">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Cities</div>
     </div>
-    <div class="stat">
-        <h2>{{ members.length }}</h2>
-        <p>Members</p>
+    <div class="stat-card">
+        <div class="stat-number">&#8734;</div>
+        <div class="stat-label">Possibilities</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Network</div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">How NOTF Works</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#129309;</div>
+                <h3>Asks & Offers</h3>
+                <p>We connect community needs with available resources and expertise through transparent matching.</p>
+                <a href="{{ '/communities/' | url }}" class="feature-link">See Communities &rarr;</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">&#127793;</div>
+                <h3>Place-Based</h3>
+                <p>Treating neighborhoods as the unit of change, supporting locally-led transformation initiatives.</p>
+                <a href="{{ '/about/' | url }}" class="feature-link">Our Approach &rarr;</a>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">&#128279;</div>
+                <h3>Network Effect</h3>
+                <p>Multiple actors converging in the same geography to create systemic change.</p>
+                <a href="{{ '/members/' | url }}" class="feature-link">Meet Members &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cities">
+    <div class="container">
+        <h2 class="section-title">Active in Four Cities</h2>
+        <div class="cities-grid">
+            <div class="city-card">
+                <h3>Bengaluru</h3>
+                <p>Urban farming, rooftop gardens, and climate resilience initiatives in neighborhoods like Vasanthnagar.</p>
+            </div>
+            <div class="city-card">
+                <h3>Mumbai</h3>
+                <p>Community-led projects focusing on sustainable urban development and local empowerment.</p>
+            </div>
+            <div class="city-card">
+                <h3>Ahmedabad</h3>
+                <p>Neighborhood transformation through collaborative action and resource sharing.</p>
+            </div>
+            <div class="city-card">
+                <h3>Bhubaneswar</h3>
+                <p>Building local capacity for community-driven urban change and innovation.</p>
+            </div>
+        </div>
+        <div class="cta-center">
+            <a href="{{ '/communities/' | url }}" class="btn btn-primary">Explore All Communities</a>
+        </div>
+    </div>
+</section>
+
+<section class="resources-preview">
+    <div class="container">
+        <h2 class="section-title">Resources & Knowledge</h2>
+        <p class="section-subtitle">Tools, guides, and learnings from our network</p>
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h4>&#128218; Playbooks</h4>
+                <p>Step-by-step guides for launching and sustaining neighborhood initiatives</p>
+            </div>
+            <div class="resource-card">
+                <h4>&#128736; Toolkits</h4>
+                <p>Practical templates and tools for community organizing and collaboration</p>
+            </div>
+            <div class="resource-card">
+                <h4>&#128161; Case Studies</h4>
+                <p>Real stories of transformation from communities across our network</p>
+            </div>
+        </div>
+        <div class="cta-center">
+            <a href="{{ '/resources/' | url }}" class="btn btn-secondary">Browse Resources</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Join the Movement</h2>
+        <p>NOTF is an invitation-based network. Connect with us to explore how we can support your neighborhood's transformation.</p>
+        <a href="mailto:nudge-unit@notf.in" class="btn btn-primary-large">Get in Touch</a>
     </div>
 </section>
