@@ -1,0 +1,28 @@
+---
+# Organization/CBO Profile Template
+# Copy this file and rename it to your organization's slug (e.g., c4c.yaml)
+
+name: ""
+type: "organization"  # organization, CBO, expert, supporter
+location: ""  # Primary city
+neighborhoods: []  # List of neighborhoods working in
+website: ""
+contact:
+  email: ""
+  phone: ""
+  person: ""  # Primary contact person
+domains: []  # e.g., waste, water, energy, biodiversity, housing, mobility
+offers:
+  - ""  # What you can provide to the network
+asks:
+  - ""  # What you need from the network
+status: "active"  # active, inactive, pending
+joined: ""  # YYYY-MM-DD
+last_updated: ""  # YYYY-MM-DD
+social:
+  twitter: ""
+  instagram: ""
+  linkedin: ""
+notes: |
+  Additional context, history, or information about the organization...
+---

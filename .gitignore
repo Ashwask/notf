@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Build output (keep docs/ for GitHub Pages)
+website/_site/
+
+# OS files
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+
+# Temp files
+*.log
+*.tmp

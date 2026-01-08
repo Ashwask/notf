@@ -1,0 +1,32 @@
+---
+name: "Center for Civic Participation (C4C)"
+type: "organization"
+location: "Bengaluru"
+neighborhoods: ["Vasanthnagar"]
+website: "https://example.org/c4c"
+contact:
+  email: "contact@c4c.example.org"
+  phone: "+91-XXXXXXXXXX"
+  person: "Rajkumar Dugar"
+domains: ["urban-farming", "climate", "community-mobilization", "rooftop-gardens"]
+offers:
+  - "Rooftop garden design and implementation expertise"
+  - "Community workshop facilitation on urban farming"
+  - "Urban farming toolkits and guides"
+  - "Training on community mobilization"
+asks:
+  - "Funding for pilot rooftop garden projects (₹50k-2L per site)"
+  - "Connections to municipal officials for permissions"
+  - "Media partnerships for documentation"
+status: "active"
+joined: "2024-06-15"
+last_updated: "2025-01-08"
+social:
+  twitter: "c4c_example"
+  instagram: "c4c_example"
+  linkedin: "company/c4c-example"
+notes: |
+  C4C has been working on rooftop gardens in Vasanthnagar for the past 2 years.
+  They've successfully implemented 15+ rooftop gardens and trained 50+ residents.
+  Strong focus on climate resilience and urban heat island mitigation.
+---
