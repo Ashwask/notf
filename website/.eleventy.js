@@ -18,6 +18,8 @@ module.exports = function(eleventyConfig) {
       includes: "_includes",
       layouts: "_layouts",
       data: "_data"
-    }
+    },
+    // IMPORTANT: Set base path for GitHub Pages subdirectory
+    pathPrefix: "/notf/"
   };
 };

@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | NOTF</title>
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | url }}">
 </head>
 <body>
     <header>
         <nav>
-            <a href="/">NOTF</a>
-            <a href="/about/">About</a>
-            <a href="/members/">Members</a>
-            <a href="/communities/">Communities</a>
-            <a href="/resources/">Resources</a>
+            <a href="{{ '/' | url }}">NOTF</a>
+            <a href="{{ '/about/' | url }}">About</a>
+            <a href="{{ '/members/' | url }}">Members</a>
+            <a href="{{ '/communities/' | url }}">Communities</a>
+            <a href="{{ '/resources/' | url }}">Resources</a>
         </nav>
     </header>
     
