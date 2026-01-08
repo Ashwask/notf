@@ -8,29 +8,82 @@ title: Members
 <section>
     <h2>Organizations</h2>
 
-    <article class="member-card">
-        <h3>Center for Civic Participation (C4C)</h3>
-        <p><strong>Location:</strong> Bengaluru, Vasanthnagar</p>
-        <p><strong>Focus Areas:</strong> Urban farming, Climate, Community mobilization, Rooftop gardens</p>
+    {% if organizations.length > 0 %}
+        {% for org in organizations %}
+        <article class="member-card">
+            <h3>{{ org.name }}</h3>
+            <p><strong>Location:</strong> {{ org.location }}{% if org.neighborhoods.length > 0 %}, {{ org.neighborhoods | join(", ") }}{% endif %}</p>
+            <p><strong>Focus Areas:</strong> {{ org.domains | formatDomains }}</p>
 
+            {% if org.offers.length > 0 %}
+            <h4>What They Offer</h4>
+            <ul>
+                {% for offer in org.offers %}
+                <li>{{ offer }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if org.asks.length > 0 %}
+            <h4>What They're Looking For</h4>
+            <ul>
+                {% for ask in org.asks %}
+                <li>{{ ask }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if org.website %}
+            <p><strong>Website:</strong> <a href="{{ org.website }}" target="_blank">{{ org.website }}</a></p>
+            {% endif %}
+
+            {% if org.contact and org.contact.email %}
+            <p><strong>Contact:</strong> <a href="mailto:{{ org.contact.email }}">{{ org.contact.email }}</a>{% if org.contact.person %} ({{ org.contact.person }}){% endif %}</p>
+            {% endif %}
+
+            <p><strong>Status:</strong> {{ org.status | capitalize }} member since {{ org.joined | formatDate }}</p>
+        </article>
+        {% endfor %}
+    {% else %}
+        <p>No organizations listed yet. Check back soon!</p>
+    {% endif %}
+</section>
+
+{% if individuals.length > 0 %}
+<section>
+    <h2>Individual Members</h2>
+
+    {% for individual in individuals %}
+    <article class="member-card">
+        <h3>{{ individual.name }}</h3>
+        <p><strong>Location:</strong> {{ individual.location }}</p>
+        {% if individual.domains %}
+        <p><strong>Expertise:</strong> {{ individual.domains | formatDomains }}</p>
+        {% endif %}
+
+        {% if individual.offers.length > 0 %}
         <h4>What They Offer</h4>
         <ul>
-            <li>Rooftop garden design and implementation expertise</li>
-            <li>Community workshop facilitation on urban farming</li>
-            <li>Urban farming toolkits and guides</li>
-            <li>Training on community mobilization</li>
+            {% for offer in individual.offers %}
+            <li>{{ offer }}</li>
+            {% endfor %}
         </ul>
+        {% endif %}
 
+        {% if individual.asks.length > 0 %}
         <h4>What They're Looking For</h4>
         <ul>
-            <li>Funding for pilot rooftop garden projects</li>
-            <li>Connections to municipal officials for permissions</li>
-            <li>Media partnerships for documentation</li>
+            {% for ask in individual.asks %}
+            <li>{{ ask }}</li>
+            {% endfor %}
         </ul>
+        {% endif %}
 
-        <p><strong>Status:</strong> Active member since June 2024</p>
+        <p><strong>Status:</strong> {{ individual.status | capitalize }} member since {{ individual.joined | formatDate }}</p>
     </article>
+    {% endfor %}
 </section>
+{% endif %}
 
 <section>
     <h2>Join the Network</h2>
