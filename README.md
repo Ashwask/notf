@@ -1,6 +1,6 @@
 # NOTF - Neighbourhoods of the Future
 
-Live site: https://YOUR-USERNAME.github.io/notf/
+Live site: https://urbanmorph.github.io/notf/
 
 ## Structure
 
