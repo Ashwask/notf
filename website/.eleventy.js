@@ -1,34 +1,4 @@
-const yaml = require('js-yaml');
-const fs = require('fs');
-const path = require('path');
-
-// Helper function to load all YAML files from a directory
-function loadYamlDirectory(dirPath) {
-  const results = [];
-  if (!fs.existsSync(dirPath)) {
-    return results;
-  }
-
-  const files = fs.readdirSync(dirPath);
-  for (const file of files) {
-    if (file.endsWith('.yaml') || file.endsWith('.yml')) {
-      // Skip template files
-      if (file.startsWith('_')) continue;
-
-      const filePath = path.join(dirPath, file);
-      try {
-        const content = fs.readFileSync(filePath, 'utf8');
-        const data = yaml.load(content);
-        if (data) {
-          results.push(data);
-        }
-      } catch (e) {
-        console.warn(`Warning: Could not parse ${filePath}:`, e.message);
-      }
-    }
-  }
-  return results;
-}
+const { loadMembers, loadCommunities } = require('./load-data.js');
 
 module.exports = function(eleventyConfig) {
   // Copy assets
@@ -37,22 +7,43 @@ module.exports = function(eleventyConfig) {
   // Watch for changes in data directory
   eleventyConfig.addWatchTarget("../data/**/*");
 
-  // Data directory path (relative to website folder)
-  const dataDir = path.join(__dirname, '..', 'data');
-
-  // Load organizations
-  eleventyConfig.addGlobalData("organizations", () => {
-    return loadYamlDirectory(path.join(dataDir, 'members', 'organizations'));
+  // Load data
+  eleventyConfig.addGlobalData("members", () => {
+    return loadMembers();
   });
 
-  // Load individuals
-  eleventyConfig.addGlobalData("individuals", () => {
-    return loadYamlDirectory(path.join(dataDir, 'members', 'individuals'));
-  });
-
-  // Load communities
   eleventyConfig.addGlobalData("communities", () => {
-    return loadYamlDirectory(path.join(dataDir, 'communities'));
+    return loadCommunities();
+  });
+
+  // Keep organizations/individuals for backwards compatibility
+  eleventyConfig.addGlobalData("organizations", () => {
+    return loadMembers().filter(m => m.type === 'organization');
+  });
+
+  eleventyConfig.addGlobalData("individuals", () => {
+    return loadMembers().filter(m => m.type === 'individual');
+  });
+
+  // Add filters
+  eleventyConfig.addFilter("filterByType", function(members, type) {
+    if (!members) return [];
+    return members.filter(m => m.type === type);
+  });
+
+  eleventyConfig.addFilter("filterByLocation", function(members, location) {
+    if (!members || !location) return members || [];
+    return members.filter(m => m.location && m.location.includes(location));
+  });
+
+  eleventyConfig.addFilter("filterByCity", function(communities, city) {
+    if (!communities || !city) return communities || [];
+    return communities.filter(c => c.city === city);
+  });
+
+  eleventyConfig.addFilter("limit", function(array, limit) {
+    if (!array) return [];
+    return array.slice(0, limit);
   });
 
   // Helper filter to format domains
@@ -66,6 +57,11 @@ module.exports = function(eleventyConfig) {
     if (!dateStr) return '';
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-IN', { year: 'numeric', month: 'long' });
+  });
+
+  // Simple markdown rendering (just return content as-is for now)
+  eleventyConfig.addFilter("markdown", function(content) {
+    return content || '';
   });
 
   return {

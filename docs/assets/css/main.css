@@ -656,6 +656,229 @@ article h4 {
     }
 }
 
+/* Stats Mini */
+.stats-mini {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin: 2rem 0 3rem;
+    flex-wrap: wrap;
+}
+
+.stat-mini {
+    text-align: center;
+    padding: 1rem 2rem;
+    background: var(--color-bg-light);
+    border-radius: 0.5rem;
+}
+
+.stat-mini .number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-teal);
+    line-height: 1;
+}
+
+.stat-mini .label {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Lead text */
+.lead {
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+/* Communities Grid */
+.communities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0 4rem;
+}
+
+.community-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid var(--color-border);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.community-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--color-teal), var(--color-pink));
+    border-radius: 1rem 1rem 0 0;
+}
+
+.community-card:hover {
+    border-color: var(--color-teal);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+}
+
+.community-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    margin-top: 0.5rem;
+}
+
+.community-card .location {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+}
+
+.community-card .lead-org {
+    font-size: 0.9375rem;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--color-bg-light);
+    border-radius: 0.5rem;
+}
+
+.community-card .lead-org strong {
+    color: var(--color-teal);
+}
+
+.community-card .focus-areas {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+}
+
+.community-card .population {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+}
+
+.community-card .status {
+    margin: 1rem 0;
+}
+
+.community-card .status-badge {
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    background: var(--color-yellow);
+    color: var(--color-text);
+    border-radius: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.community-card .status-badge.status-active {
+    background: var(--color-teal);
+    color: white;
+}
+
+.community-card .contact-link {
+    margin-top: 1rem;
+}
+
+.community-card .contact-link a {
+    color: var(--color-teal);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+}
+
+.community-card .contact-link a:hover {
+    color: var(--color-green);
+}
+
+/* CTA Box */
+.cta-box {
+    background: var(--color-bg-light);
+    padding: 2.5rem;
+    border-radius: 1rem;
+    text-align: center;
+    margin-top: 3rem;
+    border: 2px solid var(--color-border);
+}
+
+.cta-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.cta-box p {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Featured Communities */
+.featured-communities {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0 3rem;
+}
+
+.featured-community {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border-left: 3px solid var(--color-teal);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+}
+
+.featured-community:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateX(3px);
+}
+
+.featured-community h4 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.featured-community p {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+/* Content section */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+}
+
+.content h2 {
+    font-size: 1.75rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-teal);
+}
+
 /* Utility Classes */
 main {
     min-height: calc(100vh - 200px);

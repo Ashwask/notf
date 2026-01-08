@@ -16,16 +16,16 @@ title: Home
 
 <section class="stats">
     <div class="stat-card">
-        <div class="stat-number">4</div>
-        <div class="stat-label">Cities</div>
+        <div class="stat-number">{{ communities.length }}</div>
+        <div class="stat-label">Communities</div>
     </div>
     <div class="stat-card">
-        <div class="stat-number">{{ organizations.length + individuals.length }}</div>
+        <div class="stat-number">{{ members.length }}</div>
         <div class="stat-label">Members</div>
     </div>
     <div class="stat-card">
-        <div class="stat-number">1</div>
-        <div class="stat-label">Network</div>
+        <div class="stat-number">4</div>
+        <div class="stat-label">Cities</div>
     </div>
 </section>
 
@@ -59,7 +59,19 @@ title: Home
 
 <section class="cities">
     <div class="container">
-        <h2 class="section-title">Active in Four Cities</h2>
+        <h2 class="section-title">Active Communities</h2>
+        <p class="section-subtitle">{{ communities.length }} neighborhood{% if communities.length != 1 %}s{% endif %} working on community-driven transformation</p>
+
+        {% if communities.length > 0 %}
+        <div class="featured-communities">
+            {% for community in communities | limit(6) %}
+                <div class="featured-community">
+                    <h4>{{ community.name }}</h4>
+                    <p>{{ community.city | capitalize }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
         <div class="cities-grid">
             <div class="city-card">
                 <h3>Bengaluru</h3>
@@ -78,8 +90,10 @@ title: Home
                 <p>Building local capacity for community-driven urban change and innovation.</p>
             </div>
         </div>
+        {% endif %}
+
         <div class="cta-center">
-            <a href="{{ '/communities/' | url }}" class="btn btn-primary">Explore All Communities</a>
+            <a href="{{ '/communities/' | url }}" class="btn btn-primary">View All Communities</a>
         </div>
     </div>
 </section>
