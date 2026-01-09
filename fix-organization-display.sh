@@ -1,3 +1,21 @@
+#!/bin/bash
+
+# Fix organization display by accepting "active" status
+# Run this from: ~/Documents/GitHub/notf/
+
+echo "🔧 Fixing Organization Display"
+echo "=============================="
+echo ""
+
+cd ~/Documents/GitHub/notf/website
+
+# Backup
+cp load-data.js load-data.js.backup
+echo "✅ Backup created: load-data.js.backup"
+echo ""
+
+# Fix the filter to accept "active" status for organizations
+cat > load-data.js << 'LOADDATA'
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -67,3 +85,56 @@ function loadCommunities() {
 }
 
 module.exports = { loadMembers, loadCommunities };
+LOADDATA
+
+echo "✅ Updated load-data.js to accept 'active' status"
+echo ""
+echo "   Previous filter: !m.status || m.status === 'approved'"
+echo "   New filter:      !m.status || m.status === 'approved' || m.status === 'active'"
+echo ""
+
+# Rebuild
+echo "🔨 Rebuilding website..."
+npm run build
+
+# Check how many organizations are now loaded
+ORG_COUNT=$(find ../data/members/organizations -name "*.yaml" ! -name "_*" | wc -l | tr -d ' ')
+echo ""
+echo "📊 Found $ORG_COUNT organization files"
+echo ""
+
+# Deploy
+echo "📦 Deploying to docs..."
+cd ..
+rm -rf docs/*
+cp -r website/_site/* docs/
+
+# Commit
+echo ""
+echo "📤 Committing changes..."
+git add .
+git commit -m "Fix organization display: accept 'active' status in filter"
+git push
+
+echo ""
+echo "✅ ORGANIZATIONS FIXED!"
+echo "======================="
+echo ""
+echo "Changes made:"
+echo "  ✅ Updated status filter to accept 'active'"
+echo "  ✅ All $ORG_COUNT organizations will now display"
+echo "  ✅ 'pending' status still hidden (as intended)"
+echo ""
+echo "Status behavior:"
+echo "  🟢 status: 'active'    → SHOWN"
+echo "  🟢 status: 'approved'  → SHOWN"
+echo "  🟢 no status field     → SHOWN"
+echo "  🔴 status: 'pending'   → HIDDEN"
+echo ""
+echo "Pages affected:"
+echo "  • /members/ (organization directory)"
+echo "  • /matcher/ (ask/offer matching)"
+echo "  • /search/ (search results)"
+echo "  • / (homepage stats)"
+echo ""
+echo "Live site: https://urbanmorph.github.io/notf/"

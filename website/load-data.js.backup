@@ -22,9 +22,8 @@ function loadMembers() {
         }
     }).filter(m => m !== null);
 
-    // Filter to show only approved or active members (or those without status field - backward compatible)
-    // "pending" status will be hidden
-    return members.filter(m => !m.status || m.status === 'approved' || m.status === 'active');
+    // Filter to show only approved members (or those without status field - backward compatible)
+    return members.filter(m => !m.status || m.status === 'approved');
 }
 
 // Load all community markdown files from all cities
@@ -61,8 +60,7 @@ function loadCommunities() {
         }
     }
 
-    // Filter to show only approved or active communities (or those without status field - backward compatible)
-    // "pending" status will be hidden
+    // Filter to show only approved communities (or those without status field - backward compatible)
     return communities.filter(c => !c.status || c.status === 'approved' || c.status === 'active');
 }
 
