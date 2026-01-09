@@ -55,11 +55,13 @@ permalink: /map/
 </section>
 
 <script>
-// Community data with coordinates
-const communities = {{ communities | dump | safe }};
+// Wait for Leaflet to load before initializing map
+function initMap() {
+    // Community data with coordinates
+    const communities = {{ communities | dump | safe }};
 
-// Approximate coordinates for Bengaluru neighborhoods
-const neighborhoodCoords = {
+    // Approximate coordinates for Bengaluru neighborhoods
+    const neighborhoodCoords = {
     'jp-nagar': [12.9087, 77.5854],
     'kumara-park': [12.9933, 77.5758],
     'malleshwaram': [13.0067, 77.5703],
@@ -231,4 +233,13 @@ document.querySelectorAll('.community-list-card').forEach(card => {
         }
     });
 });
+}
+
+// Check if Leaflet is loaded, if not wait for it
+if (typeof L !== 'undefined') {
+    initMap();
+} else {
+    // Wait for Leaflet script to load
+    document.querySelector('script[src*="leaflet"]').addEventListener('load', initMap);
+}
 </script>
