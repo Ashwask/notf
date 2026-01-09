@@ -1,10 +1,10 @@
 ---
-name: "Sanjaynagar/RMV II Stage"
+name: "Kumara park"
 city: "Bengaluru"
 state: "Karnataka"
-neighborhood: "Sanjaynagar/RMV II Stage"
+neighborhood: "Kumara park"
 lead_organization: "organizations/cifos"
-lead_organization_name: "CiFoS"
+lead_organization_name: "Kumara park RWA"
 contact:
   person: "Subbaiah"
   phone: "9845107901"
