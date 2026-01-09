@@ -1,0 +1,447 @@
+---
+layout: base.njk
+title: Ask/Offer Matcher
+permalink: /matcher/
+---
+
+<section class="content matcher-page">
+    <h1>🤝 Ask/Offer Matcher</h1>
+    <p class="lead">Connecting community needs with available resources across the NOTF network.</p>
+    
+    <div class="matcher-stats">
+        <div class="stat-card">
+            <div class="stat-number" id="totalAsks">-</div>
+            <div class="stat-label">Total Asks</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="totalOffers">-</div>
+            <div class="stat-label">Total Offers</div>
+        </div>
+        <div class="stat-card highlight">
+            <div class="stat-number" id="totalMatches">-</div>
+            <div class="stat-label">Potential Matches</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="highConfidence">-</div>
+            <div class="stat-label">High Confidence</div>
+        </div>
+    </div>
+    
+    <div class="matcher-controls">
+        <div class="filter-section">
+            <label>Filter by Category:</label>
+            <div class="category-filters" id="categoryFilters">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="funding">💰 Funding</button>
+                <button class="category-btn" data-category="volunteers">🙋 Volunteers</button>
+                <button class="category-btn" data-category="space">🏢 Space</button>
+                <button class="category-btn" data-category="expertise">🎓 Expertise</button>
+                <button class="category-btn" data-category="equipment">🔧 Equipment</button>
+                <button class="category-btn" data-category="network">🌐 Network</button>
+            </div>
+        </div>
+        
+        <div class="sort-section">
+            <label>Sort by:</label>
+            <select id="sortSelect">
+                <option value="score">Match Score (High to Low)</option>
+                <option value="location">Same Location First</option>
+                <option value="recent">Recently Added</option>
+            </select>
+        </div>
+        
+        <div class="confidence-filter">
+            <label>Min Confidence:</label>
+            <select id="confidenceSelect">
+                <option value="0">Show All (0%+)</option>
+                <option value="50" selected>Potential (50%+)</option>
+                <option value="70">Good (70%+)</option>
+                <option value="85">Excellent (85%+)</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="matches-container">
+        <div class="match-section" id="excellentMatches" style="display: none;">
+            <h2>🟢 Excellent Matches (85%+)</h2>
+            <div class="matches-grid" id="excellentMatchesGrid"></div>
+        </div>
+        
+        <div class="match-section" id="goodMatches" style="display: none;">
+            <h2>🟡 Good Matches (70-84%)</h2>
+            <div class="matches-grid" id="goodMatchesGrid"></div>
+        </div>
+        
+        <div class="match-section" id="potentialMatches" style="display: none;">
+            <h2>🟠 Potential Matches (50-69%)</h2>
+            <div class="matches-grid" id="potentialMatchesGrid"></div>
+        </div>
+        
+        <div id="noMatches" class="no-matches" style="display: none;">
+            <p>No matches found with the current filters. Try adjusting your criteria.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+// Load data
+const communities = {{ communities | dump | safe }};
+const members = {{ members | dump | safe }};
+
+// Extract all asks
+function extractAsks() {
+    const asks = [];
+    
+    // From organizations
+    members.forEach(m => {
+        if (m.asks && Array.isArray(m.asks)) {
+            m.asks.forEach((ask, idx) => {
+                asks.push({
+                    id: `${m.name}-ask-${idx}`,
+                    text: ask,
+                    from: m.name,
+                    type: m.type || 'organization',
+                    location: m.location || '',
+                    city: extractCity(m.location),
+                    theme: m.theme || '',
+                    contact: m.contact || {},
+                    tags: extractTags(ask),
+                    keywords: extractKeywords(ask)
+                });
+            });
+        }
+    });
+    
+    return asks;
+}
+
+// Extract all offers
+function extractOffers() {
+    const offers = [];
+    
+    members.forEach(m => {
+        if (m.offers && Array.isArray(m.offers)) {
+            m.offers.forEach((offer, idx) => {
+                offers.push({
+                    id: `${m.name}-offer-${idx}`,
+                    text: offer,
+                    from: m.name,
+                    type: m.type || 'organization',
+                    location: m.location || '',
+                    city: extractCity(m.location),
+                    theme: m.theme || '',
+                    contact: m.contact || {},
+                    tags: extractTags(offer),
+                    keywords: extractKeywords(offer)
+                });
+            });
+        }
+        
+        // Infrastructure offers
+        if (m.infrastructure_offers && Array.isArray(m.infrastructure_offers)) {
+            m.infrastructure_offers.forEach((offer, idx) => {
+                offers.push({
+                    id: `${m.name}-infra-${idx}`,
+                    text: offer + ' (Infrastructure)',
+                    from: m.name,
+                    type: m.type || 'organization',
+                    location: m.location || '',
+                    city: extractCity(m.location),
+                    theme: m.theme || '',
+                    contact: m.contact || {},
+                    tags: extractTags(offer).concat(['infrastructure']),
+                    keywords: extractKeywords(offer)
+                });
+            });
+        }
+    });
+    
+    return offers;
+}
+
+// Extract city from location string
+function extractCity(location) {
+    if (!location) return '';
+    const parts = location.split(',');
+    return parts[parts.length - 1].trim();
+}
+
+// Extract tags from text
+function extractTags(text) {
+    const tags = [];
+    const lower = text.toLowerCase();
+    
+    // Category keywords
+    const categories = {
+        funding: ['funding', 'fund', 'money', 'financial', 'grant', 'investment', 'donate'],
+        volunteers: ['volunteer', 'volunteers', 'help', 'support', 'manpower', 'people'],
+        space: ['space', 'venue', 'room', 'hall', 'office', 'land', 'building'],
+        expertise: ['expertise', 'expert', 'knowledge', 'training', 'skill', 'mentor', 'guidance', 'consulting'],
+        equipment: ['equipment', 'tool', 'machine', 'device', 'hardware', 'material'],
+        network: ['network', 'connection', 'connect', 'partnership', 'collaboration', 'contact']
+    };
+    
+    Object.keys(categories).forEach(category => {
+        if (categories[category].some(keyword => lower.includes(keyword))) {
+            tags.push(category);
+        }
+    });
+    
+    // Domain-specific tags
+    if (lower.match(/waste|compost|recycle|garbage/)) tags.push('waste-management');
+    if (lower.match(/solar|renewable|energy/)) tags.push('energy');
+    if (lower.match(/water|rain/)) tags.push('water');
+    if (lower.match(/education|school|learn|teach/)) tags.push('education');
+    if (lower.match(/health|medical|clinic/)) tags.push('health');
+    if (lower.match(/women|girl/)) tags.push('women');
+    if (lower.match(/child|youth|student/)) tags.push('youth');
+    
+    return [...new Set(tags)]; // Remove duplicates
+}
+
+// Extract keywords from text
+function extractKeywords(text) {
+    const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'being'];
+    const words = text.toLowerCase()
+        .replace(/[^\w\s]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !stopWords.includes(w));
+    return [...new Set(words)];
+}
+
+// Calculate match score
+function calculateMatchScore(ask, offer) {
+    let score = 0;
+    
+    // Tag matching (40% weight)
+    const commonTags = ask.tags.filter(t => offer.tags.includes(t));
+    score += commonTags.length * 0.4;
+    
+    // Keyword matching (30% weight)
+    const commonKeywords = ask.keywords.filter(k => offer.keywords.includes(k));
+    score += Math.min(commonKeywords.length * 0.1, 0.3);
+    
+    // Location matching (15% weight)
+    if (ask.city && offer.city && ask.city === offer.city) {
+        score += 0.15;
+    }
+    
+    // Theme matching (15% weight)
+    if (ask.theme && offer.theme && ask.theme === offer.theme) {
+        score += 0.15;
+    }
+    
+    return Math.min(score, 1.0);
+}
+
+// Find all matches
+function findMatches(asks, offers, minConfidence = 0.5) {
+    const matches = [];
+    
+    asks.forEach(ask => {
+        offers.forEach(offer => {
+            const score = calculateMatchScore(ask, offer);
+            
+            if (score >= minConfidence) {
+                matches.push({
+                    id: `${ask.id}-${offer.id}`,
+                    ask,
+                    offer,
+                    score,
+                    confidenceLevel: getConfidenceLevel(score),
+                    matchedTags: ask.tags.filter(t => offer.tags.includes(t)),
+                    matchedKeywords: ask.keywords.filter(k => offer.keywords.includes(k))
+                });
+            }
+        });
+    });
+    
+    return matches.sort((a, b) => b.score - a.score);
+}
+
+// Get confidence level
+function getConfidenceLevel(score) {
+    if (score >= 0.85) return 'excellent';
+    if (score >= 0.70) return 'good';
+    return 'potential';
+}
+
+// Render match card
+function renderMatchCard(match) {
+    const scorePercent = Math.round(match.score * 100);
+    const confidenceClass = match.confidenceLevel;
+    const confidenceIcon = {
+        'excellent': '🟢',
+        'good': '🟡',
+        'potential': '🟠'
+    }[match.confidenceLevel];
+    
+    return `
+        <div class="match-card ${confidenceClass}">
+            <div class="match-header">
+                <span class="match-score">${confidenceIcon} ${scorePercent}% Match</span>
+                <span class="match-level">${match.confidenceLevel.toUpperCase()}</span>
+            </div>
+            
+            <div class="match-body">
+                <div class="match-side ask-side">
+                    <div class="side-label">ASK</div>
+                    <h3>${match.ask.from}</h3>
+                    <p class="match-location">📍 ${match.ask.location || match.ask.city || 'Location not specified'}</p>
+                    <div class="match-text">${match.ask.text}</div>
+                    ${match.ask.contact && (match.ask.contact.email || match.ask.contact.phone) ? `
+                        <div class="contact-info">
+                            ${match.ask.contact.person ? `<p><strong>${match.ask.contact.person}</strong></p>` : ''}
+                            ${match.ask.contact.email ? `<p>✉️ <a href="mailto:${match.ask.contact.email}">${match.ask.contact.email}</a></p>` : ''}
+                            ${match.ask.contact.phone ? `<p>📞 <a href="tel:${match.ask.contact.phone}">${match.ask.contact.phone}</a></p>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div class="match-connector">
+                    <div class="connector-line"></div>
+                    <div class="connector-icon">↔️</div>
+                    <div class="connector-line"></div>
+                </div>
+                
+                <div class="match-side offer-side">
+                    <div class="side-label">OFFER</div>
+                    <h3>${match.offer.from}</h3>
+                    <p class="match-location">📍 ${match.offer.location || match.offer.city || 'Location not specified'}</p>
+                    <div class="match-text">${match.offer.text}</div>
+                    ${match.offer.contact && (match.offer.contact.email || match.offer.contact.phone) ? `
+                        <div class="contact-info">
+                            ${match.offer.contact.person ? `<p><strong>${match.offer.contact.person}</strong></p>` : ''}
+                            ${match.offer.contact.email ? `<p>✉️ <a href="mailto:${match.offer.contact.email}">${match.offer.contact.email}</a></p>` : ''}
+                            ${match.offer.contact.phone ? `<p>📞 <a href="tel:${match.offer.contact.phone}">${match.offer.contact.phone}</a></p>` : ''}
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+            
+            ${match.matchedTags.length > 0 ? `
+                <div class="match-tags">
+                    <strong>Matched on:</strong>
+                    ${match.matchedTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+            ` : ''}
+            
+            <div class="match-actions">
+                <a href="mailto:${match.ask.contact?.email || ''}?cc=${match.offer.contact?.email || ''}&subject=NOTF Connection: ${encodeURIComponent(match.ask.from + ' + ' + match.offer.from)}" class="btn-primary">
+                    📧 Connect Them
+                </a>
+            </div>
+        </div>
+    `;
+}
+
+// Initialize
+const allAsks = extractAsks();
+const allOffers = extractOffers();
+let allMatches = findMatches(allAsks, allOffers, 0.5);
+let filteredMatches = allMatches;
+
+// Update stats
+document.getElementById('totalAsks').textContent = allAsks.length;
+document.getElementById('totalOffers').textContent = allOffers.length;
+document.getElementById('totalMatches').textContent = allMatches.length;
+document.getElementById('highConfidence').textContent = allMatches.filter(m => m.score >= 0.85).length;
+
+// Display matches
+function displayMatches(matches) {
+    const excellentGrid = document.getElementById('excellentMatchesGrid');
+    const goodGrid = document.getElementById('goodMatchesGrid');
+    const potentialGrid = document.getElementById('potentialMatchesGrid');
+    
+    const excellentSection = document.getElementById('excellentMatches');
+    const goodSection = document.getElementById('goodMatches');
+    const potentialSection = document.getElementById('potentialMatches');
+    const noMatches = document.getElementById('noMatches');
+    
+    // Clear grids
+    excellentGrid.innerHTML = '';
+    goodGrid.innerHTML = '';
+    potentialGrid.innerHTML = '';
+    
+    // Group by confidence
+    const excellent = matches.filter(m => m.confidenceLevel === 'excellent');
+    const good = matches.filter(m => m.confidenceLevel === 'good');
+    const potential = matches.filter(m => m.confidenceLevel === 'potential');
+    
+    // Display or hide sections
+    if (excellent.length > 0) {
+        excellentSection.style.display = 'block';
+        excellentGrid.innerHTML = excellent.map(renderMatchCard).join('');
+    } else {
+        excellentSection.style.display = 'none';
+    }
+    
+    if (good.length > 0) {
+        goodSection.style.display = 'block';
+        goodGrid.innerHTML = good.map(renderMatchCard).join('');
+    } else {
+        goodSection.style.display = 'none';
+    }
+    
+    if (potential.length > 0) {
+        potentialSection.style.display = 'block';
+        potentialGrid.innerHTML = potential.map(renderMatchCard).join('');
+    } else {
+        potentialSection.style.display = 'none';
+    }
+    
+    // Show no matches message
+    noMatches.style.display = matches.length === 0 ? 'block' : 'none';
+}
+
+// Filter by category
+document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.dataset.category;
+        
+        if (category === 'all') {
+            filteredMatches = allMatches;
+        } else {
+            filteredMatches = allMatches.filter(m => 
+                m.matchedTags.includes(category)
+            );
+        }
+        
+        applyFilters();
+    });
+});
+
+// Sort matches
+document.getElementById('sortSelect').addEventListener('change', function() {
+    const sortBy = this.value;
+    
+    if (sortBy === 'score') {
+        filteredMatches.sort((a, b) => b.score - a.score);
+    } else if (sortBy === 'location') {
+        filteredMatches.sort((a, b) => {
+            const aMatch = a.ask.city === a.offer.city ? 1 : 0;
+            const bMatch = b.ask.city === b.offer.city ? 1 : 0;
+            return bMatch - aMatch || b.score - a.score;
+        });
+    }
+    
+    displayMatches(filteredMatches);
+});
+
+// Filter by confidence
+document.getElementById('confidenceSelect').addEventListener('change', function() {
+    applyFilters();
+});
+
+function applyFilters() {
+    const minConfidence = parseInt(document.getElementById('confidenceSelect').value) / 100;
+    const filtered = filteredMatches.filter(m => m.score >= minConfidence);
+    displayMatches(filtered);
+}
+
+// Initial display
+displayMatches(filteredMatches);
+</script>
