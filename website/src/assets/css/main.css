@@ -609,6 +609,39 @@ footer {
 
 footer p {
     color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
+
+/* Creative Commons License */
+.cc-license {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.cc-icon {
+    height: 22px;
+    width: 22px;
+    filter: invert(1);
+}
+
+.cc-text {
+    font-size: 0.9rem;
+}
+
+.cc-text a {
+    text-decoration: underline;
 }
 
 /* Content Pages */
