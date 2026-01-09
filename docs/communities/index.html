@@ -9,11 +9,26 @@
 <body>
     <header>
         <nav>
-            <a href="/notf/">NOTF</a>
-            <a href="/notf/about/">About</a>
-            <a href="/notf/members/">Members</a>
-            <a href="/notf/communities/">Communities</a>
-            <a href="/notf/resources/">Resources</a>
+            <div class="nav-brand">
+                <a href="/notf/" class="logo-link">
+                    <img src="/notf/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/notf/">Home</a>
+                <a href="/notf/about/">About</a>
+                <a href="/notf/members/">Members</a>
+                <a href="/notf/communities/">Communities</a>
+                <a href="/notf/resources/">Resources</a>
+            </div>
         </nav>
     </header>
     
@@ -691,5 +706,33 @@
     <footer>
         <p>&copy; 2025 Neighbourhoods of the Future</p>
     </footer>
+    
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
