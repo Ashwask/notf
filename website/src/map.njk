@@ -4,6 +4,9 @@ title: Community Map
 permalink: /map/
 ---
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <section class="content map-page">
     <h1>NOTF Community Map</h1>
     <p class="lead">Explore {{ communities.length }} active neighborhoods across Bengaluru working on community-driven transformation.</p>
@@ -51,9 +54,6 @@ permalink: /map/
     </div>
 </section>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
 // Community data with coordinates
 const communities = {{ communities | dump | safe }};
@@ -61,6 +61,7 @@ const communities = {{ communities | dump | safe }};
 // Approximate coordinates for Bengaluru neighborhoods
 const neighborhoodCoords = {
     'jp-nagar': [12.9087, 77.5854],
+    'kumara-park': [12.9933, 77.5758],
     'malleshwaram': [13.0067, 77.5703],
     'malleshwaram-2': [13.0070, 77.5710],
     'vasanthnagar': [12.9897, 77.6012],
