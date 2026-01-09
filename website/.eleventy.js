@@ -17,8 +17,9 @@ module.exports = function(eleventyConfig) {
   });
 
   // Keep organizations/individuals for backwards compatibility
+  // Include all organization types: CBO, solution-provider, anchor, organization
   eleventyConfig.addGlobalData("organizations", () => {
-    return loadMembers().filter(m => m.type === 'organization');
+    return loadMembers().filter(m => ['organization', 'CBO', 'solution-provider', 'anchor'].includes(m.type));
   });
 
   eleventyConfig.addGlobalData("individuals", () => {
