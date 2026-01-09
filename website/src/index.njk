@@ -1,131 +1,285 @@
 ---
 layout: base.njk
-title: Home
+title: Neighbourhoods of the Future
 ---
 
+<!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
-        <h1>Neighbourhoods of the Future</h1>
-        <p class="hero-subtitle">Building place-based collaboration for urban transformation across India</p>
-        <div class="hero-cta">
-            <a href="{{ '/about/' | url }}" class="btn btn-primary">Learn More</a>
-            <a href="{{ '/communities/' | url }}" class="btn btn-secondary">Explore Communities</a>
+        <h1 class="hero-title">Building Connected, Resilient Neighbourhoods</h1>
+        <p class="hero-subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
+        <div class="hero-actions">
+            <a href="{{ '/matcher/' | url }}" class="btn-hero-primary">🤝 Find Matches</a>
+            <a href="{{ '/join/' | url }}" class="btn-hero-secondary">Join the Network</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-value">{{ members.length }}</div>
+                <div class="stat-label">Organizations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ communities.length }}</div>
+                <div class="stat-label">Communities</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Active Collaborations</div>
+            </div>
         </div>
     </div>
+    <div class="hero-image">
+        <svg viewBox="0 0 400 300" class="hero-illustration">
+            <!-- Community Network Illustration -->
+            <circle cx="200" cy="150" r="80" fill="var(--color-teal)" opacity="0.1"/>
+            <circle cx="200" cy="150" r="60" fill="var(--color-teal)" opacity="0.2"/>
+            <circle cx="200" cy="150" r="40" fill="var(--color-teal)" opacity="0.3"/>
+            
+            <!-- Network nodes -->
+            <circle cx="200" cy="150" r="15" fill="var(--color-teal)"/>
+            <circle cx="280" cy="120" r="12" fill="var(--color-yellow)"/>
+            <circle cx="120" cy="120" r="12" fill="var(--color-pink)"/>
+            <circle cx="240" cy="200" r="12" fill="var(--color-green)"/>
+            <circle cx="160" cy="200" r="12" fill="var(--color-yellow)"/>
+            
+            <!-- Connection lines -->
+            <line x1="200" y1="150" x2="280" y2="120" stroke="var(--color-teal)" stroke-width="2" opacity="0.3"/>
+            <line x1="200" y1="150" x2="120" y2="120" stroke="var(--color-teal)" stroke-width="2" opacity="0.3"/>
+            <line x1="200" y1="150" x2="240" y2="200" stroke="var(--color-teal)" stroke-width="2" opacity="0.3"/>
+            <line x1="200" y1="150" x2="160" y2="200" stroke="var(--color-teal)" stroke-width="2" opacity="0.3"/>
+        </svg>
+    </div>
 </section>
 
-<section class="stats">
-    <div class="stat-card">
-        <div class="stat-number">{{ communities.length }}</div>
-        <div class="stat-label">Communities</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-number">{{ members.length }}</div>
-        <div class="stat-label">Members</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-number">4</div>
-        <div class="stat-label">Cities</div>
-    </div>
-</section>
-
-<section class="features">
-    <div class="container">
+<!-- Features Section -->
+<section class="features-section">
+    <div class="content">
         <h2 class="section-title">How NOTF Works</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">&#129309;</div>
-                <h3>Asks & Offers</h3>
-                <p>We connect community needs with available resources and expertise through transparent matching.</p>
-                <a href="{{ '/communities/' | url }}" class="feature-link">See Communities &rarr;</a>
+        <p class="section-subtitle">Four powerful ways to connect, collaborate, and transform your neighbourhood</p>
+        
+        <div class="features-grid">
+            <div class="feature-card feature-primary">
+                <div class="feature-icon">🤝</div>
+                <h3>Ask/Offer Matcher</h3>
+                <p>Smart matching algorithm connects community needs with available resources. Find funding, volunteers, expertise, and more.</p>
+                <ul class="feature-list">
+                    <li>✓ Automatic matching by tags & keywords</li>
+                    <li>✓ 85%+ confidence matches highlighted</li>
+                    <li>✓ Filter by category & location</li>
+                    <li>✓ One-click contact facilitation</li>
+                </ul>
+                <a href="{{ '/matcher/' | url }}" class="feature-link">Explore Matches →</a>
             </div>
-
+            
             <div class="feature-card">
-                <div class="feature-icon">&#127793;</div>
-                <h3>Place-Based</h3>
-                <p>Treating neighborhoods as the unit of change, supporting locally-led transformation initiatives.</p>
-                <a href="{{ '/about/' | url }}" class="feature-link">Our Approach &rarr;</a>
+                <div class="feature-icon">📍</div>
+                <h3>Interactive Map</h3>
+                <p>Visualize all {{ communities.length }} communities across Bengaluru. Discover neighbours, see active areas, and find local initiatives.</p>
+                <ul class="feature-list">
+                    <li>✓ Real-time community locations</li>
+                    <li>✓ Filter by status & activity</li>
+                    <li>✓ Contact info on click</li>
+                    <li>✓ Mobile-friendly navigation</li>
+                </ul>
+                <a href="{{ '/map/' | url }}" class="feature-link">View Map →</a>
             </div>
-
+            
             <div class="feature-card">
-                <div class="feature-icon">&#128279;</div>
-                <h3>Network Effect</h3>
-                <p>Multiple actors converging in the same geography to create systemic change.</p>
-                <a href="{{ '/members/' | url }}" class="feature-link">Meet Members &rarr;</a>
+                <div class="feature-icon">🏘️</div>
+                <h3>Community Directory</h3>
+                <p>Browse {{ communities.length }} active neighbourhoods. Learn about their work, see what they offer, and discover collaboration opportunities.</p>
+                <ul class="feature-list">
+                    <li>✓ Detailed community profiles</li>
+                    <li>✓ Lead organization info</li>
+                    <li>✓ Asks & offers listed</li>
+                    <li>✓ Direct contact details</li>
+                </ul>
+                <a href="{{ '/communities/' | url }}" class="feature-link">Browse Communities →</a>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏢</div>
+                <h3>Organization Network</h3>
+                <p>Connect with {{ members.length }} organizations supporting community work. CBOs, solution providers, anchors, and more.</p>
+                <ul class="feature-list">
+                    <li>✓ Categorized by type & theme</li>
+                    <li>✓ Services & resources listed</li>
+                    <li>✓ Collaboration history</li>
+                    <li>✓ Searchable database</li>
+                </ul>
+                <a href="{{ '/members/' | url }}" class="feature-link">View Organizations →</a>
             </div>
         </div>
     </div>
 </section>
 
-<section class="cities">
-    <div class="container">
-        <h2 class="section-title">Active Communities</h2>
-        <p class="section-subtitle">{{ communities.length }} neighborhood{% if communities.length != 1 %}s{% endif %} working on community-driven transformation</p>
-
-        {% if communities.length > 0 %}
-        <div class="featured-communities">
-            {% for community in communities | limit(6) %}
-                <div class="featured-community">
-                    <h4>{{ community.name }}</h4>
-                    <p>{{ community.city | capitalize }}</p>
+<!-- How to Participate -->
+<section class="participate-section">
+    <div class="content">
+        <h2 class="section-title">Join the Movement</h2>
+        <p class="section-subtitle">Three simple steps to start transforming your neighbourhood</p>
+        
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Register</h3>
+                    <p>Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
+                    <a href="{{ '/join/' | url }}" class="step-link">Get Started →</a>
                 </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <div class="cities-grid">
-            <div class="city-card">
-                <h3>Bengaluru</h3>
-                <p>Urban farming, rooftop gardens, and climate resilience initiatives in neighborhoods like Vasanthnagar.</p>
             </div>
-            <div class="city-card">
-                <h3>Mumbai</h3>
-                <p>Community-led projects focusing on sustainable urban development and local empowerment.</p>
+            
+            <div class="step-connector"></div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Connect</h3>
+                    <p>Get matched with communities and organizations that align with your needs and offers.</p>
+                    <a href="{{ '/matcher/' | url }}" class="step-link">Find Matches →</a>
+                </div>
             </div>
-            <div class="city-card">
-                <h3>Ahmedabad</h3>
-                <p>Neighborhood transformation through collaborative action and resource sharing.</p>
+            
+            <div class="step-connector"></div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Collaborate</h3>
+                    <p>Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
+                    <a href="{{ '/resources/' | url }}" class="step-link">Learn How →</a>
+                </div>
             </div>
-            <div class="city-card">
-                <h3>Bhubaneswar</h3>
-                <p>Building local capacity for community-driven urban change and innovation.</p>
-            </div>
-        </div>
-        {% endif %}
-
-        <div class="cta-center">
-            <a href="{{ '/communities/' | url }}" class="btn btn-primary">View All Communities</a>
         </div>
     </div>
 </section>
 
-<section class="resources-preview">
-    <div class="container">
-        <h2 class="section-title">Resources & Knowledge</h2>
-        <p class="section-subtitle">Tools, guides, and learnings from our network</p>
-        <div class="resource-grid">
-            <div class="resource-card">
-                <h4>&#128218; Playbooks</h4>
-                <p>Step-by-step guides for launching and sustaining neighborhood initiatives</p>
+<!-- Network Highlights -->
+<section class="highlights-section">
+    <div class="content">
+        <div class="highlights-header">
+            <div>
+                <h2 class="section-title">Network Highlights</h2>
+                <p class="section-subtitle">Recent collaborations and success stories</p>
             </div>
-            <div class="resource-card">
-                <h4>&#128736; Toolkits</h4>
-                <p>Practical templates and tools for community organizing and collaboration</p>
-            </div>
-            <div class="resource-card">
-                <h4>&#128161; Case Studies</h4>
-                <p>Real stories of transformation from communities across our network</p>
-            </div>
+            <a href="{{ '/search/' | url }}" class="btn-outline">View All</a>
         </div>
-        <div class="cta-center">
-            <a href="{{ '/resources/' | url }}" class="btn btn-secondary">Browse Resources</a>
+        
+        <div class="highlights-grid">
+            <div class="highlight-card">
+                <div class="highlight-badge success">Active</div>
+                <h3>Waste Management Partnership</h3>
+                <p>Women of Wisdom (JP Nagar) connected with Biome Environmental for composting training workshops.</p>
+                <div class="highlight-meta">
+                    <span>📍 JP Nagar, Bengaluru</span>
+                    <span>🏷️ Environment</span>
+                </div>
+            </div>
+            
+            <div class="highlight-card">
+                <div class="highlight-badge success">Active</div>
+                <h3>Community Space Network</h3>
+                <p>5 communities sharing meeting spaces and coordination resources across Bengaluru.</p>
+                <div class="highlight-meta">
+                    <span>📍 Multiple Locations</span>
+                    <span>🏷️ Infrastructure</span>
+                </div>
+            </div>
+            
+            <div class="highlight-card">
+                <div class="highlight-badge new">New</div>
+                <h3>Solar Energy Initiative</h3>
+                <p>Selco Foundation providing renewable energy solutions to 3 community centers.</p>
+                <div class="highlight-meta">
+                    <span>📍 Bengaluru</span>
+                    <span>🏷️ Energy</span>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- Resources & Tools -->
+<section class="resources-section">
+    <div class="content">
+        <div class="resources-split">
+            <div class="resources-info">
+                <h2 class="section-title">Resources & Toolkits</h2>
+                <p>Access playbooks, toolkits, and case studies from successful community initiatives. Learn from others and share your own experiences.</p>
+                <ul class="resources-list">
+                    <li><strong>Playbooks</strong> - Step-by-step guides for community organizing</li>
+                    <li><strong>Toolkits</strong> - Practical templates and frameworks</li>
+                    <li><strong>Case Studies</strong> - Real success stories and lessons learned</li>
+                </ul>
+                <a href="{{ '/resources/' | url }}" class="btn-primary">Browse Resources</a>
+            </div>
+            
+            <div class="resources-cards">
+                <div class="resource-mini-card">
+                    <span class="resource-badge">Playbook</span>
+                    <h4>Community Organizing Guide</h4>
+                    <p>Building grassroots movements</p>
+                </div>
+                <div class="resource-mini-card">
+                    <span class="resource-badge">Toolkit</span>
+                    <h4>Waste Management</h4>
+                    <p>Zero-waste strategies</p>
+                </div>
+                <div class="resource-mini-card">
+                    <span class="resource-badge">Case Study</span>
+                    <h4>Malleshwaram Success</h4>
+                    <p>Street lighting project</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Statistics -->
+<section class="impact-section">
+    <div class="content">
+        <h2 class="section-title">Network Impact</h2>
+        <div class="impact-stats">
+            <div class="impact-stat">
+                <div class="impact-icon">🤝</div>
+                <div class="impact-value">{{ members.length }}</div>
+                <div class="impact-label">Partner Organizations</div>
+                <p>CBOs, solution providers, and anchor organizations</p>
+            </div>
+            
+            <div class="impact-stat">
+                <div class="impact-icon">🏘️</div>
+                <div class="impact-value">{{ communities.length }}</div>
+                <div class="impact-label">Active Communities</div>
+                <p>Neighbourhoods across Bengaluru</p>
+            </div>
+            
+            <div class="impact-stat">
+                <div class="impact-icon">🎯</div>
+                <div class="impact-value">150+</div>
+                <div class="impact-label">Asks & Offers</div>
+                <p>Collaboration opportunities available</p>
+            </div>
+            
+            <div class="impact-stat">
+                <div class="impact-icon">💡</div>
+                <div class="impact-value">12</div>
+                <div class="impact-label">Focus Areas</div>
+                <p>From environment to education</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
 <section class="cta-section">
-    <div class="container">
-        <h2>Join the Movement</h2>
-        <p>NOTF is an invitation-based network. Connect with us to explore how we can support your neighborhood's transformation.</p>
-        <a href="mailto:nudge-unit@notf.in" class="btn btn-primary-large">Get in Touch</a>
+    <div class="content">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Neighbourhood?</h2>
+            <p>Join {{ members.length }}+ organizations and {{ communities.length }} communities building a better future together.</p>
+            <div class="cta-buttons">
+                <a href="{{ '/join/' | url }}" class="btn-cta-primary">Join NOTF Network</a>
+                <a href="{{ '/about/' | url }}" class="btn-cta-secondary">Learn More</a>
+            </div>
+        </div>
     </div>
 </section>
