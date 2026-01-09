@@ -1,0 +1,31 @@
+name: "Saahas Zero Waste"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["JP Nagar"]
+website: "https://saahaszerowaste.com"
+contact:
+  email: "info@saahaszerowaste.com"
+  phone: "+91-80-4093-5700"
+  person: "Wilma Rodrigues"
+domains: ["waste", "recycling", "circular-economy", "consulting"]
+offers:
+  - "End-to-end waste management solutions"
+  - "EPR (Extended Producer Responsibility) services"
+  - "Zero waste event management"
+  - "Corporate sustainability consulting"
+  - "Material recovery facility operations"
+asks:
+  - "Large housing complexes for waste management contracts"
+  - "Brands seeking EPR compliance support"
+  - "Partners for recycled material markets"
+status: "active"
+joined: "2024-01-30"
+last_updated: "2025-01-09"
+social:
+  twitter: "SaahasZeroWaste"
+  instagram: "saahas_zero_waste"
+  linkedin: "company/saahas-zero-waste"
+notes: |
+  Managing waste for 500+ client sites across India.
+  Processes 100+ tons of waste daily.
+  Strong focus on circular economy and EPR services.

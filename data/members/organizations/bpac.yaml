@@ -1,0 +1,31 @@
+name: "Bangalore Political Action Committee (BPAC)"
+type: "anchor"
+location: "Bengaluru"
+neighborhoods: ["Koramangala"]
+website: "https://bfriendsofbangalore.org"
+contact:
+  email: "info@bfriendsofbangalore.org"
+  phone: "+91-80-4112-0101"
+  person: "Revathy Ashok"
+domains: ["civic-engagement", "governance", "advocacy", "urban-planning"]
+offers:
+  - "Civic engagement platforms and events"
+  - "Candidate engagement and awareness"
+  - "Policy advocacy experience"
+  - "Citizen journalism and documentation"
+  - "Network of engaged citizens"
+asks:
+  - "Issue-based campaign partnerships"
+  - "Data for civic awareness campaigns"
+  - "Volunteers for election monitoring"
+status: "active"
+joined: "2024-04-01"
+last_updated: "2025-01-09"
+social:
+  twitter: "BPACofficial"
+  instagram: "bpac_bangalore"
+  linkedin: "company/bpac"
+notes: |
+  Leading civic engagement organization in Bengaluru.
+  Organized major citizen forums and candidate meets.
+  Strong focus on improving urban governance.

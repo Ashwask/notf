@@ -1,0 +1,31 @@
+name: "Rain Man Water Harvesting"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["Rajajinagar"]
+website: "https://rainman.in"
+contact:
+  email: "contact@rainman.in"
+  phone: "+91-80-2330-4455"
+  person: "S. Vishwanath"
+domains: ["water", "rainwater-harvesting", "groundwater", "consulting"]
+offers:
+  - "Rainwater harvesting system design"
+  - "Borewell recharge solutions"
+  - "Water audit services"
+  - "Groundwater mapping and analysis"
+  - "Community water management consulting"
+asks:
+  - "Apartment complexes for RWH implementation"
+  - "Data on groundwater levels across Bengaluru"
+  - "Partners for large-scale recharge projects"
+status: "active"
+joined: "2024-02-25"
+last_updated: "2025-01-09"
+social:
+  twitter: "RainManRWH"
+  instagram: "rainman_water"
+  linkedin: "company/rain-man-water-harvesting"
+notes: |
+  One of Bengaluru's pioneering RWH consultancies.
+  Implemented systems in 2000+ buildings.
+  Strong expertise in borewell recharge for hard rock areas.

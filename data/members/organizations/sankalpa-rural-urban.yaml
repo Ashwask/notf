@@ -1,0 +1,31 @@
+name: "Sankalpa Rural-Urban Nexus"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["Yelahanka"]
+website: "https://sankalpa.org.in"
+contact:
+  email: "info@sankalpa.org.in"
+  phone: "+91-80-4456-8901"
+  person: "Lakshmi Narayan"
+domains: ["urban-farming", "organic", "food-systems", "livelihoods"]
+offers:
+  - "Urban farm design and setup"
+  - "Organic certification support"
+  - "Farm-to-table supply chain consulting"
+  - "Farmer producer organization support"
+  - "Training in organic farming methods"
+asks:
+  - "Urban consumers for subscription farming"
+  - "Land owners for urban farming projects"
+  - "Restaurant partners for local sourcing"
+status: "active"
+joined: "2024-04-01"
+last_updated: "2025-01-09"
+social:
+  twitter: "SankalpaRUN"
+  instagram: "sankalpa_rural_urban"
+  linkedin: "company/sankalpa-rural-urban"
+notes: |
+  Connects peri-urban farmers with urban consumers.
+  Manages 50+ acres of urban and peri-urban farms.
+  Strong focus on food miles reduction.

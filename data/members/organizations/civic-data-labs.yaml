@@ -1,0 +1,31 @@
+name: "Civic Data Labs"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["Koramangala"]
+website: "https://civicdatalabs.in"
+contact:
+  email: "hello@civicdatalabs.in"
+  phone: "+91-80-4012-4567"
+  person: "Gaurav Godhwani"
+domains: ["data", "civic-tech", "transparency", "governance"]
+offers:
+  - "Open data platform development"
+  - "Civic data analysis and visualization"
+  - "Government data portal consulting"
+  - "Community data collection tools"
+  - "Training on data-driven advocacy"
+asks:
+  - "Access to municipal datasets"
+  - "Partners for civic data projects"
+  - "Funding for open data infrastructure"
+status: "active"
+joined: "2024-08-05"
+last_updated: "2025-01-09"
+social:
+  twitter: "CivicDataLabs"
+  instagram: "civic_data_labs"
+  linkedin: "company/civic-data-labs"
+notes: |
+  Pioneer in civic tech and open data in India.
+  Built platforms used by multiple state governments.
+  Strong focus on making city data accessible to citizens.

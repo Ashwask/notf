@@ -1,0 +1,31 @@
+name: "Sustainability Compass"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["Indiranagar"]
+website: "https://sustainabilitycompass.in"
+contact:
+  email: "team@sustainabilitycompass.in"
+  phone: "+91-80-4456-8901"
+  person: "Deepa Mohan"
+domains: ["education", "sustainability", "training", "behavior-change"]
+offers:
+  - "Sustainability curriculum for schools"
+  - "Corporate sustainability training"
+  - "Behavior change program design"
+  - "Environmental communication consulting"
+  - "Community awareness workshops"
+asks:
+  - "Schools for sustainability program pilots"
+  - "Corporate partners for employee engagement"
+  - "Content partnerships for materials"
+status: "active"
+joined: "2024-10-05"
+last_updated: "2025-01-09"
+social:
+  twitter: "SustainCompass"
+  instagram: "sustainability_compass"
+  linkedin: "company/sustainability-compass"
+notes: |
+  Focus on environmental education and behavior change.
+  Developed curriculum used in 200+ schools.
+  Strong expertise in making sustainability engaging and accessible.

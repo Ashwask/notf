@@ -1,0 +1,31 @@
+name: "Green Path Eco Solutions"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["Electronic City"]
+website: "https://greenpath.co.in"
+contact:
+  email: "contact@greenpath.co.in"
+  phone: "+91-80-4234-6789"
+  person: "Sneha Kulkarni"
+domains: ["energy", "solar", "efficiency", "consulting"]
+offers:
+  - "Solar rooftop installation"
+  - "Energy audit services"
+  - "Building energy efficiency consulting"
+  - "Net metering assistance"
+  - "Green building certification support"
+asks:
+  - "Large rooftop spaces for solar installations"
+  - "Corporate clients for energy audits"
+  - "Partners for community solar projects"
+status: "active"
+joined: "2024-06-10"
+last_updated: "2025-01-09"
+social:
+  twitter: "GreenPathEco"
+  instagram: "greenpath_eco"
+  linkedin: "company/green-path-eco-solutions"
+notes: |
+  Installed 50+ MW of solar across Karnataka.
+  Strong focus on apartment complex solar solutions.
+  IGBC accredited professionals on team.

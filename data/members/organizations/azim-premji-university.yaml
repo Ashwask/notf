@@ -1,0 +1,31 @@
+name: "Azim Premji University"
+type: "anchor"
+location: "Bengaluru"
+neighborhoods: ["Sarjapur Road", "Burugunte"]
+website: "https://azimpremjiuniversity.edu.in"
+contact:
+  email: "environment@apu.edu.in"
+  phone: "+91-80-6614-5136"
+  person: "Dr. Sharachchandra Lele"
+domains: ["research", "policy", "education", "governance", "environment"]
+offers:
+  - "Environment and development research"
+  - "Masters programs in development and sustainability"
+  - "Policy research and advocacy support"
+  - "Student field research partnerships"
+  - "Community engagement through field centers"
+asks:
+  - "Community partners for student field work"
+  - "Policy advocacy collaborations"
+  - "Guest practitioners for teaching"
+status: "active"
+joined: "2024-03-10"
+last_updated: "2025-01-09"
+social:
+  twitter: "APUniversity"
+  instagram: "azimpremjiuniversity"
+  linkedin: "school/azim-premji-university"
+notes: |
+  Strong interdisciplinary approach to sustainability education.
+  Active research on urban water, forests, and governance.
+  Extensive network through Azim Premji Foundation field presence.

@@ -1,0 +1,31 @@
+name: "Ecosphere Labs"
+type: "solution-provider"
+location: "Bengaluru"
+neighborhoods: ["BTM Layout"]
+website: "https://ecospherelabs.com"
+contact:
+  email: "hello@ecospherelabs.com"
+  phone: "+91-80-4345-7890"
+  person: "Arun Krishnan"
+domains: ["air-quality", "monitoring", "IoT", "data"]
+offers:
+  - "Air quality monitoring systems"
+  - "Environmental sensor networks"
+  - "Data analytics and dashboards"
+  - "IoT solutions for environmental monitoring"
+  - "Community air quality projects"
+asks:
+  - "Communities for sensor deployment"
+  - "Research partners for air quality studies"
+  - "Funding for public air quality networks"
+status: "active"
+joined: "2024-07-05"
+last_updated: "2025-01-09"
+social:
+  twitter: "EcosphereLabs"
+  instagram: "ecosphere_labs"
+  linkedin: "company/ecosphere-labs"
+notes: |
+  Developed affordable air quality monitoring solutions.
+  Deployed sensors in 100+ locations across Bengaluru.
+  Open data approach for community access.
