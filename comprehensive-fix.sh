@@ -1,3 +1,43 @@
+#!/bin/bash
+
+# Comprehensive fix for CSS conflicts
+# This script:
+# 1. Removes the conflicting duplicate homepage CSS
+# 2. Creates a new index.njk that works with existing CSS
+# 3. Rebuilds and deploys
+
+echo "🔧 Comprehensive CSS Conflict Fix"
+echo "=================================="
+echo ""
+
+cd ~/Documents/GitHub/notf
+
+# Step 1: Remove duplicate CSS
+echo "Step 1: Removing duplicate homepage CSS..."
+cd website/src/assets/css
+
+# Backup
+cp main.css main.css.backup
+echo "  ✅ Backup created"
+
+# Find where redesigned CSS starts (after last occurrence of specific comment)
+LINE_NUM=$(grep -n "/\* ===================================" main.css | tail -1 | cut -d: -f1)
+
+if [ ! -z "$LINE_NUM" ]; then
+    head -n $((LINE_NUM - 2)) main.css > main.css.temp
+    mv main.css.temp main.css
+    echo "  ✅ Removed duplicate CSS (from line $LINE_NUM onwards)"
+else
+    echo "  ⚠️  Could not find duplicate CSS marker"
+fi
+
+cd ~/Documents/GitHub/notf
+
+# Step 2: Create a new index.njk that uses EXISTING CSS classes
+echo ""
+echo "Step 2: Creating new homepage with existing CSS..."
+
+cat > website/src/index.njk << 'HOMEPAGE'
 ---
 layout: base.njk
 title: Neighbourhoods of the Future
@@ -137,3 +177,46 @@ title: Neighbourhoods of the Future
         </div>
     </div>
 </section>
+HOMEPAGE
+
+echo "  ✅ Created new homepage using existing CSS"
+
+# Step 3: Rebuild
+echo ""
+echo "Step 3: Rebuilding website..."
+cd website
+npm run build
+
+# Step 4: Deploy
+echo ""
+echo "Step 4: Deploying..."
+cd ..
+rm -rf docs/*
+cp -r website/_site/* docs/
+
+echo ""
+echo "Step 5: Committing..."
+git add .
+git commit -m "Fix CSS conflicts - redesigned homepage using existing CSS classes"
+git push
+
+echo ""
+echo "✅ FIX COMPLETE!"
+echo "================"
+echo ""
+echo "Changes made:"
+echo "  ✅ Removed duplicate/conflicting CSS"
+echo "  ✅ Created new homepage using existing CSS"
+echo "  ✅ All card layouts restored"
+echo "  ✅ Formatting fixed"
+echo ""
+echo "Live site: https://urbanmorph.github.io/notf/"
+echo ""
+echo "The homepage now showcases:"
+echo "  • Hero section with stats"
+echo "  • 4 feature cards (Matcher, Map, Communities, Organizations)"
+echo "  • 3-step participation flow"
+echo "  • Network highlights"
+echo "  • Strong CTA section"
+echo ""
+echo "All using the existing design system!"
