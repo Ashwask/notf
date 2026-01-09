@@ -1,0 +1,409 @@
+---
+layout: base.njk
+title: Join NOTF
+permalink: /join/
+---
+
+<section class="content join-page">
+    <h1>Join the NOTF Network</h1>
+    <p class="lead">Connect your community or organization with the Neighbourhoods of the Future network.</p>
+    
+    <div class="join-intro">
+        <p>NOTF brings together community organizations and neighborhoods working on place-based transformation. By joining, you'll:</p>
+        <ul>
+            <li>🤝 Connect with other communities and organizations</li>
+            <li>📍 Get listed on our interactive map</li>
+            <li>🎯 Share your asks and offers for collaboration</li>
+            <li>💡 Access resources, playbooks, and toolkits</li>
+            <li>🔍 Be discoverable through our search and matcher</li>
+        </ul>
+    </div>
+    
+    <div class="submission-types">
+        <div class="submission-card">
+            <h2>🏘️ List Your Community</h2>
+            <p>Register a neighborhood-based community initiative that's working on local transformation.</p>
+            <a href="#community-form" class="btn-primary">Submit Community</a>
+        </div>
+        
+        <div class="submission-card">
+            <h2>🏢 List Your Organization</h2>
+            <p>Register an organization (NGO, CBO, solution provider, or anchor) supporting community work.</p>
+            <a href="#organization-form" class="btn-primary">Submit Organization</a>
+        </div>
+    </div>
+    
+    <div class="approval-process">
+        <h2>📋 Approval Process</h2>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Submit Form</h3>
+                <p>Fill out the form below with your details</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Review</h3>
+                <p>NOTF team reviews within 3-5 days</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Approved</h3>
+                <p>Your listing goes live on the website</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="community-form" class="form-section">
+        <h2>Register Your Community</h2>
+        <p class="form-description">Tell us about your neighborhood-based initiative.</p>
+        
+        <div class="form-embed">
+            <!-- Tally Form Embed -->
+            <iframe 
+                src="https://tally.so/embed/w2x9Qo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                width="100%" 
+                height="600" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0" 
+                title="NOTF Community Registration"
+                style="display: none;">
+            </iframe>
+            
+            <!-- Manual Form (shown by default, can replace with Tally) -->
+            <form class="submission-form" id="communitySubmissionForm">
+                <div class="form-group">
+                    <label for="comm_name">Community Name *</label>
+                    <input type="text" id="comm_name" required>
+                    <small>e.g., "Malleshwaram Community Forum"</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_neighborhood">Neighborhood/Area *</label>
+                    <input type="text" id="comm_neighborhood" required>
+                    <small>e.g., "Malleshwaram"</small>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="comm_city">City *</label>
+                        <input type="text" id="comm_city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comm_state">State *</label>
+                        <input type="text" id="comm_state" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_ward">Ward Number (if applicable)</label>
+                    <input type="text" id="comm_ward">
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_description">About Your Community *</label>
+                    <textarea id="comm_description" rows="5" required></textarea>
+                    <small>Describe your community's mission, activities, and impact</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_lead_org">Lead Organization Name *</label>
+                    <input type="text" id="comm_lead_org" required>
+                    <small>The organization coordinating community activities</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_contact_person">Contact Person *</label>
+                    <input type="text" id="comm_contact_person" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="comm_contact_email">Email *</label>
+                        <input type="email" id="comm_contact_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comm_contact_phone">Phone *</label>
+                        <input type="tel" id="comm_contact_phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_offers">What We Offer</label>
+                    <textarea id="comm_offers" rows="3" placeholder="Enter each offer on a new line&#10;e.g., Community meeting space&#10;Volunteer network&#10;Local expertise"></textarea>
+                    <small>List resources, expertise, or support your community can provide</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comm_asks">What We Need</label>
+                    <textarea id="comm_asks" rows="3" placeholder="Enter each need on a new line&#10;e.g., Funding for projects&#10;Technical expertise&#10;Volunteers"></textarea>
+                    <small>List what your community is looking for</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Submit Community Registration</button>
+                </div>
+            </form>
+            
+            <div id="communitySuccess" class="success-message" style="display: none;">
+                <h3>✅ Submission Received!</h3>
+                <p>Thank you for registering your community. We'll review your submission within 3-5 business days and notify you via email.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="organization-form" class="form-section">
+        <h2>Register Your Organization</h2>
+        <p class="form-description">Tell us about your organization and how you support communities.</p>
+        
+        <div class="form-embed">
+            <form class="submission-form" id="orgSubmissionForm">
+                <div class="form-group">
+                    <label for="org_name">Organization Name *</label>
+                    <input type="text" id="org_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_type">Organization Type *</label>
+                    <select id="org_type" required>
+                        <option value="">Select type...</option>
+                        <option value="cbo">Community-Based Organization (CBO)</option>
+                        <option value="solution-provider">Solution Provider / Service Provider</option>
+                        <option value="anchor">Anchor Organization / Orchestrator</option>
+                        <option value="ngo">NGO / Non-Profit</option>
+                        <option value="social-enterprise">Social Enterprise</option>
+                        <option value="cooperative">Cooperative</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_description">About Your Organization *</label>
+                    <textarea id="org_description" rows="5" required></textarea>
+                    <small>Describe what you do and your mission</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_theme">Primary Theme/Focus Area *</label>
+                    <select id="org_theme" required>
+                        <option value="">Select theme...</option>
+                        <option value="environment">Environment & Sustainability</option>
+                        <option value="waste-management">Waste Management</option>
+                        <option value="water">Water & Sanitation</option>
+                        <option value="education">Education</option>
+                        <option value="health">Health & Wellness</option>
+                        <option value="livelihood">Livelihood & Employment</option>
+                        <option value="governance">Civic Governance</option>
+                        <option value="infrastructure">Infrastructure</option>
+                        <option value="community-building">Community Building</option>
+                        <option value="youth">Youth Development</option>
+                        <option value="women">Women Empowerment</option>
+                        <option value="arts-culture">Arts & Culture</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_location">Primary Location (City, State) *</label>
+                    <input type="text" id="org_location" required>
+                    <small>e.g., "Bengaluru, Karnataka"</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_neighborhoods">Neighborhoods/Areas You Work In</label>
+                    <textarea id="org_neighborhoods" rows="2" placeholder="Enter each area on a new line"></textarea>
+                    <small>List specific neighborhoods or areas where you're active</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_website">Website</label>
+                    <input type="url" id="org_website" placeholder="https://">
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_contact_person">Contact Person *</label>
+                    <input type="text" id="org_contact_person" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="org_contact_email">Email *</label>
+                        <input type="email" id="org_contact_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="org_contact_phone">Phone</label>
+                        <input type="tel" id="org_contact_phone">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_offers">What We Offer *</label>
+                    <textarea id="org_offers" rows="4" placeholder="Enter each offer on a new line&#10;e.g., Training workshops&#10;Technical consulting&#10;Financial support" required></textarea>
+                    <small>List services, resources, or support you provide to communities</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="org_asks">What We're Looking For</label>
+                    <textarea id="org_asks" rows="3" placeholder="Enter each need on a new line&#10;e.g., Partnership opportunities&#10;Volunteers&#10;Field testing locations"></textarea>
+                    <small>List what you need from the NOTF network</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Submit Organization Registration</button>
+                </div>
+            </form>
+            
+            <div id="orgSuccess" class="success-message" style="display: none;">
+                <h3>✅ Submission Received!</h3>
+                <p>Thank you for registering your organization. We'll review your submission within 3-5 business days and notify you via email.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Handle community form submission
+document.getElementById('communitySubmissionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const formData = {
+        type: 'community',
+        name: document.getElementById('comm_name').value,
+        neighborhood: document.getElementById('comm_neighborhood').value,
+        city: document.getElementById('comm_city').value,
+        state: document.getElementById('comm_state').value,
+        ward: document.getElementById('comm_ward').value,
+        description: document.getElementById('comm_description').value,
+        lead_org: document.getElementById('comm_lead_org').value,
+        contact_person: document.getElementById('comm_contact_person').value,
+        contact_email: document.getElementById('comm_contact_email').value,
+        contact_phone: document.getElementById('comm_contact_phone').value,
+        offers: document.getElementById('comm_offers').value.split('\n').filter(o => o.trim()),
+        asks: document.getElementById('comm_asks').value.split('\n').filter(a => a.trim()),
+        timestamp: new Date().toISOString()
+    };
+    
+    // Generate YAML
+    const yaml = generateCommunityYAML(formData);
+    
+    // For now, email the submission
+    const subject = `NOTF Community Submission: ${formData.name}`;
+    const body = `New community submission:\n\n${yaml}\n\n---\nContact: ${formData.contact_email}`;
+    window.location.href = `mailto:submissions@notf.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    // Show success message
+    document.getElementById('communitySubmissionForm').style.display = 'none';
+    document.getElementById('communitySuccess').style.display = 'block';
+});
+
+// Handle organization form submission
+document.getElementById('orgSubmissionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        type: 'organization',
+        name: document.getElementById('org_name').value,
+        org_type: document.getElementById('org_type').value,
+        description: document.getElementById('org_description').value,
+        theme: document.getElementById('org_theme').value,
+        location: document.getElementById('org_location').value,
+        neighborhoods: document.getElementById('org_neighborhoods').value.split('\n').filter(n => n.trim()),
+        website: document.getElementById('org_website').value,
+        contact_person: document.getElementById('org_contact_person').value,
+        contact_email: document.getElementById('org_contact_email').value,
+        contact_phone: document.getElementById('org_contact_phone').value,
+        offers: document.getElementById('org_offers').value.split('\n').filter(o => o.trim()),
+        asks: document.getElementById('org_asks').value.split('\n').filter(a => a.trim()),
+        timestamp: new Date().toISOString()
+    };
+    
+    const yaml = generateOrganizationYAML(formData);
+    
+    const subject = `NOTF Organization Submission: ${formData.name}`;
+    const body = `New organization submission:\n\n${yaml}\n\n---\nContact: ${formData.contact_email}`;
+    window.location.href = `mailto:submissions@notf.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    
+    document.getElementById('orgSubmissionForm').style.display = 'none';
+    document.getElementById('orgSuccess').style.display = 'block';
+});
+
+// Generate YAML for community
+function generateCommunityYAML(data) {
+    let yaml = `---
+name: "${data.name}"
+city: "${data.city}"
+state: "${data.state}"
+neighborhood: "${data.neighborhood}"
+${data.ward ? `ward: "${data.ward}"` : ''}
+lead_organization_name: "${data.lead_org}"
+contact:
+  person: "${data.contact_person}"
+  email: "${data.contact_email}"
+  phone: "${data.contact_phone}"
+status: "pending"
+submission_date: "${data.timestamp}"
+---
+
+## About ${data.name}
+
+${data.description}
+
+## Lead Organization
+
+**${data.lead_org}** is leading community initiatives in ${data.neighborhood}.
+`;
+
+    if (data.offers.length > 0) {
+        yaml += `\n## What the Community Offers\n\n${data.offers.map(o => `- ${o}`).join('\n')}\n`;
+    }
+    
+    if (data.asks.length > 0) {
+        yaml += `\n## Current Needs\n\n${data.asks.map(a => `- ${a}`).join('\n')}\n`;
+    }
+    
+    yaml += `\n## Get Involved\n\nInterested in supporting ${data.name}? Contact the lead organization to learn more about how you can contribute.`;
+    
+    return yaml;
+}
+
+// Generate YAML for organization
+function generateOrganizationYAML(data) {
+    let yaml = `name: "${data.name}"
+type: "${data.org_type}"
+description: "${data.description}"
+theme: "${data.theme}"
+location: "${data.location}"
+`;
+
+    if (data.neighborhoods.length > 0) {
+        yaml += `neighborhoods:\n${data.neighborhoods.map(n => `  - "${n}"`).join('\n')}\n`;
+    }
+    
+    if (data.website) {
+        yaml += `website: "${data.website}"\n`;
+    }
+    
+    yaml += `contact:
+  person: "${data.contact_person}"
+  email: "${data.contact_email}"
+${data.contact_phone ? `  phone: "${data.contact_phone}"` : ''}
+`;
+
+    if (data.offers.length > 0) {
+        yaml += `offers:\n${data.offers.map(o => `  - "${o}"`).join('\n')}\n`;
+    }
+    
+    if (data.asks.length > 0) {
+        yaml += `asks:\n${data.asks.map(a => `  - "${a}"`).join('\n')}\n`;
+    }
+    
+    yaml += `status: "pending"
+submission_date: "${data.timestamp}"
+joined: "${new Date().toISOString().split('T')[0]}"
+`;
+    
+    return yaml;
+}
+</script>

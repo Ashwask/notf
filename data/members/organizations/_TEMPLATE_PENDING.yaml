@@ -1,0 +1,25 @@
+# Template for pending organization submission
+
+name: "Organization Name Here"
+type: "cbo"  # Options: cbo, solution-provider, anchor, ngo, social-enterprise, cooperative
+description: "Brief description of what the organization does"
+theme: "primary-theme"  # Options: environment, waste-management, water, education, health, livelihood, governance, infrastructure, community-building, youth, women, arts-culture
+location: "City, State"  # e.g., "Bengaluru, Karnataka"
+neighborhoods:
+  - "Neighborhood 1"
+  - "Neighborhood 2"
+website: "https://example.org"  # Optional
+contact:
+  person: "Contact Person Name"
+  email: "email@example.org"
+  phone: "9999999999"  # Optional
+offers:
+  - "Service or resource 1"
+  - "Service or resource 2"
+  - "Service or resource 3"
+asks:
+  - "Need or request 1"
+  - "Need or request 2"
+status: "pending"  # Change to "approved" when ready to publish
+submission_date: "2026-01-09T12:00:00Z"
+joined: "2026-01-09"

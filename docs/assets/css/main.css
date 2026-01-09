@@ -147,6 +147,17 @@ nav {
     background: rgba(255, 255, 255, 0.15);
 }
 
+.join-link {
+    background: var(--color-yellow) !important;
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+}
+
+.join-link:hover {
+    background: var(--color-pink) !important;
+    color: white !important;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .hamburger {
@@ -1975,5 +1986,244 @@ main {
     
     .match-body {
         padding: 1.5rem;
+    }
+}
+
+/* Join Page */
+.join-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.join-page h1 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.join-page .lead {
+    text-align: center;
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+}
+
+.join-intro {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+}
+
+.join-intro ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.join-intro li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.submission-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.submission-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    border-top: 4px solid var(--color-teal);
+    transition: all 0.3s;
+}
+
+.submission-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.submission-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.submission-card p {
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+}
+
+.approval-process {
+    background: linear-gradient(135deg, rgba(35, 162, 165, 0.1) 0%, rgba(251, 200, 49, 0.1) 100%);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.approval-process h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-text);
+}
+
+.process-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.step {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    min-width: 200px;
+    box-shadow: var(--shadow-sm);
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--color-teal);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 1rem;
+}
+
+.step h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.step p {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    margin: 0;
+}
+
+.step-arrow {
+    font-size: 2rem;
+    color: var(--color-teal);
+    font-weight: 700;
+}
+
+.form-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 3rem;
+}
+
+.form-section h2 {
+    color: var(--color-teal);
+    margin-bottom: 0.5rem;
+}
+
+.form-description {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+}
+
+.submission-form {
+    max-width: 700px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--color-border);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-teal);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--color-text-light);
+    font-size: 0.875rem;
+}
+
+.form-actions {
+    margin-top: 2rem;
+}
+
+.success-message {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(35, 162, 165, 0.1) 100%);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid #22c55e;
+    text-align: center;
+}
+
+.success-message h3 {
+    color: #22c55e;
+    margin-bottom: 1rem;
+}
+
+.success-message p {
+    color: var(--color-text);
+    margin: 0;
+}
+
+/* Responsive Join Page */
+@media (max-width: 768px) {
+    .join-page {
+        padding: 1rem;
+    }
+    
+    .process-steps {
+        flex-direction: column;
+    }
+    
+    .step-arrow {
+        transform: rotate(90deg);
+    }
+    
+    .submission-types {
+        grid-template-columns: 1fr;
     }
 }

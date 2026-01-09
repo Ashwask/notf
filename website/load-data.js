@@ -22,7 +22,8 @@ function loadMembers() {
         }
     }).filter(m => m !== null);
 
-    return members;
+    // Filter to show only approved members (or those without status field - backward compatible)
+    return members.filter(m => !m.status || m.status === 'approved');
 }
 
 // Load all community markdown files from all cities
@@ -59,7 +60,8 @@ function loadCommunities() {
         }
     }
 
-    return communities;
+    // Filter to show only approved communities (or those without status field - backward compatible)
+    return communities.filter(c => !c.status || c.status === 'approved' || c.status === 'active');
 }
 
 module.exports = { loadMembers, loadCommunities };
