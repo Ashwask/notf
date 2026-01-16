@@ -1,18 +1,539 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTF</title>
+    <title>Search | NOTF</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .search-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            color: #999;
+            pointer-events: none;
+        }
+
+        .search-filters {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .filter-chip.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .filter-chip:hover {
+            border-color: #667eea;
+        }
+
+        .search-stats {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .result-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .result-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .type-community {
+            background: #e8eaf6;
+            color: #667eea;
+        }
+
+        .type-provider {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .result-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .result-themes {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .theme-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #555;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .result-highlights {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .highlight-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .highlight-list li {
+            padding: 0.25rem 0;
+            color: #666;
+        }
+
+        .highlight-list li mark {
+            background: #fef3c7;
+            padding: 0.1rem 0.2rem;
+            border-radius: 2px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .view-details-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 1rem;
+        }
+
+        .view-details-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="nav-brand"><a href="/"><img src="/assets/images/notf-logo.png" alt="NOTF" class="nav-logo"><span class="nav-title">NOTF</span></a></div>
-            <div class="nav-menu"><a href="/">Home</a><a href="/communities/">Communities</a><a href="/solution-providers/">Solution Providers</a><a href="/admin/login.html">Admin</a></div>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/resources/">Resources</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                </a>
+            </div>
         </nav>
     </header>
-    <main><h1>Coming Soon</h1><p><a href="/">← Back to Home</a></p></main>
+
+    <main>
+        <section class="content search-container">
+            <h1>Search</h1>
+            <p class="lead">Search across communities and solution providers</p>
+
+            <div class="search-box">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-input"
+                        placeholder="Search by name, theme, location, offers, or needs..."
+                        autofocus
+                    />
+                </div>
+                <div class="search-filters">
+                    <button class="filter-chip active" data-filter="all">All</button>
+                    <button class="filter-chip" data-filter="community">Communities</button>
+                    <button class="filter-chip" data-filter="solution-provider">Solution Providers</button>
+                </div>
+            </div>
+
+            <div id="searchStats" class="search-stats" style="display: none;"></div>
+
+            <div id="resultsContainer" class="results-container">
+                <div class="loading">Start typing to search...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Load Supabase and data -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        let allData = [];
+        let currentFilter = 'all';
+
+        (async function() {
+            // Load all data
+            await dataLoader.waitForSupabase();
+            const [communities, providers] = await Promise.all([
+                dataLoader.loadCommunities(),
+                dataLoader.loadSolutionProviders()
+            ]);
+
+            // Combine and tag with type
+            allData = [
+                ...communities.map(c => ({ ...c, _type: 'community' })),
+                ...providers.map(p => ({ ...p, _type: 'solution-provider' }))
+            ];
+
+            console.log('Loaded data:', allData.length, 'items');
+
+            // Setup search
+            setupSearch();
+            setupFilters();
+        })();
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            let debounceTimer;
+
+            searchInput.addEventListener('input', function() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    performSearch(this.value.trim());
+                }, 300);
+            });
+
+            // Trigger search if there's a query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            if (query) {
+                searchInput.value = query;
+                performSearch(query);
+            }
+        }
+
+        function setupFilters() {
+            const filterChips = document.querySelectorAll('.filter-chip');
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    filterChips.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+
+                    const searchInput = document.getElementById('searchInput');
+                    performSearch(searchInput.value.trim());
+                });
+            });
+        }
+
+        function performSearch(query) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const searchStats = document.getElementById('searchStats');
+
+            if (!query) {
+                resultsContainer.innerHTML = '<div class="loading">Start typing to search...</div>';
+                searchStats.style.display = 'none';
+                return;
+            }
+
+            // Filter by type
+            let data = allData;
+            if (currentFilter !== 'all') {
+                data = allData.filter(item => item._type === currentFilter);
+            }
+
+            // Search across all relevant fields
+            const results = data.filter(item => {
+                const searchText = query.toLowerCase();
+
+                // Search in name
+                if (item.name && item.name.toLowerCase().includes(searchText)) return true;
+
+                // Search in description
+                if (item.description && item.description.toLowerCase().includes(searchText)) return true;
+
+                // Search in city/location
+                if (item.city && item.city.toLowerCase().includes(searchText)) return true;
+                if (item.location && item.location.toLowerCase().includes(searchText)) return true;
+
+                // Search in themes
+                if (item.themes && item.themes.some(t => t.toLowerCase().includes(searchText))) return true;
+                if (item.theme && item.theme.toLowerCase().includes(searchText)) return true;
+
+                // Search in offers
+                if (item.offers && item.offers.some(o => o.toLowerCase().includes(searchText))) return true;
+
+                // Search in asks
+                if (item.asks && item.asks.some(a => a.toLowerCase().includes(searchText))) return true;
+
+                // Search in stories
+                if (item.stories && item.stories.toLowerCase().includes(searchText)) return true;
+
+                return false;
+            });
+
+            // Display results
+            displayResults(results, query);
+        }
+
+        function displayResults(results, query) {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const searchStats = document.getElementById('searchStats');
+
+            if (results.length === 0) {
+                searchStats.style.display = 'none';
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No results found</h3>
+                        <p>Try searching with different keywords or check your spelling.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            searchStats.style.display = 'block';
+            searchStats.textContent = `Found ${results.length} result${results.length === 1 ? '' : 's'} for "${query}"`;
+
+            resultsContainer.innerHTML = results.map(item => {
+                const isCommunity = item._type === 'community';
+                const typeLabel = isCommunity ? 'Community' : 'Solution Provider';
+                const typeClass = isCommunity ? 'type-community' : 'type-provider';
+                const detailsLink = isCommunity ? '/communities/' : '/solution-providers/';
+
+                const location = item.city || item.location || 'Location not specified';
+                const themes = isCommunity
+                    ? (item.themes || []).slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
+                    : (item.theme ? `<span class="theme-tag">${item.theme}</span>` : '');
+
+                const description = item.description || 'No description available.';
+                const truncatedDesc = description.length > 200 ? description.substring(0, 200) + '...' : description;
+
+                // Highlight matching offers/asks
+                const queryLower = query.toLowerCase();
+                const matchingOffers = (item.offers || []).filter(o => o.toLowerCase().includes(queryLower)).slice(0, 3);
+                const matchingAsks = (item.asks || []).filter(a => a.toLowerCase().includes(queryLower)).slice(0, 3);
+
+                let highlights = '';
+                if (matchingOffers.length > 0) {
+                    highlights += `
+                        <div class="result-highlights">
+                            <div class="highlight-label">Matching Offers:</div>
+                            <ul class="highlight-list">
+                                ${matchingOffers.map(o => `<li>${highlightText(o, query)}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+                if (matchingAsks.length > 0) {
+                    highlights += `
+                        <div class="result-highlights" style="margin-top: 0.5rem;">
+                            <div class="highlight-label">Matching Needs:</div>
+                            <ul class="highlight-list">
+                                ${matchingAsks.map(a => `<li>${highlightText(a, query)}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="result-card">
+                        <div class="result-header">
+                            <h2 class="result-title">${item.name}</h2>
+                            <span class="result-type ${typeClass}">${typeLabel}</span>
+                        </div>
+                        <div class="result-meta">
+                            <div class="meta-item">
+                                📍 ${location}
+                            </div>
+                            ${item.offers ? `<div class="meta-item">💡 ${item.offers.length} Offers</div>` : ''}
+                            ${item.asks ? `<div class="meta-item">🤝 ${item.asks.length} Needs</div>` : ''}
+                        </div>
+                        ${themes ? `<div class="result-themes">${themes}</div>` : ''}
+                        <div class="result-description">${truncatedDesc}</div>
+                        ${highlights}
+                        <a href="${detailsLink}" class="view-details-link">View full details →</a>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function highlightText(text, query) {
+            const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+            return text.replace(regex, '<mark>$1</mark>');
+        }
+
+        function escapeRegex(str) {
+            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+    </script>
 </body>
 </html>

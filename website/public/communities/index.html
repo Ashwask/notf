@@ -114,6 +114,27 @@
             font-weight: 600;
             min-width: 24px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .count-badge:hover {
+            background: #5568d3;
+            transform: scale(1.05);
+        }
+
+        .view-details-btn {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .view-details-btn:hover {
+            text-decoration: underline;
         }
 
         .contact-link {
@@ -132,6 +153,102 @@
             padding: 3rem;
             text-align: center;
             color: #666;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section h3 {
+            margin: 0 0 0.5rem 0;
+            color: #667eea;
+            font-size: 1rem;
+        }
+
+        .modal-section p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+
+        .modal-list li {
+            padding: 0.5rem;
+            background: #f8f9fa;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
         }
 
         @media (max-width: 768px) {
@@ -219,6 +336,19 @@
                 <a href="mailto:nudge-unit@notf.in" class="btn btn-primary">Contact the Nudge Unit</a>
             </div>
         </section>
+
+        <!-- Modal for viewing details -->
+        <div id="detailsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle"></h2>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
@@ -296,7 +426,7 @@
                 return;
             }
 
-            tbody.innerHTML = filteredCommunities.map(comm => {
+            tbody.innerHTML = filteredCommunities.map((comm, idx) => {
                 const themes = comm.themes && comm.themes.length > 0
                     ? comm.themes.slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
                     : '<span style="color: #999;">—</span>';
@@ -313,9 +443,13 @@
                         <td><strong>${comm.name}</strong></td>
                         <td>${comm.city || '—'}</td>
                         <td class="themes-cell">${themes}</td>
-                        <td><span class="count-badge">${offersCount}</span></td>
-                        <td><span class="count-badge">${asksCount}</span></td>
-                        <td>${contact}</td>
+                        <td><span class="count-badge" onclick="showOffers(${idx})">${offersCount}</span></td>
+                        <td><span class="count-badge" onclick="showAsks(${idx})">${asksCount}</span></td>
+                        <td>
+                            ${contact}
+                            <br>
+                            <a href="#" class="view-details-btn" onclick="showDetails(${idx}); return false;">View Details →</a>
+                        </td>
                     </tr>
                 `;
             }).join('');
@@ -403,6 +537,140 @@
                 renderTable();
             });
         }
+
+        // Modal functions
+        function showOffers(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = `${comm.name} - Offers`;
+
+            if (comm.offers && comm.offers.length > 0) {
+                modalBody.innerHTML = `
+                    <div class="modal-section">
+                        <h3>What They Offer</h3>
+                        <ul class="modal-list">
+                            ${comm.offers.map(offer => `<li>${offer}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = '<p style="color: #999;">No offers listed yet.</p>';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function showAsks(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = `${comm.name} - Asks`;
+
+            if (comm.asks && comm.asks.length > 0) {
+                modalBody.innerHTML = `
+                    <div class="modal-section">
+                        <h3>What They Need</h3>
+                        <ul class="modal-list">
+                            ${comm.asks.map(ask => `<li>${ask}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = '<p style="color: #999;">No asks listed yet.</p>';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function showDetails(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = comm.name;
+
+            const themes = comm.themes && comm.themes.length > 0
+                ? comm.themes.map(t => `<span class="theme-tag">${t}</span>`).join(' ')
+                : '<span style="color: #999;">—</span>';
+
+            const description = comm.description || 'No description available.';
+            const stories = comm.stories || 'No stories shared yet.';
+
+            let sections = `
+                <div class="modal-section">
+                    <h3>Location</h3>
+                    <p>${comm.city || 'Not specified'}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Themes</h3>
+                    <p>${themes}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Description</h3>
+                    <p>${description}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Stories</h3>
+                    <p>${stories}</p>
+                </div>
+            `;
+
+            if (comm.offers && comm.offers.length > 0) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>What They Offer</h3>
+                        <ul class="modal-list">
+                            ${comm.offers.map(offer => `<li>${offer}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (comm.asks && comm.asks.length > 0) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>What They Need</h3>
+                        <ul class="modal-list">
+                            ${comm.asks.map(ask => `<li>${ask}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (comm.contact && comm.contact.email) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>Contact</h3>
+                        <p>
+                            ${comm.contact.person ? `<strong>${comm.contact.person}</strong><br>` : ''}
+                            <a href="mailto:${comm.contact.email}">${comm.contact.email}</a>
+                        </p>
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = sections;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailsModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('detailsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>
