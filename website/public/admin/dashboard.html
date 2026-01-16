@@ -306,8 +306,92 @@ async function loadStats() {
 
     document.getElementById('deploymentCount').textContent = deploymentCount || 0;
 
-    // Match count placeholder
-    document.getElementById('matchCount').textContent = '—';
+    // Calculate match count
+    await calculateMatchCount();
+}
+
+async function calculateMatchCount() {
+    const supabase = authUtils.supabase;
+
+    // Load all data
+    const { data: communities } = await supabase
+        .from('file_metadata')
+        .select('*')
+        .eq('file_type', 'community')
+        .eq('status', 'active');
+
+    const { data: providers } = await supabase
+        .from('file_metadata')
+        .select('*')
+        .eq('file_type', 'solution-provider')
+        .eq('status', 'active');
+
+    const allOrgs = [...(communities || []), ...(providers || [])];
+
+    // Extract asks and offers
+    const asks = [];
+    const offers = [];
+
+    allOrgs.forEach(org => {
+        const name = org.metadata?.name || org.slug;
+
+        (org.metadata?.asks || []).forEach((ask, idx) => {
+            asks.push({
+                id: `${name}-ask-${idx}`,
+                text: ask,
+                from: name,
+                tags: extractTags(ask)
+            });
+        });
+
+        (org.metadata?.offers || []).forEach((offer, idx) => {
+            offers.push({
+                id: `${name}-offer-${idx}`,
+                text: offer,
+                from: name,
+                tags: extractTags(offer)
+            });
+        });
+    });
+
+    // Count matches with score >= 50%
+    let matchCount = 0;
+    asks.forEach(ask => {
+        offers.forEach(offer => {
+            if (ask.from === offer.from) return; // Skip self-matches
+
+            const commonTags = ask.tags.filter(t => offer.tags.includes(t));
+            const score = commonTags.length * 0.4; // Simplified scoring
+
+            if (score >= 0.5) {
+                matchCount++;
+            }
+        });
+    });
+
+    document.getElementById('matchCount').textContent = matchCount;
+}
+
+function extractTags(text) {
+    const tags = [];
+    const lower = text.toLowerCase();
+
+    const categories = {
+        funding: ['funding', 'fund', 'money', 'financial', 'grant', 'investment'],
+        volunteers: ['volunteer', 'help', 'support', 'manpower'],
+        space: ['space', 'venue', 'room', 'hall', 'office'],
+        expertise: ['expertise', 'expert', 'knowledge', 'training', 'skill', 'mentor'],
+        equipment: ['equipment', 'tool', 'machine', 'device'],
+        network: ['network', 'connection', 'partnership', 'collaboration']
+    };
+
+    Object.keys(categories).forEach(category => {
+        if (categories[category].some(keyword => lower.includes(keyword))) {
+            tags.push(category);
+        }
+    });
+
+    return tags;
 }
 
 async function loadRecentActivity() {
