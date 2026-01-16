@@ -171,7 +171,7 @@ document.getElementById('joinForm').addEventListener('submit', async function(e)
 
         // Success!
         successMsg.innerHTML = `
-            <strong>✅ Thank you for joining NOTF!</strong><br>
+            <strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Thank you for joining NOTF!</strong><br>
             Your ${formType === 'community' ? 'community' : 'organization'} "${name}" has been submitted for review.
             We'll review your application and be in touch via email soon.
         `;
@@ -204,7 +204,7 @@ document.getElementById('joinForm').addEventListener('submit', async function(e)
     } catch (error) {
         console.error('Submission error:', error);
         errorMsg.innerHTML = `
-            <strong>❌ Submission Failed</strong><br>
+            <strong><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>Submission Failed</strong><br>
             ${error.message || 'There was an error submitting your application. Please try again or contact us directly.'}
         `;
         errorMsg.style.display = 'block';
