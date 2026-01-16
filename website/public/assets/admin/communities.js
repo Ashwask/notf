@@ -67,6 +67,19 @@ function renderCommunities(comms) {
         const description = comm.metadata?.description || '';
         const truncatedDesc = description.length > 150 ? description.substring(0, 150) + '...' : description;
 
+        // Check for missing data
+        const missing = [];
+        if (!comm.latitude || !comm.longitude) missing.push('📍 Location');
+        if (!comm.ward) missing.push('🗺️ Ward');
+        if (!comm.neighborhood && !comm.metadata?.neighborhood) missing.push('🏘️ Neighborhood');
+        if (!themes || themes.length === 0) missing.push('🏷️ Themes');
+        if (!description) missing.push('📝 Description');
+
+        const missingBadge = missing.length > 0 ?
+            `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: 4px; font-size: 0.75rem;">
+                <strong>Missing:</strong> ${missing.join(', ')}
+            </div>` : '';
+
         return `
             <div class="org-card">
                 <div class="org-header">
@@ -77,6 +90,7 @@ function renderCommunities(comms) {
                     <p class="org-theme">${themesText}</p>
                     <p class="org-location">📍 ${city}</p>
                     ${description ? `<p class="org-description">${truncatedDesc}</p>` : ''}
+                    ${missingBadge}
                 </div>
                 <div class="org-footer">
                     <button onclick="editCommunity('${comm.id}')" class="btn-sm btn-secondary">✏️ Edit</button>
