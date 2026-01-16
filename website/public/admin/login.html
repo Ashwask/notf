@@ -213,7 +213,7 @@
 (async function() {
     const session = await authUtils.checkAuth();
     if (session) {
-        window.location.href = '/admin/dashboard.html';
+        window.location.href = '/admin/index.html';
     }
 })();
 
@@ -237,7 +237,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     try {
         await authUtils.login(email, password);
         // Redirect to dashboard on success
-        window.location.href = '/admin/dashboard.html';
+        window.location.href = '/admin/index.html';
     } catch (error) {
         // Show error message
         errorMessage.textContent = error.message || 'Invalid email or password';
