@@ -1,332 +1,345 @@
-# NOTF Supabase Integration Setup Guide
+# Supabase Integration Setup Guide
 
-This guide walks you through setting up Supabase for dynamic YAML file management with automatic Vercel deployments.
+This guide walks you through migrating the NOTF website from GitHub-based YAML files to Supabase Storage with automatic Vercel deployments.
 
-## Architecture Overview
+## Overview
 
+**Benefits of Supabase Integration:**
+- ✅ YAML files stored in private Supabase Storage (not public GitHub)
+- ✅ Easy CRUD operations via Supabase Dashboard or API
+- ✅ Automatic website deployment when files are created/updated/deleted
+- ✅ Metadata tracking and versioning
+- ✅ Row Level Security for controlled access
+
+**Architecture:**
 ```
-┌─────────────────┐
-│  Administrator  │
-│   (You/Team)    │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────────────────────────────┐
-│         Supabase Dashboard              │
-│  - Storage: YAML/MD files               │
-│  - Database: file_metadata table        │
-│  - Triggers: Auto-deployment on CRUD    │
-└────────┬────────────────────────────────┘
-         │
-         │ (On file change)
-         ▼
-┌─────────────────────────────────────────┐
-│    Supabase Edge Function               │
-│  trigger-vercel-deploy                  │
-│  - Logs change                          │
-│  - Calls Vercel deploy hook             │
-└────────┬────────────────────────────────┘
-         │
-         ▼
-┌─────────────────────────────────────────┐
-│         Vercel                          │
-│  - Rebuilds website                     │
-│  - Fetches data from Supabase           │
-│  - Deploys to production                │
-└─────────────────────────────────────────┘
+Supabase Storage (YAML files)
+    ↓
+file_metadata table (parsed data + metadata)
+    ↓
+Database Trigger (on INSERT/UPDATE/DELETE)
+    ↓
+Edge Function (trigger-vercel-deploy)
+    ↓
+Vercel Deploy Hook (rebuild website)
+    ↓
+Website fetches data from Supabase at build time
 ```
 
-## Step 1: Get Supabase Service Role Key
+## Prerequisites
 
-1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
-2. Select your project: `abblyaukkoxmgzwretvm`
-3. Click **Project Settings** (gear icon)
-4. Go to **API** section
-5. Copy the **service_role** key (⚠️ keep this secret!)
+- Supabase project: https://abblyaukkoxmgzwretvm.supabase.co
+- Vercel project: notf-one.vercel.app
+- GitHub repo: urbanmorph/notf
 
-## Step 2: Set Up Database Structure
+## Step 1: Setup Supabase Database
 
-The database tables have already been created! You can verify by running:
+### 1.1 Run the SQL Schema
 
-```sql
-SELECT table_name FROM information_schema.tables
-WHERE table_schema = 'public'
-AND table_name IN ('file_metadata', 'deployment_log');
-```
+1. Go to [Supabase SQL Editor](https://supabase.com/dashboard/project/abblyaukkoxmgzwretvm/sql/new)
 
-Tables created:
-- `file_metadata` - Stores metadata for all YAML/MD files
-- `deployment_log` - Logs all deployment triggers
+2. Copy and paste the entire contents of `/scripts/setup-supabase-infrastructure.sql`
 
-## Step 3: Upload Files to Supabase
+3. Click "Run" to execute the SQL
 
-Run the upload script with your service role key:
+4. Verify tables created:
+   - Go to Table Editor
+   - Should see: `file_metadata` and `deployment_log`
 
-```bash
-cd /Users/sathya/Documents/GitHub/notf/scripts
+### 1.2 Verify Storage Bucket
 
-# Set your service role key
-export SUPABASE_SERVICE_KEY='your-service-role-key-here'
+1. Go to Storage → Buckets
+2. Verify `notf` bucket exists
+3. Check that it's set to **public** (for read access)
 
-# Run the upload script
-python3 upload-and-sync-supabase.py
-```
+## Step 2: Upload Files to Supabase
 
-This will:
-- ✅ Upload 53 solution provider YAML files
-- ✅ Upload 66 community Markdown files
-- ✅ Populate the `file_metadata` table
-- ✅ Create placeholder directories for other cities
+### 2.1 Get Your Service Role Key
 
-## Step 4: Get Vercel Deploy Hook
+1. Go to Project Settings → API
+2. Copy the **service_role** key (⚠️ keep this secret!)
+3. Do NOT use the anon key for this step
 
-1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
-2. Select your project: **notf**
-3. Go to **Settings** → **Git**
-4. Scroll to **Deploy Hooks**
-5. Click **Create Hook**
-   - Name: `Supabase File Change`
-   - Branch: `main`
-6. Copy the generated webhook URL
-
-## Step 5: Deploy Supabase Edge Function
-
-### Option A: Using Supabase CLI (Recommended)
-
-```bash
-# Install Supabase CLI if not already installed
-npm install -g supabase
-
-# Login to Supabase
-supabase login
-
-# Link to your project
-supabase link --project-ref abblyaukkoxmgzwretvm
-
-# Set environment variables
-supabase secrets set VERCEL_DEPLOY_HOOK='your-vercel-hook-url'
-
-# Deploy the Edge Function
-supabase functions deploy trigger-vercel-deploy
-```
-
-### Option B: Using Supabase Dashboard
-
-1. Go to **Edge Functions** in Supabase Dashboard
-2. Click **Create a new function**
-3. Name: `trigger-vercel-deploy`
-4. Copy the code from `/supabase/functions/trigger-vercel-deploy/index.ts`
-5. Set environment variables:
-   - `VERCEL_DEPLOY_HOOK` = your Vercel hook URL
-6. Deploy
-
-## Step 6: Create Database Webhook
-
-We need to trigger the Edge Function when files change.
-
-Run this SQL in Supabase SQL Editor:
-
-```sql
--- Enable the pg_net extension for HTTP requests
-CREATE EXTENSION IF NOT EXISTS pg_net;
-
--- Create function to call Edge Function on file changes
-CREATE OR REPLACE FUNCTION notify_file_change()
-RETURNS TRIGGER AS $$
-DECLARE
-    operation_type TEXT;
-    edge_function_url TEXT;
-BEGIN
-    -- Determine operation
-    IF TG_OP = 'INSERT' THEN
-        operation_type := 'create';
-    ELSIF TG_OP = 'UPDATE' THEN
-        operation_type := 'update';
-    ELSIF TG_OP = 'DELETE' THEN
-        operation_type := 'delete';
-    END IF;
-
-    -- Edge Function URL
-    edge_function_url := 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/trigger-vercel-deploy';
-
-    -- Call Edge Function asynchronously
-    PERFORM net.http_post(
-        url := edge_function_url,
-        headers := jsonb_build_object(
-            'Content-Type', 'application/json',
-            'Authorization', 'Bearer ' || current_setting('app.settings.service_role_key')
-        ),
-        body := jsonb_build_object(
-            'operation', operation_type,
-            'file_path', COALESCE(NEW.file_path, OLD.file_path),
-            'file_type', COALESCE(NEW.file_type, OLD.file_type)
-        )
-    );
-
-    IF TG_OP = 'DELETE' THEN
-        RETURN OLD;
-    ELSE
-        RETURN NEW;
-    END IF;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Create triggers
-DROP TRIGGER IF EXISTS trigger_notify_on_insert ON public.file_metadata;
-CREATE TRIGGER trigger_notify_on_insert
-    AFTER INSERT ON public.file_metadata
-    FOR EACH ROW
-    EXECUTE FUNCTION notify_file_change();
-
-DROP TRIGGER IF EXISTS trigger_notify_on_update ON public.file_metadata;
-CREATE TRIGGER trigger_notify_on_update
-    AFTER UPDATE ON public.file_metadata
-    FOR EACH ROW
-    WHEN (OLD.metadata IS DISTINCT FROM NEW.metadata)
-    EXECUTE FUNCTION notify_file_change();
-
-DROP TRIGGER IF EXISTS trigger_notify_on_delete ON public.file_metadata;
-CREATE TRIGGER trigger_notify_on_delete
-    AFTER DELETE ON public.file_metadata
-    FOR EACH ROW
-    EXECUTE FUNCTION notify_file_change();
-```
-
-## Step 7: Update Website to Use Supabase
-
-Replace the current `load-data.js` with the Supabase version:
-
-```bash
-cd /Users/sathya/Documents/GitHub/notf/website
-mv load-data.js load-data-filesystem.js.backup
-mv load-data-supabase.js load-data.js
-```
-
-## Step 8: Add Environment Variables to Vercel
-
-1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
-2. Select your project: **notf**
-3. Go to **Settings** → **Environment Variables**
-4. Add these variables:
-
-| Variable | Value | Environment |
-|----------|-------|-------------|
-| `SUPABASE_URL` | `https://abblyaukkoxmgzwretvm.supabase.co` | Production, Preview, Development |
-| `SUPABASE_ANON_KEY` | (from Supabase Dashboard → API) | Production, Preview, Development |
-| `DATA_SOURCE` | `supabase` | Production, Preview, Development |
-
-## Step 9: Deploy and Test
-
-### Commit and Push Changes
+### 2.2 Install Python Dependencies
 
 ```bash
 cd /Users/sathya/Documents/GitHub/notf
+pip install requests pyyaml
+```
 
+### 2.3 Run the Sync Script
+
+```bash
+export SUPABASE_SERVICE_KEY='your-service-role-key-here'
+python3 scripts/sync-to-supabase.py
+```
+
+This will:
+- Upload all 53 solution provider YAML files
+- Upload all 66 community MD files
+- Parse and populate the `file_metadata` table
+
+### 2.4 Verify Upload
+
+1. Go to Storage → notf bucket
+2. Should see folders:
+   - `solution-providers/` (53 files)
+   - `communities/bengaluru/` (66 files)
+
+3. Go to Table Editor → file_metadata
+4. Should see 119 rows (53 + 66)
+
+## Step 3: Setup Vercel Deploy Hook
+
+### 3.1 Create Deploy Hook in Vercel
+
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your project: notf-one
+3. Go to Settings → Git → Deploy Hooks
+4. Click "Create Hook"
+   - Name: `supabase-auto-deploy`
+   - Branch: `main`
+5. Copy the generated URL (looks like: `https://api.vercel.com/v1/integrations/deploy/...`)
+
+### 3.2 Get Your Supabase Anon Key
+
+1. Go to Supabase Project Settings → API
+2. Copy the **anon/public** key
+
+## Step 4: Install Supabase CLI (Optional but Recommended)
+
+```bash
+# macOS
+brew install supabase/tap/supabase
+
+# Verify installation
+supabase --version
+```
+
+## Step 5: Deploy Edge Function
+
+### 5.1 Link Your Project
+
+```bash
+cd /Users/sathya/Documents/GitHub/notf
+supabase link --project-ref abblyaukkoxmgzwretvm
+```
+
+### 5.2 Set Function Secrets
+
+```bash
+supabase secrets set VERCEL_DEPLOY_HOOK_URL='your-vercel-hook-url'
+supabase secrets set SUPABASE_URL='https://abblyaukkoxmgzwretvm.supabase.co'
+supabase secrets set SUPABASE_SERVICE_ROLE_KEY='your-service-role-key'
+```
+
+### 5.3 Deploy the Edge Function
+
+```bash
+supabase functions deploy trigger-vercel-deploy
+```
+
+### 5.4 Create Database Webhook
+
+1. Go to Supabase Dashboard → Database → Webhooks
+2. Click "Create a new hook"
+3. Configure:
+   - **Name**: `trigger-deploy-on-file-change`
+   - **Table**: `file_metadata`
+   - **Events**: `INSERT`, `UPDATE`, `DELETE`
+   - **Type**: `Supabase Edge Function`
+   - **Edge Function**: `trigger-vercel-deploy`
+4. Click "Create webhook"
+
+## Step 6: Update Website Code
+
+### 6.1 Install Supabase JS Client
+
+```bash
+cd /Users/sathya/Documents/GitHub/notf/website
+npm install @supabase/supabase-js
+```
+
+### 6.2 Update Eleventy Config
+
+Edit `.eleventy.js` to use the new loader:
+
+```javascript
+// Change this line:
+const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data.js');
+
+// To this:
+const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data-supabase.js');
+```
+
+## Step 7: Add Environment Variables to Vercel
+
+### 7.1 Add Supabase Credentials
+
+1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+
+2. Add these variables (for **all environments**: Production, Preview, Development):
+
+   ```
+   SUPABASE_URL = https://abblyaukkoxmgzwretvm.supabase.co
+   SUPABASE_ANON_KEY = your-anon-key-here
+   ```
+
+3. Click "Save"
+
+## Step 8: Test and Deploy
+
+### 8.1 Test Local Build
+
+```bash
+cd /Users/sathya/Documents/GitHub/notf/website
+export SUPABASE_URL='https://abblyaukkoxmgzwretvm.supabase.co'
+export SUPABASE_ANON_KEY='your-anon-key'
+npm run build
+```
+
+Should see: "✅ Loaded data from Supabase"
+
+### 8.2 Commit and Push
+
+```bash
+cd /Users/sathya/Documents/GitHub/notf
 git add .
-git commit -m "Add Supabase integration with auto-deployment
+git commit -m "Integrate Supabase: Fetch data from Supabase Storage
 
-- Create database tables for file metadata
-- Add Edge Function for Vercel webhook
-- Update load-data.js to fetch from Supabase
-- Add upload scripts and documentation
+- Add Supabase data loader
+- Create Edge Function for auto-deployment
+- Add sync script for uploading files
+- Update build process to use Supabase"
 
-Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 git push origin main
 ```
 
-### Test the Workflow
+### 8.3 Verify Deployment
 
-1. **Manual deployment test:**
-   - Go to Vercel dashboard
-   - Check that the new deployment uses Supabase data
+1. Watch deployment at Vercel Dashboard
+2. Once complete, visit: https://notf-one.vercel.app
+3. Verify that communities and solution providers load correctly
 
-2. **CRUD operation test:**
-   - Go to Supabase Dashboard → Table Editor
-   - Open `file_metadata` table
-   - Edit a record (change `metadata` field)
-   - Check `deployment_log` table for new entry
-   - Wait 1-2 minutes
-   - Verify new Vercel deployment triggered
+## Step 9: Test Auto-Deployment
 
-3. **File upload test:**
-   - Upload a new YAML file to Supabase Storage
-   - Add corresponding entry to `file_metadata` table
-   - Verify automatic deployment
+### 9.1 Update a File via Supabase
+
+1. Go to Table Editor → file_metadata
+2. Select any row
+3. Click "Edit"
+4. Modify the `metadata` field (e.g., change name)
+5. Click "Save"
+
+### 9.2 Verify Deployment Triggered
+
+1. Check Table Editor → deployment_log
+2. Should see a new row with status `triggered`
+3. Check Vercel Dashboard → Deployments
+4. Should see a new deployment started
+
+### 9.3 Verify Changes Live
+
+Once deployment completes, visit the website and verify the changes appear.
 
 ## Managing Files
 
-### Adding a New Solution Provider
+### Option A: Via Supabase Dashboard (Easiest)
 
-1. Go to Supabase Dashboard → Storage → `notf` bucket
-2. Upload YAML file to `solution-providers/` folder
-3. Go to Table Editor → `file_metadata`
-4. Click **Insert** → **Insert row**
-5. Fill in:
-   ```
-   file_path: solution-providers/new-org.yaml
-   file_type: solution-provider
-   slug: new-org
-   status: active
-   metadata: { "name": "Organization Name", "type": "solution-provider", ... }
-   ```
-6. Save → Website automatically rebuilds!
+**To Update a File:**
+1. Table Editor → file_metadata
+2. Find the row
+3. Edit the `metadata` JSONB field
+4. Save → Auto-deploys!
 
-### Editing an Organization
+**To Add a New File:**
+1. Upload file to Storage → notf bucket
+2. Insert row in file_metadata table
+3. Save → Auto-deploys!
 
-1. Go to Table Editor → `file_metadata`
-2. Find the record
-3. Edit the `metadata` JSON field
-4. Save → Automatic deployment!
+**To Delete a File:**
+1. Table Editor → file_metadata
+2. Delete the row
+3. Optionally delete from Storage
+4. Save → Auto-deploys!
 
-### Deleting an Organization
+### Option B: Via API (Programmatic)
 
-**Option 1: Soft Delete (Recommended)**
-1. Set `status` to `archived`
-2. Organization hidden from website
+Use the Supabase REST API or client libraries to perform CRUD operations.
 
-**Option 2: Hard Delete**
-1. Delete row from `file_metadata`
-2. Delete file from Storage
-3. Automatic deployment triggered
+Example (JavaScript):
+```javascript
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+
+// Update metadata
+await supabase
+  .from('file_metadata')
+  .update({ metadata: { name: 'New Name', ... } })
+  .eq('slug', 'organization-slug')
+```
+
+### Option C: Re-run Sync Script
+
+To bulk update from local files:
+```bash
+python3 scripts/sync-to-supabase.py
+```
 
 ## Troubleshooting
 
-### Files Not Loading
+### Build Fails with "Supabase not initialized"
 
-Check:
-1. Vercel environment variables set correctly
-2. `DATA_SOURCE=supabase` in Vercel
-3. Supabase anon key is valid
-4. RLS policies allow public read access
+- Check Vercel environment variables are set
+- Verify SUPABASE_ANON_KEY is correct
+- Check Supabase project is not paused
 
 ### Deployment Not Triggering
 
-Check:
-1. Edge Function deployed successfully
-2. Vercel deploy hook URL correct
-3. `deployment_log` table for error messages
-4. Database triggers created
+- Verify webhook is created in Database → Webhooks
+- Check Edge Function logs in Supabase Dashboard
+- Verify VERCEL_DEPLOY_HOOK_URL is set correctly
+- Check deployment_log table for errors
 
-### Build Fails
+### Data Not Loading
 
-1. Check Vercel build logs
-2. Verify Supabase connection works
-3. Test with `DATA_SOURCE=filesystem` as fallback
+- Run SQL: `SELECT * FROM get_active_solution_providers();`
+- Check RLS policies are correct
+- Verify file_metadata table has data
+- Check functions have proper permissions
 
-## Benefits of This Setup
+## Rollback Plan
 
-✅ **No GitHub commits needed** - Update files via Supabase Dashboard
-✅ **Automatic deployments** - Changes trigger rebuilds instantly
-✅ **Version control** - All changes logged in database
-✅ **Easy management** - Non-technical admins can update content
-✅ **Secure** - Service keys not in public repo
-✅ **Fallback** - Can switch to filesystem if needed
-✅ **Audit trail** - Track who changed what and when
+If you need to rollback to local file loading:
+
+1. Edit `.eleventy.js`:
+   ```javascript
+   const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data.js');
+   ```
+
+2. Commit and push
+
+The website will fall back to loading from local `/data` directory.
+
+## Security Notes
+
+- ⚠️  **Never commit** the service_role key to GitHub
+- ✅ The anon key is safe for client-side use
+- ✅ Row Level Security (RLS) protects data access
+- ✅ Storage bucket is public for read, protected for write
 
 ## Next Steps
 
-1. Create admin UI for easier file management
-2. Add file validation before deployment
-3. Implement preview deployments for pending changes
-4. Set up notifications for deployment failures
-5. Create backup system for file versions
+Once setup is complete:
+1. Remove YAML files from GitHub (optional, for security)
+2. Update `.gitignore` to exclude `/data` directory
+3. Create admin UI for easier file management (future enhancement)
+4. Add file versioning and history tracking (future enhancement)
+
+## Support
+
+If you encounter issues:
+1. Check Supabase logs: Dashboard → Logs
+2. Check Vercel logs: Dashboard → Deployments → View Function Logs
+3. Check GitHub Issues: urbanmorph/notf
