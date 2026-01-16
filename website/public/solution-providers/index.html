@@ -5,6 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solution Providers | NOTF</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .filters {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        .providers-table {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #f0f0f0;
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        th.sorted-asc::after {
+            content: ' ↑';
+            color: #667eea;
+        }
+
+        th.sorted-desc::after {
+            content: ' ↓';
+            color: #667eea;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .theme-cell {
+            max-width: 250px;
+        }
+
+        .theme-tag {
+            display: inline-block;
+            background: #fff3e0;
+            color: #f57c00;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 0.15rem;
+        }
+
+        .count-badge {
+            display: inline-block;
+            background: #f56565;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .contact-link {
+            color: #667eea;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .providers-table {
+                overflow-x: scroll;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .theme-cell {
+                max-width: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -15,13 +159,11 @@
                     <span class="nav-title">NOTF</span>
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
                 <a href="/">Home</a>
                 <a href="/solution-providers/">Solution Providers</a>
@@ -30,42 +172,60 @@
                 <a href="/resources/">Resources</a>
                 <a href="/join/" class="join-link">Join</a>
                 <a href="/search/" class="search-link" title="Search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
                 </a>
-                <a href="/admin/login.html" class="admin-link" title="Admin Login">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        <path d="M9 12l2 2 4-4"></path>
-                    </svg>
+                <a href="/admin/login.html" class="admin-link" title="Admin">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
                 </a>
             </div>
         </nav>
     </header>
 
     <main>
-        <h1>Solution Providers</h1>
+        <section class="content">
+            <h1>Solution Providers</h1>
+            <p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
 
-        <p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
+            <div class="filters">
+                <label class="filter-label" for="locationFilter">Filter by Location:</label>
+                <select id="locationFilter" class="filter-select">
+                    <option value="all">All Locations</option>
+                </select>
+            </div>
 
-        <section id="providersList">
-            <p style="text-align: center; padding: 2rem;">Loading solution providers...</p>
-        </section>
+            <div class="providers-table">
+                <table id="providersTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="name">Name</th>
+                            <th class="sortable" data-sort="location">Location</th>
+                            <th class="sortable" data-sort="theme">Focus Area</th>
+                            <th class="sortable" data-sort="offers">Offers</th>
+                            <th class="sortable" data-sort="asks">Asks</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td colspan="6" class="empty-state">Loading solution providers...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <section class="cta-box">
-            <h2>Become a Solution Provider</h2>
-            <p>Are you an organization providing expertise, services, or solutions for community transformation? Join our network of solution providers.</p>
-            <p>We welcome:</p>
-            <ul>
-                <li>Research institutions and think tanks</li>
-                <li>NGOs and social enterprises</li>
-                <li>Consultancies and service providers</li>
-                <li>Technology and innovation labs</li>
-                <li>Training and capacity building organizations</li>
-            </ul>
-            <p>Contact us at <a href="mailto:nudge-unit@notf.in">nudge-unit@notf.in</a> to join.</p>
+            <section class="cta-box" style="margin-top: 2rem;">
+                <h2>Become a Solution Provider</h2>
+                <p>Are you an organization providing expertise, services, or solutions for community transformation? Join our network of solution providers.</p>
+                <p>We welcome:</p>
+                <ul>
+                    <li>Research institutions and think tanks</li>
+                    <li>NGOs and social enterprises</li>
+                    <li>Consultancies and service providers</li>
+                    <li>Technology and innovation labs</li>
+                    <li>Training and capacity building organizations</li>
+                </ul>
+                <p>Contact us at <a href="mailto:nudge-unit@notf.in">nudge-unit@notf.in</a> to join.</p>
+            </section>
         </section>
     </main>
 
@@ -111,43 +271,146 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
     <script>
+        let allProviders = [];
+        let filteredProviders = [];
+        let currentSort = { column: 'name', direction: 'asc' };
+
         (async function() {
             await dataLoader.waitForSupabase();
-            const orgs = await dataLoader.loadSolutionProviders();
-            const container = document.getElementById('providersList');
+            allProviders = await dataLoader.loadSolutionProviders();
+            filteredProviders = [...allProviders];
 
-            if (orgs.length === 0) {
-                container.innerHTML = '<p>No solution providers listed yet. Check back soon!</p>';
+            // Populate location filter
+            const locations = [...new Set(allProviders.map(p => p.location).filter(l => l))].sort();
+            const locationFilter = document.getElementById('locationFilter');
+            locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                locationFilter.appendChild(option);
+            });
+
+            // Render initial table
+            renderTable();
+            setupSorting();
+            setupFilters();
+        })();
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+
+            if (filteredProviders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No solution providers found. Try adjusting your filters.</td></tr>';
                 return;
             }
 
-            container.innerHTML = orgs.map(org => `
-                <article class="member-card">
-                    <h3>${org.name}</h3>
-                    ${org.location ? `<p><strong>Location:</strong> ${org.location}</p>` : ''}
-                    ${org.theme ? `<p><strong>Focus Area:</strong> ${org.theme}</p>` : ''}
-                    ${org.description ? `<p>${org.description}</p>` : ''}
+            tbody.innerHTML = filteredProviders.map(prov => {
+                const theme = prov.theme
+                    ? `<span class="theme-tag">${prov.theme}</span>`
+                    : '<span style="color: #999;">—</span>';
 
-                    ${org.offers && org.offers.length > 0 ? `
-                        <h4>What They Offer</h4>
-                        <ul>
-                            ${org.offers.map(offer => `<li>${offer}</li>`).join('')}
-                        </ul>
-                    ` : ''}
+                const offersCount = (prov.offers || []).length;
+                const asksCount = (prov.asks || []).length;
 
-                    ${org.asks && org.asks.length > 0 ? `
-                        <h4>What They're Looking For</h4>
-                        <ul>
-                            ${org.asks.map(ask => `<li>${ask}</li>`).join('')}
-                        </ul>
-                    ` : ''}
+                const contact = prov.contact && prov.contact.email
+                    ? `<a href="mailto:${prov.contact.email}" class="contact-link">✉️ Email</a>`
+                    : '<span style="color: #999;">—</span>';
 
-                    ${org.contact && org.contact.email ? `
-                        <p><strong>Contact:</strong> <a href="mailto:${org.contact.email}">${org.contact.email}</a>${org.contact.person ? ` (${org.contact.person})` : ''}</p>
-                    ` : ''}
-                </article>
-            `).join('');
-        })();
+                return `
+                    <tr>
+                        <td><strong>${prov.name}</strong></td>
+                        <td>${prov.location || '—'}</td>
+                        <td class="theme-cell">${theme}</td>
+                        <td><span class="count-badge">${offersCount}</span></td>
+                        <td><span class="count-badge">${asksCount}</span></td>
+                        <td>${contact}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setupSorting() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    const sortColumn = this.dataset.sort;
+
+                    // Toggle sort direction
+                    if (currentSort.column === sortColumn) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = sortColumn;
+                        currentSort.direction = 'asc';
+                    }
+
+                    // Update UI
+                    document.querySelectorAll('th').forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+                    this.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+                    // Sort data
+                    sortProviders();
+                    renderTable();
+                });
+            });
+        }
+
+        function sortProviders() {
+            filteredProviders.sort((a, b) => {
+                let aVal, bVal;
+
+                switch(currentSort.column) {
+                    case 'name':
+                        aVal = a.name || '';
+                        bVal = b.name || '';
+                        break;
+                    case 'location':
+                        aVal = a.location || '';
+                        bVal = b.location || '';
+                        break;
+                    case 'theme':
+                        aVal = a.theme || '';
+                        bVal = b.theme || '';
+                        break;
+                    case 'offers':
+                        aVal = (a.offers || []).length;
+                        bVal = (b.offers || []).length;
+                        break;
+                    case 'asks':
+                        aVal = (a.asks || []).length;
+                        bVal = (b.asks || []).length;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                } else {
+                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+                }
+            });
+        }
+
+        function setupFilters() {
+            document.getElementById('locationFilter').addEventListener('change', function() {
+                const selectedLocation = this.value;
+
+                if (selectedLocation === 'all') {
+                    filteredProviders = [...allProviders];
+                } else {
+                    filteredProviders = allProviders.filter(p => p.location === selectedLocation);
+                }
+
+                sortProviders();
+                renderTable();
+            });
+        }
     </script>
 </body>
 </html>
