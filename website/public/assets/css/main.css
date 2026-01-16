@@ -1,6 +1,9 @@
 /* ========================================
-   NOTF Design System with Brand Colors
+   NOTF Design System - Tech-Forward & Contemporary
    ======================================== */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* Reset & Base */
 * {
@@ -10,47 +13,280 @@
 }
 
 :root {
-    /* NOTF Brand Colors */
+    /* NOTF Brand Colors - Legacy */
     --color-teal: #23A2A5;
     --color-teal-dark: #0D7576;
     --color-yellow: #FBC831;
     --color-pink: #F7A782;
     --color-green: #0D7576;
 
-    /* Functional Colors */
-    --color-primary: var(--color-teal);
-    --color-primary-dark: var(--color-green);
-    --color-secondary: var(--color-pink);
-    --color-accent: var(--color-yellow);
+    /* New Tech-Forward Gradient System */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --gradient-cool: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+
+    /* Solid Colors from Gradients */
+    --color-primary: #667eea;
+    --color-primary-dark: #764ba2;
+    --color-secondary: #f093fb;
+    --color-secondary-dark: #f5576c;
+    --color-accent: #4facfe;
+    --color-accent-dark: #00f2fe;
+    --color-success: #43e97b;
+    --color-success-dark: #38f9d7;
+
+    /* Neutral Colors */
+    --color-neutral-dark: #1a1a2e;
+    --color-neutral-mid: #16213e;
+    --color-neutral-light: #f8f9fa;
 
     /* Text & Background */
     --color-text: #1f2937;
     --color-text-light: #6b7280;
+    --color-text-lighter: #9ca3af;
     --color-bg: #ffffff;
     --color-bg-light: #f9fafb;
+    --color-bg-dark: #f3f4f6;
     --color-border: #e5e7eb;
 
-    /* Shadows */
+    /* Glass Morphism */
+    --glass-white: rgba(255, 255, 255, 0.1);
+    --glass-dark: rgba(0, 0, 0, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+
+    /* Spacing Scale (8px base) */
+    --space-xs: 0.5rem;   /* 8px */
+    --space-sm: 1rem;     /* 16px */
+    --space-md: 1.5rem;   /* 24px */
+    --space-lg: 2rem;     /* 32px */
+    --space-xl: 3rem;     /* 48px */
+    --space-2xl: 4rem;    /* 64px */
+    --space-3xl: 6rem;    /* 96px */
+
+    /* Shadows - Enhanced */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --shadow-glow-primary: 0 0 20px rgba(102, 126, 234, 0.4);
+    --shadow-glow-secondary: 0 0 20px rgba(240, 147, 251, 0.4);
+    --shadow-glow-accent: 0 0 20px rgba(79, 172, 254, 0.4);
+
+    /* Border Radius */
+    --radius-sm: 0.375rem;  /* 6px */
+    --radius-md: 0.5rem;    /* 8px */
+    --radius-lg: 0.75rem;   /* 12px */
+    --radius-xl: 1rem;      /* 16px */
+    --radius-2xl: 1.25rem;  /* 20px */
+    --radius-full: 9999px;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--color-text);
     background: var(--color-bg);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Header & Navigation - COOL COLORS */
+/* Typography Scale */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+h6 {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Glassmorphism Effects */
+.glass {
+    background: var(--glass-white);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glass);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-glass);
+}
+
+.glass-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient Backgrounds */
+.bg-gradient-primary {
+    background: var(--gradient-primary);
+}
+
+.bg-gradient-secondary {
+    background: var(--gradient-secondary);
+}
+
+.bg-gradient-accent {
+    background: var(--gradient-accent);
+}
+
+.bg-gradient-success {
+    background: var(--gradient-success);
+}
+
+.bg-gradient-warm {
+    background: var(--gradient-warm);
+}
+
+.bg-gradient-cool {
+    background: var(--gradient-cool);
+}
+
+/* Gradient Text */
+.text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-secondary {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-accent {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Animated Gradients */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.animated-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 10s ease infinite;
+}
+
+/* Glow Effects */
+.glow-primary {
+    box-shadow: var(--shadow-glow-primary);
+}
+
+.glow-secondary {
+    box-shadow: var(--shadow-glow-secondary);
+}
+
+.glow-accent {
+    box-shadow: var(--shadow-glow-accent);
+}
+
+/* Hover Transforms */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.hover-tilt {
+    transition: transform 0.3s ease;
+}
+
+.hover-tilt:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+}
+
+/* ========================================
+   COMPONENTS
+   ======================================== */
+
+/* Header & Navigation - Glass Effect */
 header {
-    background: linear-gradient(135deg, var(--color-green) 0%, var(--color-teal) 100%);
-    box-shadow: var(--shadow-md);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 nav {
@@ -86,14 +322,18 @@ nav {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    background: white;
-    padding: 2px;
+    background: var(--gradient-primary);
+    padding: 3px;
+    box-shadow: var(--shadow-md);
 }
 
 .nav-title {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 1.5rem;
-    color: white;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 /* Hamburger Menu - RIGHT ALIGNED */
@@ -113,7 +353,7 @@ nav {
     display: block;
     width: 25px;
     height: 3px;
-    background: white;
+    background: var(--color-text);
     border-radius: 3px;
     transition: all 0.3s;
 }
@@ -140,27 +380,73 @@ nav {
 }
 
 .nav-menu a {
-    color: white;
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
     padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    transition: all 0.2s;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
 }
 
 .nav-menu a:hover {
-    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-primary);
+}
+
+.nav-menu a:hover::after {
+    width: 80%;
 }
 
 .join-link {
-    background: var(--color-yellow) !important;
-    color: var(--color-text) !important;
+    background: var(--gradient-primary) !important;
+    color: white !important;
     font-weight: 600 !important;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.join-link::after {
+    display: none !important;
+}
+
+.join-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-secondary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.join-link span,
+.join-link {
+    position: relative;
+    z-index: 1;
 }
 
 .join-link:hover {
-    background: var(--color-pink) !important;
-    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow-primary);
+}
+
+.join-link:hover::before {
+    opacity: 1;
 }
 
 /* Mobile Responsive */
@@ -212,11 +498,13 @@ nav {
 }
 
 
-/* Hero Section - WARM COLORS (contrasting) */
+/* Hero Section - Animated Gradient */
 .hero {
-    background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-yellow) 100%);
-    color: var(--color-text);
-    padding: 6rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 15s ease infinite;
+    color: white;
+    padding: 8rem 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -229,7 +517,18 @@ nav {
     right: 0;
     bottom: 0;
     left: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(30px, -30px);
+    }
 }
 
 .hero-content {
@@ -240,20 +539,24 @@ nav {
 }
 
 .hero h1 {
-    font-size: 3.5rem;
+    font-size: 4.5rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
-    line-height: 1.2;
-    color: var(--color-text);
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
+    line-height: 1.1;
+    color: white;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.03em;
 }
 
 .hero-subtitle {
     font-size: 1.5rem;
-    color: var(--color-text);
-    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 3rem;
     font-weight: 400;
-    opacity: 0.9;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .hero-cta {
@@ -263,54 +566,74 @@ nav {
     flex-wrap: wrap;
 }
 
-/* Buttons */
+/* Buttons - Enhanced with Gradients */
 .btn {
     display: inline-block;
-    padding: 0.875rem 2rem;
-    border-radius: 0.5rem;
+    padding: 1rem 2.5rem;
+    border-radius: var(--radius-xl);
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     cursor: pointer;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    font-size: 1rem;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn:hover::before {
+    opacity: 1;
 }
 
 .btn-primary {
-    background: var(--color-teal);
+    background: var(--gradient-primary);
     color: white;
     box-shadow: var(--shadow-md);
 }
 
 .btn-primary:hover {
-    background: var(--color-green);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow-primary);
 }
 
 .btn-secondary {
-    background: white;
-    color: var(--color-text);
-    border: 2px solid white;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .btn-secondary:hover {
-    background: var(--color-text);
-    color: white;
-    border-color: var(--color-text);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+    border-color: white;
 }
 
 .btn-primary-large {
     padding: 1.25rem 3rem;
     font-size: 1.125rem;
-    background: var(--color-teal);
+    background: var(--gradient-primary);
     color: white;
     box-shadow: var(--shadow-lg);
+    font-weight: 700;
 }
 
 .btn-primary-large:hover {
-    background: var(--color-green);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glow-primary);
 }
 
 /* Stats Section */
@@ -326,48 +649,62 @@ nav {
 }
 
 .stat-card {
-    background: white;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 2.5rem;
-    border-radius: 1rem;
+    border-radius: var(--radius-2xl);
     text-align: center;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.3s;
-    border-top: 4px solid var(--color-teal);
+    box-shadow: var(--shadow-xl);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.stat-card:nth-child(2) {
-    border-top-color: var(--color-pink);
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-primary);
 }
 
-.stat-card:nth-child(3) {
-    border-top-color: var(--color-yellow);
+.stat-card:nth-child(2)::before {
+    background: var(--gradient-secondary);
+}
+
+.stat-card:nth-child(3)::before {
+    background: var(--gradient-accent);
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl);
 }
 
 .stat-number {
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--color-teal), var(--color-green));
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .stat-card:nth-child(2) .stat-number {
-    background: linear-gradient(135deg, var(--color-pink), var(--color-yellow));
+    background: var(--gradient-secondary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .stat-card:nth-child(3) .stat-number {
-    background: linear-gradient(135deg, var(--color-yellow), var(--color-pink));
+    background: var(--gradient-accent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -423,23 +760,40 @@ nav {
 .feature-card {
     background: white;
     padding: 2.5rem;
-    border-radius: 1rem;
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s;
-    border-top: 4px solid var(--color-teal);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
 }
 
-.feature-card:nth-child(2) {
-    border-top-color: var(--color-pink);
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-primary);
 }
 
-.feature-card:nth-child(3) {
-    border-top-color: var(--color-yellow);
+.feature-card:nth-child(2)::before {
+    background: var(--gradient-secondary);
+}
+
+.feature-card:nth-child(3)::before {
+    background: var(--gradient-accent);
+}
+
+.feature-card:nth-child(4)::before {
+    background: var(--gradient-success);
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-8px) perspective(1000px) rotateX(2deg);
+    box-shadow: var(--shadow-2xl);
+    border-color: rgba(102, 126, 234, 0.2);
 }
 
 .feature-icon {
@@ -574,11 +928,13 @@ nav {
     line-height: 1.7;
 }
 
-/* CTA Section - WARM COLORS (contrasting) */
+/* CTA Section - Animated Gradient */
 .cta-section {
-    padding: 5rem 0;
-    background: linear-gradient(135deg, var(--color-yellow) 0%, var(--color-pink) 100%);
-    color: var(--color-text);
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #667eea 100%);
+    background-size: 200% 200%;
+    animation: gradient-shift 15s ease infinite;
+    color: white;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -591,7 +947,9 @@ nav {
     right: 0;
     bottom: 0;
     left: 0;
-    background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 30% 80%, rgba(102, 126, 234, 0.2) 0%, transparent 50%);
+    animation: float 20s ease-in-out infinite;
 }
 
 .cta-section .container {
@@ -600,19 +958,21 @@ nav {
 }
 
 .cta-section h2 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 1rem;
-    color: var(--color-text);
+    color: white;
+    font-weight: 800;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .cta-section p {
     font-size: 1.25rem;
-    margin-bottom: 2rem;
-    color: var(--color-text);
-    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    color: rgba(255, 255, 255, 0.95);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    line-height: 1.6;
 }
 
 .cta-center {
