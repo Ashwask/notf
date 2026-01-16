@@ -1,4 +1,4 @@
-const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data.js');
+const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data-supabase.js');
 
 module.exports = function(eleventyConfig) {
   // Copy assets
