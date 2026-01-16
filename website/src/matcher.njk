@@ -237,11 +237,16 @@ function calculateMatchScore(ask, offer) {
 // Find all matches
 function findMatches(asks, offers, minConfidence = 0.5) {
     const matches = [];
-    
+
     asks.forEach(ask => {
         offers.forEach(offer => {
+            // Skip self-matches (same organization matching with itself)
+            if (ask.from === offer.from) {
+                return;
+            }
+
             const score = calculateMatchScore(ask, offer);
-            
+
             if (score >= minConfidence) {
                 matches.push({
                     id: `${ask.id}-${offer.id}`,
@@ -255,7 +260,7 @@ function findMatches(asks, offers, minConfidence = 0.5) {
             }
         });
     });
-    
+
     return matches.sort((a, b) => b.score - a.score);
 }
 
