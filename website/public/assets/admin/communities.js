@@ -127,10 +127,13 @@ function setupEventListeners() {
     // Auto-populate ward when neighborhood changes
     document.getElementById('commNeighborhood').addEventListener('blur', function() {
         const neighborhood = this.value.trim();
-        if (neighborhood) {
+        const wardSelect = document.getElementById('commWard');
+
+        if (neighborhood && wardSelect) {
             const ward = matchNeighborhoodToWard(neighborhood);
             if (ward) {
-                document.getElementById('commWard').value = ward;
+                // Set the selected option in the dropdown
+                wardSelect.value = ward;
             }
         }
     });
@@ -147,6 +150,7 @@ function showCreateForm() {
     editingId = null;
     document.getElementById('modalTitle').textContent = 'Add Community';
     document.getElementById('communityForm').reset();
+    populateWardDropdown();
     document.getElementById('formModal').style.display = 'flex';
 }
 
@@ -164,7 +168,11 @@ async function editCommunity(id) {
     document.getElementById('commCity').value = comm.metadata?.city || comm.city || '';
     document.getElementById('commState').value = comm.metadata?.state || '';
     document.getElementById('commNeighborhood').value = comm.neighborhood || comm.metadata?.neighborhood || '';
+
+    // Populate ward dropdown and set current value
+    populateWardDropdown();
     document.getElementById('commWard').value = comm.ward || '';
+
     document.getElementById('commDescription').value = comm.metadata?.description || '';
     document.getElementById('commPopulation').value = comm.metadata?.population || '';
     document.getElementById('commGeography').value = comm.metadata?.geography || '';
@@ -328,4 +336,67 @@ function closeModal() {
     document.getElementById('communityForm').reset();
     isEditing = false;
     editingId = null;
+}
+
+// Populate ward dropdown
+function populateWardDropdown() {
+    const wardSelect = document.getElementById('commWard');
+    if (!wardMapping || !wardMapping.wards) {
+        console.warn('Ward mapping not loaded');
+        return;
+    }
+
+    // Clear existing options except the first one
+    wardSelect.innerHTML = '<option value="">Select Ward...</option>';
+
+    // Add all wards as options
+    wardMapping.wards.sort().forEach(ward => {
+        const option = document.createElement('option');
+        option.value = ward;
+        option.textContent = ward;
+        wardSelect.appendChild(option);
+    });
+}
+
+// Story Editor Functions
+function openStoryEditor() {
+    const currentStory = document.getElementById('commStories').value;
+    const storyModal = document.getElementById('storyModal');
+    const storyEditor = document.getElementById('storyEditorText');
+
+    storyEditor.value = currentStory;
+    updateStoryPreview();
+    storyModal.style.display = 'flex';
+
+    // Setup live preview
+    storyEditor.addEventListener('input', updateStoryPreview);
+}
+
+function updateStoryPreview() {
+    const markdown = document.getElementById('storyEditorText').value;
+    const preview = document.getElementById('storyPreview');
+
+    if (!markdown.trim()) {
+        preview.innerHTML = '<p style="color: #999; font-style: italic;">Preview will appear here...</p>';
+        return;
+    }
+
+    // Use marked.js to parse markdown
+    if (typeof marked !== 'undefined') {
+        preview.innerHTML = marked.parse(markdown);
+    } else {
+        // Fallback to plain text if marked isn't loaded
+        preview.innerHTML = '<pre>' + markdown + '</pre>';
+    }
+}
+
+function saveStoryContent() {
+    const storyContent = document.getElementById('storyEditorText').value;
+    document.getElementById('commStories').value = storyContent;
+    closeStoryEditor();
+}
+
+function closeStoryEditor() {
+    const storyModal = document.getElementById('storyModal');
+    storyModal.style.display = 'none';
 }
