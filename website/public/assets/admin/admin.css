@@ -1,5 +1,43 @@
 /* Admin Module Styles */
 
+/* Fix navigation for admin pages */
+header {
+    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%) !important;
+}
+
+.nav-menu a {
+    color: white !important;
+}
+
+.nav-menu a::after {
+    background: white !important;
+}
+
+.nav-title {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: white !important;
+    background-clip: unset !important;
+    color: white !important;
+}
+
+.nav-logo {
+    background: white !important;
+}
+
+.hamburger span {
+    background: white !important;
+}
+
+.join-link {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.join-link:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
 .admin-page {
     max-width: 1400px;
     margin: 0 auto;
