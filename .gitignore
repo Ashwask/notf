@@ -14,3 +14,6 @@ website/_site/
 # Temp files
 *.log
 *.tmp
+
+# Supporting documents (Excel, PDFs - will be managed in Supabase)
+supporting documents/
