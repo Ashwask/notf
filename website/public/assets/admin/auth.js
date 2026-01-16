@@ -4,12 +4,19 @@
 const SUPABASE_URL = 'https://abblyaukkoxmgzwretvm.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU';
 
-// Initialize Supabase client (use different variable name to avoid global conflict)
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Lazy initialization of Supabase client
+let supabaseClient = null;
+function getSupabaseAuthClient() {
+    if (!supabaseClient && window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return supabaseClient;
+}
 
 // Check if user is authenticated
 async function checkAuth() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
+    const client = getSupabaseAuthClient();
+    const { data: { session } } = await client.auth.getSession();
     return session;
 }
 
@@ -25,7 +32,8 @@ async function requireAuth() {
 
 // Login with email and password
 async function login(email, password) {
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
+    const client = getSupabaseAuthClient();
+    const { data, error } = await client.auth.signInWithPassword({
         email,
         password
     });
@@ -39,16 +47,19 @@ async function login(email, password) {
 
 // Logout
 async function logout() {
-    const { error } = await supabaseClient.auth.signOut();
+    const client = getSupabaseAuthClient();
+    const { error } = await client.auth.signOut();
     if (error) {
         console.error('Logout error:', error);
     }
-    window.location.href = '/admin/login.html';
+    // Redirect to home page
+    window.location.href = '/';
 }
 
 // Get current user
 async function getCurrentUser() {
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    const client = getSupabaseAuthClient();
+    const { data: { user } } = await client.auth.getUser();
     return user;
 }
 
@@ -59,5 +70,5 @@ window.authUtils = {
     login,
     logout,
     getCurrentUser,
-    supabase: supabaseClient  // Export as 'supabase' for compatibility
+    get supabase() { return getSupabaseAuthClient(); }  // Export as lazy getter
 };
