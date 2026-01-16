@@ -1,0 +1,210 @@
+---
+layout: base.njk
+title: Admin Login - NOTF
+permalink: /admin/login.html
+---
+
+<section class="admin-login">
+    <div class="login-container">
+        <div class="login-card">
+            <h1>🔐 NOTF Admin</h1>
+            <p class="subtitle">Secure administrator access</p>
+
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        autocomplete="email"
+                        placeholder="admin@notf.org"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                    />
+                </div>
+
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <button type="submit" class="btn-primary btn-login" id="loginBtn">
+                    <span id="loginBtnText">Sign In</span>
+                    <span id="loginBtnLoader" class="loader" style="display: none;">🔄</span>
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p><a href="/">← Back to NOTF Home</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.admin-login {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.login-form {
+    margin-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.btn-login:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.loader {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.login-footer a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/admin/auth.js"></script>
+<script>
+// Check if already logged in
+(async function() {
+    const session = await authUtils.checkAuth();
+    if (session) {
+        window.location.href = '/admin/dashboard.html';
+    }
+})();
+
+// Handle login form submission
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('errorMessage');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginBtnText = document.getElementById('loginBtnText');
+    const loginBtnLoader = document.getElementById('loginBtnLoader');
+
+    // Show loading state
+    loginBtn.disabled = true;
+    loginBtnText.style.display = 'none';
+    loginBtnLoader.style.display = 'inline-block';
+    errorMessage.style.display = 'none';
+
+    try {
+        await authUtils.login(email, password);
+        // Redirect to dashboard on success
+        window.location.href = '/admin/dashboard.html';
+    } catch (error) {
+        // Show error message
+        errorMessage.textContent = error.message || 'Invalid email or password';
+        errorMessage.style.display = 'block';
+
+        // Reset button state
+        loginBtn.disabled = false;
+        loginBtnText.style.display = 'inline';
+        loginBtnLoader.style.display = 'none';
+    }
+});
+</script>
