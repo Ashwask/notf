@@ -78,13 +78,40 @@ def load_neighborhood_coordinates():
     print(f"Loaded {len(neighborhoods)} neighborhood coordinates")
     return neighborhoods
 
+def find_ward_by_name(neighborhood_name, wards):
+    """Find ward by fuzzy name matching."""
+    if not neighborhood_name:
+        return None
+
+    # Normalize the neighborhood name
+    normalized = neighborhood_name.lower().strip()
+
+    # Try exact match first
+    for ward in wards:
+        if ward['name'].lower() == normalized:
+            return ward['name']
+
+    # Try partial match (ward name contains neighborhood or vice versa)
+    for ward in wards:
+        ward_lower = ward['name'].lower()
+        if normalized in ward_lower or ward_lower in normalized:
+            return ward['name']
+
+    return None
+
 def find_ward_for_point(lat, lng, wards):
     """Find which ward contains the given point."""
+    if not lat or not lng:
+        return None
+
     point = Point(lng, lat)  # Note: Shapely uses (x, y) = (lon, lat)
 
     for ward in wards:
-        if ward['polygon'].contains(point):
-            return ward['name']
+        try:
+            if ward['polygon'].contains(point):
+                return ward['name']
+        except:
+            continue
 
     return None
 
@@ -130,12 +157,19 @@ def update_database():
             updates['longitude'] = lng
             updates['neighborhood'] = neighborhood_name
 
-        # If we have coordinates, find the ward
-        if lat and lng:
+        # Try to find ward by name first
+        ward_name = None
+        if neighborhood_name:
+            ward_name = find_ward_by_name(neighborhood_name, wards)
+
+        # If no name match and we have coordinates, try point-in-polygon
+        if not ward_name and lat and lng:
             ward_name = find_ward_for_point(lat, lng, wards)
-            if ward_name:
-                updates['ward'] = ward_name
-                matched_count += 1
+
+        # Update ward if found
+        if ward_name:
+            updates['ward'] = ward_name
+            matched_count += 1
 
         # Update the record if we have any updates
         if updates:
