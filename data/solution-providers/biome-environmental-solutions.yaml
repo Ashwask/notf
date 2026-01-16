@@ -1,0 +1,40 @@
+name: Biome Environmental Solutions
+type: solution-provider
+location: Bengaluru
+neighborhoods:
+- Indiranagar
+website: https://biome-solutions.com
+contact:
+  email: info@biome-solutions.com
+  phone: +91-80-2520-0586
+  person: Chitra Vishwanath
+domains:
+- water
+- rainwater-harvesting
+- sustainable-architecture
+- sanitation
+offers:
+- Rainwater harvesting design and implementation
+- Ecological sanitation solutions (ecosan toilets)
+- Sustainable architecture consulting
+- Water audit and management services
+- Training workshops on water conservation
+asks:
+- Community partners for pilot projects
+- Research collaborations on water systems
+- Connections to housing societies for RWH projects
+status: active
+joined: '2024-01-20'
+last_updated: '2025-01-09'
+social:
+  twitter: BiomeEnviro
+  instagram: biome_environmental
+  linkedin: company/biome-environmental-solutions
+notes: 'Pioneer in rainwater harvesting in Bengaluru since 1995.
+
+  Implemented 3000+ RWH systems across Karnataka.
+
+  Known for innovative ecological sanitation solutions.
+
+  '
+stories: null

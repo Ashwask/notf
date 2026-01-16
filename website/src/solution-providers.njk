@@ -1,0 +1,64 @@
+---
+layout: base.njk
+title: Solution Providers
+---
+
+<h1>Solution Providers</h1>
+
+<p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
+
+<section>
+    {% if solutionProviders.length > 0 %}
+        {% for org in solutionProviders %}
+        <article class="member-card">
+            <h3>{{ org.name }}</h3>
+            <p><strong>Location:</strong> {{ org.location }}{% if org.neighborhoods.length > 0 %}, {{ org.neighborhoods | join(", ") }}{% endif %}</p>
+            <p><strong>Focus Areas:</strong> {{ org.domains | formatDomains }}</p>
+
+            {% if org.offers.length > 0 %}
+            <h4>What They Offer</h4>
+            <ul>
+                {% for offer in org.offers %}
+                <li>{{ offer }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if org.asks.length > 0 %}
+            <h4>What They're Looking For</h4>
+            <ul>
+                {% for ask in org.asks %}
+                <li>{{ ask }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if org.website %}
+            <p><strong>Website:</strong> <a href="{{ org.website }}" target="_blank">{{ org.website }}</a></p>
+            {% endif %}
+
+            {% if org.contact and org.contact.email %}
+            <p><strong>Contact:</strong> <a href="mailto:{{ org.contact.email }}">{{ org.contact.email }}</a>{% if org.contact.person %} ({{ org.contact.person }}){% endif %}</p>
+            {% endif %}
+
+            <p><strong>Status:</strong> {{ org.status | capitalize }} member since {{ org.joined | formatDate }}</p>
+        </article>
+        {% endfor %}
+    {% else %}
+        <p>No solution providers listed yet. Check back soon!</p>
+    {% endif %}
+</section>
+
+<section class="cta-box">
+    <h2>Become a Solution Provider</h2>
+    <p>Are you an organization providing expertise, services, or solutions for community transformation? Join our network of solution providers.</p>
+    <p>We welcome:</p>
+    <ul>
+        <li>Research institutions and think tanks</li>
+        <li>NGOs and social enterprises</li>
+        <li>Consultancies and service providers</li>
+        <li>Technology and innovation labs</li>
+        <li>Training and capacity building organizations</li>
+    </ul>
+    <p>Contact us at <a href="mailto:nudge-unit@notf.in">nudge-unit@notf.in</a> to join.</p>
+</section>

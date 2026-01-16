@@ -1,0 +1,41 @@
+name: World Resources Institute India
+type: solution-provider
+location: Bengaluru
+neighborhoods:
+- Indiranagar
+website: https://wri-india.org
+contact:
+  email: info@wri-india.org
+  phone: +91-80-4033-4200
+  person: Dr. OP Agarwal
+domains:
+- research
+- climate
+- mobility
+- cities
+- energy
+offers:
+- Urban mobility and transit research
+- Climate action planning support
+- City-level data and analysis
+- International best practices
+- Training and capacity building
+asks:
+- City government partnerships
+- Data sharing for mobility studies
+- Community partners for pilot projects
+status: active
+joined: '2024-03-25'
+last_updated: '2025-01-09'
+social:
+  twitter: WRIIndia
+  instagram: wri_india
+  linkedin: company/wri-india
+notes: 'Part of global WRI network with strong India presence.
+
+  Led multiple city-level climate action plans.
+
+  Strong expertise in sustainable mobility and transit.
+
+  '
+stories: null

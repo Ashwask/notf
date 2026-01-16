@@ -3,28 +3,35 @@ const path = require('path');
 const yaml = require('js-yaml');
 const matter = require('gray-matter');
 
-// Load all organization YAML files
-function loadMembers() {
-    const membersDir = path.join(__dirname, '../data/members/organizations');
-    if (!fs.existsSync(membersDir)) {
+// Load solution providers from YAML files
+function loadSolutionProviders() {
+    const providersDir = path.join(__dirname, '../data/solution-providers');
+    if (!fs.existsSync(providersDir)) {
         return [];
     }
 
-    const files = fs.readdirSync(membersDir).filter(f => f.endsWith('.yaml') && !f.startsWith('_'));
+    const files = fs.readdirSync(providersDir).filter(f => f.endsWith('.yaml') && !f.startsWith('_'));
 
-    const members = files.map(file => {
-        const content = fs.readFileSync(path.join(membersDir, file), 'utf8');
+    const providers = files.map(file => {
+        const content = fs.readFileSync(path.join(providersDir, file), 'utf8');
         try {
-            return yaml.load(content);
+            const data = yaml.load(content);
+            // Add slug for URL generation
+            data.slug = file.replace('.yaml', '');
+            return data;
         } catch (e) {
             console.error(`Error loading ${file}:`, e.message);
             return null;
         }
-    }).filter(m => m !== null);
+    }).filter(p => p !== null);
 
-    // Filter to show only approved or active members (or those without status field - backward compatible)
-    // "pending" status will be hidden
-    return members.filter(m => !m.status || m.status === 'approved' || m.status === 'active');
+    // Filter to show only approved or active providers
+    return providers.filter(p => !p.status || p.status === 'approved' || p.status === 'active');
+}
+
+// Legacy function - now returns solution providers for backwards compatibility
+function loadMembers() {
+    return loadSolutionProviders();
 }
 
 // Load all community markdown files from all cities
@@ -66,4 +73,4 @@ function loadCommunities() {
     return communities.filter(c => !c.status || c.status === 'approved' || c.status === 'active');
 }
 
-module.exports = { loadMembers, loadCommunities };
+module.exports = { loadMembers, loadCommunities, loadSolutionProviders };

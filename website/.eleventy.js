@@ -1,4 +1,4 @@
-const { loadMembers, loadCommunities } = require('./load-data.js');
+const { loadMembers, loadCommunities, loadSolutionProviders } = require('./load-data.js');
 
 module.exports = function(eleventyConfig) {
   // Copy assets
@@ -8,22 +8,27 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addWatchTarget("../data/**/*");
 
   // Load data
-  eleventyConfig.addGlobalData("members", () => {
-    return loadMembers();
+  eleventyConfig.addGlobalData("solutionProviders", () => {
+    return loadSolutionProviders();
   });
 
   eleventyConfig.addGlobalData("communities", () => {
     return loadCommunities();
   });
 
-  // Keep organizations/individuals for backwards compatibility
-  // Include all organization types: CBO, solution-provider, anchor, organization
-  eleventyConfig.addGlobalData("organizations", () => {
-    return loadMembers().filter(m => ['organization', 'CBO', 'solution-provider', 'anchor'].includes(m.type));
+  // Legacy support - members now maps to solution providers
+  eleventyConfig.addGlobalData("members", () => {
+    return loadSolutionProviders();
   });
 
+  // Legacy support - organizations
+  eleventyConfig.addGlobalData("organizations", () => {
+    return loadSolutionProviders();
+  });
+
+  // Individuals - empty for now (can be added later if needed)
   eleventyConfig.addGlobalData("individuals", () => {
-    return loadMembers().filter(m => m.type === 'individual');
+    return [];
   });
 
   // Add filters

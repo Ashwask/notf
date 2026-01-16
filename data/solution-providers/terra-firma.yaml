@@ -1,0 +1,40 @@
+name: Terra Firma
+type: solution-provider
+location: Bengaluru
+neighborhoods:
+- Malleswaram
+website: https://terrafirma.in
+contact:
+  email: info@terrafirma.in
+  phone: +91-80-2346-5432
+  person: Jayashree Vivekanandan
+domains:
+- composting
+- soil-health
+- organic-farming
+- training
+offers:
+- Large-scale composting consulting
+- Soil testing and remediation services
+- Organic farming training programs
+- Vermicomposting setup and training
+- Garden and landscape maintenance
+asks:
+- Bulk organic waste sources for composting
+- Land for demonstration organic farm
+- Partners for soil health certification
+status: active
+joined: '2024-04-20'
+last_updated: '2025-01-09'
+social:
+  twitter: TerraFirmaBLR
+  instagram: terra_firma_blr
+  linkedin: company/terra-firma-bangalore
+notes: 'Expert in large-scale composting operations.
+
+  Supplies quality compost to urban farms and gardens.
+
+  Strong focus on soil health and regenerative practices.
+
+  '
+stories: null

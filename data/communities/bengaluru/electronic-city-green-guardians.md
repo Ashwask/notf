@@ -1,0 +1,45 @@
+---
+name: Electronic City Green Guardians
+type: community-org
+location: Bengaluru
+neighborhoods:
+- Electronic City Phase 1
+- Electronic City Phase 2
+- Bommanahalli
+website: https://ecgreenguardians.org
+contact:
+  email: info@ecgreenguardians.org
+  phone: +91-80-4890-4567
+  person: Anand Krishnan
+domains:
+- waste
+- water
+- air-quality
+- mobility
+offers:
+- IT park sustainability engagement model
+- Corporate volunteer coordination
+- Air quality monitoring data and analysis
+- Last-mile connectivity solutions advocacy
+asks:
+- Technical partners for air quality sensor network
+- Funding for e-waste collection drives (₹2-3L)
+- Expert support for industrial effluent monitoring
+status: active
+joined: '2024-08-15'
+last_updated: '2025-01-09'
+social:
+  twitter: ECGreenGuard
+  instagram: ec_green_guardians
+  linkedin: company/ec-green-guardians
+notes: 'Unique focus on IT corridor environmental challenges.
+
+  Partnership with 20+ tech companies for sustainability initiatives.
+
+  Pioneered employee shuttle optimization reducing emissions.
+
+  '
+stories: null
+---
+
+<!-- Add community stories and updates here in Markdown format -->
