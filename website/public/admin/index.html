@@ -8,9 +8,12 @@
     <link rel="stylesheet" href="/assets/admin/dashboard.css">
 </head>
 <body>
+    <!-- Mobile sidebar toggle -->
+    <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <h1>NOTF Admin</h1>
                 <p>Neighbourhood of the Future</p>
@@ -58,6 +61,23 @@
             if (!session) return;
         })();
 
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const dashboardContainer = document.querySelector('.dashboard-container');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            dashboardContainer.classList.toggle('sidebar-hidden');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            dashboardContainer.classList.add('sidebar-hidden');
+        }
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+
         // Navigation handling
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function(e) {
@@ -85,8 +105,15 @@
                         iframe.src = '/admin/geocode-tool.html';
                         break;
                 }
+
+                // Close sidebar after navigation
+                closeSidebar();
             });
         });
+
+        // Close sidebar on logout
+        const logoutBtn = document.querySelector('.btn-logout');
+        logoutBtn.addEventListener('click', closeSidebar);
     </script>
 </body>
 </html>

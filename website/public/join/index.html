@@ -1,18 +1,522 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTF</title>
+    <title>Join NOTF - Communities & Solution Providers | NOTF</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <style>
+        .join-hero {
+            background: linear-gradient(135deg, #FBC831 0%, #F7A782 30%, #23A2A5 70%, #0D7576 100%);
+            background-size: 200% 200%;
+            animation: gradient-shift 15s ease infinite;
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .join-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .join-hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .join-container {
+            max-width: 800px;
+            margin: -2rem auto 4rem;
+            padding: 0 1.5rem;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 1.25rem;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .form-type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .type-option {
+            padding: 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .type-option:hover {
+            border-color: #23A2A5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(35, 162, 165, 0.15);
+        }
+
+        .type-option.active {
+            border-color: #23A2A5;
+            background: linear-gradient(135deg, rgba(35, 162, 165, 0.1) 0%, rgba(13, 117, 118, 0.1) 100%);
+            box-shadow: 0 8px 20px rgba(35, 162, 165, 0.2);
+        }
+
+        .type-option .icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-option h3 {
+            margin: 0;
+            font-size: 1.125rem;
+            color: #1f2937;
+        }
+
+        .type-option p {
+            margin: 0.5rem 0 0;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #23A2A5;
+            background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9375rem;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
+            margin-left: 0.25rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #23A2A5;
+            box-shadow: 0 0 0 3px rgba(35, 162, 165, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.5rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .dynamic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .dynamic-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dynamic-item input {
+            flex: 1;
+        }
+
+        .btn-add, .btn-remove {
+            padding: 0.875rem 1rem;
+            border: none;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+            color: white;
+            margin-top: 0.5rem;
+        }
+
+        .btn-add:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(35, 162, 165, 0.3);
+        }
+
+        .btn-remove {
+            background: #ef4444;
+            color: white;
+            padding: 0.875rem 1.25rem;
+        }
+
+        .btn-remove:hover {
+            background: #dc2626;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+            color: white;
+            border: none;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 2rem;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(35, 162, 165, 0.4);
+        }
+
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message, .error-message {
+            padding: 1.25rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+            color: #059669;
+            border: 2px solid #10b981;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+            color: #dc2626;
+            border: 2px solid #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .join-hero h1 {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-type-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="nav-brand"><a href="/"><img src="/assets/images/notf-logo.png" alt="NOTF" class="nav-logo"><span class="nav-title">NOTF</span></a></div>
-            <div class="nav-menu"><a href="/">Home</a><a href="/communities/">Communities</a><a href="/solution-providers/">Solution Providers</a><a href="/admin/login.html">Admin</a></div>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
         </nav>
     </header>
-    <main><h1>Coming Soon</h1><p><a href="/">← Back to Home</a></p></main>
+
+    <section class="join-hero">
+        <h1>Join NOTF</h1>
+        <p>Connect your community or solution with the Neighbourhood of the Future network</p>
+    </section>
+
+    <div class="join-container">
+        <div class="form-card">
+            <div id="successMessage" class="success-message" style="display: none;"></div>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <!-- Type Selector -->
+            <div class="form-type-selector">
+                <div class="type-option active" onclick="selectType('community')">
+                    <div class="icon">🏘️</div>
+                    <h3>Community</h3>
+                    <p>Neighborhood organization or resident group</p>
+                </div>
+                <div class="type-option" onclick="selectType('solution-provider')">
+                    <div class="icon">🛠️</div>
+                    <h3>Solution Provider</h3>
+                    <p>Organization offering services or solutions</p>
+                </div>
+            </div>
+
+            <form id="joinForm">
+                <input type="hidden" id="formType" value="community">
+
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h2>Basic Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Organization/Community Name<span class="required">*</span></label>
+                            <input type="text" id="name" required placeholder="e.g., HSR Layout Residents Association">
+                        </div>
+
+                        <div class="form-group">
+                            <label>City<span class="required">*</span></label>
+                            <input type="text" id="city" required placeholder="e.g., Bengaluru">
+                        </div>
+
+                        <div class="form-group">
+                            <label>State<span class="required">*</span></label>
+                            <input type="text" id="state" required placeholder="e.g., Karnataka">
+                        </div>
+
+                        <div class="form-group" id="neighborhoodGroup">
+                            <label>Neighborhood<span class="required">*</span></label>
+                            <input type="text" id="neighborhood" required placeholder="e.g., HSR Layout">
+                        </div>
+
+                        <div class="form-group" id="locationGroup" style="display: none;">
+                            <label>Location<span class="required">*</span></label>
+                            <input type="text" id="location" placeholder="e.g., Sector 5, HSR Layout, Bengaluru">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description<span class="required">*</span></label>
+                        <textarea id="description" required placeholder="Tell us about your organization/community, your mission, and what you do..."></textarea>
+                        <small>Minimum 50 characters</small>
+                    </div>
+                </div>
+
+                <!-- Themes/Focus Areas -->
+                <div class="form-section">
+                    <h2 id="themesTitle">Focus Areas & Themes</h2>
+                    <div class="form-group">
+                        <label>What themes or areas do you focus on?<span class="required">*</span></label>
+                        <div class="dynamic-list" id="themesList">
+                            <div class="dynamic-item">
+                                <input type="text" class="theme-input" placeholder="e.g., Waste Management, Community Building, Education" required>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" onclick="addTheme()">+ Add Another Theme</button>
+                        <small>Press Enter or click to add multiple themes</small>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Contact Person Name<span class="required">*</span></label>
+                            <input type="text" id="contactPerson" required placeholder="Full Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email<span class="required">*</span></label>
+                            <input type="email" id="email" required placeholder="contact@example.org">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" id="phone" placeholder="+91 98765 43210">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Website/Social Media</label>
+                            <input type="url" id="website" placeholder="https://example.org or @handle">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Specific Fields -->
+                <div id="communityFields">
+                    <div class="form-section">
+                        <h2>Community Details</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Approximate Population</label>
+                                <input type="text" id="population" placeholder="e.g., 5000 households">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Geographic Coverage</label>
+                                <input type="text" id="geography" placeholder="e.g., 2 sq km">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Offers -->
+                <div class="form-section">
+                    <h2>What Can You Offer?</h2>
+                    <div class="form-group">
+                        <label>Resources, services, or expertise you can share</label>
+                        <div class="dynamic-list" id="offersList">
+                            <div class="dynamic-item">
+                                <input type="text" class="offer-input" placeholder="e.g., Community space for events, Volunteer network">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" onclick="addOffer()">+ Add Another Offer</button>
+                    </div>
+                </div>
+
+                <!-- Asks -->
+                <div class="form-section">
+                    <h2>What Do You Need?</h2>
+                    <div class="form-group">
+                        <label>Support, resources, or connections you're looking for</label>
+                        <div class="dynamic-list" id="asksList">
+                            <div class="dynamic-item">
+                                <input type="text" class="ask-input" placeholder="e.g., Funding for projects, Technical expertise">
+                            </div>
+                        </div>
+                        <button type="button" class="btn-add" onclick="addAsk()">+ Add Another Need</button>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="form-section">
+                    <h2>Additional Information</h2>
+                    <div class="form-group">
+                        <label>Tell us your story (optional)</label>
+                        <textarea id="stories" rows="6" placeholder="Share any success stories, challenges, or additional information that would help us understand your work better..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <span id="submitText">Submit Application</span>
+                    <span id="submitLoader" style="display: none;">Submitting...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script src="/assets/js/join-form.js"></script>
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
