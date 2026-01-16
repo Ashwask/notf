@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd website && npm install && npm run build",
+  "outputDirectory": "website/_site",
+  "installCommand": "echo 'Using custom build command'",
+  "framework": null
+}
