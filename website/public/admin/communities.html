@@ -97,7 +97,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="commCity">City *</label>
-                            <input type="text" id="commCity" required placeholder="e.g., Bangalore, Mumbai" />
+                            <input type="text" id="commCity" required placeholder="e.g., Bengaluru, Mumbai" />
                         </div>
                         <div class="form-group">
                             <label for="commState">State</label>
@@ -105,14 +105,47 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="commDescription">Description</label>
-                        <textarea id="commDescription" rows="3"></textarea>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="commNeighborhood">Neighborhood/Area</label>
+                            <input type="text" id="commNeighborhood" placeholder="e.g., Malleshwaram, HSR Layout" />
+                        </div>
+                        <div class="form-group">
+                            <label for="commWard">Ward (auto-detected)</label>
+                            <input type="text" id="commWard" placeholder="Auto-populated from coordinates" readonly style="background: #f5f5f5;" />
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="commThemes">Themes (one per line)</label>
-                        <textarea id="commThemes" rows="3" placeholder="Water&#10;Waste&#10;Energy"></textarea>
+                        <label for="commDescription">Description</label>
+                        <textarea id="commDescription" rows="3" placeholder="Brief description of the community"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="commPopulation">Population</label>
+                            <input type="text" id="commPopulation" placeholder="Approximate population" />
+                        </div>
+                        <div class="form-group">
+                            <label for="commGeography">Geography</label>
+                            <input type="text" id="commGeography" placeholder="Brief geographic description" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="commThemes">Themes / Focus Areas (one per line)</label>
+                        <textarea id="commThemes" rows="3" placeholder="Water&#10;Waste&#10;Energy&#10;Mobility"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="commLeadOrg">Lead Organization</label>
+                            <input type="text" id="commLeadOrg" placeholder="Reference to member file" />
+                        </div>
+                        <div class="form-group">
+                            <label for="commLeadOrgName">Lead Organization Name</label>
+                            <input type="text" id="commLeadOrgName" placeholder="Display name" />
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -121,9 +154,14 @@
                             <input type="text" id="commContactPerson" />
                         </div>
                         <div class="form-group">
-                            <label for="commContactEmail">Email</label>
+                            <label for="commContactEmail">Contact Email</label>
                             <input type="email" id="commContactEmail" />
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="commContactPhone">Contact Phone</label>
+                        <input type="text" id="commContactPhone" placeholder="+91-XXXXXXXXXX" />
                     </div>
 
                     <div class="form-group">
@@ -136,6 +174,11 @@
                         <textarea id="commAsks" rows="4" placeholder="Technical expertise&#10;Funding&#10;Training programs"></textarea>
                     </div>
 
+                    <div class="form-group">
+                        <label for="commStories">Stories</label>
+                        <textarea id="commStories" rows="4" placeholder="Community stories and impact narratives"></textarea>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label for="commStatus">Status</label>
@@ -144,6 +187,32 @@
                                 <option value="pending">Pending</option>
                                 <option value="archived">Archived</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="commCollabStatus">Collaboration Status</label>
+                            <input type="text" id="commCollabStatus" placeholder="e.g., Yet to be connected, Active" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="commStarted">Started Date</label>
+                            <input type="date" id="commStarted" />
+                        </div>
+                        <div class="form-group">
+                            <label for="commLastUpdated">Last Updated</label>
+                            <input type="date" id="commLastUpdated" readonly style="background: #f5f5f5;" />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="commLatitude">Latitude (optional override)</label>
+                            <input type="number" id="commLatitude" step="0.0000001" placeholder="12.9716" />
+                        </div>
+                        <div class="form-group">
+                            <label for="commLongitude">Longitude (optional override)</label>
+                            <input type="number" id="commLongitude" step="0.0000001" placeholder="77.5946" />
                         </div>
                     </div>
 

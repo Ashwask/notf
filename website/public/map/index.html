@@ -439,21 +439,14 @@
                 console.warn('Could not load ward boundaries:', error);
             }
 
-            const [communities, providers] = await Promise.all([
-                dataLoader.loadCommunities(),
-                dataLoader.loadSolutionProviders()
-            ]);
+            const communities = await dataLoader.loadCommunities();
 
             // Update stats
             const uniqueCities = new Set();
             communities.forEach(c => c.city && uniqueCities.add(c.city));
-            providers.forEach(p => {
-                const city = p.location ? p.location.split(',')[0].trim() : null;
-                if (city) uniqueCities.add(city);
-            });
 
             document.getElementById('commCount').textContent = communities.length;
-            document.getElementById('provCount').textContent = providers.length;
+            document.getElementById('provCount').textContent = '—';
             document.getElementById('cityCount').textContent = uniqueCities.size;
 
             // Add community markers
@@ -470,26 +463,10 @@
                 }
             });
 
-            // Add provider markers
-            let providerCount = 0;
-            providers.forEach(prov => {
-                // Use neighborhoods array if available
-                const neighborhood = prov.neighborhoods && prov.neighborhoods.length > 0
-                    ? prov.neighborhoods[0]
-                    : null;
-                const coords = getCoordinates(prov.location, neighborhood, 'provider');
-                if (coords) {
-                    const marker = L.marker([coords.lat, coords.lng], { icon: providerIcon })
-                        .addTo(map)
-                        .bindPopup(createPopupContent(prov, 'provider'));
-                    providerCount++;
-                }
-            });
-
-            console.log(`Mapped ${communityCount} communities and ${providerCount} providers`);
+            console.log(`Mapped ${communityCount} communities`);
 
             // Focus on Bangalore by default since most data is there
-            if (communityCount > 0 || providerCount > 0) {
+            if (communityCount > 0) {
                 map.setView([12.9716, 77.5946], 12);
             }
         })();

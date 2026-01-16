@@ -122,13 +122,26 @@ async function editCommunity(id) {
     document.getElementById('commName').value = comm.metadata?.name || '';
     document.getElementById('commCity').value = comm.metadata?.city || comm.city || '';
     document.getElementById('commState').value = comm.metadata?.state || '';
+    document.getElementById('commNeighborhood').value = comm.neighborhood || comm.metadata?.neighborhood || '';
+    document.getElementById('commWard').value = comm.ward || '';
     document.getElementById('commDescription').value = comm.metadata?.description || '';
-    document.getElementById('commThemes').value = (comm.metadata?.themes || []).join('\n');
+    document.getElementById('commPopulation').value = comm.metadata?.population || '';
+    document.getElementById('commGeography').value = comm.metadata?.geography || '';
+    document.getElementById('commThemes').value = (comm.metadata?.themes || comm.metadata?.focus_areas || []).join('\n');
+    document.getElementById('commLeadOrg').value = comm.metadata?.lead_organization || '';
+    document.getElementById('commLeadOrgName').value = comm.metadata?.lead_organization_name || '';
     document.getElementById('commContactPerson').value = comm.metadata?.contact?.person || '';
     document.getElementById('commContactEmail').value = comm.metadata?.contact?.email || '';
+    document.getElementById('commContactPhone').value = comm.metadata?.contact?.phone || '';
     document.getElementById('commOffers').value = (comm.metadata?.offers || []).join('\n');
     document.getElementById('commAsks').value = (comm.metadata?.asks || []).join('\n');
+    document.getElementById('commStories').value = comm.metadata?.stories || '';
     document.getElementById('commStatus').value = comm.status || 'active';
+    document.getElementById('commCollabStatus').value = comm.metadata?.collaboration_status || '';
+    document.getElementById('commStarted').value = comm.metadata?.started || '';
+    document.getElementById('commLastUpdated').value = comm.metadata?.last_updated || '';
+    document.getElementById('commLatitude').value = comm.latitude || '';
+    document.getElementById('commLongitude').value = comm.longitude || '';
 
     document.getElementById('formModal').style.display = 'flex';
 }
@@ -148,23 +161,39 @@ async function handleFormSubmit(e) {
     const city = document.getElementById('commCity').value.trim();
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+    const neighborhood = document.getElementById('commNeighborhood').value.trim();
+    const contactPhone = document.getElementById('commContactPhone').value.trim();
+    const stories = document.getElementById('commStories').value.trim();
+
     const metadata = {
         name: name,
         type: 'community',
         city: city,
         state: document.getElementById('commState').value.trim(),
+        neighborhood: neighborhood,
         description: document.getElementById('commDescription').value.trim(),
+        population: document.getElementById('commPopulation').value.trim(),
+        geography: document.getElementById('commGeography').value.trim(),
         themes: document.getElementById('commThemes').value.split('\n').map(s => s.trim()).filter(s => s),
+        focus_areas: document.getElementById('commThemes').value.split('\n').map(s => s.trim()).filter(s => s),
+        lead_organization: document.getElementById('commLeadOrg').value.trim(),
+        lead_organization_name: document.getElementById('commLeadOrgName').value.trim(),
         contact: {
             person: document.getElementById('commContactPerson').value.trim(),
-            email: document.getElementById('commContactEmail').value.trim()
+            email: document.getElementById('commContactEmail').value.trim(),
+            phone: contactPhone
         },
         offers: document.getElementById('commOffers').value.split('\n').map(s => s.trim()).filter(s => s),
         asks: document.getElementById('commAsks').value.split('\n').map(s => s.trim()).filter(s => s),
-        stories: null
+        stories: stories || null,
+        collaboration_status: document.getElementById('commCollabStatus').value.trim(),
+        started: document.getElementById('commStarted').value,
+        last_updated: new Date().toISOString().split('T')[0]
     };
 
     const status = document.getElementById('commStatus').value;
+    const latitude = document.getElementById('commLatitude').value ? parseFloat(document.getElementById('commLatitude').value) : null;
+    const longitude = document.getElementById('commLongitude').value ? parseFloat(document.getElementById('commLongitude').value) : null;
     const filePath = isEditing ? document.getElementById('commFilePath').value : `communities/${slug}.md`;
 
     const supabase = authUtils.supabase;
@@ -172,29 +201,41 @@ async function handleFormSubmit(e) {
     try {
         if (isEditing) {
             // Update existing
+            const updateData = {
+                metadata,
+                status,
+                city: city,
+                neighborhood: neighborhood || null,
+                updated_at: new Date().toISOString()
+            };
+
+            if (latitude !== null) updateData.latitude = latitude;
+            if (longitude !== null) updateData.longitude = longitude;
+
             const { error } = await supabase
                 .from('file_metadata')
-                .update({
-                    metadata,
-                    status,
-                    city: city,
-                    updated_at: new Date().toISOString()
-                })
+                .update(updateData)
                 .eq('id', editingId);
 
             if (error) throw error;
         } else {
             // Create new
+            const insertData = {
+                file_path: filePath,
+                file_type: 'community',
+                slug: slug,
+                city: city,
+                neighborhood: neighborhood || null,
+                status: status,
+                metadata: metadata
+            };
+
+            if (latitude !== null) insertData.latitude = latitude;
+            if (longitude !== null) insertData.longitude = longitude;
+
             const { error } = await supabase
                 .from('file_metadata')
-                .insert({
-                    file_path: filePath,
-                    file_type: 'community',
-                    slug: slug,
-                    city: city,
-                    status: status,
-                    metadata: metadata
-                });
+                .insert(insertData);
 
             if (error) throw error;
         }
