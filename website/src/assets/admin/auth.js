@@ -4,12 +4,12 @@
 const SUPABASE_URL = 'https://abblyaukkoxmgzwretvm.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU';
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client (use different variable name to avoid global conflict)
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Check if user is authenticated
 async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     return session;
 }
 
@@ -25,7 +25,7 @@ async function requireAuth() {
 
 // Login with email and password
 async function login(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
         email,
         password
     });
@@ -39,7 +39,7 @@ async function login(email, password) {
 
 // Logout
 async function logout() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseClient.auth.signOut();
     if (error) {
         console.error('Logout error:', error);
     }
@@ -48,7 +48,7 @@ async function logout() {
 
 // Get current user
 async function getCurrentUser() {
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabaseClient.auth.getUser();
     return user;
 }
 
@@ -59,5 +59,5 @@ window.authUtils = {
     login,
     logout,
     getCurrentUser,
-    supabase
+    supabase: supabaseClient  // Export as 'supabase' for compatibility
 };
