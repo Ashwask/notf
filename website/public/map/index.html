@@ -118,6 +118,37 @@
         .popup-contact a:hover {
             text-decoration: underline;
         }
+
+        /* Layer control styling */
+        .leaflet-control-layers {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-family: inherit;
+        }
+
+        .leaflet-control-layers-toggle {
+            background-image: none;
+            width: auto;
+            height: auto;
+        }
+
+        .leaflet-control-layers-expanded {
+            padding: 1rem;
+            line-height: 1.8;
+        }
+
+        .leaflet-control-layers label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .leaflet-control-layers input[type="checkbox"] {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -154,36 +185,9 @@
     <main>
         <section class="content">
             <h1>🗺️ NOTF Network Map</h1>
-            <p class="lead">Explore communities and solution providers across India</p>
-
-            <div class="map-stats">
-                <div class="map-stat-card">
-                    <div class="map-stat-number" id="commCount">-</div>
-                    <div class="map-stat-label">Communities</div>
-                </div>
-                <div class="map-stat-card">
-                    <div class="map-stat-number" id="provCount">-</div>
-                    <div class="map-stat-label">Solution Providers</div>
-                </div>
-                <div class="map-stat-card">
-                    <div class="map-stat-number" id="cityCount">-</div>
-                    <div class="map-stat-label">Cities</div>
-                </div>
-            </div>
+            <p class="lead">Explore communities across Bangalore with ward boundaries</p>
 
             <div id="map"></div>
-
-            <div class="map-legend">
-                <h3>Legend</h3>
-                <div class="legend-item">
-                    <div class="legend-marker community"></div>
-                    <span>Communities</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-marker provider"></div>
-                    <span>Solution Providers</span>
-                </div>
-            </div>
         </section>
     </main>
 
@@ -289,10 +293,14 @@
         const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
 
         // Add OpenStreetMap tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
         }).addTo(map);
+
+        // Create layer groups for boundaries
+        const corporationLayer = L.layerGroup();
+        const wardLayer = L.layerGroup();
 
         // Custom icons
         const communityIcon = L.divIcon({
@@ -403,51 +411,81 @@
                 console.warn('Could not load neighborhood coordinates:', error);
             }
 
+            // Focus on Bangalore first before loading boundaries
+            map.setView([12.9716, 77.5946], 12);
+            console.log('Map view set to Bangalore');
+
             // Load GeoJSON corporation boundaries
-            try {
-                const corpLayer = await fetch('/assets/geodata/gba_corporation.geojson')
-                    .then(r => r.json())
-                    .then(data => {
-                        return L.geoJSON(data, {
-                            style: {
-                                color: '#999',
-                                weight: 2,
-                                fillOpacity: 0.05,
-                                fillColor: '#ccc'
-                            }
-                        }).addTo(map);
+            console.log('Loading corporation boundaries...');
+            fetch('/assets/geodata/gba_corporation.geojson')
+                .then(r => {
+                    console.log(`Corporation fetch: ${r.status} ${r.statusText}`);
+                    return r.json();
+                })
+                .then(data => {
+                    console.log(`Corporation data: ${data.features ? data.features.length : 0} features`);
+                    const corpGeoJSON = L.geoJSON(data, {
+                        style: {
+                            color: '#ff6b6b',
+                            weight: 3,
+                            fillOpacity: 0.05,
+                            fillColor: '#ff6b6b',
+                            opacity: 0.8
+                        }
                     });
-                console.log('Loaded corporation boundaries');
-            } catch (error) {
-                console.warn('Could not load corporation boundaries:', error);
-            }
+                    corporationLayer.addLayer(corpGeoJSON);
+                    console.log('✅ Corporation boundaries loaded and added to layer');
+                    console.log(`Corporation bounds: ${JSON.stringify(corpGeoJSON.getBounds())}`);
+                })
+                .catch(error => {
+                    console.error('❌ Corporation GeoJSON error:', error);
+                });
 
             // Load KML ward boundaries
-            try {
-                const wardLayer = omnivore.kml('/assets/geodata/gba-369-wards-december-2025.kml')
+            console.log('Checking for leaflet-omnivore...');
+            if (typeof omnivore !== 'undefined') {
+                console.log('✅ Omnivore loaded, loading ward KML...');
+                const wardKML = omnivore.kml('/assets/geodata/gba-369-wards-december-2025.kml')
                     .on('ready', function() {
+                        console.log('✅ Ward KML ready event fired');
+                        console.log(`Ward layer count: ${Object.keys(this._layers).length}`);
+
                         this.setStyle({
                             color: '#667eea',
                             weight: 1,
-                            fillOpacity: 0,
-                            opacity: 0.3
+                            fillOpacity: 0.03,
+                            fillColor: '#667eea',
+                            opacity: 0.6
                         });
-                        console.log('Loaded ward boundaries');
+
+                        console.log('✅ Ward boundaries styled');
+                        console.log(`Ward bounds: ${JSON.stringify(this.getBounds())}`);
                     })
-                    .addTo(map);
-            } catch (error) {
-                console.warn('Could not load ward boundaries:', error);
+                    .on('error', function(e) {
+                        console.error('❌ Ward KML error:', e);
+                    });
+                wardLayer.addLayer(wardKML);
+                console.log('Ward layer created and added to layer group');
+            } else {
+                console.error('❌ leaflet-omnivore NOT loaded');
             }
 
+            // Add layer control to toggle boundaries
+            const overlays = {
+                "Corporation Boundaries": corporationLayer,
+                "Ward Boundaries": wardLayer
+            };
+
+            L.control.layers(null, overlays, {
+                collapsed: false,
+                position: 'topright'
+            }).addTo(map);
+
+            // Add layers to map by default
+            corporationLayer.addTo(map);
+            wardLayer.addTo(map);
+
             const communities = await dataLoader.loadCommunities();
-
-            // Update stats
-            const uniqueCities = new Set();
-            communities.forEach(c => c.city && uniqueCities.add(c.city));
-
-            document.getElementById('commCount').textContent = communities.length;
-            document.getElementById('provCount').textContent = '—';
-            document.getElementById('cityCount').textContent = uniqueCities.size;
 
             // Add community markers
             let communityCount = 0;
@@ -464,11 +502,6 @@
             });
 
             console.log(`Mapped ${communityCount} communities`);
-
-            // Focus on Bangalore by default since most data is there
-            if (communityCount > 0) {
-                map.setView([12.9716, 77.5946], 12);
-            }
         })();
     </script>
 </body>
