@@ -227,12 +227,14 @@
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Omnivore for loading KML/GeoJSON -->
+    <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
 
     <!-- Load Supabase and data -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
     <script>
-        // City coordinates for major Indian cities
+        // City coordinates for major Indian cities (fallback)
         const cityCoordinates = {
             'Bangalore': { lat: 12.9716, lng: 77.5946 },
             'Bengaluru': { lat: 12.9716, lng: 77.5946 },
@@ -245,6 +247,43 @@
             'Chennai': { lat: 13.0827, lng: 80.2707 },
             'Hyderabad': { lat: 17.3850, lng: 78.4867 }
         };
+
+        // Neighborhood coordinates (loaded from JSON)
+        let neighborhoodCoordinates = {};
+
+        // Fuzzy match neighborhood name to ward name
+        function findNeighborhoodCoords(neighborhoodName) {
+            if (!neighborhoodName) return null;
+
+            // Normalize the input
+            const normalized = neighborhoodName.toLowerCase().trim()
+                .replace(/\s+/g, ' ')
+                .replace(/[^\w\s]/g, '');
+
+            // Try exact match first
+            for (const [ward, coords] of Object.entries(neighborhoodCoordinates)) {
+                const normalizedWard = ward.toLowerCase().trim()
+                    .replace(/\s+/g, ' ')
+                    .replace(/[^\w\s]/g, '');
+
+                if (normalized === normalizedWard) {
+                    return coords;
+                }
+            }
+
+            // Try partial match (ward contains neighborhood or vice versa)
+            for (const [ward, coords] of Object.entries(neighborhoodCoordinates)) {
+                const normalizedWard = ward.toLowerCase().trim()
+                    .replace(/\s+/g, ' ')
+                    .replace(/[^\w\s]/g, '');
+
+                if (normalizedWard.includes(normalized) || normalized.includes(normalizedWard)) {
+                    return coords;
+                }
+            }
+
+            return null;
+        }
 
         // Initialize the map
         const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
@@ -271,13 +310,36 @@
         });
 
         // Get coordinates for a location
-        function getCoordinates(location, type) {
+        function getCoordinates(location, neighborhood, type) {
             if (!location) return null;
+
+            // Try neighborhood first (with fuzzy matching for Bangalore)
+            if (neighborhood) {
+                const coords = findNeighborhoodCoords(neighborhood);
+                if (coords) {
+                    // Add tiny random offset to avoid exact overlaps
+                    const offset = Math.random() * 0.005 - 0.0025;
+                    return {
+                        lat: coords.lat + offset,
+                        lng: coords.lng + offset
+                    };
+                }
+            }
 
             // Normalize location string
             const cityName = location.split(',')[0].trim();
 
-            // Find matching city (case-insensitive)
+            // Try location as a neighborhood name
+            const locationCoords = findNeighborhoodCoords(cityName);
+            if (locationCoords) {
+                const offset = Math.random() * 0.005 - 0.0025;
+                return {
+                    lat: locationCoords.lat + offset,
+                    lng: locationCoords.lng + offset
+                };
+            }
+
+            // Fall back to city coordinates
             for (const [city, coords] of Object.entries(cityCoordinates)) {
                 if (city.toLowerCase() === cityName.toLowerCase()) {
                     // Add small random offset to avoid exact overlaps
@@ -332,6 +394,51 @@
         (async function() {
             await dataLoader.waitForSupabase();
 
+            // Load neighborhood coordinates
+            try {
+                const response = await fetch('/assets/geodata/bangalore-neighborhoods.json');
+                neighborhoodCoordinates = await response.json();
+                console.log(`Loaded ${Object.keys(neighborhoodCoordinates).length} neighborhood coordinates`);
+            } catch (error) {
+                console.warn('Could not load neighborhood coordinates:', error);
+            }
+
+            // Load GeoJSON corporation boundaries
+            try {
+                const corpLayer = await fetch('/assets/geodata/gba_corporation.geojson')
+                    .then(r => r.json())
+                    .then(data => {
+                        return L.geoJSON(data, {
+                            style: {
+                                color: '#999',
+                                weight: 2,
+                                fillOpacity: 0.05,
+                                fillColor: '#ccc'
+                            }
+                        }).addTo(map);
+                    });
+                console.log('Loaded corporation boundaries');
+            } catch (error) {
+                console.warn('Could not load corporation boundaries:', error);
+            }
+
+            // Load KML ward boundaries
+            try {
+                const wardLayer = omnivore.kml('/assets/geodata/gba-369-wards-december-2025.kml')
+                    .on('ready', function() {
+                        this.setStyle({
+                            color: '#667eea',
+                            weight: 1,
+                            fillOpacity: 0,
+                            opacity: 0.3
+                        });
+                        console.log('Loaded ward boundaries');
+                    })
+                    .addTo(map);
+            } catch (error) {
+                console.warn('Could not load ward boundaries:', error);
+            }
+
             const [communities, providers] = await Promise.all([
                 dataLoader.loadCommunities(),
                 dataLoader.loadSolutionProviders()
@@ -352,7 +459,9 @@
             // Add community markers
             let communityCount = 0;
             communities.forEach(comm => {
-                const coords = getCoordinates(comm.city, 'community');
+                // Use neighborhood field for precise location
+                const neighborhood = comm.neighborhood || comm.name;
+                const coords = getCoordinates(comm.city, neighborhood, 'community');
                 if (coords) {
                     const marker = L.marker([coords.lat, coords.lng], { icon: communityIcon })
                         .addTo(map)
@@ -364,7 +473,11 @@
             // Add provider markers
             let providerCount = 0;
             providers.forEach(prov => {
-                const coords = getCoordinates(prov.location, 'provider');
+                // Use neighborhoods array if available
+                const neighborhood = prov.neighborhoods && prov.neighborhoods.length > 0
+                    ? prov.neighborhoods[0]
+                    : null;
+                const coords = getCoordinates(prov.location, neighborhood, 'provider');
                 if (coords) {
                     const marker = L.marker([coords.lat, coords.lng], { icon: providerIcon })
                         .addTo(map)
