@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTF Admin Dashboard</title>
+    <link rel="stylesheet" href="/assets/admin/admin.css">
+    <link rel="stylesheet" href="/assets/admin/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>NOTF Admin</h1>
+                <p>Neighbourhood of the Future</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-page="communities">
+                    <span class="icon">🏘️</span>
+                    <span class="label">Communities</span>
+                </a>
+                <a href="#" class="nav-item" data-page="solution-providers">
+                    <span class="icon">🛠️</span>
+                    <span class="label">Solution Providers</span>
+                </a>
+                <a href="#" class="nav-item" data-page="matcher">
+                    <span class="icon">🔗</span>
+                    <span class="label">Matcher</span>
+                </a>
+                <a href="#" class="nav-item" data-page="geocode">
+                    <span class="icon">📍</span>
+                    <span class="label">Geocoding Tool</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="authUtils.signOut()" class="btn-logout">
+                    🚪 Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Pages will be loaded here via iframe -->
+            <iframe id="contentFrame" src="/admin/communities.html" frameborder="0"></iframe>
+        </main>
+    </div>
+
+    <script src="/assets/js/auth.js"></script>
+    <script>
+        // Require authentication
+        (async function() {
+            const session = await authUtils.requireAuth();
+            if (!session) return;
+        })();
+
+        // Navigation handling
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Update active state
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+
+                // Load page
+                const page = this.dataset.page;
+                const iframe = document.getElementById('contentFrame');
+
+                switch(page) {
+                    case 'communities':
+                        iframe.src = '/admin/communities.html';
+                        break;
+                    case 'solution-providers':
+                        iframe.src = '/admin/solution-providers.html';
+                        break;
+                    case 'matcher':
+                        iframe.src = '/admin/matcher.html';
+                        break;
+                    case 'geocode':
+                        iframe.src = '/admin/geocode-tool.html';
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

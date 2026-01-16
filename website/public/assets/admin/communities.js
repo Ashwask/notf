@@ -4,6 +4,8 @@ let communities = [];
 let isEditing = false;
 let editingId = null;
 let wardMapping = null;
+let locationMap = null;
+let locationMarker = null;
 
 // Require authentication and load data
 (async function() {
@@ -152,6 +154,11 @@ function showCreateForm() {
     document.getElementById('communityForm').reset();
     populateWardDropdown();
     document.getElementById('formModal').style.display = 'flex';
+
+    // Initialize map
+    setTimeout(() => {
+        initLocationMap();
+    }, 100);
 }
 
 async function editCommunity(id) {
@@ -193,6 +200,14 @@ async function editCommunity(id) {
     document.getElementById('commLongitude').value = comm.longitude || '';
 
     document.getElementById('formModal').style.display = 'flex';
+
+    // Initialize map and set marker if coordinates exist
+    setTimeout(() => {
+        initLocationMap();
+        if (comm.latitude && comm.longitude) {
+            setLocation(comm.latitude, comm.longitude);
+        }
+    }, 100);
 }
 
 async function handleFormSubmit(e) {
@@ -336,6 +351,13 @@ function closeModal() {
     document.getElementById('communityForm').reset();
     isEditing = false;
     editingId = null;
+
+    // Clean up map
+    if (locationMap) {
+        locationMap.remove();
+        locationMap = null;
+        locationMarker = null;
+    }
 }
 
 // Populate ward dropdown
@@ -399,4 +421,67 @@ function saveStoryContent() {
 function closeStoryEditor() {
     const storyModal = document.getElementById('storyModal');
     storyModal.style.display = 'none';
+}
+
+// Map Picker Functions
+function initLocationMap() {
+    const mapContainer = document.getElementById('locationMap');
+    if (!mapContainer) return;
+
+    // Initialize map centered on Bangalore
+    locationMap = L.map('locationMap').setView([12.9716, 77.5946], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(locationMap);
+
+    // Click handler for placing marker
+    locationMap.on('click', function(e) {
+        setLocation(e.latlng.lat, e.latlng.lng);
+    });
+
+    // Fix map size after modal opens
+    setTimeout(() => {
+        locationMap.invalidateSize();
+    }, 100);
+}
+
+function setLocation(lat, lng) {
+    // Remove existing marker if any
+    if (locationMarker) {
+        locationMap.removeLayer(locationMarker);
+    }
+
+    // Add new marker
+    locationMarker = L.marker([lat, lng], {
+        draggable: true
+    }).addTo(locationMap);
+
+    // Update form fields
+    document.getElementById('commLatitude').value = lat;
+    document.getElementById('commLongitude').value = lng;
+    document.getElementById('currentCoords').textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+    // Handle marker drag
+    locationMarker.on('dragend', function(e) {
+        const newLatLng = e.target.getLatLng();
+        document.getElementById('commLatitude').value = newLatLng.lat;
+        document.getElementById('commLongitude').value = newLatLng.lng;
+        document.getElementById('currentCoords').textContent = `${newLatLng.lat.toFixed(6)}, ${newLatLng.lng.toFixed(6)}`;
+    });
+
+    // Center map on marker
+    locationMap.setView([lat, lng], 15);
+}
+
+function clearLocation() {
+    if (locationMarker) {
+        locationMap.removeLayer(locationMarker);
+        locationMarker = null;
+    }
+    document.getElementById('commLatitude').value = '';
+    document.getElementById('commLongitude').value = '';
+    document.getElementById('currentCoords').textContent = 'No location set';
+    locationMap.setView([12.9716, 77.5946], 12);
 }

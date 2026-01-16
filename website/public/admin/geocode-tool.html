@@ -296,7 +296,8 @@
         </div>
     </div>
 
-    <script src="/assets/js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/admin/auth.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         let communities = [];
@@ -306,8 +307,14 @@
 
         // Initialize
         (async function() {
-            const session = await authUtils.requireAuth();
-            if (!session) return;
+            // Check if loaded in iframe (from admin dashboard)
+            const isInIframe = window !== window.parent;
+
+            if (!isInIframe) {
+                // Standalone - require auth
+                const session = await authUtils.requireAuth();
+                if (!session) return;
+            }
 
             await loadCommunities();
             initMap();
