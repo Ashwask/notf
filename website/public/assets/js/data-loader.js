@@ -4,12 +4,24 @@
 const SUPABASE_URL = 'https://abblyaukkoxmgzwretvm.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU';
 
-// Initialize Supabase client
-const supabasePublic = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Initialize Supabase client (lazy initialization)
+let supabasePublic = null;
+function getSupabaseClient() {
+    if (!supabasePublic && window.supabase) {
+        supabasePublic = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+    return supabasePublic;
+}
 
 // Load all solution providers
 async function loadSolutionProviders() {
-    const { data, error } = await supabasePublic
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+        console.error('Supabase client not initialized');
+        return [];
+    }
+
+    const { data, error } = await supabase
         .from('file_metadata')
         .select('*')
         .eq('file_type', 'solution-provider')
@@ -39,7 +51,13 @@ async function loadSolutionProviders() {
 
 // Load all communities
 async function loadCommunities(cityFilter = null) {
-    let query = supabasePublic
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+        console.error('Supabase client not initialized');
+        return [];
+    }
+
+    let query = supabase
         .from('file_metadata')
         .select('*')
         .eq('file_type', 'community')
@@ -74,7 +92,13 @@ async function loadCommunities(cityFilter = null) {
 
 // Get unique cities from communities
 async function getCities() {
-    const { data, error } = await supabasePublic
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+        console.error('Supabase client not initialized');
+        return [];
+    }
+
+    const { data, error } = await supabase
         .from('file_metadata')
         .select('city')
         .eq('file_type', 'community')
