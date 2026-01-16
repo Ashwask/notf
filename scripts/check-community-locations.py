@@ -8,7 +8,7 @@ import sys
 from supabase import create_client, Client
 
 # Supabase configuration
-SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://fbkrpexitodusqjvlnpy.supabase.co')
+SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://abblyaukkoxmgzwretvm.supabase.co')
 SUPABASE_SERVICE_KEY = os.getenv('SUPABASE_SERVICE_KEY')
 
 if not SUPABASE_SERVICE_KEY:
