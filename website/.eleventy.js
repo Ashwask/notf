@@ -78,7 +78,7 @@ module.exports = function(eleventyConfig) {
       layouts: "_layouts",
       data: "_data"
     },
-    // IMPORTANT: Set base path for GitHub Pages subdirectory
-    pathPrefix: "/notf/"
+    // Use /notf/ prefix only for GitHub Pages, not for Vercel
+    pathPrefix: process.env.VERCEL ? "/" : "/notf/"
   };
 };
