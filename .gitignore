@@ -15,5 +15,9 @@ website/_site/
 *.log
 *.tmp
 
+# Environment files (contain secrets)
+.env
+.env.local
+
 # Supporting documents (Excel, PDFs - will be managed in Supabase)
 supporting documents/

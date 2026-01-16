@@ -3,11 +3,21 @@
 let communities = [];
 let isEditing = false;
 let editingId = null;
+let wardMapping = null;
 
 // Require authentication and load data
 (async function() {
     const session = await authUtils.requireAuth();
     if (!session) return;
+
+    // Load ward mapping
+    try {
+        const response = await fetch('/assets/geodata/ward-mapping.json');
+        wardMapping = await response.json();
+        console.log('Loaded ward mapping');
+    } catch (error) {
+        console.warn('Could not load ward mapping:', error);
+    }
 
     await loadCommunities();
     setupEventListeners();
@@ -75,6 +85,26 @@ function renderCommunities(comms) {
     }).join('');
 }
 
+function matchNeighborhoodToWard(neighborhood) {
+    if (!neighborhood || !wardMapping) return null;
+
+    const normalized = neighborhood.toLowerCase().trim();
+
+    // Try exact match first
+    if (wardMapping.mapping[normalized]) {
+        return wardMapping.mapping[normalized];
+    }
+
+    // Try partial match
+    for (const [key, value] of Object.entries(wardMapping.mapping)) {
+        if (normalized.includes(key) || key.includes(normalized)) {
+            return value;
+        }
+    }
+
+    return null;
+}
+
 function setupEventListeners() {
     // Search
     document.getElementById('searchInput').addEventListener('input', function(e) {
@@ -93,6 +123,17 @@ function setupEventListeners() {
 
     // Form submission
     document.getElementById('communityForm').addEventListener('submit', handleFormSubmit);
+
+    // Auto-populate ward when neighborhood changes
+    document.getElementById('commNeighborhood').addEventListener('blur', function() {
+        const neighborhood = this.value.trim();
+        if (neighborhood) {
+            const ward = matchNeighborhoodToWard(neighborhood);
+            if (ward) {
+                document.getElementById('commWard').value = ward;
+            }
+        }
+    });
 
     // Check if URL has ?action=new
     const urlParams = new URLSearchParams(window.location.search);
@@ -212,6 +253,10 @@ async function handleFormSubmit(e) {
             if (latitude !== null) updateData.latitude = latitude;
             if (longitude !== null) updateData.longitude = longitude;
 
+            // Get ward from form
+            const ward = document.getElementById('commWard').value.trim();
+            if (ward) updateData.ward = ward;
+
             const { error } = await supabase
                 .from('file_metadata')
                 .update(updateData)
@@ -232,6 +277,10 @@ async function handleFormSubmit(e) {
 
             if (latitude !== null) insertData.latitude = latitude;
             if (longitude !== null) insertData.longitude = longitude;
+
+            // Get ward from form
+            const ward = document.getElementById('commWard').value.trim();
+            if (ward) insertData.ward = ward;
 
             const { error } = await supabase
                 .from('file_metadata')
