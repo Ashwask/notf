@@ -139,6 +139,18 @@ function formatDomains(domains) {
     }).join(', ');
 }
 
+// Wait for Supabase library to be ready
+async function waitForSupabase(maxAttempts = 50) {
+    for (let i = 0; i < maxAttempts; i++) {
+        if (window.supabase) {
+            return true;
+        }
+        await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    console.error('Supabase library failed to load');
+    return false;
+}
+
 // Export for use in pages
 window.dataLoader = {
     loadSolutionProviders,
@@ -146,5 +158,6 @@ window.dataLoader = {
     getCities,
     formatDate,
     formatDomains,
-    extractCity
+    extractCity,
+    waitForSupabase
 };

@@ -120,6 +120,7 @@
     <script src="/assets/js/data-loader.js"></script>
     <script>
         (async function() {
+            await dataLoader.waitForSupabase();
             const [comms, orgs, cities] = await Promise.all([
                 dataLoader.loadCommunities(),
                 dataLoader.loadSolutionProviders(),

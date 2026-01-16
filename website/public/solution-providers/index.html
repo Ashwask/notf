@@ -113,6 +113,7 @@
     <script src="/assets/js/data-loader.js"></script>
     <script>
         (async function() {
+            await dataLoader.waitForSupabase();
             const orgs = await dataLoader.loadSolutionProviders();
             const container = document.getElementById('providersList');
 

@@ -229,6 +229,7 @@
     <script>
         // Load counts on page load
         (async function() {
+            await dataLoader.waitForSupabase();
             const [orgs, comms] = await Promise.all([
                 dataLoader.loadSolutionProviders(),
                 dataLoader.loadCommunities()
