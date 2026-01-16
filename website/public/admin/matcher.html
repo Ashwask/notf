@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask/Offer Matcher - NOTF Admin | NOTF</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        
+<link rel="stylesheet" href="/assets/admin/admin.css">
+
+<section class="admin-page">
+    <div class="admin-container" style="max-width: 1600px;">
+        <div class="page-header">
+            <div>
+                <h1>🤝 Ask/Offer Matcher</h1>
+                <p class="subtitle">Connecting community needs with available resources</p>
+            </div>
+            <div class="header-actions">
+                <a href="/admin/dashboard.html" class="btn-secondary">← Dashboard</a>
+                <button onclick="authUtils.logout()" class="btn-secondary">Logout</button>
+            </div>
+        </div>
+
+        <div class="matcher-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalAsks">-</div>
+                <div class="stat-label">Total Asks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalOffers">-</div>
+                <div class="stat-label">Total Offers</div>
+            </div>
+            <div class="stat-card highlight">
+                <div class="stat-number" id="totalMatches">-</div>
+                <div class="stat-label">Potential Matches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="highConfidence">-</div>
+                <div class="stat-label">High Confidence</div>
+            </div>
+        </div>
+
+        <div class="matcher-controls">
+            <div class="filter-section">
+                <label>Filter by Category:</label>
+                <div class="category-filters" id="categoryFilters">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="funding">💰 Funding</button>
+                    <button class="category-btn" data-category="volunteers">🙋 Volunteers</button>
+                    <button class="category-btn" data-category="space">🏢 Space</button>
+                    <button class="category-btn" data-category="expertise">🎓 Expertise</button>
+                    <button class="category-btn" data-category="equipment">🔧 Equipment</button>
+                    <button class="category-btn" data-category="network">🌐 Network</button>
+                </div>
+            </div>
+
+            <div class="sort-section">
+                <label>Sort by:</label>
+                <select id="sortSelect">
+                    <option value="score">Match Score (High to Low)</option>
+                    <option value="location">Same Location First</option>
+                    <option value="recent">Recently Added</option>
+                </select>
+            </div>
+
+            <div class="confidence-filter">
+                <label>Min Confidence:</label>
+                <select id="confidenceSelect">
+                    <option value="0">Show All (0%+)</option>
+                    <option value="50" selected>Potential (50%+)</option>
+                    <option value="70">Good (70%+)</option>
+                    <option value="85">Excellent (85%+)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="matches-container">
+            <div class="match-section" id="excellentMatches" style="display: none;">
+                <h2>🟢 Excellent Matches (85%+)</h2>
+                <div class="matches-grid" id="excellentMatchesGrid"></div>
+            </div>
+
+            <div class="match-section" id="goodMatches" style="display: none;">
+                <h2>🟡 Good Matches (70-84%)</h2>
+                <div class="matches-grid" id="goodMatchesGrid"></div>
+            </div>
+
+            <div class="match-section" id="potentialMatches" style="display: none;">
+                <h2>🟠 Potential Matches (50-69%)</h2>
+                <div class="matches-grid" id="potentialMatchesGrid"></div>
+            </div>
+
+            <div id="noMatches" class="no-matches" style="display: none;">
+                <p>No matches found with the current filters. Try adjusting your criteria.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/admin/auth.js"></script>
+<script>
+// Require authentication and load data
+(async function() {
+    const session = await authUtils.requireAuth();
+    if (!session) return;
+
+    await loadAndMatchData();
+})();
+
+async function loadAndMatchData() {
+    const supabase = authUtils.supabase;
+
+    // Load communities and solution providers
+    const { data: communities, error: commError } = await supabase
+        .from('file_metadata')
+        .select('*')
+        .eq('file_type', 'community')
+        .eq('status', 'active');
+
+    const { data: solutionProviders, error: spError } = await supabase
+        .from('file_metadata')
+        .select('*')
+        .eq('file_type', 'solution-provider')
+        .eq('status', 'active');
+
+    if (commError || spError) {
+        console.error('Error loading data:', commError || spError);
+        return;
+    }
+
+    // Convert to format expected by matcher
+    const members = (solutionProviders || []).map(sp => ({
+        name: sp.metadata?.name || sp.slug,
+        type: 'solution-provider',
+        location: sp.metadata?.location || '',
+        theme: sp.metadata?.theme || '',
+        contact: sp.metadata?.contact || {},
+        offers: sp.metadata?.offers || [],
+        asks: sp.metadata?.asks || []
+    })).concat((communities || []).map(c => ({
+        name: c.metadata?.name || c.slug,
+        type: 'community',
+        location: c.city || c.metadata?.city || '',
+        theme: (c.metadata?.themes || []).join(', '),
+        contact: c.metadata?.contact || {},
+        offers: c.metadata?.offers || [],
+        asks: c.metadata?.asks || []
+    })));
+
+    initMatcher(members);
+}
+
+function initMatcher(members) {
+    // Extract all asks
+    function extractAsks() {
+        const asks = [];
+
+        members.forEach(m => {
+            if (m.asks && Array.isArray(m.asks)) {
+                m.asks.forEach((ask, idx) => {
+                    asks.push({
+                        id: `${m.name}-ask-${idx}`,
+                        text: ask,
+                        from: m.name,
+                        type: m.type || 'organization',
+                        location: m.location || '',
+                        city: extractCity(m.location),
+                        theme: m.theme || '',
+                        contact: m.contact || {},
+                        tags: extractTags(ask),
+                        keywords: extractKeywords(ask)
+                    });
+                });
+            }
+        });
+
+        return asks;
+    }
+
+    // Extract all offers
+    function extractOffers() {
+        const offers = [];
+
+        members.forEach(m => {
+            if (m.offers && Array.isArray(m.offers)) {
+                m.offers.forEach((offer, idx) => {
+                    offers.push({
+                        id: `${m.name}-offer-${idx}`,
+                        text: offer,
+                        from: m.name,
+                        type: m.type || 'organization',
+                        location: m.location || '',
+                        city: extractCity(m.location),
+                        theme: m.theme || '',
+                        contact: m.contact || {},
+                        tags: extractTags(offer),
+                        keywords: extractKeywords(offer)
+                    });
+                });
+            }
+
+            // Infrastructure offers
+            if (m.infrastructure_offers && Array.isArray(m.infrastructure_offers)) {
+                m.infrastructure_offers.forEach((offer, idx) => {
+                    offers.push({
+                        id: `${m.name}-infra-${idx}`,
+                        text: offer + ' (Infrastructure)',
+                        from: m.name,
+                        type: m.type || 'organization',
+                        location: m.location || '',
+                        city: extractCity(m.location),
+                        theme: m.theme || '',
+                        contact: m.contact || {},
+                        tags: extractTags(offer).concat(['infrastructure']),
+                        keywords: extractKeywords(offer)
+                    });
+                });
+            }
+        });
+
+        return offers;
+    }
+
+    // Extract city from location string
+    function extractCity(location) {
+        if (!location) return '';
+        const parts = location.split(',');
+        return parts[parts.length - 1].trim();
+    }
+
+    // Extract tags from text
+    function extractTags(text) {
+        const tags = [];
+        const lower = text.toLowerCase();
+
+        const categories = {
+            funding: ['funding', 'fund', 'money', 'financial', 'grant', 'investment', 'donate'],
+            volunteers: ['volunteer', 'volunteers', 'help', 'support', 'manpower', 'people'],
+            space: ['space', 'venue', 'room', 'hall', 'office', 'land', 'building'],
+            expertise: ['expertise', 'expert', 'knowledge', 'training', 'skill', 'mentor', 'guidance', 'consulting'],
+            equipment: ['equipment', 'tool', 'machine', 'device', 'hardware', 'material'],
+            network: ['network', 'connection', 'connect', 'partnership', 'collaboration', 'contact']
+        };
+
+        Object.keys(categories).forEach(category => {
+            if (categories[category].some(keyword => lower.includes(keyword))) {
+                tags.push(category);
+            }
+        });
+
+        // Domain-specific tags
+        if (lower.match(/waste|compost|recycle|garbage/)) tags.push('waste-management');
+        if (lower.match(/solar|renewable|energy/)) tags.push('energy');
+        if (lower.match(/water|rain/)) tags.push('water');
+        if (lower.match(/education|school|learn|teach/)) tags.push('education');
+        if (lower.match(/health|medical|clinic/)) tags.push('health');
+        if (lower.match(/women|girl/)) tags.push('women');
+        if (lower.match(/child|youth|student/)) tags.push('youth');
+
+        return [...new Set(tags)];
+    }
+
+    // Extract keywords from text
+    function extractKeywords(text) {
+        const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'being'];
+        const words = text.toLowerCase()
+            .replace(/[^\w\s]/g, ' ')
+            .split(/\s+/)
+            .filter(w => w.length > 3 && !stopWords.includes(w));
+        return [...new Set(words)];
+    }
+
+    // Calculate match score
+    function calculateMatchScore(ask, offer) {
+        let score = 0;
+
+        const commonTags = ask.tags.filter(t => offer.tags.includes(t));
+        score += commonTags.length * 0.4;
+
+        const commonKeywords = ask.keywords.filter(k => offer.keywords.includes(k));
+        score += Math.min(commonKeywords.length * 0.1, 0.3);
+
+        if (ask.city && offer.city && ask.city === offer.city) {
+            score += 0.15;
+        }
+
+        if (ask.theme && offer.theme && ask.theme === offer.theme) {
+            score += 0.15;
+        }
+
+        return Math.min(score, 1.0);
+    }
+
+    // Find all matches
+    function findMatches(asks, offers, minConfidence = 0.5) {
+        const matches = [];
+
+        asks.forEach(ask => {
+            offers.forEach(offer => {
+                // Skip self-matches
+                if (ask.from === offer.from) {
+                    return;
+                }
+
+                const score = calculateMatchScore(ask, offer);
+
+                if (score >= minConfidence) {
+                    matches.push({
+                        id: `${ask.id}-${offer.id}`,
+                        ask,
+                        offer,
+                        score,
+                        confidenceLevel: getConfidenceLevel(score),
+                        matchedTags: ask.tags.filter(t => offer.tags.includes(t)),
+                        matchedKeywords: ask.keywords.filter(k => offer.keywords.includes(k))
+                    });
+                }
+            });
+        });
+
+        return matches.sort((a, b) => b.score - a.score);
+    }
+
+    // Get confidence level
+    function getConfidenceLevel(score) {
+        if (score >= 0.85) return 'excellent';
+        if (score >= 0.70) return 'good';
+        return 'potential';
+    }
+
+    // Render match card
+    function renderMatchCard(match) {
+        const scorePercent = Math.round(match.score * 100);
+        const confidenceClass = match.confidenceLevel;
+        const confidenceIcon = {
+            'excellent': '🟢',
+            'good': '🟡',
+            'potential': '🟠'
+        }[match.confidenceLevel];
+
+        return `
+            <div class="match-card ${confidenceClass}">
+                <div class="match-header">
+                    <span class="match-score">${confidenceIcon} ${scorePercent}% Match</span>
+                    <span class="match-level">${match.confidenceLevel.toUpperCase()}</span>
+                </div>
+
+                <div class="match-body">
+                    <div class="match-side ask-side">
+                        <div class="side-label">ASK</div>
+                        <h3>${match.ask.from}</h3>
+                        <p class="match-location">📍 ${match.ask.location || match.ask.city || 'Location not specified'}</p>
+                        <div class="match-text">${match.ask.text}</div>
+                        ${match.ask.contact && (match.ask.contact.email || match.ask.contact.phone) ? `
+                            <div class="contact-info">
+                                ${match.ask.contact.person ? `<p><strong>${match.ask.contact.person}</strong></p>` : ''}
+                                ${match.ask.contact.email ? `<p>✉️ <a href="mailto:${match.ask.contact.email}">${match.ask.contact.email}</a></p>` : ''}
+                                ${match.ask.contact.phone ? `<p>📞 <a href="tel:${match.ask.contact.phone}">${match.ask.contact.phone}</a></p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="match-connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-icon">↔️</div>
+                        <div class="connector-line"></div>
+                    </div>
+
+                    <div class="match-side offer-side">
+                        <div class="side-label">OFFER</div>
+                        <h3>${match.offer.from}</h3>
+                        <p class="match-location">📍 ${match.offer.location || match.offer.city || 'Location not specified'}</p>
+                        <div class="match-text">${match.offer.text}</div>
+                        ${match.offer.contact && (match.offer.contact.email || match.offer.contact.phone) ? `
+                            <div class="contact-info">
+                                ${match.offer.contact.person ? `<p><strong>${match.offer.contact.person}</strong></p>` : ''}
+                                ${match.offer.contact.email ? `<p>✉️ <a href="mailto:${match.offer.contact.email}">${match.offer.contact.email}</a></p>` : ''}
+                                ${match.offer.contact.phone ? `<p>📞 <a href="tel:${match.offer.contact.phone}">${match.offer.contact.phone}</a></p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                ${match.matchedTags.length > 0 ? `
+                    <div class="match-tags">
+                        <strong>Matched on:</strong>
+                        ${match.matchedTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                ` : ''}
+
+                <div class="match-actions">
+                    <a href="mailto:${match.ask.contact?.email || ''}?cc=${match.offer.contact?.email || ''}&subject=NOTF Connection: ${encodeURIComponent(match.ask.from + ' + ' + match.offer.from)}" class="btn-primary">
+                        📧 Connect Them
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    // Initialize
+    const allAsks = extractAsks();
+    const allOffers = extractOffers();
+    let allMatches = findMatches(allAsks, allOffers, 0.5);
+    let filteredMatches = allMatches;
+
+    // Update stats
+    document.getElementById('totalAsks').textContent = allAsks.length;
+    document.getElementById('totalOffers').textContent = allOffers.length;
+    document.getElementById('totalMatches').textContent = allMatches.length;
+    document.getElementById('highConfidence').textContent = allMatches.filter(m => m.score >= 0.85).length;
+
+    // Display matches
+    function displayMatches(matches) {
+        const excellentGrid = document.getElementById('excellentMatchesGrid');
+        const goodGrid = document.getElementById('goodMatchesGrid');
+        const potentialGrid = document.getElementById('potentialMatchesGrid');
+
+        const excellentSection = document.getElementById('excellentMatches');
+        const goodSection = document.getElementById('goodMatches');
+        const potentialSection = document.getElementById('potentialMatches');
+        const noMatches = document.getElementById('noMatches');
+
+        excellentGrid.innerHTML = '';
+        goodGrid.innerHTML = '';
+        potentialGrid.innerHTML = '';
+
+        const excellent = matches.filter(m => m.confidenceLevel === 'excellent');
+        const good = matches.filter(m => m.confidenceLevel === 'good');
+        const potential = matches.filter(m => m.confidenceLevel === 'potential');
+
+        if (excellent.length > 0) {
+            excellentSection.style.display = 'block';
+            excellentGrid.innerHTML = excellent.map(renderMatchCard).join('');
+        } else {
+            excellentSection.style.display = 'none';
+        }
+
+        if (good.length > 0) {
+            goodSection.style.display = 'block';
+            goodGrid.innerHTML = good.map(renderMatchCard).join('');
+        } else {
+            goodSection.style.display = 'none';
+        }
+
+        if (potential.length > 0) {
+            potentialSection.style.display = 'block';
+            potentialGrid.innerHTML = potential.map(renderMatchCard).join('');
+        } else {
+            potentialSection.style.display = 'none';
+        }
+
+        noMatches.style.display = matches.length === 0 ? 'block' : 'none';
+    }
+
+    // Event listeners
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            const category = this.dataset.category;
+
+            if (category === 'all') {
+                filteredMatches = allMatches;
+            } else {
+                filteredMatches = allMatches.filter(m =>
+                    m.matchedTags.includes(category)
+                );
+            }
+
+            applyFilters();
+        });
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', function() {
+        const sortBy = this.value;
+
+        if (sortBy === 'score') {
+            filteredMatches.sort((a, b) => b.score - a.score);
+        } else if (sortBy === 'location') {
+            filteredMatches.sort((a, b) => {
+                const aMatch = a.ask.city === a.offer.city ? 1 : 0;
+                const bMatch = b.ask.city === b.offer.city ? 1 : 0;
+                return bMatch - aMatch || b.score - a.score;
+            });
+        }
+
+        displayMatches(filteredMatches);
+    });
+
+    document.getElementById('confidenceSelect').addEventListener('change', function() {
+        applyFilters();
+    });
+
+    function applyFilters() {
+        const minConfidence = parseInt(document.getElementById('confidenceSelect').value) / 100;
+        const filtered = filteredMatches.filter(m => m.score >= minConfidence);
+        displayMatches(filtered);
+    }
+
+    // Initial display
+    displayMatches(filteredMatches);
+}
+</script>
+
+<style>
+.matcher-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.matcher-controls {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section, .sort-section, .confidence-filter {
+    margin-bottom: 1rem;
+}
+
+.filter-section label, .sort-section label, .confidence-filter label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.category-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e0e0e0;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.category-btn:hover {
+    border-color: #667eea;
+}
+
+.category-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.matches-container {
+    margin-top: 2rem;
+}
+
+.match-section {
+    margin-bottom: 2rem;
+}
+
+.matches-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.match-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.match-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.match-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.match-level {
+    background: #f0f0f0;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.match-body {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.match-side {
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.ask-side {
+    background: #fff5f5;
+}
+
+.offer-side {
+    background: #f0f9ff;
+}
+
+.side-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #999;
+    margin-bottom: 0.5rem;
+}
+
+.match-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.connector-icon {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.match-tags {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.match-tags .tag {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    margin: 0.25rem;
+}
+
+.match-actions {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 2px solid #f0f0f0;
+}
+
+.no-matches {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+    </main>
+    
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+    
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

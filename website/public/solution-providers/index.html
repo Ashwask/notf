@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Providers | NOTF</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Solution Providers</h1>
+
+        <p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
+
+        <section id="providersList">
+            <p style="text-align: center; padding: 2rem;">Loading solution providers...</p>
+        </section>
+
+        <section class="cta-box">
+            <h2>Become a Solution Provider</h2>
+            <p>Are you an organization providing expertise, services, or solutions for community transformation? Join our network of solution providers.</p>
+            <p>We welcome:</p>
+            <ul>
+                <li>Research institutions and think tanks</li>
+                <li>NGOs and social enterprises</li>
+                <li>Consultancies and service providers</li>
+                <li>Technology and innovation labs</li>
+                <li>Training and capacity building organizations</li>
+            </ul>
+            <p>Contact us at <a href="mailto:nudge-unit@notf.in">nudge-unit@notf.in</a> to join.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Load Supabase and data -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        (async function() {
+            const orgs = await dataLoader.loadSolutionProviders();
+            const container = document.getElementById('providersList');
+
+            if (orgs.length === 0) {
+                container.innerHTML = '<p>No solution providers listed yet. Check back soon!</p>';
+                return;
+            }
+
+            container.innerHTML = orgs.map(org => `
+                <article class="member-card">
+                    <h3>${org.name}</h3>
+                    ${org.location ? `<p><strong>Location:</strong> ${org.location}</p>` : ''}
+                    ${org.theme ? `<p><strong>Focus Area:</strong> ${org.theme}</p>` : ''}
+                    ${org.description ? `<p>${org.description}</p>` : ''}
+
+                    ${org.offers && org.offers.length > 0 ? `
+                        <h4>What They Offer</h4>
+                        <ul>
+                            ${org.offers.map(offer => `<li>${offer}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+
+                    ${org.asks && org.asks.length > 0 ? `
+                        <h4>What They're Looking For</h4>
+                        <ul>
+                            ${org.asks.map(ask => `<li>${ask}</li>`).join('')}
+                        </ul>
+                    ` : ''}
+
+                    ${org.contact && org.contact.email ? `
+                        <p><strong>Contact:</strong> <a href="mailto:${org.contact.email}">${org.contact.email}</a>${org.contact.person ? ` (${org.contact.person})` : ''}</p>
+                    ` : ''}
+                </article>
+            `).join('');
+        })();
+    </script>
+</body>
+</html>

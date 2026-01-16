@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - NOTF | NOTF</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        
+<link rel="stylesheet" href="/assets/admin/admin.css">
+
+<section class="admin-dashboard">
+    <div class="admin-header">
+        <h1>📊 Admin Dashboard</h1>
+        <div class="admin-user">
+            <span id="userEmail">Loading...</span>
+            <button onclick="authUtils.logout()" class="btn-secondary">Logout</button>
+        </div>
+    </div>
+
+    <div class="admin-stats">
+        <div class="stat-card">
+            <div class="stat-icon">🏘️</div>
+            <div class="stat-content">
+                <div class="stat-number" id="communityCount">-</div>
+                <div class="stat-label">Communities</div>
+            </div>
+            <a href="/admin/communities.html" class="stat-link">Manage →</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🏢</div>
+            <div class="stat-content">
+                <div class="stat-number" id="providerCount">-</div>
+                <div class="stat-label">Solution Providers</div>
+            </div>
+            <a href="/admin/organizations.html" class="stat-link">Manage →</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🤝</div>
+            <div class="stat-content">
+                <div class="stat-number" id="matchCount">-</div>
+                <div class="stat-label">Potential Matches</div>
+            </div>
+            <a href="/admin/matcher.html" class="stat-link">View Matcher →</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-content">
+                <div class="stat-number" id="deploymentCount">-</div>
+                <div class="stat-label">Recent Deployments</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-grid">
+            <a href="/admin/organizations.html?action=new" class="action-card">
+                <div class="action-icon">➕</div>
+                <div class="action-title">Add Solution Provider</div>
+                <div class="action-description">Create a new organization entry</div>
+            </a>
+
+            <a href="/admin/communities.html?action=new" class="action-card">
+                <div class="action-icon">🏘️</div>
+                <div class="action-title">Add Community</div>
+                <div class="action-description">Register a new community</div>
+            </a>
+
+            <a href="/admin/matcher.html" class="action-card">
+                <div class="action-icon">🔍</div>
+                <div class="action-title">View Matches</div>
+                <div class="action-description">See ask/offer matches</div>
+            </a>
+
+            <a href="#" onclick="triggerDeploy(); return false;" class="action-card">
+                <div class="action-icon">🔄</div>
+                <div class="action-title">Trigger Deployment</div>
+                <div class="action-description">Rebuild the website</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="admin-recent">
+        <h2>Recent Activity</h2>
+        <div id="recentActivity">
+            <p class="loading">Loading recent changes...</p>
+        </div>
+    </div>
+</section>
+
+<style>
+.admin-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.admin-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-user span {
+    color: #666;
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.stat-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: auto;
+}
+
+.stat-link:hover {
+    text-decoration: underline;
+}
+
+.admin-quick-actions {
+    margin-bottom: 3rem;
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.action-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.action-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.action-description {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.admin-recent {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/admin/auth.js"></script>
+<script>
+// Require authentication
+(async function() {
+    const session = await authUtils.requireAuth();
+    if (!session) return;
+
+    // Display user email
+    const user = await authUtils.getCurrentUser();
+    document.getElementById('userEmail').textContent = user.email;
+
+    // Load stats
+    await loadStats();
+    await loadRecentActivity();
+})();
+
+async function loadStats() {
+    const supabase = authUtils.supabase;
+
+    // Count communities
+    const { count: communityCount } = await supabase
+        .from('file_metadata')
+        .select('*', { count: 'exact', head: true })
+        .eq('file_type', 'community')
+        .eq('status', 'active');
+
+    document.getElementById('communityCount').textContent = communityCount || 0;
+
+    // Count solution providers
+    const { count: providerCount } = await supabase
+        .from('file_metadata')
+        .select('*', { count: 'exact', head: true })
+        .eq('file_type', 'solution-provider')
+        .eq('status', 'active');
+
+    document.getElementById('providerCount').textContent = providerCount || 0;
+
+    // Count deployments (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const { count: deploymentCount } = await supabase
+        .from('deployment_log')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', sevenDaysAgo.toISOString());
+
+    document.getElementById('deploymentCount').textContent = deploymentCount || 0;
+
+    // Match count placeholder
+    document.getElementById('matchCount').textContent = '—';
+}
+
+async function loadRecentActivity() {
+    const supabase = authUtils.supabase;
+
+    const { data, error } = await supabase
+        .from('file_metadata')
+        .select('*')
+        .order('updated_at', { ascending: false })
+        .limit(5);
+
+    const container = document.getElementById('recentActivity');
+
+    if (error || !data || data.length === 0) {
+        container.innerHTML = '<p class="loading">No recent activity</p>';
+        return;
+    }
+
+    container.innerHTML = `
+        <table class="activity-table">
+            <thead>
+                <tr>
+                    <th>Organization</th>
+                    <th>Type</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.map(item => `
+                    <tr>
+                        <td>${item.metadata?.name || item.slug}</td>
+                        <td><span class="badge">${item.file_type}</span></td>
+                        <td>${new Date(item.updated_at).toLocaleDateString()}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+async function triggerDeploy() {
+    if (!confirm('Trigger a manual deployment? This will rebuild the entire website.')) {
+        return;
+    }
+
+    const VERCEL_DEPLOY_HOOK = 'https://api.vercel.com/v1/integrations/deploy/prj_9qpiHjvpGLQwIDA1O50lEG6dHpkM/4clSbfnJzy';
+
+    try {
+        const response = await fetch(VERCEL_DEPLOY_HOOK, { method: 'POST' });
+        if (response.ok) {
+            alert('✅ Deployment triggered successfully! Check Vercel dashboard for progress.');
+        } else {
+            alert('❌ Failed to trigger deployment');
+        }
+    } catch (error) {
+        alert('❌ Error: ' + error.message);
+    }
+}
+</script>
+
+<style>
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.activity-table th {
+    text-align: left;
+    padding: 0.75rem;
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+.activity-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.badge {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+</style>
+
+    </main>
+    
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+    
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

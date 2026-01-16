@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighbourhoods of the Future | NOTF</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Building Connected, Resilient Neighbourhoods</h1>
+                <p class="hero-subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
+                <div class="hero-cta">
+                    <a href="/admin/login.html" class="btn btn-primary-large">🤝 Admin Login</a>
+                    <a href="/join/" class="btn btn-secondary">Join the Network</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="orgCount">-</div>
+                <div class="stat-label">Organizations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="commCount">-</div>
+                <div class="stat-label">Communities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Active Collaborations</div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">How NOTF Works</h2>
+                <p class="section-subtitle">Four powerful ways to connect, collaborate, and transform your neighbourhood</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h3>Ask/Offer Matcher</h3>
+                        <p>Smart matching algorithm connects community needs with available resources. Find funding, volunteers, expertise, and more.</p>
+                        <a href="/admin/login.html" class="feature-link">Login to View Matches →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Interactive Map</h3>
+                        <p>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
+                        <a href="/map/" class="feature-link">View Map →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🏘️</div>
+                        <h3>Community Directory</h3>
+                        <p>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
+                        <a href="/communities/" class="feature-link">Browse Communities →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🏢</div>
+                        <h3>Organization Network</h3>
+                        <p>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
+                        <a href="/solution-providers/" class="feature-link">View Organizations →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cities -->
+        <section class="cities">
+            <div class="container">
+                <h2 class="section-title">Join the Movement</h2>
+                <p class="section-subtitle">Three simple steps to start transforming your neighbourhood</p>
+
+                <div class="cities-grid">
+                    <div class="city-card">
+                        <h3>1. Register</h3>
+                        <p>Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
+                        <a href="/join/" class="feature-link">Get Started →</a>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>2. Connect</h3>
+                        <p>Get matched with communities and organizations that align with your needs and offers.</p>
+                        <a href="/admin/login.html" class="feature-link">Login to Find Matches →</a>
+                    </div>
+
+                    <div class="city-card">
+                        <h3>3. Collaborate</h3>
+                        <p>Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
+                        <a href="/resources/" class="feature-link">Learn How →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Preview -->
+        <section class="resources-preview">
+            <div class="container">
+                <h2 class="section-title">Resources & Network Highlights</h2>
+                <p class="section-subtitle">Success stories and toolkits from the NOTF network</p>
+
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <h4>🟢 Waste Management Partnership</h4>
+                        <p>Women of Wisdom (JP Nagar) connected with Biome Environmental for composting training workshops.</p>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>🟢 Community Space Network</h4>
+                        <p>5 communities sharing meeting spaces and coordination resources across Bengaluru.</p>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>🆕 Solar Energy Initiative</h4>
+                        <p>Selco Foundation providing renewable energy solutions to 3 community centers.</p>
+                    </div>
+                </div>
+
+                <div class="cta-center">
+                    <a href="/search/" class="btn btn-primary">View All Resources</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to Transform Your Neighbourhood?</h2>
+                <p>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
+                <div class="cta-center">
+                    <a href="/join/" class="btn btn-primary-large">Join NOTF Network</a>
+                    <a href="/about/" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Load Supabase and data -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        // Load counts on page load
+        (async function() {
+            const [orgs, comms] = await Promise.all([
+                dataLoader.loadSolutionProviders(),
+                dataLoader.loadCommunities()
+            ]);
+
+            const orgCount = orgs.length;
+            const commCount = comms.length;
+
+            // Update all count placeholders
+            document.getElementById('orgCount').textContent = orgCount;
+            document.getElementById('commCount').textContent = commCount;
+            document.getElementById('mapCommCount').textContent = commCount;
+            document.getElementById('dirCommCount').textContent = commCount;
+            document.getElementById('orgNetCount').textContent = orgCount;
+            document.getElementById('ctaOrgCount').textContent = orgCount;
+            document.getElementById('ctaCommCount').textContent = commCount;
+        })();
+    </script>
+</body>
+</html>

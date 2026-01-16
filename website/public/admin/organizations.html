@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Organizations - NOTF Admin | NOTF</title>
+    <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="M9 12l2 2 4-4"></path>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        
+<link rel="stylesheet" href="/assets/admin/admin.css">
+
+<section class="admin-page">
+    <div class="admin-container">
+        <div class="page-header">
+            <div>
+                <h1>🏢 Solution Providers</h1>
+                <p class="subtitle">Manage organizations providing expertise and services</p>
+            </div>
+            <div class="header-actions">
+                <a href="/admin/dashboard.html" class="btn-secondary">← Dashboard</a>
+                <button onclick="showCreateForm()" class="btn-primary">➕ Add New</button>
+                <button onclick="authUtils.logout()" class="btn-secondary">Logout</button>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search by name, city, or theme..." />
+            <select id="statusFilter">
+                <option value="all">All Status</option>
+                <option value="active" selected>Active Only</option>
+                <option value="pending">Pending Only</option>
+            </select>
+        </div>
+
+        <div id="organizationsList" class="organizations-list">
+            <p class="loading">Loading organizations...</p>
+        </div>
+
+        <!-- Create/Edit Modal -->
+        <div id="formModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Add Solution Provider</h2>
+                    <button onclick="closeModal()" class="btn-close">×</button>
+                </div>
+                <form id="organizationForm" class="organization-form">
+                    <input type="hidden" id="orgId" />
+                    <input type="hidden" id="orgFilePath" />
+
+                    <div class="form-row">
+                        <div class="form-group full">
+                            <label for="orgName">Organization Name *</label>
+                            <input type="text" id="orgName" required />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orgTheme">Theme/Sector</label>
+                            <input type="text" id="orgTheme" placeholder="e.g., Water, Waste, Energy" />
+                        </div>
+                        <div class="form-group">
+                            <label for="orgLocation">Location</label>
+                            <input type="text" id="orgLocation" placeholder="City, State" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orgDescription">Description</label>
+                        <textarea id="orgDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orgContactPerson">Contact Person</label>
+                            <input type="text" id="orgContactPerson" />
+                        </div>
+                        <div class="form-group">
+                            <label for="orgContactEmail">Email</label>
+                            <input type="email" id="orgContactEmail" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orgOffers">What They Offer (one per line)</label>
+                        <textarea id="orgOffers" rows="4" placeholder="Expertise in waste management&#10;Training programs&#10;Consulting services"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="orgAsks">What They Need (one per line)</label>
+                        <textarea id="orgAsks" rows="4" placeholder="Funding for programs&#10;Volunteers&#10;Partnership opportunities"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="orgStatus">Status</label>
+                            <select id="orgStatus">
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary" id="submitBtn">
+                            <span id="submitBtnText">Save</span>
+                            <span id="submitBtnLoader" class="loader" style="display: none;">🔄</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/admin/auth.js"></script>
+<script src="/assets/admin/organizations.js"></script>
+
+    </main>
+    
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+    
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+        
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking a link
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
