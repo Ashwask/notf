@@ -1,18 +1,386 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOTF</title>
+    <title>Map | NOTF</title>
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .map-legend {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+        }
+
+        .legend-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .legend-marker.community {
+            background-color: #667eea;
+        }
+
+        .legend-marker.provider {
+            background-color: #f56565;
+        }
+
+        .map-stats {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .map-stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .map-stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .map-stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .leaflet-popup-content {
+            min-width: 200px;
+        }
+
+        .popup-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .popup-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-type.community {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .popup-type.provider {
+            background-color: #f56565;
+            color: white;
+        }
+
+        .popup-info {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .popup-contact {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .popup-contact a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .popup-contact a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="nav-brand"><a href="/"><img src="/assets/images/notf-logo.png" alt="NOTF" class="nav-logo"><span class="nav-title">NOTF</span></a></div>
-            <div class="nav-menu"><a href="/">Home</a><a href="/communities/">Communities</a><a href="/solution-providers/">Solution Providers</a><a href="/admin/login.html">Admin</a></div>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">NOTF</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="/">Home</a>
+                <a href="/about/">About</a>
+                <a href="/solution-providers/">Solution Providers</a>
+                <a href="/communities/">Communities</a>
+                <a href="/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/resources/">Resources</a>
+                <a href="/search/" class="search-link" title="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+                </a>
+                <a href="/admin/login.html" class="admin-link" title="Admin">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                </a>
+            </div>
         </nav>
     </header>
-    <main><h1>Coming Soon</h1><p><a href="/">← Back to Home</a></p></main>
+
+    <main>
+        <section class="content">
+            <h1>🗺️ NOTF Network Map</h1>
+            <p class="lead">Explore communities and solution providers across India</p>
+
+            <div class="map-stats">
+                <div class="map-stat-card">
+                    <div class="map-stat-number" id="commCount">-</div>
+                    <div class="map-stat-label">Communities</div>
+                </div>
+                <div class="map-stat-card">
+                    <div class="map-stat-number" id="provCount">-</div>
+                    <div class="map-stat-label">Solution Providers</div>
+                </div>
+                <div class="map-stat-card">
+                    <div class="map-stat-number" id="cityCount">-</div>
+                    <div class="map-stat-label">Cities</div>
+                </div>
+            </div>
+
+            <div id="map"></div>
+
+            <div class="map-legend">
+                <h3>Legend</h3>
+                <div class="legend-item">
+                    <div class="legend-marker community"></div>
+                    <span>Communities</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-marker provider"></div>
+                    <span>Solution Providers</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Load Supabase and data -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        // City coordinates for major Indian cities
+        const cityCoordinates = {
+            'Bangalore': { lat: 12.9716, lng: 77.5946 },
+            'Bengaluru': { lat: 12.9716, lng: 77.5946 },
+            'Mumbai': { lat: 19.0760, lng: 72.8777 },
+            'Delhi': { lat: 28.6139, lng: 77.2090 },
+            'Ahmedabad': { lat: 23.0225, lng: 72.5714 },
+            'Bhubaneswar': { lat: 20.2961, lng: 85.8245 },
+            'Pune': { lat: 18.5204, lng: 73.8567 },
+            'Kolkata': { lat: 22.5726, lng: 88.3639 },
+            'Chennai': { lat: 13.0827, lng: 80.2707 },
+            'Hyderabad': { lat: 17.3850, lng: 78.4867 }
+        };
+
+        // Initialize the map
+        const map = L.map('map').setView([20.5937, 78.9629], 5); // Center on India
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18
+        }).addTo(map);
+
+        // Custom icons
+        const communityIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #667eea; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+            iconSize: [12, 12],
+            iconAnchor: [6, 6]
+        });
+
+        const providerIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="background-color: #f56565; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>',
+            iconSize: [12, 12],
+            iconAnchor: [6, 6]
+        });
+
+        // Get coordinates for a location
+        function getCoordinates(location, type) {
+            if (!location) return null;
+
+            // Normalize location string
+            const cityName = location.split(',')[0].trim();
+
+            // Find matching city (case-insensitive)
+            for (const [city, coords] of Object.entries(cityCoordinates)) {
+                if (city.toLowerCase() === cityName.toLowerCase()) {
+                    // Add small random offset to avoid exact overlaps
+                    const offset = Math.random() * 0.02 - 0.01;
+                    return {
+                        lat: coords.lat + offset,
+                        lng: coords.lng + offset
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        // Create popup content
+        function createPopupContent(item, type) {
+            const typeLabel = type === 'community' ? 'Community' : 'Solution Provider';
+            const typeClass = type === 'community' ? 'community' : 'provider';
+
+            let html = `
+                <div class="popup-title">${item.name}</div>
+                <span class="popup-type ${typeClass}">${typeLabel}</span>
+            `;
+
+            if (type === 'community') {
+                html += `<div class="popup-info">📍 ${item.city}${item.state ? ', ' + item.state : ''}</div>`;
+                if (item.themes && item.themes.length > 0) {
+                    html += `<div class="popup-info"><strong>Focus:</strong> ${item.themes.slice(0, 3).join(', ')}</div>`;
+                }
+            } else {
+                html += `<div class="popup-info">📍 ${item.location || 'Location not specified'}</div>`;
+                if (item.theme) {
+                    html += `<div class="popup-info"><strong>Focus:</strong> ${item.theme}</div>`;
+                }
+            }
+
+            if (item.description) {
+                const shortDesc = item.description.length > 100
+                    ? item.description.substring(0, 100) + '...'
+                    : item.description;
+                html += `<div class="popup-info">${shortDesc}</div>`;
+            }
+
+            if (item.contact && item.contact.email) {
+                html += `<div class="popup-contact">✉️ <a href="mailto:${item.contact.email}">${item.contact.email}</a></div>`;
+            }
+
+            return html;
+        }
+
+        // Load and display data
+        (async function() {
+            await dataLoader.waitForSupabase();
+
+            const [communities, providers] = await Promise.all([
+                dataLoader.loadCommunities(),
+                dataLoader.loadSolutionProviders()
+            ]);
+
+            // Update stats
+            const uniqueCities = new Set();
+            communities.forEach(c => c.city && uniqueCities.add(c.city));
+            providers.forEach(p => {
+                const city = p.location ? p.location.split(',')[0].trim() : null;
+                if (city) uniqueCities.add(city);
+            });
+
+            document.getElementById('commCount').textContent = communities.length;
+            document.getElementById('provCount').textContent = providers.length;
+            document.getElementById('cityCount').textContent = uniqueCities.size;
+
+            // Add community markers
+            let communityCount = 0;
+            communities.forEach(comm => {
+                const coords = getCoordinates(comm.city, 'community');
+                if (coords) {
+                    const marker = L.marker([coords.lat, coords.lng], { icon: communityIcon })
+                        .addTo(map)
+                        .bindPopup(createPopupContent(comm, 'community'));
+                    communityCount++;
+                }
+            });
+
+            // Add provider markers
+            let providerCount = 0;
+            providers.forEach(prov => {
+                const coords = getCoordinates(prov.location, 'provider');
+                if (coords) {
+                    const marker = L.marker([coords.lat, coords.lng], { icon: providerIcon })
+                        .addTo(map)
+                        .bindPopup(createPopupContent(prov, 'provider'));
+                    providerCount++;
+                }
+            });
+
+            console.log(`Mapped ${communityCount} communities and ${providerCount} providers`);
+
+            // Focus on Bangalore by default since most data is there
+            if (communityCount > 0 || providerCount > 0) {
+                map.setView([12.9716, 77.5946], 12);
+            }
+        })();
+    </script>
 </body>
 </html>
