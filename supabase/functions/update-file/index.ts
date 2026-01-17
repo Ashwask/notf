@@ -22,7 +22,19 @@ serve(async (req) => {
   }
 
   try {
-    // Create Supabase client with service role
+    // Get the authorization header
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Missing authorization header' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // Create Supabase client with service role for admin operations
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
@@ -33,6 +45,36 @@ serve(async (req) => {
         }
       }
     )
+
+    // Verify the user is authenticated (using their token)
+    const supabaseUser = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      {
+        global: {
+          headers: { Authorization: authHeader }
+        },
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    )
+
+    const { data: { user }, error: authError } = await supabaseUser.auth.getUser()
+
+    if (authError || !user) {
+      console.error('Authentication failed:', authError)
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized - Invalid or expired token' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    console.log(`Authenticated user: ${user.email}`)
 
     // Parse request body
     const { file_path, file_type, updates, markdown_body, version }: UpdateFileRequest = await req.json()
@@ -47,30 +89,35 @@ serve(async (req) => {
       throw new Error(`Unsupported file extension: ${file_path}`)
     }
 
-    // Download current file from Storage
+    // Try to download current file from Storage
     const { data: fileData, error: downloadError } = await supabaseClient
       .storage
       .from('notf')
       .download(file_path)
 
-    if (downloadError) {
-      throw new Error(`Failed to download file: ${downloadError.message}`)
-    }
-
-    const currentContent = await fileData.text()
-
-    // Parse file based on format
-    let currentData: Record<string, any>
+    let currentData: Record<string, any> = {}
     let existingMarkdownBody = ''
+    let fileExists = false
 
-    if (isMarkdown) {
-      // Parse YAML frontmatter + markdown body
-      const result = parseMarkdownFile(currentContent)
-      currentData = result.frontmatter
-      existingMarkdownBody = result.body
+    if (!downloadError && fileData) {
+      // File exists - parse it
+      fileExists = true
+      const currentContent = await fileData.text()
+
+      // Parse file based on format
+      if (isMarkdown) {
+        // Parse YAML frontmatter + markdown body
+        const result = parseMarkdownFile(currentContent)
+        currentData = result.frontmatter
+        existingMarkdownBody = result.body
+      } else {
+        // Parse pure YAML
+        currentData = parseYAML(currentContent) as Record<string, any> || {}
+      }
     } else {
-      // Parse pure YAML
-      currentData = parseYAML(currentContent) as Record<string, any> || {}
+      // File doesn't exist yet - this is a create operation
+      console.log(`File doesn't exist yet, will create: ${file_path}`)
+      currentData = {}
     }
 
     // Optimistic locking: Check version if provided
@@ -133,7 +180,13 @@ serve(async (req) => {
       metadata: mergedData,
       status: mergedData.status || 'active',
       version: mergedData.version,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
+      updated_by: user.id
+    }
+
+    // Add created_by if this is a new file
+    if (!fileExists) {
+      dbUpdate.created_by = user.id
     }
 
     // Add indexed fields
