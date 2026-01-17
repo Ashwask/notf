@@ -154,7 +154,7 @@ All planned tasks have been completed:
 
 ### 1. Deploy Edge Function to Supabase ✅ COMPLETE
 
-**Deployed successfully on 2026-01-17**
+**Deployed successfully on 2026-01-17 (updated with auth fix)**
 
 The Edge Function is now live at:
 ```
@@ -164,13 +164,21 @@ https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file
 **Deployment details:**
 - Function: `update-file`
 - Project: abblyaukkoxmgzwretvm
-- Status: Active
+- Status: Active (v2 - with authentication and file creation)
 - Dashboard: https://supabase.com/dashboard/project/abblyaukkoxmgzwretvm/function
 
-**What this enables:**
-- ✅ Admin edits now update Storage files FIRST, then database
+**Features:**
+- ✅ Admin edits update Storage files FIRST, then database
+- ✅ Handles both file creation (new records) and updates (existing records)
+- ✅ Requires user authentication (JWT token verification)
+- ✅ Tracks created_by and updated_by user IDs
 - ✅ No more data loss from future syncs
 - ✅ Storage-first architecture fully operational
+
+**Fix applied (2026-01-17):**
+- Fixed 401 Unauthorized error by adding proper JWT authentication
+- Fixed file-not-found error by handling file creation
+- Added user tracking for audit trail
 
 ### 2. Recommended Testing Steps
 
