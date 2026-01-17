@@ -278,7 +278,10 @@
         <!-- Story Editor Modal -->
         <div id="storyModal" class="modal" style="display: none;">
             <div class="modal-content" style="max-width: 1000px; max-height: 90vh;">
-                <div class="modal-header">
+                <div class="modal-header" id="storyModalHeader">
+                    <div class="drag-handle" title="Drag to move">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
                     <h2>📝 Story Editor (Markdown)</h2>
                     <button onclick="closeStoryEditor()" class="btn-close">×</button>
                 </div>
@@ -328,6 +331,7 @@
                         <button type="button" onclick="saveStoryContent()" class="btn-primary">Save Story</button>
                     </div>
                 </div>
+                <div class="resize-handle" title="Drag to resize"></div>
             </div>
         </div>
 

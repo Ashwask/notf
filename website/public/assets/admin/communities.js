@@ -24,6 +24,7 @@ let locationMarker = null;
     await loadCommunities();
     setupEventListeners();
     setupModalDrag();
+    setupStoryModalDrag();
 })();
 
 let currentStatusFilter = 'all';
@@ -604,6 +605,17 @@ function openStoryEditor() {
 
     storyEditor.value = currentStory;
     updateStoryPreview();
+
+    // Reset modal position and size
+    const modalContent = storyModal.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.style.transform = 'translate(-50%, -50%)';
+        modalContent.style.left = '50%';
+        modalContent.style.top = '50%';
+        modalContent.style.width = '';
+        modalContent.style.height = '';
+    }
+
     storyModal.style.display = 'flex';
 
     // Setup live preview
@@ -1614,6 +1626,95 @@ function setupModalDrag() {
         if (modalDragState.isDragging || modalDragState.isResizing) {
             modalDragState.isDragging = false;
             modalDragState.isResizing = false;
+            modalContent.classList.remove('dragging', 'resizing');
+        }
+    });
+}
+
+// Story Modal Drag and Resize Functionality
+let storyModalDragState = {
+    isDragging: false,
+    isResizing: false,
+    startX: 0,
+    startY: 0,
+    startTop: 0,
+    startLeft: 0,
+    startWidth: 0,
+    startHeight: 0
+};
+
+function setupStoryModalDrag() {
+    const modal = document.getElementById('storyModal');
+    if (!modal) return;
+
+    const modalContent = modal.querySelector('.modal-content');
+    const header = document.getElementById('storyModalHeader');
+    const resizeHandle = modalContent.querySelector('.resize-handle');
+
+    if (!header || !resizeHandle) return;
+
+    // Drag functionality (header)
+    header.addEventListener('mousedown', function(e) {
+        // Don't drag if clicking on close button
+        if (e.target.closest('.btn-close')) return;
+
+        storyModalDragState.isDragging = true;
+        storyModalDragState.startX = e.clientX;
+        storyModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        storyModalDragState.startLeft = rect.left;
+        storyModalDragState.startTop = rect.top;
+
+        modalContent.classList.add('dragging');
+        // Remove transform to enable position-based movement
+        modalContent.style.transform = 'none';
+    });
+
+    // Resize functionality (resize handle)
+    resizeHandle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        storyModalDragState.isResizing = true;
+        storyModalDragState.startX = e.clientX;
+        storyModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        storyModalDragState.startWidth = rect.width;
+        storyModalDragState.startHeight = rect.height;
+
+        modalContent.classList.add('resizing');
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', function(e) {
+        if (storyModalDragState.isDragging) {
+            const deltaX = e.clientX - storyModalDragState.startX;
+            const deltaY = e.clientY - storyModalDragState.startY;
+
+            modalContent.style.left = (storyModalDragState.startLeft + deltaX) + 'px';
+            modalContent.style.top = (storyModalDragState.startTop + deltaY) + 'px';
+        }
+
+        if (storyModalDragState.isResizing) {
+            const deltaX = e.clientX - storyModalDragState.startX;
+            const deltaY = e.clientY - storyModalDragState.startY;
+
+            const newWidth = Math.max(600, storyModalDragState.startWidth + deltaX);
+            const newHeight = Math.max(500, storyModalDragState.startHeight + deltaY);
+            const maxHeight = window.innerHeight * 0.9;
+
+            modalContent.style.width = newWidth + 'px';
+            modalContent.style.height = Math.min(newHeight, maxHeight) + 'px';
+        }
+    });
+
+    // Mouse up handler
+    document.addEventListener('mouseup', function() {
+        if (storyModalDragState.isDragging || storyModalDragState.isResizing) {
+            storyModalDragState.isDragging = false;
+            storyModalDragState.isResizing = false;
             modalContent.classList.remove('dragging', 'resizing');
         }
     });
