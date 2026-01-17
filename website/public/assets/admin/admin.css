@@ -6,13 +6,34 @@ body {
 }
 
 /* ========================================
-   ENHANCED BUTTON STYLING
+   ENHANCED BUTTON STYLING - ALL BUTTONS
    ======================================== */
 
-/* Softer icon buttons with improved tooltips */
+/* Base button styles */
+button {
+    border-radius: 10px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Icon buttons in header/toolbar */
 .icon-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.icon-btn i {
+    font-size: 1rem;
 }
 
 .icon-btn:hover {
@@ -26,11 +47,15 @@ body {
 }
 
 .icon-btn.primary {
+    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+    color: white;
+    border-color: #23A2A5;
     box-shadow: 0 2px 8px rgba(35, 162, 165, 0.2) !important;
 }
 
 .icon-btn.primary:hover {
     box-shadow: 0 6px 20px rgba(35, 162, 165, 0.35) !important;
+    transform: translateY(-2px) scale(1.02) !important;
 }
 
 /* Enhanced tooltips */
@@ -66,16 +91,38 @@ body {
 /* Primary/Secondary button enhancements */
 .btn-primary,
 .btn-secondary {
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid transparent;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1) !important;
 }
 
+.btn-primary {
+    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+    color: white;
+    border-color: #23A2A5;
+}
+
 .btn-primary:hover {
-    box-shadow: 0 6px 16px rgba(35, 162, 165, 0.3) !important;
+    background: linear-gradient(135deg, #0D7576 0%, #23A2A5 100%);
+    box-shadow: 0 6px 16px rgba(35, 162, 165, 0.4) !important;
     transform: translateY(-2px) !important;
 }
 
+.btn-secondary {
+    background: white;
+    color: #333;
+    border-color: #d0d0d0;
+}
+
 .btn-secondary:hover {
+    background: #f8f8f8;
+    border-color: #23A2A5;
+    color: #23A2A5;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     transform: translateY(-2px) !important;
 }
@@ -181,13 +228,58 @@ body {
 
 /* Softer danger button */
 .btn-danger {
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: #dc3545;
+    color: white;
+    border: 2px solid #dc3545;
     box-shadow: 0 2px 6px rgba(220, 53, 69, 0.2) !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .btn-danger:hover {
-    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3) !important;
+    background: #c82333;
+    border-color: #c82333;
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4) !important;
     transform: translateY(-2px) !important;
+}
+
+/* Filter chips - enhanced */
+.chip {
+    min-height: 40px;
+    padding: 0.625rem 1.25rem;
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.chip:hover {
+    border-color: #23A2A5;
+    background: #f0fafb;
+    box-shadow: 0 3px 8px rgba(35, 162, 165, 0.15);
+    transform: translateY(-1px);
+}
+
+.chip.active {
+    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+    color: white;
+    border-color: #23A2A5;
+    box-shadow: 0 3px 10px rgba(35, 162, 165, 0.3);
+}
+
+.chip i {
+    font-size: 0.875rem;
 }
 
 /* Fix navigation for admin pages */
