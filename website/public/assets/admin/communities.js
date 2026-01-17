@@ -310,11 +310,22 @@ async function handleFormSubmit(e) {
     };
 
     const status = document.getElementById('commStatus').value;
-    const latitude = document.getElementById('commLatitude').value ? parseFloat(document.getElementById('commLatitude').value) : null;
-    const longitude = document.getElementById('commLongitude').value ? parseFloat(document.getElementById('commLongitude').value) : null;
+
+    // Debug: Log raw field values before parsing
+    const latFieldValue = document.getElementById('commLatitude').value;
+    const lngFieldValue = document.getElementById('commLongitude').value;
+    console.log('Form submit - Raw field values:', {
+        latFieldValue,
+        lngFieldValue,
+        latFieldExists: !!document.getElementById('commLatitude'),
+        lngFieldExists: !!document.getElementById('commLongitude')
+    });
+
+    const latitude = latFieldValue ? parseFloat(latFieldValue) : null;
+    const longitude = lngFieldValue ? parseFloat(lngFieldValue) : null;
     const filePath = isEditing ? document.getElementById('commFilePath').value : `communities/${slug}.md`;
 
-    console.log('Form submit - Latitude:', latitude, 'Longitude:', longitude);
+    console.log('Form submit - Parsed coordinates:', { latitude, longitude });
 
     const supabase = authUtils.supabase;
 
@@ -339,12 +350,17 @@ async function handleFormSubmit(e) {
             const ward = document.getElementById('commWard').value.trim();
             if (ward) updateData.ward = ward;
 
-            const { error } = await supabase
+            console.log('Sending to Supabase:', updateData);
+
+            const { data: updatedData, error } = await supabase
                 .from('file_metadata')
                 .update(updateData)
-                .eq('id', editingId);
+                .eq('id', editingId)
+                .select();
 
             if (error) throw error;
+
+            console.log('Update successful. Returned data:', updatedData);
         } else {
             // Create new
             const insertData = {
@@ -535,16 +551,30 @@ function setLocation(lat, lng) {
     }).addTo(locationMap);
 
     // Update form fields
-    document.getElementById('commLatitude').value = lat;
-    document.getElementById('commLongitude').value = lng;
+    const latField = document.getElementById('commLatitude');
+    const lngField = document.getElementById('commLongitude');
+
+    if (latField && lngField) {
+        latField.value = lat;
+        lngField.value = lng;
+        console.log('Map picker - Set coordinates:', { lat, lng });
+        console.log('Hidden fields after update:', {
+            latValue: latField.value,
+            lngValue: lngField.value
+        });
+    } else {
+        console.error('Could not find hidden lat/lng fields!');
+    }
+
     document.getElementById('currentCoords').textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
     // Handle marker drag
     locationMarker.on('dragend', function(e) {
         const newLatLng = e.target.getLatLng();
-        document.getElementById('commLatitude').value = newLatLng.lat;
-        document.getElementById('commLongitude').value = newLatLng.lng;
+        latField.value = newLatLng.lat;
+        lngField.value = newLatLng.lng;
         document.getElementById('currentCoords').textContent = `${newLatLng.lat.toFixed(6)}, ${newLatLng.lng.toFixed(6)}`;
+        console.log('Map picker - Marker dragged to:', { lat: newLatLng.lat, lng: newLatLng.lng });
     });
 
     // Center map on marker
