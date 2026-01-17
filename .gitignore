@@ -21,3 +21,13 @@ website/_site/
 
 # Supporting documents (Excel, PDFs - will be managed in Supabase)
 supporting documents/
+
+# Supabase CLI temp files
+supabase/.temp/
+
+# Test files
+*-from-supabase-storage.md
+test-*.html
+
+# Old build output
+docs/
