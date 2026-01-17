@@ -77,7 +77,20 @@ function renderCommunities(comms) {
         const name = comm.metadata?.name || comm.slug;
         const city = comm.metadata?.city || comm.city || 'City not specified';
         const state = comm.metadata?.state || '';
-        const neighborhood = comm.neighborhood || comm.metadata?.neighborhood || '';
+
+        // Display neighborhoods with "First +N" format
+        const neighborhoods = comm.metadata?.neighborhoods ||
+                             (comm.neighborhood ? [comm.neighborhood] : []);
+        const neighborhoodDisplay = neighborhoods.length > 0
+            ? neighborhoods[0] + (neighborhoods.length > 1 ? ` +${neighborhoods.length - 1}` : '')
+            : '';
+
+        // Display wards with "First +N" format
+        const wards = comm.metadata?.wards || (comm.ward ? [comm.ward] : []);
+        const wardDisplay = wards.length > 0
+            ? wards[0] + (wards.length > 1 ? ` +${wards.length - 1}` : '')
+            : '';
+
         const themes = comm.metadata?.themes || [];
         const themesText = Array.isArray(themes) ? themes.slice(0, 3).join(', ') : themes || '';
         const description = comm.metadata?.description || '';
@@ -86,8 +99,8 @@ function renderCommunities(comms) {
         // Check for missing data
         const missing = [];
         if (!comm.latitude || !comm.longitude) missing.push('Location');
-        if (!comm.ward) missing.push('Ward');
-        if (!neighborhood) missing.push('Neighborhood');
+        if (wards.length === 0) missing.push('Ward');
+        if (neighborhoods.length === 0) missing.push('Neighborhood');
         if (!themes || themes.length === 0) missing.push('Themes');
         if (!description) missing.push('Description');
 
@@ -115,8 +128,8 @@ function renderCommunities(comms) {
                     ${description ? `<p style="color: #888; font-size: 0.875rem; margin-bottom: 0.5rem;">${truncatedDesc}</p>` : ''}
                     <div class="org-meta">
                         ${city ? `<span><i class="fa-solid fa-location-dot"></i> ${city}${state ? ', ' + state : ''}</span>` : ''}
-                        ${neighborhood ? `<span><i class="fa-solid fa-house"></i> ${neighborhood}</span>` : ''}
-                        ${comm.ward ? `<span><i class="fa-solid fa-map"></i> Ward ${comm.ward}</span>` : ''}
+                        ${neighborhoodDisplay ? `<span><i class="fa-solid fa-house"></i> ${neighborhoodDisplay}</span>` : ''}
+                        ${wardDisplay ? `<span><i class="fa-solid fa-map"></i> ${wardDisplay}</span>` : ''}
                     </div>
                     ${missingBadge}
                 </div>
@@ -238,8 +251,17 @@ async function editCommunity(id) {
     document.getElementById('commName').value = comm.metadata?.name || '';
     document.getElementById('commCity').value = comm.metadata?.city || comm.city || '';
     document.getElementById('commState').value = comm.metadata?.state || '';
-    document.getElementById('commNeighborhood').value = comm.neighborhood || comm.metadata?.neighborhood || '';
-    document.getElementById('commWard').value = comm.ward || '';
+
+    // Load neighborhoods - try plural first, fall back to singular for backward compatibility
+    const neighborhoods = comm.metadata?.neighborhoods ||
+                         (comm.neighborhood ? [comm.neighborhood] :
+                         (comm.metadata?.neighborhood ? [comm.metadata.neighborhood] : []));
+    document.getElementById('commNeighborhoods').value = neighborhoods.join('\n');
+
+    // Load wards as chips - try plural first, fall back to singular
+    const wards = comm.metadata?.wards ||
+                 (comm.ward ? [comm.ward] : []);
+    setSelectedWards(wards);
 
     document.getElementById('commDescription').value = comm.metadata?.description || '';
     document.getElementById('commPopulation').value = comm.metadata?.population || '';
@@ -307,7 +329,19 @@ async function handleFormSubmit(e) {
     const city = document.getElementById('commCity').value.trim();
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-    const neighborhood = document.getElementById('commNeighborhood').value.trim();
+    // Parse neighborhoods (one per line from textarea)
+    const neighborhoods = document.getElementById('commNeighborhoods').value
+        .split('\n')
+        .map(s => s.trim())
+        .filter(s => s);
+
+    // Get wards from chips (managed by chip functions)
+    const wards = getSelectedWards();
+
+    // For backward compatibility: store first value in singular fields
+    const neighborhood = neighborhoods.length > 0 ? neighborhoods[0] : '';
+    const ward = wards.length > 0 ? wards[0] : '';
+
     const contactPhone = document.getElementById('commContactPhone').value.trim();
     const stories = document.getElementById('commStories').value.trim();
 
@@ -316,7 +350,8 @@ async function handleFormSubmit(e) {
         type: 'community',
         city: city,
         state: document.getElementById('commState').value.trim(),
-        neighborhood: neighborhood,
+        neighborhoods: neighborhoods,  // Array of neighborhoods
+        wards: wards,                   // Array of wards
         description: document.getElementById('commDescription').value.trim(),
         population: document.getElementById('commPopulation').value.trim(),
         geography: document.getElementById('commGeography').value.trim(),
@@ -459,8 +494,7 @@ async function handleFormSubmit(e) {
             if (latitude !== null) insertData.latitude = latitude;
             if (longitude !== null) insertData.longitude = longitude;
 
-            // Get ward from form
-            const ward = document.getElementById('commWard').value.trim();
+            // Ward already extracted above (first ward from chips)
             if (ward) insertData.ward = ward;
 
             const { error } = await supabase
