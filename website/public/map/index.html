@@ -152,6 +152,22 @@
         .leaflet-control-layers input[type="checkbox"] {
             cursor: pointer;
         }
+
+        /* Ward boundary tooltips */
+        .ward-tooltip {
+            background-color: rgba(102, 126, 234, 0.95);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .ward-tooltip::before {
+            border-top-color: rgba(102, 126, 234, 0.95);
+        }
     </style>
 </head>
 <body>
@@ -478,7 +494,35 @@
                             opacity: 0.6
                         });
 
-                        console.log('✅ Ward boundaries styled');
+                        // Add tooltips to each ward polygon
+                        this.eachLayer(function(layer) {
+                            if (layer.feature && layer.feature.properties) {
+                                const props = layer.feature.properties;
+                                // KML properties may have ward name in different fields
+                                const wardName = props.name || props.Name || props.WARD_NAME || props.ward_name || 'Ward';
+                                const wardNumber = props.number || props.Number || props.WARD_NO || props.ward_no || '';
+
+                                let tooltipText = '';
+                                if (wardNumber) {
+                                    tooltipText = `Ward ${wardNumber}`;
+                                    if (wardName && wardName !== 'Ward') {
+                                        tooltipText += ` - ${wardName}`;
+                                    }
+                                } else if (wardName) {
+                                    tooltipText = wardName;
+                                }
+
+                                if (tooltipText) {
+                                    layer.bindTooltip(tooltipText, {
+                                        permanent: false,
+                                        direction: 'center',
+                                        className: 'ward-tooltip'
+                                    });
+                                }
+                            }
+                        });
+
+                        console.log('✅ Ward boundaries styled and tooltips added');
                         console.log(`Ward bounds: ${JSON.stringify(this.getBounds())}`);
                     })
                     .on('error', function(e) {
