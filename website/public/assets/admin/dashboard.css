@@ -19,41 +19,19 @@
     grid-template-columns: 70px 1fr;
 }
 
-/* Sidebar Toggle Button */
-.sidebar-toggle {
-    position: fixed;
-    top: 50%;
-    left: 260px;
-    transform: translateY(-50%);
-    z-index: 1001;
-    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
-    color: white;
-    border: none;
-    padding: 0;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(35, 162, 165, 0.3);
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Sidebar Toggle Menu Item */
+.nav-item-toggle {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 1rem !important;
 }
 
-.sidebar-toggle:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(35, 162, 165, 0.5);
+.nav-item-toggle:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
 }
 
-.sidebar-toggle:active {
-    transform: translateY(-50%) scale(0.95);
-}
-
-.dashboard-container.sidebar-collapsed .sidebar-toggle {
-    left: 50px;
+.nav-item-toggle::before {
+    display: none !important;
 }
 
 /* Sidebar - Glassmorphism with Gradient */
@@ -437,18 +415,6 @@
         visibility: visible;
     }
 
-    /* Adjust toggle button for mobile */
-    .sidebar-toggle {
-        left: 1.5rem !important;
-        top: auto !important;
-        bottom: 1.5rem;
-        transform: none !important;
-    }
-
-    .dashboard-container.sidebar-collapsed .sidebar-toggle {
-        left: 1.5rem !important;
-    }
-
     .main-content {
         grid-column: 1;
     }
@@ -506,7 +472,7 @@
     font-size: 1rem;
 }
 
-/* Sidebar toggle icon */
-.sidebar-toggle i {
+/* Sidebar toggle menu item icon */
+.nav-item-toggle .icon i {
     line-height: 1;
 }

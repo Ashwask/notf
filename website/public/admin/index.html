@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="/assets/admin/dashboard.css">
 </head>
 <body>
-    <!-- Sidebar toggle -->
-    <button class="sidebar-toggle" id="sidebarToggle">
-        <i class="fa-solid fa-angles-left" id="toggleIcon" style="font-size: 1.25rem;"></i>
-    </button>
-
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
@@ -23,6 +18,12 @@
             </div>
 
             <nav class="sidebar-nav">
+                <a href="#" class="nav-item nav-item-toggle" id="sidebarToggle" data-label="Collapse">
+                    <span class="icon">
+                        <i class="fa-solid fa-angles-left" id="toggleIcon"></i>
+                    </span>
+                    <span class="label">Collapse</span>
+                </a>
                 <a href="#" class="nav-item active" data-page="communities" data-label="Communities">
                     <span class="icon">
                         <i class="fa-solid fa-house"></i>
@@ -78,10 +79,12 @@
         const sidebarToggle = document.getElementById('sidebarToggle');
         const dashboardContainer = document.querySelector('.dashboard-container');
 
-        function toggleSidebar() {
+        function toggleSidebar(e) {
+            e.preventDefault();
             const isMobile = window.innerWidth <= 768;
             const isCollapsed = dashboardContainer.classList.contains('sidebar-collapsed');
             const toggleIcon = document.getElementById('toggleIcon');
+            const toggleLabel = sidebarToggle.querySelector('.label');
 
             if (isMobile) {
                 // Mobile: Toggle between overlay and hidden
@@ -89,14 +92,19 @@
                 toggleIcon.className = sidebar.classList.contains('mobile-open')
                     ? 'fa-solid fa-times'
                     : 'fa-solid fa-bars';
+                toggleLabel.textContent = sidebar.classList.contains('mobile-open') ? 'Close' : 'Menu';
             } else {
                 // Desktop: Toggle between expanded and mini-sidebar
                 if (isCollapsed) {
                     dashboardContainer.classList.remove('sidebar-collapsed');
                     toggleIcon.className = 'fa-solid fa-angles-left';
+                    toggleLabel.textContent = 'Collapse';
+                    sidebarToggle.setAttribute('data-label', 'Collapse');
                 } else {
                     dashboardContainer.classList.add('sidebar-collapsed');
                     toggleIcon.className = 'fa-solid fa-angles-right';
+                    toggleLabel.textContent = 'Expand';
+                    sidebarToggle.setAttribute('data-label', 'Expand');
                 }
             }
         }
@@ -107,6 +115,7 @@
         window.addEventListener('resize', function() {
             const isMobile = window.innerWidth <= 768;
             const toggleIcon = document.getElementById('toggleIcon');
+            const toggleLabel = sidebarToggle.querySelector('.label');
 
             if (!isMobile) {
                 // Desktop mode: remove mobile classes
@@ -115,22 +124,25 @@
                 toggleIcon.className = isCollapsed
                     ? 'fa-solid fa-angles-right'
                     : 'fa-solid fa-angles-left';
+                toggleLabel.textContent = isCollapsed ? 'Expand' : 'Collapse';
+                sidebarToggle.setAttribute('data-label', isCollapsed ? 'Expand' : 'Collapse');
             } else {
                 // Mobile mode: reset to hamburger
                 dashboardContainer.classList.remove('sidebar-collapsed');
                 toggleIcon.className = sidebar.classList.contains('mobile-open')
                     ? 'fa-solid fa-times'
                     : 'fa-solid fa-bars';
+                toggleLabel.textContent = sidebar.classList.contains('mobile-open') ? 'Close' : 'Menu';
             }
         });
 
         // Navigation handling
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav-item:not(.nav-item-toggle)').forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 // Update active state
-                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.nav-item:not(.nav-item-toggle)').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
 
                 // Load page
