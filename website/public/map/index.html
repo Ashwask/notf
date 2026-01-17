@@ -301,7 +301,11 @@
             'Pune': { lat: 18.5204, lng: 73.8567 },
             'Kolkata': { lat: 22.5726, lng: 88.3639 },
             'Chennai': { lat: 13.0827, lng: 80.2707 },
-            'Hyderabad': { lat: 17.3850, lng: 78.4867 }
+            'Hyderabad': { lat: 17.3850, lng: 78.4867 },
+            'Gurugram': { lat: 28.4595, lng: 77.0266 },
+            'Visakhapatnam': { lat: 17.6868, lng: 83.2185 },
+            'Thane': { lat: 19.2183, lng: 72.9781 },
+            'Jaipur': { lat: 26.9124, lng: 75.7873 }
         };
 
         // Neighborhood coordinates (loaded from JSON)
@@ -547,6 +551,42 @@
                         file: '/assets/geodata/ahmedabad-wards.kml',
                         color: '#fa709a',
                         layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Kolkata',
+                        file: '/assets/geodata/kolkata-wards.kml',
+                        color: '#9333ea',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Pune',
+                        file: '/assets/geodata/pune-wards.kml',
+                        color: '#fb923c',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Gurugram',
+                        file: '/assets/geodata/gurugram-wards.kml',
+                        color: '#10b981',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Visakhapatnam',
+                        file: '/assets/geodata/visakhapatnam-wards.kml',
+                        color: '#06b6d4',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Thane',
+                        file: '/assets/geodata/thane-wards.kml',
+                        color: '#ec4899',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Jaipur',
+                        file: '/assets/geodata/jaipur-wards.kml',
+                        color: '#f59e0b',
+                        layer: L.layerGroup()
                     }
                 ];
 
@@ -624,6 +664,12 @@
                             <option value="Chennai">Chennai</option>
                             <option value="Hyderabad">Hyderabad</option>
                             <option value="Ahmedabad">Ahmedabad</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Pune">Pune</option>
+                            <option value="Gurugram">Gurugram</option>
+                            <option value="Visakhapatnam">Visakhapatnam</option>
+                            <option value="Thane">Thane</option>
+                            <option value="Jaipur">Jaipur</option>
                         </select>
                     `;
 
