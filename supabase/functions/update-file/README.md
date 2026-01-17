@@ -4,14 +4,16 @@ This Edge Function implements the **storage-first architecture** for NOTF by upd
 
 ## Purpose
 
-When admin users edit communities or solution-providers via the CRUD interface, this function:
+When admin users edit or create communities or solution-providers via the CRUD interface, this function:
 
-1. ✅ Downloads the current file from Supabase Storage
-2. ✅ Parses YAML (or YAML frontmatter + markdown body)
-3. ✅ Merges updates (preserves fields not in the payload)
-4. ✅ Uploads updated file back to Storage (**SOURCE OF TRUTH UPDATED**)
-5. ✅ Parses file and updates database (**CACHE UPDATED**)
-6. ✅ Returns success to client
+1. ✅ Checks if file exists in Supabase Storage
+2. ✅ If exists: Downloads and parses YAML (or YAML frontmatter + markdown body)
+3. ✅ If new: Creates file from scratch
+4. ✅ Merges updates (preserves fields not in the payload for existing files)
+5. ✅ Uploads file back to Storage (**SOURCE OF TRUTH UPDATED**)
+6. ✅ Updates database with parsed data (**CACHE UPDATED**)
+7. ✅ Tracks created_by and updated_by user IDs
+8. ✅ Returns success to client
 
 ## Why This Matters
 
@@ -301,9 +303,14 @@ The function handles these errors:
 
 ## Security
 
-- Uses **service role key** (full access) - only callable by authenticated users
-- Should add RLS policies to restrict who can call this function
+- **Requires authentication** - User must be logged in to call this function
+- Verifies JWT token from Authorization header
+- Uses service role key internally for admin operations (full access)
+- Tracks created_by and updated_by user IDs for audit trail
 - Validates file paths to prevent directory traversal
+
+**Authentication:**
+The function checks the Authorization header and verifies the user's JWT token. If the token is missing or invalid, it returns a 401 Unauthorized error.
 
 ## See Also
 
