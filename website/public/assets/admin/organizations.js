@@ -207,17 +207,39 @@ async function handleFormSubmit(e) {
             // Update existing using Edge Function (storage-first architecture)
             console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            const { data, error } = await supabase.functions.invoke('update-file', {
-                body: {
+            // Get current session
+            const { data: { session } } = await supabase.auth.getSession();
+            console.log('Session status:', session ? 'active' : 'none');
+
+            // Call Edge Function directly with fetch for better control
+            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
+            const headers = {
+                'Content-Type': 'application/json',
+                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
+            };
+
+            // Add auth token if session exists
+            if (session) {
+                headers['Authorization'] = `Bearer ${session.access_token}`;
+            }
+
+            const response = await fetch(functionUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
                     file_path: filePath,
                     file_type: 'solution-provider',
                     updates: metadata
-                    // No markdown_body for .yaml files
-                }
+                })
             });
 
-            if (error) throw error;
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Edge Function HTTP error:', response.status, errorText);
+                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+            }
 
+            const data = await response.json();
             console.log('Edge Function response:', data);
 
             if (data?.error) {
