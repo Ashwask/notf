@@ -102,7 +102,7 @@ function renderCommunities(comms) {
         const statusIcon = comm.status === 'active' ? 'fa-circle-check' : comm.status === 'pending' ? 'fa-clock' : 'fa-circle';
 
         return `
-            <div class="org-card minimal">
+            <div class="org-card minimal ${comm.status === 'pending' ? 'pending-highlight' : ''}">
                 <div class="org-info">
                     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                         <h3>${name}</h3>
