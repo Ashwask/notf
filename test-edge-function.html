@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Edge Function</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Test Edge Function Authentication</h1>
+    <div id="status">Not logged in</div>
+    <button onclick="login()">Login</button>
+    <button onclick="testEdgeFunction()">Test Edge Function</button>
+    <pre id="result"></pre>
+
+    <script>
+        const SUPABASE_URL = 'https://abblyaukkoxmgzwretvm.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function login() {
+            const email = prompt('Email:');
+            const password = prompt('Password:');
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                document.getElementById('result').textContent = 'Login error: ' + error.message;
+            } else {
+                document.getElementById('status').textContent = 'Logged in as: ' + data.user.email;
+                document.getElementById('result').textContent = 'Session token: ' + data.session.access_token.substring(0, 50) + '...';
+            }
+        }
+
+        async function testEdgeFunction() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing...';
+
+            try {
+                // Get current session
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    resultDiv.textContent = 'Error: Not logged in';
+                    return;
+                }
+
+                console.log('Session exists:', session);
+                console.log('Access token:', session.access_token.substring(0, 50) + '...');
+
+                // Call Edge Function
+                const { data, error } = await supabase.functions.invoke('update-file', {
+                    body: {
+                        file_path: 'solution-providers/test.yaml',
+                        file_type: 'solution-provider',
+                        updates: {
+                            name: 'Test Organization',
+                            status: 'active'
+                        }
+                    }
+                });
+
+                if (error) {
+                    resultDiv.textContent = 'Edge Function Error:\n' + JSON.stringify(error, null, 2);
+                } else {
+                    resultDiv.textContent = 'Edge Function Success:\n' + JSON.stringify(data, null, 2);
+                }
+            } catch (err) {
+                resultDiv.textContent = 'Exception:\n' + err.message + '\n\n' + err.stack;
+            }
+        }
+    </script>
+</body>
+</html>
