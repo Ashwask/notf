@@ -51,28 +51,43 @@
 
 <section class="admin-page">
     <div class="admin-container">
-        <div class="page-header">
-            <div>
-                <h1>🏢 Solution Providers</h1>
-                <p class="subtitle">Manage organizations providing expertise and services</p>
-            </div>
-            <div class="header-actions">
-                <a href="/admin/dashboard.html" class="btn-secondary">← Dashboard</a>
-                <button onclick="showCreateForm()" class="btn-primary">➕ Add New</button>
-                <button onclick="authUtils.logout()" class="btn-secondary">Logout</button>
+        <div class="page-header minimal">
+            <h1>Solution Providers</h1>
+            <div class="icon-actions">
+                <button class="icon-btn" data-tooltip="Back to Dashboard" onclick="window.location.href='/admin/index.html'">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="icon-btn primary" data-tooltip="Add Organization" onclick="showCreateForm()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                <button class="icon-btn" data-tooltip="Refresh" onclick="loadOrganizations()">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </button>
             </div>
         </div>
 
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search by name, city, or theme..." />
-            <select id="statusFilter">
-                <option value="all">All Status</option>
-                <option value="active" selected>Active Only</option>
-                <option value="pending">Pending Only</option>
-            </select>
+        <div class="search-bar minimal">
+            <div class="minimal-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Search organizations..." />
+            </div>
+            <div class="filter-chips">
+                <button class="chip active" data-status="active" onclick="setStatusFilter('active', this)">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Active
+                </button>
+                <button class="chip" data-status="pending" onclick="setStatusFilter('pending', this)">
+                    <i class="fa-regular fa-clock"></i>
+                    Pending
+                </button>
+                <button class="chip" data-status="all" onclick="setStatusFilter('all', this)">
+                    <i class="fa-solid fa-list"></i>
+                    All
+                </button>
+            </div>
         </div>
 
-        <div id="organizationsList" class="organizations-list">
+        <div id="organizationsList" class="organizations-list minimal">
             <p class="loading">Loading organizations...</p>
         </div>
 

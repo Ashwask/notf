@@ -3,6 +3,7 @@
 let organizations = [];
 let isEditing = false;
 let editingId = null;
+let currentStatusFilter = 'active';
 
 // Require authentication and load data
 (async function() {
@@ -15,7 +16,6 @@ let editingId = null;
 
 async function loadOrganizations() {
     const supabase = authUtils.supabase;
-    const statusFilter = document.getElementById('statusFilter').value;
 
     let query = supabase
         .from('file_metadata')
@@ -23,8 +23,8 @@ async function loadOrganizations() {
         .eq('file_type', 'solution-provider')
         .order('updated_at', { ascending: false });
 
-    if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+    if (currentStatusFilter !== 'all') {
+        query = query.eq('status', currentStatusFilter);
     }
 
     const { data, error } = await query;
@@ -39,6 +39,19 @@ async function loadOrganizations() {
     renderOrganizations(organizations);
 }
 
+function setStatusFilter(status, chipElement) {
+    currentStatusFilter = status;
+
+    // Update active chip
+    document.querySelectorAll('.filter-chips .chip').forEach(chip => {
+        chip.classList.remove('active');
+    });
+    chipElement.classList.add('active');
+
+    // Reload organizations
+    loadOrganizations();
+}
+
 function renderOrganizations(orgs) {
     const container = document.getElementById('organizationsList');
 
@@ -49,25 +62,46 @@ function renderOrganizations(orgs) {
 
     container.innerHTML = orgs.map(org => {
         const name = org.metadata?.name || org.slug;
-        const theme = org.metadata?.theme || 'No theme specified';
-        const location = org.metadata?.location || 'Location not specified';
+        const theme = org.metadata?.theme || '';
+        const focusAreas = org.metadata?.focus_areas || [];
+        const focusText = Array.isArray(focusAreas) ? focusAreas.slice(0, 3).join(', ') : theme;
+        const location = org.metadata?.location || '';
         const description = org.metadata?.description || '';
-        const truncatedDesc = description.length > 150 ? description.substring(0, 150) + '...' : description;
+        const truncatedDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
+
+        const statusIcon = org.status === 'active' ? 'fa-circle-check' : org.status === 'pending' ? 'fa-clock' : 'fa-circle';
 
         return `
-            <div class="org-card">
-                <div class="org-header">
-                    <h3>${name}</h3>
-                    <span class="status-badge status-${org.status}">${org.status}</span>
+            <div class="org-card minimal">
+                <div class="org-info">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <h3>${name}</h3>
+                        <span class="status-indicator ${org.status}">
+                            <i class="fa-solid ${statusIcon}"></i>
+                            ${org.status}
+                        </span>
+                    </div>
+                    ${focusText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${focusText}</p>` : ''}
+                    ${description ? `<p style="color: #888; font-size: 0.875rem; margin-bottom: 0.5rem;">${truncatedDesc}</p>` : ''}
+                    <div class="org-meta">
+                        ${location ? `<span><i class="fa-solid fa-location-dot"></i> ${location}</span>` : ''}
+                    </div>
                 </div>
-                <div class="org-body">
-                    <p class="org-theme">${theme}</p>
-                    <p class="org-location">📍 ${location}</p>
-                    ${description ? `<p class="org-description">${truncatedDesc}</p>` : ''}
-                </div>
-                <div class="org-footer">
-                    <button onclick="editOrganization('${org.id}')" class="btn-sm btn-secondary">✏️ Edit</button>
-                    <button onclick="deleteOrganization('${org.id}', '${name.replace(/'/g, "\\\'")}')" class="btn-sm btn-danger">🗑️ Delete</button>
+                <div class="card-actions">
+                    <button class="mini-icon-btn edit" title="Edit" onclick="editOrganization('${org.id}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteOrganization('${org.id}', '${name.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    ${org.status === 'pending' ?
+                        `<button class="mini-icon-btn activate" title="Activate" onclick="updateStatus('${org.id}', 'active')">
+                            <i class="fa-solid fa-check"></i>
+                        </button>` :
+                        `<button class="mini-icon-btn deactivate" title="Deactivate" onclick="updateStatus('${org.id}', 'inactive')">
+                            <i class="fa-solid fa-ban"></i>
+                        </button>`
+                    }
                 </div>
             </div>
         `;
@@ -220,6 +254,24 @@ async function deleteOrganization(id, name) {
         alert('✅ Organization deleted successfully!');
     } catch (error) {
         alert('❌ Error: ' + error.message);
+    }
+}
+
+
+async function updateStatus(id, newStatus) {
+    const supabase = authUtils.supabase;
+
+    try {
+        const { error } = await supabase
+            .from('file_metadata')
+            .update({ status: newStatus })
+            .eq('id', id);
+
+        if (error) throw error;
+
+        await loadOrganizations();
+    } catch (error) {
+        alert('❌ Error updating status: ' + error.message);
     }
 }
 

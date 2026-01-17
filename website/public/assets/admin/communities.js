@@ -25,9 +25,10 @@ let locationMarker = null;
     setupEventListeners();
 })();
 
+let currentStatusFilter = 'active';
+
 async function loadCommunities() {
     const supabase = authUtils.supabase;
-    const statusFilter = document.getElementById('statusFilter').value;
 
     let query = supabase
         .from('file_metadata')
@@ -35,8 +36,8 @@ async function loadCommunities() {
         .eq('file_type', 'community')
         .order('updated_at', { ascending: false });
 
-    if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+    if (currentStatusFilter !== 'all') {
+        query = query.eq('status', currentStatusFilter);
     }
 
     const { data, error } = await query;
@@ -51,6 +52,19 @@ async function loadCommunities() {
     renderCommunities(communities);
 }
 
+function setStatusFilter(status, chipElement) {
+    currentStatusFilter = status;
+
+    // Update active chip
+    document.querySelectorAll('.filter-chips .chip').forEach(chip => {
+        chip.classList.remove('active');
+    });
+    chipElement.classList.add('active');
+
+    // Reload communities
+    loadCommunities();
+}
+
 function renderCommunities(comms) {
     const container = document.getElementById('communitiesList');
 
@@ -62,39 +76,65 @@ function renderCommunities(comms) {
     container.innerHTML = comms.map(comm => {
         const name = comm.metadata?.name || comm.slug;
         const city = comm.metadata?.city || comm.city || 'City not specified';
+        const state = comm.metadata?.state || '';
+        const neighborhood = comm.neighborhood || comm.metadata?.neighborhood || '';
         const themes = comm.metadata?.themes || [];
-        const themesText = Array.isArray(themes) ? themes.join(', ') : themes || 'No themes specified';
+        const themesText = Array.isArray(themes) ? themes.slice(0, 3).join(', ') : themes || '';
         const description = comm.metadata?.description || '';
-        const truncatedDesc = description.length > 150 ? description.substring(0, 150) + '...' : description;
+        const truncatedDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
 
         // Check for missing data
         const missing = [];
-        if (!comm.latitude || !comm.longitude) missing.push('📍 Location');
-        if (!comm.ward) missing.push('🗺️ Ward');
-        if (!comm.neighborhood && !comm.metadata?.neighborhood) missing.push('🏘️ Neighborhood');
-        if (!themes || themes.length === 0) missing.push('🏷️ Themes');
-        if (!description) missing.push('📝 Description');
+        if (!comm.latitude || !comm.longitude) missing.push('Location');
+        if (!comm.ward) missing.push('Ward');
+        if (!neighborhood) missing.push('Neighborhood');
+        if (!themes || themes.length === 0) missing.push('Themes');
+        if (!description) missing.push('Description');
 
         const missingBadge = missing.length > 0 ?
-            `<div style="margin-top: 0.5rem; padding: 0.5rem; background: #fff3cd; border-left: 3px solid #ffc107; border-radius: 4px; font-size: 0.75rem;">
-                <strong>Missing:</strong> ${missing.join(', ')}
+            `<div class="org-meta">
+                <span style="color: #f59e0b;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Missing: ${missing.join(', ')}
+                </span>
             </div>` : '';
 
+        const statusIcon = comm.status === 'active' ? 'fa-circle-check' : comm.status === 'pending' ? 'fa-clock' : 'fa-circle';
+
         return `
-            <div class="org-card">
-                <div class="org-header">
-                    <h3>${name}</h3>
-                    <span class="status-badge status-${comm.status}">${comm.status}</span>
-                </div>
-                <div class="org-body">
-                    <p class="org-theme">${themesText}</p>
-                    <p class="org-location">📍 ${city}</p>
-                    ${description ? `<p class="org-description">${truncatedDesc}</p>` : ''}
+            <div class="org-card minimal">
+                <div class="org-info">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <h3>${name}</h3>
+                        <span class="status-indicator ${comm.status}">
+                            <i class="fa-solid ${statusIcon}"></i>
+                            ${comm.status}
+                        </span>
+                    </div>
+                    ${themesText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${themesText}</p>` : ''}
+                    ${description ? `<p style="color: #888; font-size: 0.875rem; margin-bottom: 0.5rem;">${truncatedDesc}</p>` : ''}
+                    <div class="org-meta">
+                        ${city ? `<span><i class="fa-solid fa-location-dot"></i> ${city}${state ? ', ' + state : ''}</span>` : ''}
+                        ${neighborhood ? `<span><i class="fa-solid fa-house"></i> ${neighborhood}</span>` : ''}
+                        ${comm.ward ? `<span><i class="fa-solid fa-map"></i> Ward ${comm.ward}</span>` : ''}
+                    </div>
                     ${missingBadge}
                 </div>
-                <div class="org-footer">
-                    <button onclick="editCommunity('${comm.id}')" class="btn-sm btn-secondary">✏️ Edit</button>
-                    <button onclick="deleteCommunity('${comm.id}', '${name.replace(/'/g, "\\\'")}')" class="btn-sm btn-danger">🗑️ Delete</button>
+                <div class="card-actions">
+                    <button class="mini-icon-btn edit" title="Edit" onclick="editCommunity('${comm.id}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteCommunity('${comm.id}', '${name.replace(/'/g, "\\'")}')">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    ${comm.status === 'pending' ?
+                        `<button class="mini-icon-btn activate" title="Activate" onclick="updateStatus('${comm.id}', 'active')">
+                            <i class="fa-solid fa-check"></i>
+                        </button>` :
+                        `<button class="mini-icon-btn deactivate" title="Deactivate" onclick="updateStatus('${comm.id}', 'inactive')">
+                            <i class="fa-solid fa-ban"></i>
+                        </button>`
+                    }
                 </div>
             </div>
         `;
@@ -357,6 +397,23 @@ async function deleteCommunity(id, name) {
         alert('✅ Community deleted successfully!');
     } catch (error) {
         alert('❌ Error: ' + error.message);
+    }
+}
+
+async function updateStatus(id, newStatus) {
+    const supabase = authUtils.supabase;
+
+    try {
+        const { error } = await supabase
+            .from('file_metadata')
+            .update({ status: newStatus })
+            .eq('id', id);
+
+        if (error) throw error;
+
+        await loadCommunities();
+    } catch (error) {
+        alert('❌ Error updating status: ' + error.message);
     }
 }
 
