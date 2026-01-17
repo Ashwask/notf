@@ -21,7 +21,7 @@ async function loadOrganizations() {
         .from('file_metadata')
         .select('*')
         .eq('file_type', 'solution-provider')
-        .order('updated_at', { ascending: false });
+        .order('slug', { ascending: true });
 
     if (currentStatusFilter !== 'all') {
         query = query.eq('status', currentStatusFilter);

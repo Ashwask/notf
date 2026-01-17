@@ -34,7 +34,7 @@ async function loadCommunities() {
         .from('file_metadata')
         .select('*')
         .eq('file_type', 'community')
-        .order('updated_at', { ascending: false });
+        .order('slug', { ascending: true });
 
     if (currentStatusFilter !== 'all') {
         query = query.eq('status', currentStatusFilter);

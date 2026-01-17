@@ -26,7 +26,7 @@ async function loadSolutionProviders() {
         .select('*')
         .eq('file_type', 'solution-provider')
         .eq('status', 'active')
-        .order('updated_at', { ascending: false });
+        .order('slug', { ascending: true });
 
     if (error) {
         console.error('Error loading solution providers:', error);
@@ -67,7 +67,7 @@ async function loadCommunities(cityFilter = null) {
         .select('*')
         .eq('file_type', 'community')
         .eq('status', 'active')
-        .order('updated_at', { ascending: false });
+        .order('slug', { ascending: true });
 
     if (cityFilter) {
         query = query.eq('city', cityFilter);
