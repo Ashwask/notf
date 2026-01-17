@@ -3,6 +3,10 @@ name: "JP nagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "JP nagar"
+mla:
+  name: "M. Satish Reddy"
+  party: "BJP"
+  constituency: "Bommanahalli"
 lead_organization: "organizations/women-of-wisdom"
 lead_organization_name: "Women of Wisdom"
 contact:

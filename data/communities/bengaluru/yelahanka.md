@@ -3,6 +3,10 @@ name: "Yelahanka"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Yelahanka"
+mla:
+  name: "S.R. Vishwanath"
+  party: "BJP"
+  constituency: "Yelahanka"
 lead_organization: "organizations/yuva-yelahanka"
 lead_organization_name: "YUVA yelahanka"
 contact:

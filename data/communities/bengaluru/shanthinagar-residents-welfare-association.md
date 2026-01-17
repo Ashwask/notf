@@ -3,6 +3,10 @@ name: Shanthinagar Residents Welfare Association
 type: community-org
 city: Karnataka, Bengaluru
 neighborhood: Shanthinagar
+mla:
+  name: "N.A. Haris"
+  party: "INC"
+  constituency: "Shanti Nagar"
 contact:
   person: Shobha Rander
 asks:

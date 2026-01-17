@@ -2,7 +2,11 @@
 name: Sarjapur Road Citizens Forum
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "M. Satish Reddy"
+  party: "BJP"
+  constituency: "Bommanahalli"
+
 - Sarjapur Road
 - Kasavanahalli
 - Carmelaram

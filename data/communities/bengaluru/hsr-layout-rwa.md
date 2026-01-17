@@ -2,7 +2,11 @@
 name: HSR Layout Residents Welfare Association
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "M. Satish Reddy"
+  party: "BJP"
+  constituency: "Bommanahalli"
+
 - HSR Layout
 - Sector 1-7
 - BTM Layout

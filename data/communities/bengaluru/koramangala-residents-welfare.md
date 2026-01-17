@@ -2,7 +2,11 @@
 name: Koramangala Residents Welfare Association
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Ramalinga Reddy"
+  party: "INC"
+  constituency: "B.T.M Layout"
+
 - Koramangala
 - Ejipura
 - Jakkasandra

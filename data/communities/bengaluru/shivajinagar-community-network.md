@@ -2,7 +2,11 @@
 name: Shivajinagar Community Network
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Rizwan Arshad"
+  party: "INC"
+  constituency: "Shivajinagar"
+
 - Shivajinagar
 - Frazer Town
 - Cox Town

@@ -4,6 +4,10 @@ type: community-org
 description: (NGO) (APU)
 city: Karnataka, Bengaluru
 neighborhood: Sarjapura
+mla:
+  name: "B. Shivanna"
+  party: "INC"
+  constituency: "Anekal"
 contact:
   person: Navaneetha
   phone: '9035760473'

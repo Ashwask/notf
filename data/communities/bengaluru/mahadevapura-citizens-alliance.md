@@ -2,7 +2,11 @@
 name: Mahadevapura Citizens Alliance
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Manjula Aravind Limbavalli"
+  party: "BJP"
+  constituency: "Mahadevapura"
+
 - Mahadevapura
 - Hoodi
 - ITPL

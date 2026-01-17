@@ -2,7 +2,11 @@
 name: Indiranagar Awakened Citizens
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "S. Raghu"
+  party: "BJP"
+  constituency: "C.V. Raman Nagar"
+
 - Indiranagar
 - Domlur
 - HAL

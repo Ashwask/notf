@@ -3,6 +3,10 @@ name: "Shanthinagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Shanthinagar"
+mla:
+  name: "N.A. Haris"
+  party: "INC"
+  constituency: "Shanti Nagar"
 lead_organization: "organizations/shanthinagar-residents-welfare-association"
 lead_organization_name: "Shanthinagar Residents Welfare Association"
 contact:

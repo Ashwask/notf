@@ -5,6 +5,10 @@ description: community group in Malleswaram seeking to knit the community togeth
   and work with residents to improve our neighborhood.
 city: Karnataka, Bengaluru
 neighborhood: Malleshwaram
+mla:
+  name: "Dr. C.N. Ashwathnarayana"
+  party: "BJP"
+  constituency: "Malleshwaram"
 contact:
   person: Suchitra Deep
   phone: '9845041267'

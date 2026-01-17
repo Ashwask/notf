@@ -3,6 +3,10 @@ name: "Sarjapura"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Sarjapura"
+mla:
+  name: "B. Shivanna"
+  party: "INC"
+  constituency: "Anekal"
 lead_organization: "organizations/tunturu"
 lead_organization_name: "Tunturu"
 contact:

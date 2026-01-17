@@ -4,6 +4,10 @@ type: community-org
 description: (RWA)
 city: Karnataka, Bengaluru
 neighborhood: Shanthinagar
+mla:
+  name: "N.A. Haris"
+  party: "INC"
+  constituency: "Shanti Nagar"
 status: pending
 stories: null
 ---

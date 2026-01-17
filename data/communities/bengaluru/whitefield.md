@@ -3,6 +3,10 @@ name: "Whitefield"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Whitefield"
+mla:
+  name: "Manjula Aravind Limbavalli"
+  party: "BJP"
+  constituency: "Mahadevapura"
 lead_organization: "organizations/whitefield-rising"
 lead_organization_name: "Whitefield rising"
 contact:

@@ -2,7 +2,11 @@
 name: Hebbal Lake Preservation Forum
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Suresha B.S."
+  party: "INC"
+  constituency: "Hebbal"
+
 - Hebbal
 - Kempapura
 - Nagawara

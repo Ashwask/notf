@@ -2,7 +2,11 @@
 name: Yelahanka Green Brigade
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "S.R. Vishwanath"
+  party: "BJP"
+  constituency: "Yelahanka"
+
 - Yelahanka
 - Yelahanka New Town
 - Jakkur

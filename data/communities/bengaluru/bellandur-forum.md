@@ -2,7 +2,11 @@
 name: Bellandur Forum for Area Improvement
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Manjula Aravind Limbavalli"
+  party: "BJP"
+  constituency: "Mahadevapura"
+
 - Bellandur
 - Ibbalur
 - Devarabisanahalli

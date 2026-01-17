@@ -3,6 +3,10 @@ name: "Domlur"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Domlur"
+mla:
+  name: "N.A. Haris"
+  party: "INC"
+  constituency: "Shanti Nagar"
 lead_organization: "organizations/domlur-rwa"
 lead_organization_name: "Domlur RWA"
 contact:

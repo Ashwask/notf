@@ -3,6 +3,10 @@ name: YUVA yelahanka
 type: community-org
 city: Karnataka, Bengaluru
 neighborhood: Yelahanka
+mla:
+  name: "S.R. Vishwanath"
+  party: "BJP"
+  constituency: "Yelahanka"
 contact:
   person: Jagadeesh
   phone: '9845171449'

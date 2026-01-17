@@ -27,6 +27,10 @@ description: 'MSIF one of the oldest RWAs in Malleshwaram has been working towar
   residents to the nearby (two) metro stations.'
 city: Karnataka, Bengaluru
 neighborhood: Malleshwaram
+mla:
+  name: "Dr. C.N. Ashwathnarayana"
+  party: "BJP"
+  constituency: "Malleshwaram"
 contact:
   person: Rekha Chari
   phone: '9844086982'

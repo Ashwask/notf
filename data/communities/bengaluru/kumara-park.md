@@ -3,6 +3,10 @@ name: "Kumara park"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Kumara park"
+mla:
+  name: "Dinesh Gundu Rao"
+  party: "INC"
+  constituency: "Gandhi Nagar"
 lead_organization: "organizations/cifos"
 lead_organization_name: "Kumara park RWA"
 contact:

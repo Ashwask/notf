@@ -39,6 +39,10 @@ description: "Founded in May 2019, although C4C has members from across Bengalur
   \ a little better than we found it”."
 city: Karnataka, Bengaluru
 neighborhood: Vasanthnagar
+mla:
+  name: "Rizwan Arshad"
+  party: "INC"
+  constituency: "Shivajinagar"
 contact:
   person: Rajkumar Dugar
   phone: '9448068721'

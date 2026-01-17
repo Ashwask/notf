@@ -266,6 +266,9 @@ async function editCommunity(id) {
     document.getElementById('commLastUpdated').value = comm.metadata?.last_updated || '';
     document.getElementById('commLatitude').value = comm.latitude || '';
     document.getElementById('commLongitude').value = comm.longitude || '';
+    document.getElementById('commMlaName').value = comm.metadata?.mla?.name || '';
+    document.getElementById('commMlaParty').value = comm.metadata?.mla?.party || '';
+    document.getElementById('commMlaConstituency').value = comm.metadata?.mla?.constituency || '';
 
     document.getElementById('formModal').style.display = 'flex';
 
@@ -322,6 +325,19 @@ async function handleFormSubmit(e) {
         started: document.getElementById('commStarted').value,
         last_updated: new Date().toISOString().split('T')[0]
     };
+
+    // Add MLA information if provided
+    const mlaName = document.getElementById('commMlaName').value.trim();
+    const mlaParty = document.getElementById('commMlaParty').value.trim();
+    const mlaConstituency = document.getElementById('commMlaConstituency').value.trim();
+
+    if (mlaName || mlaParty || mlaConstituency) {
+        metadata.mla = {
+            name: mlaName,
+            party: mlaParty,
+            constituency: mlaConstituency
+        };
+    }
 
     const status = document.getElementById('commStatus').value;
 

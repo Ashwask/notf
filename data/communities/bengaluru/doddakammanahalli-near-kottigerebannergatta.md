@@ -3,6 +3,10 @@ name: "Doddakammanahalli near Kottigere/Bannergatta"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Doddakammanahalli near Kottigere/Bannergatta"
+mla:
+  name: "M. Satish Reddy"
+  party: "BJP"
+  constituency: "Bommanahalli"
 lead_organization: "organizations/sound-of-water-purvankara"
 lead_organization_name: "Sound of water, Purvankara"
 contact:

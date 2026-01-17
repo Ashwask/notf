@@ -3,6 +3,10 @@ name: "Sanjaynagar/RMV II Stage"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Sanjaynagar/RMV II Stage"
+mla:
+  name: "Suresha B.S."
+  party: "INC"
+  constituency: "Hebbal"
 lead_organization: "organizations/cifos"
 lead_organization_name: "CiFoS"
 contact:

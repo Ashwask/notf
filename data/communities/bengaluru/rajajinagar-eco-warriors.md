@@ -2,7 +2,11 @@
 name: Rajajinagar Eco Warriors
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "S. Suresh Kumar"
+  party: "BJP"
+  constituency: "Rajaji Nagar"
+
 - Rajajinagar
 - Basaveshwaranagar
 - Kamakshipalya

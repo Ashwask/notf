@@ -2,7 +2,11 @@
 name: Banashankari Environmental Forum
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Ramalinga Reddy"
+  party: "INC"
+  constituency: "B.T.M Layout"
+
 - Banashankari
 - Kathriguppe
 - Padmanabhanagar

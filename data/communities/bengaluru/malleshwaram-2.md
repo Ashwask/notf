@@ -3,6 +3,10 @@ name: "Malleshwaram"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Malleshwaram"
+mla:
+  name: "Dr. C.N. Ashwathnarayana"
+  party: "BJP"
+  constituency: "Malleshwaram"
 lead_organization: "organizations/malleshwaram-social"
 lead_organization_name: "Malleshwaram Social"
 contact:

@@ -2,7 +2,11 @@
 name: Whitefield Rising
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Manjula Aravind Limbavalli"
+  party: "BJP"
+  constituency: "Mahadevapura"
+
 - Whitefield
 - Kadugodi
 - Varthur

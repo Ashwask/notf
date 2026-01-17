@@ -3,6 +3,10 @@ name: "Vasanthnagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Vasanthnagar"
+mla:
+  name: "Rizwan Arshad"
+  party: "INC"
+  constituency: "Shivajinagar"
 lead_organization: "organizations/citizens-for-citizens"
 lead_organization_name: "Citizens for Citizens"
 contact:

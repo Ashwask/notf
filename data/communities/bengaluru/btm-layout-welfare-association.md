@@ -2,7 +2,11 @@
 name: BTM Layout Welfare Association
 type: community-org
 location: Bengaluru
-neighborhoods:
+neighborhoods:mla:
+  name: "Ramalinga Reddy"
+  party: "INC"
+  constituency: "B.T.M Layout"
+
 - BTM Layout
 - Madiwala
 - Tavarekere
