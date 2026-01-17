@@ -316,9 +316,9 @@
             maxZoom: 18
         }).addTo(map);
 
-        // Create layer groups for boundaries
+        // Create layer group for corporation boundaries
         const corporationLayer = L.layerGroup();
-        const wardLayer = L.layerGroup();
+        // Ward layers will be created dynamically for each city
 
         // Custom icons with larger, more visible markers
         const communityIcon = L.divIcon({
@@ -477,77 +477,129 @@
                     console.error('❌ Corporation GeoJSON error:', error);
                 });
 
-            // Load KML ward boundaries
+            // Load KML ward boundaries for multiple cities
             console.log('Checking for leaflet-omnivore...');
             if (typeof omnivore !== 'undefined') {
-                console.log('✅ Omnivore loaded, loading ward KML...');
-                const wardKML = omnivore.kml('/assets/geodata/gba-369-wards-december-2025.kml')
-                    .on('ready', function() {
-                        console.log('✅ Ward KML ready event fired');
-                        console.log(`Ward layer count: ${Object.keys(this._layers).length}`);
+                console.log('✅ Omnivore loaded, loading ward KML files...');
 
-                        this.setStyle({
-                            color: '#667eea',
-                            weight: 1,
-                            fillOpacity: 0.03,
-                            fillColor: '#667eea',
-                            opacity: 0.6
-                        });
+                // Define ward map configurations for each city
+                const wardMaps = [
+                    {
+                        city: 'Bengaluru',
+                        file: '/assets/geodata/gba-369-wards-december-2025.kml',
+                        color: '#667eea',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Mumbai',
+                        file: '/assets/geodata/mumbai-wards.kml',
+                        color: '#f093fb',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Chennai',
+                        file: '/assets/geodata/chennai-wards.kml',
+                        color: '#4facfe',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Hyderabad',
+                        file: '/assets/geodata/hyderabad-wards.kml',
+                        color: '#43e97b',
+                        layer: L.layerGroup()
+                    },
+                    {
+                        city: 'Ahmedabad',
+                        file: '/assets/geodata/ahmedabad-wards.kml',
+                        color: '#fa709a',
+                        layer: L.layerGroup()
+                    }
+                ];
 
-                        // Add tooltips to each ward polygon
-                        this.eachLayer(function(layer) {
-                            if (layer.feature && layer.feature.properties) {
-                                const props = layer.feature.properties;
-                                // KML properties may have ward name in different fields
-                                const wardName = props.name || props.Name || props.WARD_NAME || props.ward_name || 'Ward';
-                                const wardNumber = props.number || props.Number || props.WARD_NO || props.ward_no || '';
+                // Load each city's ward map
+                wardMaps.forEach(config => {
+                    const wardKML = omnivore.kml(config.file)
+                        .on('ready', function() {
+                            console.log(`✅ ${config.city} ward KML ready, layers: ${Object.keys(this._layers).length}`);
 
-                                let tooltipText = '';
-                                if (wardNumber) {
-                                    tooltipText = `Ward ${wardNumber}`;
-                                    if (wardName && wardName !== 'Ward') {
-                                        tooltipText += ` - ${wardName}`;
+                            this.setStyle({
+                                color: config.color,
+                                weight: 1,
+                                fillOpacity: 0.03,
+                                fillColor: config.color,
+                                opacity: 0.6
+                            });
+
+                            // Add tooltips to each ward polygon
+                            this.eachLayer(function(layer) {
+                                if (layer.feature && layer.feature.properties) {
+                                    const props = layer.feature.properties;
+                                    const wardName = props.name || props.Name || props.WARD_NAME || props.ward_name || 'Ward';
+                                    const wardNumber = props.number || props.Number || props.WARD_NO || props.ward_no || '';
+
+                                    let tooltipText = '';
+                                    if (wardNumber) {
+                                        tooltipText = `Ward ${wardNumber}`;
+                                        if (wardName && wardName !== 'Ward') {
+                                            tooltipText += ` - ${wardName}`;
+                                        }
+                                    } else if (wardName) {
+                                        tooltipText = wardName;
                                     }
-                                } else if (wardName) {
-                                    tooltipText = wardName;
-                                }
 
-                                if (tooltipText) {
-                                    layer.bindTooltip(tooltipText, {
-                                        permanent: false,
-                                        direction: 'center',
-                                        className: 'ward-tooltip'
-                                    });
+                                    if (tooltipText) {
+                                        layer.bindTooltip(tooltipText, {
+                                            permanent: false,
+                                            direction: 'center',
+                                            className: 'ward-tooltip'
+                                        });
+                                    }
                                 }
-                            }
+                            });
+
+                            console.log(`✅ ${config.city} ward boundaries styled and tooltips added`);
+                        })
+                        .on('error', function(e) {
+                            console.error(`❌ ${config.city} ward KML error:`, e);
                         });
 
-                        console.log('✅ Ward boundaries styled and tooltips added');
-                        console.log(`Ward bounds: ${JSON.stringify(this.getBounds())}`);
-                    })
-                    .on('error', function(e) {
-                        console.error('❌ Ward KML error:', e);
-                    });
-                wardLayer.addLayer(wardKML);
-                console.log('Ward layer created and added to layer group');
+                    config.layer.addLayer(wardKML);
+                });
+
+                // Store ward layers for layer control
+                window.wardLayers = wardMaps;
+                console.log('All ward layers created');
             } else {
                 console.error('❌ leaflet-omnivore NOT loaded');
             }
 
             // Add layer control to toggle boundaries
             const overlays = {
-                "Corporation Boundaries": corporationLayer,
-                "Ward Boundaries": wardLayer
+                "Corporation Boundaries": corporationLayer
             };
+
+            // Add ward layers to overlay control
+            if (window.wardLayers) {
+                window.wardLayers.forEach(config => {
+                    overlays[`${config.city} Wards`] = config.layer;
+                });
+            }
 
             L.control.layers(null, overlays, {
                 collapsed: false,
                 position: 'topright'
             }).addTo(map);
 
-            // Add layers to map by default
+            // Add corporation layer to map by default
             corporationLayer.addTo(map);
-            wardLayer.addTo(map);
+
+            // Add Bengaluru wards by default (since that's the primary city)
+            if (window.wardLayers) {
+                const bengaluruWards = window.wardLayers.find(w => w.city === 'Bengaluru');
+                if (bengaluruWards) {
+                    bengaluruWards.layer.addTo(map);
+                }
+            }
 
             const communities = await dataLoader.loadCommunities();
 
