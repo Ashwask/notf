@@ -1,24 +1,26 @@
 ---
 name: Rajajinagar Eco Warriors
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9866526
+  longitude: 77.5533485
 neighborhoods:
 - Rajajinagar
 - Basaveshwaranagar
 - Kamakshipalya
 elected_representatives:
   mla:
-    name: "S. Suresh Kumar"
-    party: "BJP"
-    constituency: "Rajaji Nagar"
+    name: S. Suresh Kumar
+    party: BJP
+    constituency: Rajaji Nagar
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://rajajinagarecowarriors.org
 contact:
   email: hello@rajajinagarecowarriors.org

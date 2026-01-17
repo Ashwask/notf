@@ -1,24 +1,26 @@
 ---
 name: HSR Layout Residents Welfare Association
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9132138
+  longitude: 77.634716
 neighborhoods:
 - HSR Layout
 - Sector 1-7
 - BTM Layout
 elected_representatives:
   mla:
-    name: "M. Satish Reddy"
-    party: "BJP"
-    constituency: "Bommanahalli"
+    name: M. Satish Reddy
+    party: BJP
+    constituency: Bommanahalli
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://hsrrwa.in
 contact:
   email: contact@hsrrwa.in

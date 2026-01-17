@@ -1,29 +1,32 @@
 ---
-name: "Kumara park"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Kumara park"
+name: Kumara park
+city: Bengaluru
+state: Karnataka
+neighborhood: Kumara park
 elected_representatives:
   mla:
-    name: "Dinesh Gundu Rao"
-    party: "INC"
-    constituency: "Gandhi Nagar"
+    name: Dinesh Gundu Rao
+    party: INC
+    constituency: Gandhi Nagar
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/cifos"
-lead_organization_name: "Kumara park RWA"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/cifos
+lead_organization_name: Kumara park RWA
 contact:
-  person: "Subbaiah"
-  phone: "9845107901"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+  person: Subbaiah
+  phone: '9845107901'
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 12.9882057
+  longitude: 77.5816298
 ---
 
 ## About Sanjaynagar/RMV II Stage

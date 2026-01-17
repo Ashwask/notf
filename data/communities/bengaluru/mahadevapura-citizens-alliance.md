@@ -1,7 +1,9 @@
 ---
 name: Mahadevapura Citizens Alliance
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9576791
+  longitude: 77.7061272
 neighborhoods:
 - Mahadevapura
 - Hoodi
@@ -9,17 +11,17 @@ neighborhoods:
 - Kundalahalli
 elected_representatives:
   mla:
-    name: "Manjula Aravind Limbavalli"
-    party: "BJP"
-    constituency: "Mahadevapura"
+    name: Manjula Aravind Limbavalli
+    party: BJP
+    constituency: Mahadevapura
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://mahadevapuraca.org
 contact:
   email: contact@mahadevapuraca.org

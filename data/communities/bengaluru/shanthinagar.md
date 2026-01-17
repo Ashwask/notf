@@ -1,28 +1,31 @@
 ---
-name: "Shanthinagar"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Shanthinagar"
+name: Shanthinagar
+city: Bengaluru
+state: Karnataka
+neighborhood: Shanthinagar
 elected_representatives:
   mla:
-    name: "N.A. Haris"
-    party: "INC"
-    constituency: "Shanti Nagar"
+    name: N.A. Haris
+    party: INC
+    constituency: Shanti Nagar
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/shanthinagar-residents-welfare-association"
-lead_organization_name: "Shanthinagar Residents Welfare Association"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/shanthinagar-residents-welfare-association
+lead_organization_name: Shanthinagar Residents Welfare Association
 contact:
-  person: "Shobha Rander"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+  person: Shobha Rander
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 12.9518918
+  longitude: 77.5998695
 ---
 
 ## About Shanthinagar

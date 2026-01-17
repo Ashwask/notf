@@ -41,22 +41,25 @@ city: Karnataka, Bengaluru
 neighborhood: Vasanthnagar
 elected_representatives:
   mla:
-    name: "Rizwan Arshad"
-    party: "INC"
-    constituency: "Shivajinagar"
+    name: Rizwan Arshad
+    party: INC
+    constituency: Shivajinagar
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 contact:
   person: Rajkumar Dugar
   phone: '9448068721'
 status: pending
 stories: null
+location:
+  latitude: 12.991344
+  longitude: 77.5919509
 ---
 
 <!-- Add community stories and updates here in Markdown format -->

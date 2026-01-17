@@ -1,24 +1,26 @@
 ---
 name: Hebbal Lake Preservation Forum
 type: community-org
-location: Bengaluru
+location:
+  latitude: 13.0420052
+  longitude: 77.5770378
 neighborhoods:
 - Hebbal
 - Kempapura
 - Nagawara
 elected_representatives:
   mla:
-    name: "Suresha B.S."
-    party: "INC"
-    constituency: "Hebbal"
+    name: Suresha B.S.
+    party: INC
+    constituency: Hebbal
   mp:
-    name: "Shobha Karandlaje"
-    party: "BJP"
-    constituency: "Bangalore North"
+    name: Shobha Karandlaje
+    party: BJP
+    constituency: Bangalore North
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://hebbballakeforum.org
 contact:
   email: info@hebbballakeforum.org

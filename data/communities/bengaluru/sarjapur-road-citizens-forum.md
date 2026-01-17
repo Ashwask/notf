@@ -1,7 +1,9 @@
 ---
 name: Sarjapur Road Citizens Forum
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9164766
+  longitude: 77.668705
 neighborhoods:
 - Sarjapur Road
 - Kasavanahalli
@@ -9,17 +11,17 @@ neighborhoods:
 - Harlur
 elected_representatives:
   mla:
-    name: "M. Satish Reddy"
-    party: "BJP"
-    constituency: "Bommanahalli"
+    name: M. Satish Reddy
+    party: BJP
+    constituency: Bommanahalli
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://srcf.org.in
 contact:
   email: info@srcf.org.in

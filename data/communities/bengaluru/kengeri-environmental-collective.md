@@ -1,24 +1,26 @@
 ---
 name: Kengeri Environmental Collective
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9215758
+  longitude: 77.4857998
 neighborhoods:
 - Kengeri
 - Uttarahalli
 - Kommaghatta
 elected_representatives:
   mla:
-    name: "Munirathna Naidu"
-    party: "BJP"
-    constituency: "Rajarajeshwarinagar"
+    name: Munirathna Naidu
+    party: BJP
+    constituency: Rajarajeshwarinagar
   mp:
-    name: "Dr. C.N. Manjunath"
-    party: "BJP"
-    constituency: "Bangalore Rural"
+    name: Dr. C.N. Manjunath
+    party: BJP
+    constituency: Bangalore Rural
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://kengeriend.org
 contact:
   email: contact@kengeriend.org

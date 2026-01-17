@@ -127,13 +127,18 @@ def add_coordinates_to_file(file_path: Path, latitude: float, longitude: float) 
 
     # Check if location field already exists
     if 'location' in frontmatter:
-        existing_lat = frontmatter['location'].get('latitude')
-        existing_lon = frontmatter['location'].get('longitude')
+        # If location is already a dict with coordinates, check if they match
+        if isinstance(frontmatter['location'], dict):
+            existing_lat = frontmatter['location'].get('latitude')
+            existing_lon = frontmatter['location'].get('longitude')
 
-        if existing_lat == latitude and existing_lon == longitude:
-            return False  # Already has correct coordinates
+            if existing_lat == latitude and existing_lon == longitude:
+                return False  # Already has correct coordinates
 
-    # Add location field
+        # If location is a string (like "Bengaluru"), we'll overwrite it with dict
+        # This is intentional - coordinates are more valuable than city name string
+
+    # Add/update location field as dict with coordinates
     frontmatter['location'] = {
         'latitude': latitude,
         'longitude': longitude

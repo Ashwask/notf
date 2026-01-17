@@ -1,26 +1,29 @@
 ---
-name: "Shikaripalya cluster"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Shikaripalya cluster"
+name: Shikaripalya cluster
+city: Bengaluru
+state: Karnataka
+neighborhood: Shikaripalya cluster
 elected_representatives:
   mla:
-    name: "M. Satish Reddy"
-    party: "BJP"
-    constituency: "Bommanahalli"
+    name: M. Satish Reddy
+    party: BJP
+    constituency: Bommanahalli
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/swach-swasth-ecity"
-lead_organization_name: "Swach Swasth ECity"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/swach-swasth-ecity
+lead_organization_name: Swach Swasth ECity
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 12.8304581
+  longitude: 77.6597786
 ---
 
 ## About Shikaripalya cluster

@@ -1,29 +1,32 @@
 ---
-name: "Whitefield"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Whitefield"
+name: Whitefield
+city: Bengaluru
+state: Karnataka
+neighborhood: Whitefield
 elected_representatives:
   mla:
-    name: "Manjula Aravind Limbavalli"
-    party: "BJP"
-    constituency: "Mahadevapura"
+    name: Manjula Aravind Limbavalli
+    party: BJP
+    constituency: Mahadevapura
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/whitefield-rising"
-lead_organization_name: "Whitefield rising"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/whitefield-rising
+lead_organization_name: Whitefield rising
 contact:
-  person: "Zibi Jamal"
-  phone: "8088693667"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+  person: Zibi Jamal
+  phone: '8088693667'
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 12.975707
+  longitude: 77.7558702
 ---
 
 ## About Whitefield

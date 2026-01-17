@@ -1,24 +1,26 @@
 ---
 name: Jayanagar Neighbourhood Group
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9255495
+  longitude: 77.5915432
 neighborhoods:
 - Jayanagar
 - JP Nagar
 - Basavanagudi
 elected_representatives:
   mla:
-    name: "C.K. Ramamurthy"
-    party: "BJP"
-    constituency: "Jayanagar"
+    name: C.K. Ramamurthy
+    party: BJP
+    constituency: Jayanagar
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://jayanagarng.org
 contact:
   email: info@jayanagarng.org

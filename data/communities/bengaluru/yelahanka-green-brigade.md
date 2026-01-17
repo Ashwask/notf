@@ -1,24 +1,26 @@
 ---
 name: Yelahanka Green Brigade
 type: community-org
-location: Bengaluru
+location:
+  latitude: 13.0962743
+  longitude: 77.5857067
 neighborhoods:
 - Yelahanka
 - Yelahanka New Town
 - Jakkur
 elected_representatives:
   mla:
-    name: "S.R. Vishwanath"
-    party: "BJP"
-    constituency: "Yelahanka"
+    name: S.R. Vishwanath
+    party: BJP
+    constituency: Yelahanka
   mp:
-    name: "Shobha Karandlaje"
-    party: "BJP"
-    constituency: "Bangalore North"
+    name: Shobha Karandlaje
+    party: BJP
+    constituency: Bangalore North
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://yelahankagreenbrigade.org
 contact:
   email: contact@yelahankagreenbrigade.org

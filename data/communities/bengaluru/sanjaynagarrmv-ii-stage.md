@@ -1,29 +1,32 @@
 ---
-name: "Sanjaynagar/RMV II Stage"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Sanjaynagar/RMV II Stage"
+name: Sanjaynagar/RMV II Stage
+city: Bengaluru
+state: Karnataka
+neighborhood: Sanjaynagar/RMV II Stage
 elected_representatives:
   mla:
-    name: "Suresha B.S."
-    party: "INC"
-    constituency: "Hebbal"
+    name: Suresha B.S.
+    party: INC
+    constituency: Hebbal
   mp:
-    name: "Shobha Karandlaje"
-    party: "BJP"
-    constituency: "Bangalore North"
+    name: Shobha Karandlaje
+    party: BJP
+    constituency: Bangalore North
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/cifos"
-lead_organization_name: "CiFoS"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/cifos
+lead_organization_name: CiFoS
 contact:
-  person: "Subbaiah"
-  phone: "9845107901"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+  person: Subbaiah
+  phone: '9845107901'
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 13.0343173
+  longitude: 77.5754392
 ---
 
 ## About Sanjaynagar/RMV II Stage

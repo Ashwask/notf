@@ -5,22 +5,25 @@ city: Karnataka, Bengaluru
 neighborhood: Kanakpura
 elected_representatives:
   mla:
-    name: "D.K. Shivakumar"
-    party: "INC"
-    constituency: "Kanakapura"
+    name: D.K. Shivakumar
+    party: INC
+    constituency: Kanakapura
   mp:
-    name: "Dr. C.N. Manjunath"
-    party: "BJP"
-    constituency: "Bangalore Rural"
+    name: Dr. C.N. Manjunath
+    party: BJP
+    constituency: Bangalore Rural
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 contact:
   person: Aleem
   phone: '9611147364'
 status: pending
 stories: null
+location:
+  latitude: 12.8871145
+  longitude: 77.543478
 ---
 
 <!-- Add community stories and updates here in Markdown format -->

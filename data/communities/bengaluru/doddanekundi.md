@@ -1,26 +1,29 @@
 ---
-name: "Doddanekundi"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Doddanekundi"
+name: Doddanekundi
+city: Bengaluru
+state: Karnataka
+neighborhood: Doddanekundi
 elected_representatives:
   mla:
-    name: "Manjula Aravind Limbavalli"
-    party: "BJP"
-    constituency: "Mahadevapura"
+    name: Manjula Aravind Limbavalli
+    party: BJP
+    constituency: Mahadevapura
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/doddanekundi-rising"
-lead_organization_name: "Doddanekundi Rising"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/doddanekundi-rising
+lead_organization_name: Doddanekundi Rising
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 12.970006
+  longitude: 77.6978552
 ---
 
 ## About Doddanekundi

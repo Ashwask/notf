@@ -1,24 +1,26 @@
 ---
 name: Malleswaram Swabhimana Initiative
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9985344
+  longitude: 77.5657296
 neighborhoods:
 - Malleswaram
 - Rajajinagar
 - Sadashivanagar
 elected_representatives:
   mla:
-    name: "Dr. C.N. Ashwathnarayana"
-    party: "BJP"
-    constituency: "Malleshwaram"
+    name: Dr. C.N. Ashwathnarayana
+    party: BJP
+    constituency: Malleshwaram
   mp:
-    name: "Shobha Karandlaje"
-    party: "BJP"
-    constituency: "Bangalore North"
+    name: Shobha Karandlaje
+    party: BJP
+    constituency: Bangalore North
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://malleswaramswabhimana.org
 contact:
   email: info@malleswaramswabhimana.org

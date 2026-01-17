@@ -1,24 +1,26 @@
 ---
 name: Bellandur Forum for Area Improvement
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9274396
+  longitude: 77.6754856
 neighborhoods:
 - Bellandur
 - Ibbalur
 - Devarabisanahalli
 elected_representatives:
   mla:
-    name: "Manjula Aravind Limbavalli"
-    party: "BJP"
-    constituency: "Mahadevapura"
+    name: Manjula Aravind Limbavalli
+    party: BJP
+    constituency: Mahadevapura
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://bellandurforum.org
 contact:
   email: connect@bellandurforum.org

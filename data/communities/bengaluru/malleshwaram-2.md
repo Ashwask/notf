@@ -1,29 +1,32 @@
 ---
-name: "Malleshwaram"
-city: "Bengaluru"
-state: "Karnataka"
-neighborhood: "Malleshwaram"
+name: Malleshwaram
+city: Bengaluru
+state: Karnataka
+neighborhood: Malleshwaram
 elected_representatives:
   mla:
-    name: "Dr. C.N. Ashwathnarayana"
-    party: "BJP"
-    constituency: "Malleshwaram"
+    name: Dr. C.N. Ashwathnarayana
+    party: BJP
+    constituency: Malleshwaram
   mp:
-    name: "Shobha Karandlaje"
-    party: "BJP"
-    constituency: "Bangalore North"
+    name: Shobha Karandlaje
+    party: BJP
+    constituency: Bangalore North
   corporator:
-    name: ""
-    party: ""
-    ward: ""
-lead_organization: "organizations/malleshwaram-social"
-lead_organization_name: "Malleshwaram Social"
+    name: ''
+    party: ''
+    ward: ''
+lead_organization: organizations/malleshwaram-social
+lead_organization_name: Malleshwaram Social
 contact:
-  person: "Suchitra Deep"
-  phone: "9845041267"
-status: "active"
-started: "2026-01-08"
-last_updated: "2026-01-08"
+  person: Suchitra Deep
+  phone: '9845041267'
+status: active
+started: '2026-01-08'
+last_updated: '2026-01-08'
+location:
+  latitude: 13.0046994
+  longitude: 77.5712338
 ---
 
 ## About Malleshwaram

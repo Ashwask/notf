@@ -1,24 +1,26 @@
 ---
 name: Indiranagar Awakened Citizens
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9751146
+  longitude: 77.6391363
 neighborhoods:
 - Indiranagar
 - Domlur
 - HAL
 elected_representatives:
   mla:
-    name: "S. Raghu"
-    party: "BJP"
-    constituency: "C.V. Raman Nagar"
+    name: S. Raghu
+    party: BJP
+    constituency: C.V. Raman Nagar
   mp:
-    name: "P.C. Mohan"
-    party: "BJP"
-    constituency: "Bangalore Central"
+    name: P.C. Mohan
+    party: BJP
+    constituency: Bangalore Central
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://indiranagarawakened.org
 contact:
   email: hello@indiranagarawakened.org

@@ -1,24 +1,26 @@
 ---
 name: Electronic City Green Guardians
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.8480342
+  longitude: 77.6557016
 neighborhoods:
 - Electronic City Phase 1
 - Electronic City Phase 2
 - Bommanahalli
 elected_representatives:
   mla:
-    name: "M. Krishnappa"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: M. Krishnappa
+    party: BJP
+    constituency: Bangalore South
   mp:
-    name: "Dr. C.N. Manjunath"
-    party: "BJP"
-    constituency: "Bangalore Rural"
+    name: Dr. C.N. Manjunath
+    party: BJP
+    constituency: Bangalore Rural
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://ecgreenguardians.org
 contact:
   email: info@ecgreenguardians.org

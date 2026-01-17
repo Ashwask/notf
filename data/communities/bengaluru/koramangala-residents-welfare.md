@@ -1,24 +1,26 @@
 ---
 name: Koramangala Residents Welfare Association
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9325386
+  longitude: 77.6298666
 neighborhoods:
 - Koramangala
 - Ejipura
 - Jakkasandra
 elected_representatives:
   mla:
-    name: "Ramalinga Reddy"
-    party: "INC"
-    constituency: "B.T.M Layout"
+    name: Ramalinga Reddy
+    party: INC
+    constituency: B.T.M Layout
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://krwa.org.in
 contact:
   email: info@krwa.org.in

@@ -1,24 +1,26 @@
 ---
 name: Banashankari Environmental Forum
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9264357
+  longitude: 77.5572109
 neighborhoods:
 - Banashankari
 - Kathriguppe
 - Padmanabhanagar
 elected_representatives:
   mla:
-    name: "Ramalinga Reddy"
-    party: "INC"
-    constituency: "B.T.M Layout"
+    name: Ramalinga Reddy
+    party: INC
+    constituency: B.T.M Layout
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://banashankarief.org
 contact:
   email: contact@banashankarief.org

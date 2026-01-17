@@ -1,24 +1,26 @@
 ---
 name: BTM Layout Welfare Association
 type: community-org
-location: Bengaluru
+location:
+  latitude: 12.9146321
+  longitude: 77.6137733
 neighborhoods:
 - BTM Layout
 - Madiwala
 - Tavarekere
 elected_representatives:
   mla:
-    name: "Ramalinga Reddy"
-    party: "INC"
-    constituency: "B.T.M Layout"
+    name: Ramalinga Reddy
+    party: INC
+    constituency: B.T.M Layout
   mp:
-    name: "Tejasvi Surya"
-    party: "BJP"
-    constituency: "Bangalore South"
+    name: Tejasvi Surya
+    party: BJP
+    constituency: Bangalore South
   corporator:
-    name: ""
-    party: ""
-    ward: ""
+    name: ''
+    party: ''
+    ward: ''
 website: https://btmlwa.org
 contact:
   email: info@btmlwa.org
