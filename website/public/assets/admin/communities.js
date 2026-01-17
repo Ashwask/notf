@@ -163,36 +163,50 @@ function matchNeighborhoodToWard(neighborhood) {
 
 function setupEventListeners() {
     // Search
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const filtered = communities.filter(comm => {
-            const name = (comm.metadata?.name || '').toLowerCase();
-            const city = (comm.metadata?.city || comm.city || '').toLowerCase();
-            const themes = (comm.metadata?.themes || []).join(' ').toLowerCase();
-            return name.includes(searchTerm) || city.includes(searchTerm) || themes.includes(searchTerm);
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = communities.filter(comm => {
+                const name = (comm.metadata?.name || '').toLowerCase();
+                const city = (comm.metadata?.city || comm.city || '').toLowerCase();
+                const themes = (comm.metadata?.themes || []).join(' ').toLowerCase();
+                return name.includes(searchTerm) || city.includes(searchTerm) || themes.includes(searchTerm);
+            });
+            renderCommunities(filtered);
         });
-        renderCommunities(filtered);
-    });
+    }
 
     // Status filter
-    document.getElementById('statusFilter').addEventListener('change', loadCommunities);
+    const statusFilter = document.getElementById('statusFilter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', loadCommunities);
+    }
 
     // Form submission
-    document.getElementById('communityForm').addEventListener('submit', handleFormSubmit);
+    const communityForm = document.getElementById('communityForm');
+    if (communityForm) {
+        communityForm.addEventListener('submit', handleFormSubmit);
+    } else {
+        console.error('communityForm not found! Form submit handler not attached.');
+    }
 
     // Auto-populate ward when neighborhood changes
-    document.getElementById('commNeighborhood').addEventListener('blur', function() {
-        const neighborhood = this.value.trim();
-        const wardSelect = document.getElementById('commWard');
+    const neighborhoodField = document.getElementById('commNeighborhood');
+    if (neighborhoodField) {
+        neighborhoodField.addEventListener('blur', function() {
+            const neighborhood = this.value.trim();
+            const wardSelect = document.getElementById('commWard');
 
-        if (neighborhood && wardSelect) {
-            const ward = matchNeighborhoodToWard(neighborhood);
-            if (ward) {
-                // Set the selected option in the dropdown
-                wardSelect.value = ward;
+            if (neighborhood && wardSelect) {
+                const ward = matchNeighborhoodToWard(neighborhood);
+                if (ward) {
+                    // Set the selected option in the dropdown
+                    wardSelect.value = ward;
+                }
             }
-        }
-    });
+        });
+    }
 
     // Check if URL has ?action=new
     const urlParams = new URLSearchParams(window.location.search);
