@@ -197,19 +197,35 @@ async function handleFormSubmit(e) {
     const status = document.getElementById('orgStatus').value;
     const filePath = isEditing ? document.getElementById('orgFilePath').value : `solution-providers/${slug}.yaml`;
 
+    // Add status to metadata
+    metadata.status = status;
+
     const supabase = authUtils.supabase;
 
     try {
         if (isEditing) {
-            // Update existing
-            const { error } = await supabase
-                .from('file_metadata')
-                .update({ metadata, status, updated_at: new Date().toISOString() })
-                .eq('id', editingId);
+            // Update existing using Edge Function (storage-first architecture)
+            console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
+
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
+                    file_path: filePath,
+                    file_type: 'solution-provider',
+                    updates: metadata
+                    // No markdown_body for .yaml files
+                }
+            });
 
             if (error) throw error;
+
+            console.log('Edge Function response:', data);
+
+            if (data?.error) {
+                throw new Error(data.error);
+            }
         } else {
-            // Create new
+            // Create new - still use direct DB insert for now
+            // TODO: Create Edge Function endpoint for new file creation
             const { error } = await supabase
                 .from('file_metadata')
                 .insert({

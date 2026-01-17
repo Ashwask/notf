@@ -385,42 +385,43 @@ async function handleFormSubmit(e) {
 
     console.log('Form submit - Parsed coordinates:', { latitude, longitude });
 
+    // Add location coordinates to metadata (for frontmatter)
+    if (latitude !== null && longitude !== null) {
+        metadata.location = {
+            latitude: latitude,
+            longitude: longitude
+        };
+    }
+
+    // Add status to metadata
+    metadata.status = status;
+
     const supabase = authUtils.supabase;
 
     try {
         if (isEditing) {
-            // Update existing
-            const updateData = {
-                metadata,
-                status,
-                city: city,
-                neighborhood: neighborhood || null,
-                updated_at: new Date().toISOString()
-            };
+            // Update existing using Edge Function (storage-first architecture)
+            console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Always include latitude and longitude in update (even if null to allow clearing)
-            updateData.latitude = latitude;
-            updateData.longitude = longitude;
-
-            console.log('Update data:', updateData);
-
-            // Get ward from form
-            const ward = document.getElementById('commWard').value.trim();
-            if (ward) updateData.ward = ward;
-
-            console.log('Sending to Supabase:', updateData);
-
-            const { data: updatedData, error } = await supabase
-                .from('file_metadata')
-                .update(updateData)
-                .eq('id', editingId)
-                .select();
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
+                    file_path: filePath,
+                    file_type: 'community',
+                    updates: metadata,
+                    markdown_body: stories || ''  // Markdown body content
+                }
+            });
 
             if (error) throw error;
 
-            console.log('Update successful. Returned data:', updatedData);
+            console.log('Edge Function response:', data);
+
+            if (data?.error) {
+                throw new Error(data.error);
+            }
         } else {
-            // Create new
+            // Create new - still use direct DB insert for now
+            // TODO: Create Edge Function endpoint for new file creation
             const insertData = {
                 file_path: filePath,
                 file_type: 'community',
