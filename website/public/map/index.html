@@ -153,6 +153,40 @@
             cursor: pointer;
         }
 
+        /* City selector dropdown */
+        .city-selector-control {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            min-width: 180px;
+        }
+
+        .city-selector-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .city-selector-dropdown {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            background: white;
+            font-family: inherit;
+        }
+
+        .city-selector-dropdown:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
         /* Ward boundary tooltips */
         .ward-tooltip {
             background-color: rgba(102, 126, 234, 0.95);
@@ -203,7 +237,7 @@
     <main>
         <section class="content">
             <h1>🗺️ NOTF Network Map</h1>
-            <p class="lead">Explore communities across Bangalore with ward boundaries</p>
+            <p class="lead">Explore communities across India with ward boundaries</p>
 
             <div id="map"></div>
         </section>
@@ -573,35 +607,165 @@
                 console.error('❌ leaflet-omnivore NOT loaded');
             }
 
-            // Add layer control to toggle boundaries
-            const overlays = {
-                "Corporation Boundaries": corporationLayer
-            };
+            // Create custom city selector control
+            const CitySelectorControl = L.Control.extend({
+                options: {
+                    position: 'topright'
+                },
 
-            // Add ward layers to overlay control
-            if (window.wardLayers) {
-                window.wardLayers.forEach(config => {
-                    overlays[`${config.city} Wards`] = config.layer;
+                onAdd: function(map) {
+                    const container = L.DomUtil.create('div', 'city-selector-control leaflet-bar');
+
+                    container.innerHTML = `
+                        <label class="city-selector-label">Select City</label>
+                        <select class="city-selector-dropdown" id="citySelector">
+                            <option value="Bengaluru">Bengaluru</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Ahmedabad">Ahmedabad</option>
+                        </select>
+                    `;
+
+                    // Prevent map clicks when interacting with dropdown
+                    L.DomEvent.disableClickPropagation(container);
+                    L.DomEvent.disableScrollPropagation(container);
+
+                    return container;
+                }
+            });
+
+            map.addControl(new CitySelectorControl());
+
+            // Load communities first
+            const communities = await dataLoader.loadCommunities();
+
+            // Function to switch to a city
+            function switchToCity(cityName) {
+                console.log(`Switching to ${cityName}`);
+
+                // Remove all current layers
+                map.eachLayer(layer => {
+                    if (layer !== map._layers[Object.keys(map._layers)[0]]) { // Keep base tile layer
+                        if (layer.options && (layer.options.attribution === undefined || layer.options.attribution.includes('OpenStreetMap'))) {
+                            // Skip base layer
+                        } else {
+                            map.removeLayer(layer);
+                        }
+                    }
+                });
+
+                // Clear corporation and ward layers
+                corporationLayer.clearLayers();
+                if (window.wardLayers) {
+                    window.wardLayers.forEach(config => {
+                        config.layer.clearLayers();
+                    });
+                }
+
+                // Re-add corporation boundaries
+                fetch('/assets/geodata/gba_corporation.geojson')
+                    .then(response => response.json())
+                    .then(data => {
+                        L.geoJSON(data, {
+                            style: {
+                                color: '#FF6B6B',
+                                weight: 2,
+                                fillOpacity: 0.05,
+                                fillColor: '#FF6B6B'
+                            }
+                        }).addTo(corporationLayer);
+                        corporationLayer.addTo(map);
+                    });
+
+                // Add selected city's ward layer
+                if (window.wardLayers) {
+                    const selectedCity = window.wardLayers.find(w => w.city === cityName);
+                    if (selectedCity) {
+                        const wardKML = omnivore.kml(selectedCity.file)
+                            .on('ready', function() {
+                                this.setStyle({
+                                    color: selectedCity.color,
+                                    weight: 1,
+                                    fillOpacity: 0.03,
+                                    fillColor: selectedCity.color,
+                                    opacity: 0.6
+                                });
+
+                                // Add tooltips
+                                this.eachLayer(function(layer) {
+                                    if (layer.feature && layer.feature.properties) {
+                                        const props = layer.feature.properties;
+                                        const wardName = props.name || props.Name || props.WARD_NAME || props.ward_name || 'Ward';
+                                        const wardNumber = props.number || props.Number || props.WARD_NO || props.ward_no || '';
+
+                                        let tooltipText = '';
+                                        if (wardNumber) {
+                                            tooltipText = `Ward ${wardNumber}`;
+                                            if (wardName && wardName !== 'Ward') {
+                                                tooltipText += ` - ${wardName}`;
+                                            }
+                                        } else if (wardName) {
+                                            tooltipText = wardName;
+                                        }
+
+                                        if (tooltipText) {
+                                            layer.bindTooltip(tooltipText, {
+                                                permanent: false,
+                                                direction: 'center',
+                                                className: 'ward-tooltip'
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+
+                        selectedCity.layer.clearLayers();
+                        selectedCity.layer.addLayer(wardKML);
+                        selectedCity.layer.addTo(map);
+                    }
+                }
+
+                // Zoom to city
+                const cityCoord = cityCoordinates[cityName];
+                if (cityCoord) {
+                    map.setView([cityCoord.lat, cityCoord.lng], 12);
+                }
+
+                // Re-add community markers (they'll be filtered by coordinates)
+                communities.forEach(comm => {
+                    const coords = getCoordinates(comm, 'community');
+                    if (coords) {
+                        const marker = L.marker([coords.lat, coords.lng], { icon: communityIcon })
+                            .addTo(map)
+                            .bindPopup(createPopupContent(comm, 'community'))
+                            .bindTooltip(createTooltipContent(comm, 'community'), {
+                                direction: 'top',
+                                offset: [0, -10],
+                                opacity: 0.9
+                            });
+                    }
                 });
             }
 
-            L.control.layers(null, overlays, {
-                collapsed: false,
-                position: 'topright'
-            }).addTo(map);
+            // Add event listener to city selector
+            setTimeout(() => {
+                const citySelector = document.getElementById('citySelector');
+                if (citySelector) {
+                    citySelector.addEventListener('change', function() {
+                        switchToCity(this.value);
+                    });
+                }
+            }, 100);
 
-            // Add corporation layer to map by default
+            // Add corporation layer and Bengaluru wards by default
             corporationLayer.addTo(map);
-
-            // Add Bengaluru wards by default (since that's the primary city)
             if (window.wardLayers) {
                 const bengaluruWards = window.wardLayers.find(w => w.city === 'Bengaluru');
                 if (bengaluruWards) {
                     bengaluruWards.layer.addTo(map);
                 }
             }
-
-            const communities = await dataLoader.loadCommunities();
 
             // Add community markers
             let communityCount = 0;
