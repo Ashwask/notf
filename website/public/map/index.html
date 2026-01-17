@@ -376,6 +376,20 @@
         }
 
         // Create popup content
+        // Create tooltip content (shows on hover)
+        function createTooltipContent(item, type) {
+            let tooltip = `<strong>${item.name}</strong>`;
+
+            // Add ward information if available
+            if (item.ward) {
+                tooltip += `<br>📍 ${item.ward}`;
+            } else if (item.neighborhood) {
+                tooltip += `<br>📍 ${item.neighborhood}`;
+            }
+
+            return tooltip;
+        }
+
         function createPopupContent(item, type) {
             const typeLabel = type === 'community' ? 'Community' : 'Solution Provider';
             const typeClass = type === 'community' ? 'community' : 'provider';
@@ -507,12 +521,37 @@
                 if (coords) {
                     const marker = L.marker([coords.lat, coords.lng], { icon: communityIcon })
                         .addTo(map)
-                        .bindPopup(createPopupContent(comm, 'community'));
+                        .bindPopup(createPopupContent(comm, 'community'))
+                        .bindTooltip(createTooltipContent(comm, 'community'), {
+                            direction: 'top',
+                            offset: [0, -10],
+                            opacity: 0.9
+                        });
                     communityCount++;
                 }
             });
 
             console.log(`Mapped ${communityCount} communities`);
+
+            // Load and add solution provider markers
+            const providers = await dataLoader.loadSolutionProviders();
+            let providerCount = 0;
+            providers.forEach(provider => {
+                const coords = getCoordinates(provider, 'provider');
+                if (coords) {
+                    const marker = L.marker([coords.lat, coords.lng], { icon: providerIcon })
+                        .addTo(map)
+                        .bindPopup(createPopupContent(provider, 'provider'))
+                        .bindTooltip(createTooltipContent(provider, 'provider'), {
+                            direction: 'top',
+                            offset: [0, -10],
+                            opacity: 0.9
+                        });
+                    providerCount++;
+                }
+            });
+
+            console.log(`Mapped ${providerCount} solution providers`);
         })();
     </script>
 </body>
