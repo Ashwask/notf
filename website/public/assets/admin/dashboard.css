@@ -23,8 +23,8 @@
 .sidebar-toggle {
     position: fixed;
     top: 50%;
-    left: 280px;
-    transform: translate(-50%, -50%);
+    left: 260px;
+    transform: translateY(-50%);
     z-index: 1001;
     background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
     color: white;
@@ -44,16 +44,16 @@
 }
 
 .sidebar-toggle:hover {
-    transform: translate(-50%, -50%) scale(1.1);
+    transform: translateY(-50%) scale(1.1);
     box-shadow: 0 6px 20px rgba(35, 162, 165, 0.5);
 }
 
 .sidebar-toggle:active {
-    transform: translate(-50%, -50%) scale(0.95);
+    transform: translateY(-50%) scale(0.95);
 }
 
 .dashboard-container.sidebar-collapsed .sidebar-toggle {
-    left: 70px !important;
+    left: 50px;
 }
 
 /* Sidebar - Glassmorphism with Gradient */
