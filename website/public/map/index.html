@@ -318,10 +318,17 @@
         });
 
         // Get coordinates for a location
-        function getCoordinates(location, neighborhood, type) {
-            if (!location) return null;
+        function getCoordinates(item, type) {
+            // PRIORITY 1: Use database coordinates if available (from geocoding tool)
+            if (item.latitude && item.longitude) {
+                return {
+                    lat: parseFloat(item.latitude),
+                    lng: parseFloat(item.longitude)
+                };
+            }
 
-            // Try neighborhood first (with fuzzy matching for Bangalore)
+            // PRIORITY 2: Try neighborhood (with fuzzy matching for Bangalore)
+            const neighborhood = item.neighborhood;
             if (neighborhood) {
                 const coords = findNeighborhoodCoords(neighborhood);
                 if (coords) {
@@ -333,6 +340,10 @@
                     };
                 }
             }
+
+            // PRIORITY 3: Try location/city string
+            const location = item.location || item.city;
+            if (!location) return null;
 
             // Normalize location string
             const cityName = location.split(',')[0].trim();
@@ -347,7 +358,7 @@
                 };
             }
 
-            // Fall back to city coordinates
+            // PRIORITY 4: Fall back to city coordinates
             for (const [city, coords] of Object.entries(cityCoordinates)) {
                 if (city.toLowerCase() === cityName.toLowerCase()) {
                     // Add small random offset to avoid exact overlaps
@@ -490,9 +501,7 @@
             // Add community markers
             let communityCount = 0;
             communities.forEach(comm => {
-                // Use neighborhood field for precise location
-                const neighborhood = comm.neighborhood || comm.name;
-                const coords = getCoordinates(comm.city, neighborhood, 'community');
+                const coords = getCoordinates(comm, 'community');
                 if (coords) {
                     const marker = L.marker([coords.lat, coords.lng], { icon: communityIcon })
                         .addTo(map)

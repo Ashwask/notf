@@ -46,7 +46,11 @@ async function loadSolutionProviders() {
         offers: item.metadata?.offers || [],
         asks: item.metadata?.asks || [],
         infrastructure_offers: item.metadata?.infrastructure_offers || [],
-        stories: item.metadata?.stories || null
+        stories: item.metadata?.stories || null,
+        latitude: item.latitude || null,
+        longitude: item.longitude || null,
+        neighborhood: item.neighborhood || null,
+        ward: item.ward || null
     }));
 }
 
@@ -82,13 +86,16 @@ async function loadCommunities(cityFilter = null) {
         type: 'community',
         city: item.city || item.metadata?.city || '',
         state: item.metadata?.state || '',
-        neighborhood: item.metadata?.neighborhood || '',
+        neighborhood: item.neighborhood || item.metadata?.neighborhood || '',
         themes: item.metadata?.themes || [],
         description: item.metadata?.description || '',
         contact: item.metadata?.contact || {},
         offers: item.metadata?.offers || [],
         asks: item.metadata?.asks || [],
-        stories: item.metadata?.stories || null
+        stories: item.metadata?.stories || null,
+        latitude: item.latitude || null,
+        longitude: item.longitude || null,
+        ward: item.ward || null
     }));
 }
 
