@@ -25,7 +25,7 @@ let locationMarker = null;
     setupEventListeners();
 })();
 
-let currentStatusFilter = 'active';
+let currentStatusFilter = 'all';
 
 async function loadCommunities() {
     const supabase = authUtils.supabase;
