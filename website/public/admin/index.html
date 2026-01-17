@@ -11,7 +11,7 @@
 <body>
     <!-- Sidebar toggle -->
     <button class="sidebar-toggle" id="sidebarToggle">
-        <i class="fa-solid fa-bars" style="font-size: 1.25rem;"></i>
+        <i class="fa-solid fa-angles-left" id="toggleIcon" style="font-size: 1.25rem;"></i>
     </button>
 
     <div class="dashboard-container">
@@ -23,25 +23,25 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-page="communities">
+                <a href="#" class="nav-item active" data-page="communities" data-label="Communities">
                     <span class="icon">
                         <i class="fa-solid fa-house"></i>
                     </span>
                     <span class="label">Communities</span>
                 </a>
-                <a href="#" class="nav-item" data-page="solution-providers">
+                <a href="#" class="nav-item" data-page="solution-providers" data-label="Solution Providers">
                     <span class="icon">
                         <i class="fa-solid fa-wrench"></i>
                     </span>
                     <span class="label">Solution Providers</span>
                 </a>
-                <a href="#" class="nav-item" data-page="matcher">
+                <a href="#" class="nav-item" data-page="matcher" data-label="Matcher">
                     <span class="icon">
                         <i class="fa-solid fa-link"></i>
                     </span>
                     <span class="label">Matcher</span>
                 </a>
-                <a href="#" class="nav-item" data-page="geocode">
+                <a href="#" class="nav-item" data-page="geocode" data-label="Geocoding Tool">
                     <span class="icon">
                         <i class="fa-solid fa-location-dot"></i>
                     </span>
@@ -79,16 +79,50 @@
         const dashboardContainer = document.querySelector('.dashboard-container');
 
         function toggleSidebar() {
-            sidebar.classList.toggle('open');
-            dashboardContainer.classList.toggle('sidebar-hidden');
-        }
+            const isMobile = window.innerWidth <= 768;
+            const isCollapsed = dashboardContainer.classList.contains('sidebar-collapsed');
+            const toggleIcon = document.getElementById('toggleIcon');
 
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            dashboardContainer.classList.add('sidebar-hidden');
+            if (isMobile) {
+                // Mobile: Toggle between overlay and hidden
+                sidebar.classList.toggle('mobile-open');
+                toggleIcon.className = sidebar.classList.contains('mobile-open')
+                    ? 'fa-solid fa-times'
+                    : 'fa-solid fa-bars';
+            } else {
+                // Desktop: Toggle between expanded and mini-sidebar
+                if (isCollapsed) {
+                    dashboardContainer.classList.remove('sidebar-collapsed');
+                    toggleIcon.className = 'fa-solid fa-angles-left';
+                } else {
+                    dashboardContainer.classList.add('sidebar-collapsed');
+                    toggleIcon.className = 'fa-solid fa-angles-right';
+                }
+            }
         }
 
         sidebarToggle.addEventListener('click', toggleSidebar);
+
+        // Handle window resize to adjust behavior
+        window.addEventListener('resize', function() {
+            const isMobile = window.innerWidth <= 768;
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            if (!isMobile) {
+                // Desktop mode: remove mobile classes
+                sidebar.classList.remove('mobile-open');
+                const isCollapsed = dashboardContainer.classList.contains('sidebar-collapsed');
+                toggleIcon.className = isCollapsed
+                    ? 'fa-solid fa-angles-right'
+                    : 'fa-solid fa-angles-left';
+            } else {
+                // Mobile mode: reset to hamburger
+                dashboardContainer.classList.remove('sidebar-collapsed');
+                toggleIcon.className = sidebar.classList.contains('mobile-open')
+                    ? 'fa-solid fa-times'
+                    : 'fa-solid fa-bars';
+            }
+        });
 
         // Navigation handling
         document.querySelectorAll('.nav-item').forEach(item => {
@@ -118,14 +152,11 @@
                         break;
                 }
 
-                // Close sidebar after navigation
-                closeSidebar();
+                // Keep sidebar open after navigation (no auto-close)
+                // Optional: Close on mobile only
+                // if (window.innerWidth <= 768) sidebar.classList.remove('mobile-open');
             });
         });
-
-        // Close sidebar on logout
-        const logoutBtn = document.querySelector('.btn-logout');
-        logoutBtn.addEventListener('click', closeSidebar);
     </script>
 </body>
 </html>
