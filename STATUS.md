@@ -175,10 +175,17 @@ https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file
 - ✅ No more data loss from future syncs
 - ✅ Storage-first architecture fully operational
 
-**Fix applied (2026-01-17):**
-- Fixed 401 Unauthorized error by adding proper JWT authentication
+**Fixes applied (2026-01-17):**
+- Fixed 401 Unauthorized error by using fetch() with apikey header
 - Fixed file-not-found error by handling file creation
 - Added user tracking for audit trail
+- Fixed organizations.js missing statusFilter element error
+- Deployed to Vercel and tested successfully on live site
+
+**Known Issue:**
+- Supabase Dashboard UI may show cached/old file content when downloading
+- Files are correctly updated in Storage (verified via API)
+- Workaround: Use `download-from-storage.sh` script to download via API
 
 ### 2. Recommended Testing Steps
 
