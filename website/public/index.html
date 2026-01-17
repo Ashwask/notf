@@ -6,6 +6,311 @@
     <title>Neighbourhoods of the Future | NOTF</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* Global search bar */
+        .global-search {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1.25rem 0;
+            border-bottom: 1px solid #e8e8e8;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .global-search .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .global-search input {
+            width: 100%;
+            padding: 0.875rem 1.25rem 0.875rem 3rem;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .global-search input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(35, 162, 165, 0.1);
+        }
+
+        .global-search .search-icon {
+            position: absolute;
+            left: 2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        /* Pill-style tabs */
+        .tab-nav {
+            background: white;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e8e8e8;
+            position: sticky;
+            top: 72px;
+            z-index: 99;
+        }
+
+        .tab-nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-pills {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tab-pills::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .tab-pills::-webkit-scrollbar-thumb {
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        .tab-pill {
+            padding: 0.75rem 1.5rem;
+            border-radius: 24px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9375rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            white-space: nowrap;
+            color: #555;
+        }
+
+        .tab-pill:hover {
+            border-color: var(--color-primary);
+            background: #f0fafa;
+            transform: translateY(-1px);
+        }
+
+        .tab-pill.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(35, 162, 165, 0.3);
+        }
+
+        .tab-pill i {
+            font-size: 1rem;
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Listing cards - minimalist */
+        .listing-grid {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .listing-card {
+            background: white;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .listing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #23A2A5, #0D7576);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .listing-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .listing-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .listing-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .listing-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .listing-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .listing-meta i {
+            color: var(--color-primary);
+        }
+
+        .listing-themes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .theme-pill {
+            background: linear-gradient(135deg, rgba(91, 192, 195, 0.15) 0%, rgba(35, 162, 165, 0.15) 100%);
+            color: #0D7576;
+            padding: 0.375rem 0.875rem;
+            border-radius: 16px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            border: 1px solid rgba(35, 162, 165, 0.2);
+        }
+
+        .listing-description {
+            color: #666;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .listing-counts {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .count-badge {
+            background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+            color: white;
+            padding: 0.375rem 0.875rem;
+            border-radius: 14px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .listing-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .listing-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            background: white;
+            color: var(--color-primary);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .listing-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        /* Map styles */
+        #map {
+            width: 100%;
+            height: 600px;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tab-nav {
+                top: 68px;
+            }
+
+            .global-search {
+                padding: 1rem 0;
+            }
+
+            .tab-pills {
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -24,14 +329,11 @@
             </button>
 
             <div class="nav-menu" id="navMenu">
-                <a href="/">Home</a>
-                <a href="/solution-providers/">Solution Providers</a>
-                <a href="/communities/">Communities</a>
-                <a href="/map/">Map</a>
+                <a href="#overview">Home</a>
+                <a href="#communities">Communities</a>
+                <a href="#providers">Providers</a>
+                <a href="#map">Map</a>
                 <a href="/join/" class="join-link">Join</a>
-                <a href="/search/" class="search-link" title="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </a>
                 <a href="/admin/login.html" class="admin-link" title="Admin Login">
                     <i class="fa-solid fa-user-shield"></i>
                 </a>
@@ -39,112 +341,190 @@
         </nav>
     </header>
 
+    <!-- Global Search -->
+    <div class="global-search">
+        <div class="container">
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="globalSearch" placeholder="Search across all communities and organizations...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <div class="container">
+            <div class="tab-pills">
+                <button class="tab-pill active" data-tab="overview">
+                    <i class="fa-solid fa-house"></i>
+                    Overview
+                </button>
+                <button class="tab-pill" data-tab="communities">
+                    <i class="fa-solid fa-users"></i>
+                    Communities
+                    <span id="commTabCount" style="opacity: 0.8;"></span>
+                </button>
+                <button class="tab-pill" data-tab="providers">
+                    <i class="fa-solid fa-building"></i>
+                    Providers
+                    <span id="provTabCount" style="opacity: 0.8;"></span>
+                </button>
+                <button class="tab-pill" data-tab="map">
+                    <i class="fa-solid fa-map"></i>
+                    Map
+                </button>
+            </div>
+        </div>
+    </nav>
+
     <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Building Connected, Resilient Neighbourhoods</h1>
-                <p class="hero-subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
-                <div class="hero-cta">
-                    <a href="/admin/login.html" class="btn btn-primary-large">🤝 Admin Login</a>
-                    <a href="/join/" class="btn btn-secondary">Join the Network</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats -->
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="orgCount">-</div>
-                <div class="stat-label">Organizations</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="commCount">-</div>
-                <div class="stat-label">Communities</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">100+</div>
-                <div class="stat-label">Active Collaborations</div>
-            </div>
-        </section>
-
-        <!-- Features -->
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">How NOTF Works</h2>
-                <p class="section-subtitle">Four powerful ways to connect, collaborate, and transform your neighbourhood</p>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">🤝</div>
-                        <h3>Ask/Offer Matcher</h3>
-                        <p>Smart matching algorithm connects community needs with available resources. Find funding, volunteers, expertise, and more.</p>
-                        <a href="/admin/login.html" class="feature-link">Login to View Matches →</a>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">📍</div>
-                        <h3>Interactive Map</h3>
-                        <p>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
-                        <a href="/map/" class="feature-link">View Map →</a>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">🏘️</div>
-                        <h3>Community Directory</h3>
-                        <p>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
-                        <a href="/communities/" class="feature-link">Browse Communities →</a>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">🏢</div>
-                        <h3>Organization Network</h3>
-                        <p>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
-                        <a href="/solution-providers/" class="feature-link">View Organizations →</a>
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1>Building Connected, Resilient Neighbourhoods</h1>
+                    <p class="hero-subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
+                    <div class="hero-cta">
+                        <a href="/admin/login.html" class="btn btn-primary-large">🤝 Admin Login</a>
+                        <a href="/join/" class="btn btn-secondary">Join the Network</a>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Cities -->
-        <section class="cities">
-            <div class="container">
-                <h2 class="section-title">Join the Movement</h2>
-                <p class="section-subtitle">Three simple steps to start transforming your neighbourhood</p>
+            <!-- Stats -->
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="orgCount">-</div>
+                    <div class="stat-label">Organizations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="commCount">-</div>
+                    <div class="stat-label">Communities</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Active Collaborations</div>
+                </div>
+            </section>
 
-                <div class="cities-grid">
-                    <div class="city-card">
-                        <h3>1. Register</h3>
-                        <p>Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
-                        <a href="/join/" class="feature-link">Get Started →</a>
-                    </div>
+            <!-- Features -->
+            <section class="features">
+                <div class="container">
+                    <h2 class="section-title">How NOTF Works</h2>
+                    <p class="section-subtitle">Four powerful ways to connect, collaborate, and transform your neighbourhood</p>
 
-                    <div class="city-card">
-                        <h3>2. Connect</h3>
-                        <p>Get matched with communities and organizations that align with your needs and offers.</p>
-                        <a href="/admin/login.html" class="feature-link">Login to Find Matches →</a>
-                    </div>
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🤝</div>
+                            <h3>Ask/Offer Matcher</h3>
+                            <p>Smart matching algorithm connects community needs with available resources. Find funding, volunteers, expertise, and more.</p>
+                            <a href="/admin/login.html" class="feature-link">Login to View Matches →</a>
+                        </div>
 
-                    <div class="city-card">
-                        <h3>3. Collaborate</h3>
-                        <p>Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
-                        <a href="/join/" class="feature-link">Join Network →</a>
+                        <div class="feature-card">
+                            <div class="feature-icon">📍</div>
+                            <h3>Interactive Map</h3>
+                            <p>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
+                            <a href="#map" class="feature-link">View Map →</a>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🏘️</div>
+                            <h3>Community Directory</h3>
+                            <p>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
+                            <a href="#communities" class="feature-link">Browse Communities →</a>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">🏢</div>
+                            <h3>Organization Network</h3>
+                            <p>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
+                            <a href="#providers" class="feature-link">View Organizations →</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <div class="container">
-                <h2>Ready to Transform Your Neighbourhood?</h2>
-                <p>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
-                <div class="cta-center">
-                    <a href="/join/" class="btn btn-primary-large">Join NOTF Network</a>
-                    <a href="/about/" class="btn btn-secondary">Learn More</a>
+            <!-- Cities -->
+            <section class="cities">
+                <div class="container">
+                    <h2 class="section-title">Join the Movement</h2>
+                    <p class="section-subtitle">Three simple steps to start transforming your neighbourhood</p>
+
+                    <div class="cities-grid">
+                        <div class="city-card">
+                            <h3>1. Register</h3>
+                            <p>Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
+                            <a href="/join/" class="feature-link">Get Started →</a>
+                        </div>
+
+                        <div class="city-card">
+                            <h3>2. Connect</h3>
+                            <p>Get matched with communities and organizations that align with your needs and offers.</p>
+                            <a href="/admin/login.html" class="feature-link">Login to Find Matches →</a>
+                        </div>
+
+                        <div class="city-card">
+                            <h3>3. Collaborate</h3>
+                            <p>Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
+                            <a href="/join/" class="feature-link">Join Network →</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="container">
+                    <h2>Ready to Transform Your Neighbourhood?</h2>
+                    <p>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
+                    <div class="cta-center">
+                        <a href="/join/" class="btn btn-primary-large">Join NOTF Network</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Communities Tab -->
+        <div id="communities-tab" class="tab-content">
+            <section class="content">
+                <h1>Active Communities</h1>
+                <p class="lead">NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.</p>
+
+                <div class="listing-grid" id="communitiesList">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Loading communities...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Providers Tab -->
+        <div id="providers-tab" class="tab-content">
+            <section class="content">
+                <h1>Solution Providers</h1>
+                <p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
+
+                <div class="listing-grid" id="providersList">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Loading solution providers...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Map Tab -->
+        <div id="map-tab" class="tab-content">
+            <section class="content">
+                <h1>NOTF Network Map</h1>
+                <p class="lead">Explore communities across Bangalore with ward boundaries</p>
+
+                <div id="map"></div>
+            </section>
+        </div>
     </main>
 
     <footer>
@@ -169,7 +549,6 @@
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -178,7 +557,6 @@
             });
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
                 hamburger.classList.remove('active');
@@ -187,30 +565,13 @@
         });
     </script>
 
+    <!-- Leaflet JS for map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
+
     <!-- Load Supabase and data -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
-    <script>
-        // Load counts on page load
-        (async function() {
-            await dataLoader.waitForSupabase();
-            const [orgs, comms] = await Promise.all([
-                dataLoader.loadSolutionProviders(),
-                dataLoader.loadCommunities()
-            ]);
-
-            const orgCount = orgs.length;
-            const commCount = comms.length;
-
-            // Update all count placeholders
-            document.getElementById('orgCount').textContent = orgCount;
-            document.getElementById('commCount').textContent = commCount;
-            document.getElementById('mapCommCount').textContent = commCount;
-            document.getElementById('dirCommCount').textContent = commCount;
-            document.getElementById('orgNetCount').textContent = orgCount;
-            document.getElementById('ctaOrgCount').textContent = orgCount;
-            document.getElementById('ctaCommCount').textContent = commCount;
-        })();
-    </script>
+    <script src="/assets/js/consolidated-app.js"></script>
 </body>
 </html>
