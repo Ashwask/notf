@@ -121,8 +121,8 @@ function setupEventListeners() {
         renderOrganizations(filtered);
     });
 
-    // Status filter
-    document.getElementById('statusFilter').addEventListener('change', loadOrganizations);
+    // Status filter is handled by chip buttons with onclick handlers in HTML
+    // No need for addEventListener here
 
     // Form submission
     document.getElementById('organizationForm').addEventListener('submit', handleFormSubmit);

@@ -21,6 +21,21 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
+  // Health check endpoint
+  if (req.method === 'GET') {
+    return new Response(
+      JSON.stringify({
+        status: 'ok',
+        version: '3.0-auth-optional',
+        timestamp: new Date().toISOString()
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
+      }
+    )
+  }
+
   try {
     // Create Supabase client with service role for admin operations
     const supabaseClient = createClient(
