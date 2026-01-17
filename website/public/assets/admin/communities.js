@@ -194,22 +194,8 @@ function setupEventListeners() {
         console.error('communityForm not found! Form submit handler not attached.');
     }
 
-    // Auto-populate ward when neighborhood changes
-    const neighborhoodField = document.getElementById('commNeighborhood');
-    if (neighborhoodField) {
-        neighborhoodField.addEventListener('blur', function() {
-            const neighborhood = this.value.trim();
-            const wardSelect = document.getElementById('commWard');
-
-            if (neighborhood && wardSelect) {
-                const ward = matchNeighborhoodToWard(neighborhood);
-                if (ward) {
-                    // Set the selected option in the dropdown
-                    wardSelect.value = ward;
-                }
-            }
-        });
-    }
+    // Auto-populate ward when neighborhood changes (initial setup)
+    setupNeighborhoodWardAutofill();
 
     // Check if URL has ?action=new
     const urlParams = new URLSearchParams(window.location.search);
@@ -227,6 +213,11 @@ function showCreateForm() {
 
     // Initialize ward autocomplete
     setupWardAutocomplete();
+
+    // Setup neighborhood-to-ward autofill
+    setTimeout(() => {
+        setupNeighborhoodWardAutofill();
+    }, 50);
 
     // Initialize map
     setTimeout(() => {
@@ -286,6 +277,11 @@ async function editCommunity(id) {
 
     // Initialize ward autocomplete
     setupWardAutocomplete();
+
+    // Setup neighborhood-to-ward autofill
+    setTimeout(() => {
+        setupNeighborhoodWardAutofill();
+    }, 50);
 
     // Initialize map and set marker if coordinates exist
     setTimeout(() => {
@@ -1311,4 +1307,114 @@ function updateActiveItem() {
 function selectWard(ward) {
     wardAutocomplete.input.value = ward;
     wardAutocomplete.dropdown.style.display = 'none';
+
+    // Trigger elected representatives lookup when ward is selected
+    loadElectedRepresentatives(ward);
+}
+
+// Neighborhood-to-Ward and Elected Representatives Autofill
+function setupNeighborhoodWardAutofill() {
+    const neighborhoodField = document.getElementById('commNeighborhood');
+    if (!neighborhoodField) return;
+
+    // Remove any existing listeners to avoid duplicates
+    const newNeighborhoodField = neighborhoodField.cloneNode(true);
+    neighborhoodField.parentNode.replaceChild(newNeighborhoodField, neighborhoodField);
+
+    newNeighborhoodField.addEventListener('blur', function() {
+        const neighborhood = this.value.trim();
+        const wardField = document.getElementById('commWard');
+
+        if (neighborhood && wardField) {
+            const ward = matchNeighborhoodToWard(neighborhood);
+            if (ward) {
+                // Set the ward value in the input field
+                wardField.value = ward;
+                console.log(`Auto-populated ward: ${ward} for neighborhood: ${neighborhood}`);
+
+                // Also trigger elected representatives lookup
+                loadElectedRepresentatives(ward);
+            }
+        }
+    });
+
+    // Also add listener to ward field to lookup elected representatives
+    const wardField = document.getElementById('commWard');
+    if (wardField) {
+        const newWardField = wardField.cloneNode(true);
+        wardField.parentNode.replaceChild(newWardField, wardField);
+
+        newWardField.addEventListener('blur', function() {
+            const ward = this.value.trim();
+            if (ward) {
+                loadElectedRepresentatives(ward);
+            }
+        });
+
+        // Re-setup autocomplete since we cloned the field
+        setTimeout(() => setupWardAutocomplete(), 0);
+    }
+}
+
+// Load elected representatives based on ward
+async function loadElectedRepresentatives(ward) {
+    if (!ward) return;
+
+    console.log(`Looking up elected representatives for ward: ${ward}`);
+
+    try {
+        // Try to load elected representatives mapping
+        const response = await fetch('/assets/geodata/elected-representatives.json');
+        if (!response.ok) {
+            console.log('Elected representatives mapping not found - will need to be populated manually');
+            return;
+        }
+
+        const electrepsData = await response.json();
+        const normalized = ward.toLowerCase().trim();
+
+        // Try to find a match
+        const reps = electrepsData[ward] || electrepsData[normalized];
+
+        if (reps) {
+            // Populate MLA fields
+            if (reps.mla) {
+                const mlaNameField = document.getElementById('commMlaName');
+                const mlaPartyField = document.getElementById('commMlaParty');
+                const mlaConstituencyField = document.getElementById('commMlaConstituency');
+
+                if (mlaNameField && !mlaNameField.value) mlaNameField.value = reps.mla.name || '';
+                if (mlaPartyField && !mlaPartyField.value) mlaPartyField.value = reps.mla.party || '';
+                if (mlaConstituencyField && !mlaConstituencyField.value) mlaConstituencyField.value = reps.mla.constituency || '';
+            }
+
+            // Populate MP fields
+            if (reps.mp) {
+                const mpNameField = document.getElementById('commMpName');
+                const mpPartyField = document.getElementById('commMpParty');
+                const mpConstituencyField = document.getElementById('commMpConstituency');
+
+                if (mpNameField && !mpNameField.value) mpNameField.value = reps.mp.name || '';
+                if (mpPartyField && !mpPartyField.value) mpPartyField.value = reps.mp.party || '';
+                if (mpConstituencyField && !mpConstituencyField.value) mpConstituencyField.value = reps.mp.constituency || '';
+            }
+
+            // Populate Corporator fields
+            if (reps.corporator) {
+                const corpNameField = document.getElementById('commCorporatorName');
+                const corpPartyField = document.getElementById('commCorporatorParty');
+                const corpWardField = document.getElementById('commCorporatorWard');
+
+                if (corpNameField && !corpNameField.value) corpNameField.value = reps.corporator.name || '';
+                if (corpPartyField && !corpPartyField.value) corpPartyField.value = reps.corporator.party || '';
+                if (corpWardField && !corpWardField.value) corpWardField.value = reps.corporator.ward || ward;
+            }
+
+            console.log('Auto-populated elected representatives:', reps);
+        } else {
+            console.log(`No elected representatives data found for ward: ${ward}`);
+        }
+    } catch (error) {
+        console.log('Could not load elected representatives:', error.message);
+    }
 }

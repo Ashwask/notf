@@ -1,0 +1,104 @@
+{
+  "Ward 98 - Shanthinagar": {
+    "mla": {
+      "name": "N.A. Haris",
+      "party": "INC",
+      "constituency": "Shanti Nagar"
+    },
+    "mp": {
+      "name": "P.C. Mohan",
+      "party": "BJP",
+      "constituency": "Bangalore Central"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 98 - Shanthinagar"
+    }
+  },
+  "Ward 88 - BTM Layout": {
+    "mla": {
+      "name": "Ramalinga Reddy",
+      "party": "INC",
+      "constituency": "B.T.M Layout"
+    },
+    "mp": {
+      "name": "Tejasvi Surya",
+      "party": "BJP",
+      "constituency": "Bangalore South"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 88 - BTM Layout"
+    }
+  },
+  "Ward 114 - HSR Layout": {
+    "mla": {
+      "name": "M. Satish Reddy",
+      "party": "BJP",
+      "constituency": "Bommanahalli"
+    },
+    "mp": {
+      "name": "Tejasvi Surya",
+      "party": "BJP",
+      "constituency": "Bangalore South"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 114 - HSR Layout"
+    }
+  },
+  "Ward 80 - Koramangala": {
+    "mla": {
+      "name": "M. Satish Reddy",
+      "party": "BJP",
+      "constituency": "Bommanahalli"
+    },
+    "mp": {
+      "name": "Tejasvi Surya",
+      "party": "BJP",
+      "constituency": "Bangalore South"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 80 - Koramangala"
+    }
+  },
+  "Ward 199 - Bellanduru": {
+    "mla": {
+      "name": "Manjula Aravind Limbavalli",
+      "party": "BJP",
+      "constituency": "Mahadevapura"
+    },
+    "mp": {
+      "name": "P.C. Mohan",
+      "party": "BJP",
+      "constituency": "Bangalore Central"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 199 - Bellanduru"
+    }
+  },
+  "Ward 44 - Malleshwaram": {
+    "mla": {
+      "name": "Ashwath Narayan C.N.",
+      "party": "BJP",
+      "constituency": "Malleshwaram"
+    },
+    "mp": {
+      "name": "P.C. Mohan",
+      "party": "BJP",
+      "constituency": "Bangalore Central"
+    },
+    "corporator": {
+      "name": "",
+      "party": "",
+      "ward": "Ward 44 - Malleshwaram"
+    }
+  }
+}
