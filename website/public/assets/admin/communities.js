@@ -1201,6 +1201,71 @@ const BBMP_WARDS = [
     "New Ward 15 - Chandapura (Upcoming)"
 ];
 
+// Ward Chips State and Management Functions
+let selectedWards = [];
+
+// Add ward chip
+function addWardChip(ward) {
+    // Check for duplicates
+    if (selectedWards.includes(ward)) {
+        return;
+    }
+
+    selectedWards.push(ward);
+    renderWardChips();
+
+    // Clear autocomplete input
+    const wardInput = document.getElementById('commWardInput');
+    if (wardInput) {
+        wardInput.value = '';
+    }
+
+    // Load elected representatives for first ward
+    if (selectedWards.length === 1) {
+        loadElectedRepresentatives(ward);
+    }
+}
+
+// Remove ward chip
+function removeWardChip(ward) {
+    selectedWards = selectedWards.filter(w => w !== ward);
+    renderWardChips();
+
+    // If removed the first ward, reload representatives for new first ward
+    if (selectedWards.length > 0) {
+        loadElectedRepresentatives(selectedWards[0]);
+    }
+}
+
+// Render ward chips HTML
+function renderWardChips() {
+    const container = document.getElementById('commWardChips');
+    if (!container) return;
+
+    if (selectedWards.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = selectedWards.map(ward => `
+        <div class="ward-chip">
+            <span>${ward}</span>
+            <button type="button" onclick="removeWardChip('${ward.replace(/'/g, "\\'")}')">×</button>
+        </div>
+    `).join('');
+}
+
+// Get wards array (for form submission)
+function getSelectedWards() {
+    return selectedWards;
+}
+
+// Set wards array (for form loading)
+function setSelectedWards(wards) {
+    selectedWards = wards || [];
+    renderWardChips();
+}
+
 // Ward Autocomplete functionality
 let wardAutocomplete = {
     input: null,

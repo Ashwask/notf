@@ -1090,3 +1090,114 @@ header {
     font-style: italic;
     text-align: center;
 }
+
+/* Chip Container and Ward Chips */
+.chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 40px;
+    padding: 0.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.chip-container:empty::before {
+    content: "No wards selected";
+    color: #999;
+    font-style: italic;
+}
+
+.ward-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.ward-chip:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+}
+
+.ward-chip button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.3rem;
+    line-height: 1;
+    font-weight: bold;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+.ward-chip button:hover {
+    opacity: 1;
+}
+
+/* Modal Drag and Resize Styles */
+.view-modal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    width: 90%;
+    max-height: 85vh;
+    min-width: 500px;
+    min-height: 400px;
+    resize: both; /* Fallback for browsers without custom resize */
+}
+
+.view-modal .view-header {
+    cursor: move; /* Indicate draggable */
+    user-select: none;
+}
+
+.view-modal .drag-handle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: move;
+}
+
+.view-modal .drag-handle:hover {
+    color: white;
+}
+
+/* Resize handle (bottom-right corner) */
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: nwse-resize;
+    background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.2) 50%);
+    border-bottom-right-radius: 12px;
+}
+
+.resize-handle:hover {
+    background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.4) 50%);
+}
+
+/* When dragging/resizing */
+.view-modal .modal-content.dragging {
+    transition: none;
+    cursor: move;
+}
+
+.view-modal .modal-content.resizing {
+    transition: none;
+    cursor: nwse-resize;
+}

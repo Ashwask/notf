@@ -82,14 +82,22 @@
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="commNeighborhood">Neighborhood/Area</label>
-                            <input type="text" id="commNeighborhood" placeholder="e.g., Malleshwaram, HSR Layout" />
+                            <label for="commNeighborhoods">Neighborhoods/Areas (one per line)</label>
+                            <textarea id="commNeighborhoods" rows="3" placeholder="Malleshwaram&#10;HSR Layout&#10;Koramangala"></textarea>
+                            <small style="color: #666; font-size: 0.85rem;">Enter each neighborhood on a new line. First neighborhood will be used for ward lookup.</small>
                         </div>
-                        <div class="form-group autocomplete-container">
-                            <label for="commWard">Ward</label>
-                            <input type="text" id="commWard" placeholder="Type to search wards..." autocomplete="off" />
-                            <div id="wardDropdown" class="autocomplete-dropdown" style="display: none;"></div>
-                            <small style="color: #666; font-size: 0.85rem;">Type to search and select from BBMP wards</small>
+                        <div class="form-group">
+                            <label for="commWardInput">Wards</label>
+                            <div class="autocomplete-container">
+                                <input type="text" id="commWardInput" placeholder="Type to search and add wards..." autocomplete="off" />
+                                <div id="wardDropdown" class="autocomplete-dropdown" style="display: none;"></div>
+                            </div>
+                            <div id="commWardChips" class="chip-container" style="margin-top: 0.75rem;">
+                                <!-- Ward chips will be rendered here dynamically -->
+                            </div>
+                            <small style="color: #666; font-size: 0.85rem; display: block; margin-top: 0.5rem;">
+                                Wards auto-populate from neighborhoods. Use search above to add more wards. Click × to remove.
+                            </small>
                         </div>
                     </div>
 
