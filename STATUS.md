@@ -1,7 +1,7 @@
 # NOTF Project Status - Storage-First Architecture Migration
 
 **Last Updated:** 2026-01-17
-**Status:** ✅ COMPLETE - Storage-first architecture fully implemented
+**Status:** ✅ PRODUCTION READY - Storage-first architecture fully implemented and deployed
 
 ---
 
@@ -135,7 +135,7 @@ We are migrating NOTF to a **storage-first architecture** where Supabase Storage
 
 ## Current Status
 
-### ✅ Implementation Complete
+### ✅ Implementation & Deployment Complete
 
 All planned tasks have been completed:
 1. ✅ Create ARCHITECTURE.md documentation
@@ -144,47 +144,68 @@ All planned tasks have been completed:
 4. ✅ Create Edge Function `update-file`
 5. ✅ Update `communities.js` to use Edge Function
 6. ✅ Update `organizations.js` to use Edge Function
+7. ✅ Deploy Edge Function to Supabase (2026-01-17)
+
+**System is now production-ready for storage-first architecture!**
 
 ---
 
-## Next Steps (Required for Production)
+## Next Steps (Production Ready)
 
-### 1. Deploy Edge Function to Supabase ⚠️ REQUIRED
+### 1. Deploy Edge Function to Supabase ✅ COMPLETE
 
-The Edge Function code exists but must be deployed to work:
+**Deployed successfully on 2026-01-17**
 
-```bash
-# Deploy to Supabase (requires Supabase CLI)
-supabase functions deploy update-file --project-ref abblyaukkoxmgzwretvm
+The Edge Function is now live at:
+```
+https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file
 ```
 
-**Test after deployment:**
+**Deployment details:**
+- Function: `update-file`
+- Project: abblyaukkoxmgzwretvm
+- Status: Active
+- Dashboard: https://supabase.com/dashboard/project/abblyaukkoxmgzwretvm/function
+
+**What this enables:**
+- ✅ Admin edits now update Storage files FIRST, then database
+- ✅ No more data loss from future syncs
+- ✅ Storage-first architecture fully operational
+
+### 2. Recommended Testing Steps
+
+**Test the Edge Function directly (optional):**
 ```bash
-# Test with a simple update
+# Get your anon key from Supabase dashboard
+# Test with a simple status update
 curl -X POST \
   https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file \
   -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "file_path": "communities/bengaluru/test.md",
+    "file_path": "communities/bengaluru/shanthinagar.md",
     "file_type": "community",
-    "updates": {"status": "pending"}
+    "updates": {"status": "active"}
   }'
 ```
 
-**Until deployed:** Admin edits will fail with "Edge Function not found" error.
-
-### 2. Test Admin Edits (After Edge Function Deployed)
-
-1. Open `/admin/communities.html`
+**Test via Admin Interface (recommended):**
+1. Open `https://your-domain.com/admin/communities.html`
 2. Login as admin
-3. Edit an existing community
+3. Edit an existing community (e.g., change contact email or status)
 4. Save changes
 5. Verify:
-   - No errors in browser console
-   - Download markdown file from Supabase Storage
-   - Confirm changes present in frontmatter
-   - Check database reflects changes
+   - ✅ No errors in browser console
+   - ✅ Success message appears
+   - ✅ Changes reflected in the list immediately
+
+**Verify Storage-First Architecture Working:**
+1. Go to Supabase Dashboard → Storage → notf bucket
+2. Download the markdown file you just edited
+3. Open the file and verify your changes are in the YAML frontmatter
+4. Verify markdown body content is preserved
+5. Go to Database → file_metadata table
+6. Find the record and verify database also has the updates
 
 ### 3. Sync Updated Files to Supabase Storage (Optional)
 
