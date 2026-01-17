@@ -286,6 +286,176 @@
             border-left: 3px solid #f57c00;
         }
 
+        /* CTA Card Styles */
+        .provider-cta-card {
+            background: linear-gradient(135deg, rgba(247, 167, 130, 0.05) 0%, rgba(251, 200, 49, 0.05) 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-radius: 1.5rem;
+            margin-top: 3rem;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(247, 167, 130, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .provider-cta-card:hover {
+            box-shadow: 0 12px 48px rgba(247, 167, 130, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .cta-card-header {
+            text-align: center;
+            padding: 3rem 2rem 2rem 2rem;
+            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            color: white;
+            position: relative;
+        }
+
+        .cta-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .cta-card-header h2 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .cta-subtitle {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-card-body {
+            padding: 2.5rem 2rem;
+            background: white;
+        }
+
+        .cta-card-body h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .provider-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .provider-type {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, rgba(247, 167, 130, 0.08) 0%, rgba(251, 200, 49, 0.08) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(247, 167, 130, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .provider-type:hover {
+            background: linear-gradient(135deg, rgba(247, 167, 130, 0.15) 0%, rgba(251, 200, 49, 0.15) 100%);
+            transform: translateX(4px);
+            border-color: rgba(247, 167, 130, 0.4);
+        }
+
+        .provider-type i {
+            font-size: 1.75rem;
+            color: #F7A782;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .provider-type span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .cta-card-footer {
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(247, 167, 130, 0.03) 0%, rgba(251, 200, 49, 0.03) 100%);
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(247, 167, 130, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(247, 167, 130, 0.5);
+        }
+
+        .cta-btn i {
+            font-size: 1.2rem;
+        }
+
+        .cta-email {
+            margin-top: 1.25rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .cta-note {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .cta-note a {
+            color: #F7A782;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .cta-note a:hover {
+            color: #d97706;
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
             .providers-table {
                 overflow-x: scroll;
@@ -298,6 +468,36 @@
 
             .theme-cell {
                 max-width: 150px;
+            }
+
+            .cta-card-header {
+                padding: 2rem 1.5rem 1.5rem 1.5rem;
+            }
+
+            .cta-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cta-icon i {
+                font-size: 2rem;
+            }
+
+            .cta-card-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1rem;
+            }
+
+            .provider-types-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-btn {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -364,18 +564,49 @@
                 </table>
             </div>
 
-            <section class="cta-box" style="margin-top: 2rem;">
-                <h2>Become a Solution Provider</h2>
-                <p>Are you an organization providing expertise, services, or solutions for community transformation? Join our network of solution providers.</p>
-                <p>We welcome:</p>
-                <ul>
-                    <li>Research institutions and think tanks</li>
-                    <li>NGOs and social enterprises</li>
-                    <li>Consultancies and service providers</li>
-                    <li>Technology and innovation labs</li>
-                    <li>Training and capacity building organizations</li>
-                </ul>
-                <p>Contact us at <a href="mailto:nudge-unit@notf.in">nudge-unit@notf.in</a> to join.</p>
+            <section class="provider-cta-card">
+                <div class="cta-card-header">
+                    <div class="cta-icon">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h2>Become a Solution Provider</h2>
+                    <p class="cta-subtitle">Join our network and connect with communities seeking expertise, services, and solutions for transformation</p>
+                </div>
+
+                <div class="cta-card-body">
+                    <h3>We Welcome:</h3>
+                    <div class="provider-types-grid">
+                        <div class="provider-type">
+                            <i class="fa-solid fa-microscope"></i>
+                            <span>Research Institutions & Think Tanks</span>
+                        </div>
+                        <div class="provider-type">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>NGOs & Social Enterprises</span>
+                        </div>
+                        <div class="provider-type">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <span>Consultancies & Service Providers</span>
+                        </div>
+                        <div class="provider-type">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Technology & Innovation Labs</span>
+                        </div>
+                        <div class="provider-type">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Training & Capacity Building</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-card-footer">
+                    <a href="mailto:contact@notf.in" class="cta-btn">
+                        <i class="fa-solid fa-envelope"></i>
+                        Contact Us
+                    </a>
+                    <p class="cta-email">contact@notf.in</p>
+                    <p class="cta-note">Use the button above to join our network, update your organization's details, or share your success stories</p>
+                </div>
             </section>
         </section>
 

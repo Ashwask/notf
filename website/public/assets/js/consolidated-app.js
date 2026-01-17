@@ -213,9 +213,8 @@ function renderCommunities(communities) {
 
                 ${comm.contact && comm.contact.email ? `
                     <div class="listing-actions">
-                        <a href="mailto:${comm.contact.email}" class="listing-btn">
+                        <a href="mailto:${comm.contact.email}" class="listing-btn" title="Contact via email">
                             <i class="fa-solid fa-envelope"></i>
-                            Contact
                         </a>
                     </div>
                 ` : ''}
@@ -281,9 +280,8 @@ function renderProviders(providers) {
 
                 ${prov.contact && prov.contact.email ? `
                     <div class="listing-actions">
-                        <a href="mailto:${prov.contact.email}" class="listing-btn">
+                        <a href="mailto:${prov.contact.email}" class="listing-btn" title="Contact via email">
                             <i class="fa-solid fa-envelope"></i>
-                            Contact
                         </a>
                     </div>
                 ` : ''}
@@ -396,7 +394,7 @@ function createPopupContent(item, type) {
     }
 
     if (item.contact && item.contact.email) {
-        html += `<div style="margin-top: 0.5rem; font-size: 0.85rem;">✉️ <a href="mailto:${item.contact.email}" style="color: #667eea;">${item.contact.email}</a></div>`;
+        html += `<div style="margin-top: 0.5rem; font-size: 0.85rem;"><a href="mailto:${item.contact.email}" style="color: #667eea; text-decoration: none;" title="Contact via email"><i class="fa-solid fa-envelope"></i></a></div>`;
     }
 
     html += '</div>';
