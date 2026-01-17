@@ -700,7 +700,7 @@
                 // Remove all current layers
                 map.eachLayer(layer => {
                     if (layer !== map._layers[Object.keys(map._layers)[0]]) { // Keep base tile layer
-                        if (layer.options && (layer.options.attribution === undefined || layer.options.attribution.includes('OpenStreetMap'))) {
+                        if (layer.options && (layer.options.attribution === undefined || (layer.options.attribution && layer.options.attribution.includes('OpenStreetMap')))) {
                             // Skip base layer
                         } else {
                             map.removeLayer(layer);
@@ -716,27 +716,34 @@
                     });
                 }
 
-                // Re-add corporation boundaries
-                fetch('/assets/geodata/gba_corporation.geojson')
-                    .then(response => response.json())
-                    .then(data => {
-                        L.geoJSON(data, {
-                            style: {
-                                color: '#FF6B6B',
-                                weight: 2,
-                                fillOpacity: 0.05,
-                                fillColor: '#FF6B6B'
-                            }
-                        }).addTo(corporationLayer);
-                        corporationLayer.addTo(map);
-                    });
+                // Re-add corporation boundaries (only for Bengaluru)
+                if (cityName === 'Bengaluru') {
+                    fetch('/assets/geodata/gba_corporation.geojson')
+                        .then(response => response.json())
+                        .then(data => {
+                            L.geoJSON(data, {
+                                style: {
+                                    color: '#FF6B6B',
+                                    weight: 2,
+                                    fillOpacity: 0.05,
+                                    fillColor: '#FF6B6B'
+                                }
+                            }).addTo(corporationLayer);
+                            corporationLayer.addTo(map);
+                        })
+                        .catch(error => {
+                            console.error('Error loading corporation boundaries:', error);
+                        });
+                }
 
                 // Add selected city's ward layer
                 if (window.wardLayers) {
                     const selectedCity = window.wardLayers.find(w => w.city === cityName);
                     if (selectedCity) {
+                        console.log(`Loading ward KML for ${cityName}: ${selectedCity.file}`);
                         const wardKML = omnivore.kml(selectedCity.file)
                             .on('ready', function() {
+                                console.log(`✅ ${cityName} ward KML loaded successfully`);
                                 this.setStyle({
                                     color: selectedCity.color,
                                     weight: 1,
@@ -771,11 +778,16 @@
                                         }
                                     }
                                 });
+                            })
+                            .on('error', function(e) {
+                                console.error(`❌ Error loading ${cityName} ward KML:`, e);
                             });
 
                         selectedCity.layer.clearLayers();
                         selectedCity.layer.addLayer(wardKML);
                         selectedCity.layer.addTo(map);
+                    } else {
+                        console.error(`❌ City not found in wardLayers: ${cityName}`);
                     }
                 }
 
