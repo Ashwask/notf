@@ -33,7 +33,9 @@
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(35, 162, 165, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     width: 40px;
     height: 40px;
     display: flex;
@@ -51,7 +53,7 @@
 }
 
 .dashboard-container.sidebar-collapsed .sidebar-toggle {
-    left: 70px;
+    left: 70px !important;
 }
 
 /* Sidebar - Glassmorphism with Gradient */
