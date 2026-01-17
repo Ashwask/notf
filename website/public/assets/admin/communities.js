@@ -121,6 +121,9 @@ function renderCommunities(comms) {
                     ${missingBadge}
                 </div>
                 <div class="card-actions">
+                    <button class="mini-icon-btn view" title="View Details" onclick="viewCommunity('${comm.id}')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                     <button class="mini-icon-btn edit" title="Edit" onclick="editCommunity('${comm.id}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
@@ -220,8 +223,10 @@ function showCreateForm() {
     editingId = null;
     document.getElementById('modalTitle').textContent = 'Add Community';
     document.getElementById('communityForm').reset();
-    populateWardDropdown();
     document.getElementById('formModal').style.display = 'flex';
+
+    // Initialize ward autocomplete
+    setupWardAutocomplete();
 
     // Initialize map
     setTimeout(() => {
@@ -243,9 +248,6 @@ async function editCommunity(id) {
     document.getElementById('commCity').value = comm.metadata?.city || comm.city || '';
     document.getElementById('commState').value = comm.metadata?.state || '';
     document.getElementById('commNeighborhood').value = comm.neighborhood || comm.metadata?.neighborhood || '';
-
-    // Populate ward dropdown and set current value
-    populateWardDropdown();
     document.getElementById('commWard').value = comm.ward || '';
 
     document.getElementById('commDescription').value = comm.metadata?.description || '';
@@ -281,6 +283,9 @@ async function editCommunity(id) {
     document.getElementById('commCorporatorWard').value = comm.metadata?.elected_representatives?.corporator?.ward || '';
 
     document.getElementById('formModal').style.display = 'flex';
+
+    // Initialize ward autocomplete
+    setupWardAutocomplete();
 
     // Initialize map and set marker if coordinates exist
     setTimeout(() => {
@@ -672,4 +677,638 @@ function clearLocation() {
     document.getElementById('commLongitude').value = '';
     document.getElementById('currentCoords').textContent = 'No location set';
     locationMap.setView([12.9716, 77.5946], 12);
+}
+
+// View Community Details
+function viewCommunity(id) {
+    const comm = communities.find(c => c.id === id);
+    if (!comm) return;
+
+    const meta = comm.metadata || {};
+    const name = meta.name || comm.slug;
+    const city = meta.city || comm.city || '';
+    const state = meta.state || '';
+    const neighborhood = comm.neighborhood || meta.neighborhood || '';
+    const themes = meta.themes || [];
+    const description = meta.description || '';
+    const contact = meta.contact || {};
+    const offers = meta.offers || [];
+    const asks = meta.asks || [];
+    const stories = meta.stories || '';
+    const population = meta.population || '';
+    const geography = meta.geography || '';
+    const leadOrg = meta.lead_organization_name || meta.lead_organization || '';
+    const collabStatus = meta.collab_status || '';
+    const elected_reps = meta.elected_representatives || {};
+
+    // Update modal header
+    document.getElementById('viewTitle').textContent = name;
+    const statusIcon = comm.status === 'active' ? 'fa-circle-check' : comm.status === 'pending' ? 'fa-clock' : 'fa-circle';
+    document.getElementById('viewStatus').innerHTML = `<i class="fa-solid ${statusIcon}"></i> ${comm.status}`;
+    document.getElementById('viewStatus').className = `status-indicator ${comm.status}`;
+
+    // Build view content
+    let html = '';
+
+    // Basic Info Section
+    html += `
+        <div class="detail-section">
+            <h3 class="section-title">Basic Information</h3>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">City</span>
+                    <span class="detail-value">${city || '<span class="empty">Not specified</span>'}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">State</span>
+                    <span class="detail-value">${state || '<span class="empty">Not specified</span>'}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Neighborhood</span>
+                    <span class="detail-value">${neighborhood || '<span class="empty">Not specified</span>'}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Ward</span>
+                    <span class="detail-value">${comm.ward || '<span class="empty">Not specified</span>'}</span>
+                </div>
+                ${population ? `
+                <div class="detail-item">
+                    <span class="detail-label">Population</span>
+                    <span class="detail-value">${population}</span>
+                </div>` : ''}
+                ${geography ? `
+                <div class="detail-item">
+                    <span class="detail-label">Geography</span>
+                    <span class="detail-value">${geography}</span>
+                </div>` : ''}
+            </div>
+            ${description ? `<p style="margin-top: 1rem; color: #555; line-height: 1.6;">${description}</p>` : ''}
+        </div>
+    `;
+
+    // Location Section
+    if (comm.latitude && comm.longitude) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Location</h3>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Latitude</span>
+                        <span class="detail-value">${comm.latitude}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Longitude</span>
+                        <span class="detail-value">${comm.longitude}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Themes Section
+    if (themes.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Focus Areas / Themes</h3>
+                <div class="tag-list">
+                    ${themes.map(theme => `<span class="tag">${theme}</span>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // Elected Representatives
+    if (elected_reps && Object.keys(elected_reps).length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Elected Representatives</h3>
+        `;
+        if (elected_reps.mla) {
+            html += `
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-weight: 600; color: #667eea; margin-bottom: 0.5rem;">MLA</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Name</span>
+                            <span class="detail-value">${elected_reps.mla.name || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Party</span>
+                            <span class="detail-value">${elected_reps.mla.party || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Constituency</span>
+                            <span class="detail-value">${elected_reps.mla.constituency || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        if (elected_reps.mp) {
+            html += `
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-weight: 600; color: #667eea; margin-bottom: 0.5rem;">MP</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Name</span>
+                            <span class="detail-value">${elected_reps.mp.name || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Party</span>
+                            <span class="detail-value">${elected_reps.mp.party || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Constituency</span>
+                            <span class="detail-value">${elected_reps.mp.constituency || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        if (elected_reps.corporator) {
+            html += `
+                <div>
+                    <div style="font-weight: 600; color: #667eea; margin-bottom: 0.5rem;">Corporator</div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Name</span>
+                            <span class="detail-value">${elected_reps.corporator.name || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Party</span>
+                            <span class="detail-value">${elected_reps.corporator.party || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                        <div class="detail-item" style="grid-column: 1 / -1;">
+                            <span class="detail-label">Ward</span>
+                            <span class="detail-value">${elected_reps.corporator.ward || '<span class="empty">Not specified</span>'}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        html += `</div>`;
+    }
+
+    // Lead Organization
+    if (leadOrg) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Lead Organization</h3>
+                <div class="detail-grid">
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                        <span class="detail-value">${leadOrg}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // Contact Section
+    if (contact && (contact.person || contact.email || contact.phone)) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Contact Information</h3>
+                <div class="detail-grid">
+                    ${contact.person ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Contact Person</span>
+                        <span class="detail-value">${contact.person}</span>
+                    </div>` : ''}
+                    ${contact.email ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value"><a href="mailto:${contact.email}">${contact.email}</a></span>
+                    </div>` : ''}
+                    ${contact.phone ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value"><a href="tel:${contact.phone}">${contact.phone}</a></span>
+                    </div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    // Offers Section
+    if (offers.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">What They Offer</h3>
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    ${offers.map(offer => `<li style="margin-bottom: 0.5rem;">${offer}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Asks Section
+    if (asks.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">What They Need</h3>
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    ${asks.map(ask => `<li style="margin-bottom: 0.5rem;">${ask}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Stories Section (Markdown formatted)
+    if (stories && stories.trim()) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Stories & Impact</h3>
+                <div class="markdown-content">
+                    ${typeof marked !== 'undefined' ? marked.parse(stories) : '<pre>' + stories + '</pre>'}
+                </div>
+            </div>
+        `;
+    }
+
+    // Collaboration Status
+    if (collabStatus) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Collaboration Status</h3>
+                <div class="detail-value">${collabStatus}</div>
+            </div>
+        `;
+    }
+
+    document.getElementById('viewBody').innerHTML = html;
+    document.getElementById('viewModal').style.display = 'flex';
+}
+
+function closeViewModal() {
+    document.getElementById('viewModal').style.display = 'none';
+}
+
+// BBMP Wards List (Complete list of all 243 wards + 15 upcoming wards)
+const BBMP_WARDS = [
+    "Ward 1 - Yeshwanthpura",
+    "Ward 2 - Doddabommasandra",
+    "Ward 3 - Vishwanathapura",
+    "Ward 4 - Nagashettyhalli",
+    "Ward 5 - Chowdeshwari",
+    "Ward 6 - Laggere",
+    "Ward 7 - Radhakrishna Temple",
+    "Ward 8 - Nandini Layout",
+    "Ward 9 - Peenya Industrial Area",
+    "Ward 10 - Lakshmi Devi Nagar",
+    "Ward 11 - Peenya",
+    "Ward 12 - Jalahalli",
+    "Ward 13 - Radhakrishna Nagar",
+    "Ward 14 - Kodigehalli",
+    "Ward 15 - Vidyaranyapura",
+    "Ward 16 - Dodda Bommasandra",
+    "Ward 17 - Kuvempu Layout",
+    "Ward 18 - Hebbal",
+    "Ward 19 - Vishwanath Nagenahalli",
+    "Ward 20 - Nagavara",
+    "Ward 21 - HBR Layout",
+    "Ward 22 - Horamavu",
+    "Ward 23 - Ramamurthy Nagar",
+    "Ward 24 - Banasavadi",
+    "Ward 25 - Kammanahalli",
+    "Ward 26 - Kacharkanahalli",
+    "Ward 27 - Kadugondanahalli",
+    "Ward 28 - Kushal Nagar",
+    "Ward 29 - Kaval Byrasandra",
+    "Ward 30 - Jayachamarajapura",
+    "Ward 31 - Manorayanapalya",
+    "Ward 32 - Ganganagar",
+    "Ward 33 - Sagayapura",
+    "Ward 34 - Shantala Nagar",
+    "Ward 35 - Bharathi Nagar",
+    "Ward 36 - Pulakeshi Nagar",
+    "Ward 37 - Sarvagnanagar",
+    "Ward 38 - DJ Halli",
+    "Ward 39 - Varthuru",
+    "Ward 40 - Maruthi Seva Nagar",
+    "Ward 41 - Benniganahalli",
+    "Ward 42 - Vannarpet",
+    "Ward 43 - R.T. Nagar",
+    "Ward 44 - Malleshwaram",
+    "Ward 45 - Jayamahal",
+    "Ward 46 - Rajaji Nagar",
+    "Ward 47 - Prakashnagar",
+    "Ward 48 - Basaveshwara Nagar",
+    "Ward 49 - Rajaji Nagar(CMC)",
+    "Ward 50 - Kaveripura",
+    "Ward 51 - Govindaraja Nagar",
+    "Ward 52 - Subramanya Nagar",
+    "Ward 53 - Atturu",
+    "Ward 54 - Chikka Banaswadi",
+    "Ward 55 - Muneshwara Nagar",
+    "Ward 56 - Pattabhirama Nagar",
+    "Ward 57 - Nagarabhavi",
+    "Ward 58 - Herohalli",
+    "Ward 59 - Kottegepalya",
+    "Ward 60 - Kengeri",
+    "Ward 61 - RajaRajeshwari Nagar",
+    "Ward 62 - Hosahalli",
+    "Ward 63 - Giri Nagar",
+    "Ward 64 - Katriguppe",
+    "Ward 65 - Viswaneedam",
+    "Ward 66 - Srinagar",
+    "Ward 67 - Pattanagere",
+    "Ward 68 - Chandra Layout",
+    "Ward 69 - Shrinivasa Nagar",
+    "Ward 70 - Banasavadi",
+    "Ward 71 - Yediyur",
+    "Ward 72 - Pattanagere",
+    "Ward 73 - Rajarajeshwari Nagar",
+    "Ward 74 - Uttarahalli",
+    "Ward 75 - Kengeri Satellite Town",
+    "Ward 76 - Jaraganahalli",
+    "Ward 77 - Puttenahalli",
+    "Ward 78 - Bilekhalli",
+    "Ward 79 - Ganesha Mandira",
+    "Ward 80 - Koramangala",
+    "Ward 81 - Adugodi",
+    "Ward 82 - Eajipura",
+    "Ward 83 - Varthuru",
+    "Ward 84 - Hongasandra",
+    "Ward 85 - Bommanahalli",
+    "Ward 86 - Arekere",
+    "Ward 87 - Madiwala",
+    "Ward 88 - BTM Layout",
+    "Ward 89 - Koramangala",
+    "Ward 90 - Hombe Gowda Nagar",
+    "Ward 91 - JP Nagar",
+    "Ward 92 - Sarakki",
+    "Ward 93 - Shakambari Nagar",
+    "Ward 94 - Banashankari Temple",
+    "Ward 95 - Kumaraswamy Layout",
+    "Ward 96 - Padmanabha Nagar",
+    "Ward 97 - Chickpet",
+    "Ward 98 - Shanthinagar",
+    "Ward 99 - Sudham Nagar",
+    "Ward 100 - Dharmaraja Koil",
+    "Ward 101 - Vishveshwara Puram",
+    "Ward 102 - Bhashyam Circle",
+    "Ward 103 - Basavanagudi",
+    "Ward 104 - Hanumanth Nagar",
+    "Ward 105 - Sri Nagar",
+    "Ward 106 - Katriguppe",
+    "Ward 107 - Jayanagar",
+    "Ward 108 - Vikasa Soudha",
+    "Ward 109 - Jayanagar East",
+    "Ward 110 - Gurappana Palya",
+    "Ward 111 - Madivala",
+    "Ward 112 - Jayanagar",
+    "Ward 113 - Ragigudda",
+    "Ward 114 - HSR Layout",
+    "Ward 115 - Bommanahalli",
+    "Ward 116 - Arakere Mico Layout",
+    "Ward 117 - BTM Layout",
+    "Ward 118 - Koramangala",
+    "Ward 119 - Koramangala 4th Block",
+    "Ward 120 - Shanthi Nagar",
+    "Ward 121 - Jogupalya",
+    "Ward 122 - Halsuru",
+    "Ward 123 - Ulsoor",
+    "Ward 124 - Bharathi Nagar",
+    "Ward 125 - Shivaji Nagar",
+    "Ward 126 - Vasanth Nagar",
+    "Ward 127 - Gandhinagar",
+    "Ward 128 - Subhash Nagar",
+    "Ward 129 - Okalipuram",
+    "Ward 130 - Yeshwanthpura",
+    "Ward 131 - TP Kere",
+    "Ward 132 - Goraguntepalya",
+    "Ward 133 - Seshadripuram",
+    "Ward 134 - Mahalakshmipuram",
+    "Ward 135 - Rajajinagar",
+    "Ward 136 - Malleshwaram",
+    "Ward 137 - Gayathri Nagar",
+    "Ward 138 - Aramane Nagar",
+    "Ward 139 - Mathikere",
+    "Ward 140 - Yeshwanthpura",
+    "Ward 141 - Marappana Palya",
+    "Ward 142 - Mallasandra",
+    "Ward 143 - Nandini Layout",
+    "Ward 144 - Sanjaynagar",
+    "Ward 145 - Ganga Nagar",
+    "Ward 146 - RT Nagar",
+    "Ward 147 - Jayachamarajapuram",
+    "Ward 148 - Kaval Byrasandra",
+    "Ward 149 - Pulikeshinagar",
+    "Ward 150 - Sri Rama Mandir",
+    "Ward 151 - Domlur",
+    "Ward 152 - Koramangala",
+    "Ward 153 - Agara",
+    "Ward 154 - Vannar Pet",
+    "Ward 155 - Nilasandra",
+    "Ward 156 - Shanthi Nagar",
+    "Ward 157 - Sudham Nagar",
+    "Ward 158 - Hosahalii",
+    "Ward 159 - Amruthnagar",
+    "Ward 160 - Hoysala Nagar",
+    "Ward 161 - Lakkasandra",
+    "Ward 162 - Adugodi",
+    "Ward 163 - Ejipura",
+    "Ward 164 - Neelasandra",
+    "Ward 165 - Konena Agrahara",
+    "Ward 166 - Shanthi Nagar",
+    "Ward 167 - Dharmarajakoil",
+    "Ward 168 - Channasandra",
+    "Ward 169 - Kadugodi",
+    "Ward 170 - Hagadur",
+    "Ward 171 - Doddanekundi",
+    "Ward 172 - Marathahalli",
+    "Ward 173 - HAL Airport",
+    "Ward 174 - Jeevan Bhima Nagar",
+    "Ward 175 - Jogupalya",
+    "Ward 176 - Halsoor",
+    "Ward 177 - Bharathinagar",
+    "Ward 178 - Shivaji Nagar",
+    "Ward 179 - Vasanthanagar",
+    "Ward 180 - Gandhi Nagar",
+    "Ward 181 - Subhash Nagar",
+    "Ward 182 - Cleveland Town",
+    "Ward 183 - Shreeram Nagar",
+    "Ward 184 - Ayappa Swamy Temple",
+    "Ward 185 - Binnamangala",
+    "Ward 186 - Bapuji Nagar",
+    "Ward 187 - Kodichikkanhalli",
+    "Ward 188 - Hudi",
+    "Ward 189 - Singasandra",
+    "Ward 190 - Begur",
+    "Ward 191 - Arakere Mico Layout",
+    "Ward 192 - Gottigere",
+    "Ward 193 - Konankunte",
+    "Ward 194 - Anjanpura",
+    "Ward 195 - Vasanthpura",
+    "Ward 196 - Marenahalli",
+    "Ward 197 - Kalkere",
+    "Ward 198 - Varthuru",
+    "Ward 199 - Bellanduru",
+    "Ward 200 - Koramangala",
+    "Ward 201 - Agara",
+    "Ward 202 - Hongasandra",
+    "Ward 203 - Mangammanapalya",
+    "Ward 204 - Singasandra",
+    "Ward 205 - Begur",
+    "Ward 206 - Bommanahalli",
+    "Ward 207 - Koramangala 1st Block",
+    "Ward 208 - Jakkasandra",
+    "Ward 209 - HSR Layout",
+    "Ward 210 - Bannerghatta",
+    "Ward 211 - JP Nagar",
+    "Ward 212 - Puttenahalli",
+    "Ward 213 - Chikkalsandra",
+    "Ward 214 - Uttarahalli",
+    "Ward 215 - Yelachenahalli",
+    "Ward 216 - Jaraganahalli",
+    "Ward 217 - Rajarajeshwari Nagar",
+    "Ward 218 - Kengeri",
+    "Ward 219 - Jnana Bharathi",
+    "Ward 220 - JP Park",
+    "Ward 221 - Banashankari 2nd Stage",
+    "Ward 222 - Kumaraswamy Layout",
+    "Ward 223 - Padmanabhanagar",
+    "Ward 224 - Chikkallasandra",
+    "Ward 225 - Uttarahalli",
+    "Ward 226 - Yelachenahalli",
+    "Ward 227 - Kathriguppe",
+    "Ward 228 - Thalaghattapura",
+    "Ward 229 - Konanakunte",
+    "Ward 230 - Anjanapura",
+    "Ward 231 - Bangalore University",
+    "Ward 232 - Yeshwanthpura",
+    "Ward 233 - Nagashettyhalli",
+    "Ward 234 - Makali",
+    "Ward 235 - Dodda Bommasandra",
+    "Ward 236 - JP Nagar",
+    "Ward 237 - Padmanabhanagar",
+    "Ward 238 - Banashankari Temple Ward",
+    "Ward 239 - Sri Nagar",
+    "Ward 240 - Kalkere",
+    "Ward 241 - Hongasandra",
+    "Ward 242 - Bommanahalli",
+    "Ward 243 - Koramangala",
+    "New Ward 1 - Anekal (Upcoming)",
+    "New Ward 2 - Bommasandra (Upcoming)",
+    "New Ward 3 - Sarjapur (Upcoming)",
+    "New Ward 4 - Jigani (Upcoming)",
+    "New Ward 5 - Attibele (Upcoming)",
+    "New Ward 6 - Hennagara (Upcoming)",
+    "New Ward 7 - Ragihalli (Upcoming)",
+    "New Ward 8 - Kasavanahalli (Upcoming)",
+    "New Ward 9 - Deverabi Sana Halli (Upcoming)",
+    "New Ward 10 - Kaggalipura (Upcoming)",
+    "New Ward 11 - Harohalli (Upcoming)",
+    "New Ward 12 - Haragadde (Upcoming)",
+    "New Ward 13 - Kalkere (Upcoming)",
+    "New Ward 14 - Avalahalli (Upcoming)",
+    "New Ward 15 - Chandapura (Upcoming)"
+];
+
+// Ward Autocomplete functionality
+let wardAutocomplete = {
+    input: null,
+    dropdown: null,
+    filtered: [],
+    selectedIndex: -1
+};
+
+function setupWardAutocomplete() {
+    wardAutocomplete.input = document.getElementById('commWard');
+    wardAutocomplete.dropdown = document.getElementById('wardDropdown');
+
+    if (!wardAutocomplete.input || !wardAutocomplete.dropdown) return;
+
+    // Input event
+    wardAutocomplete.input.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+            wardAutocomplete.dropdown.style.display = 'none';
+            return;
+        }
+
+        // Filter wards
+        wardAutocomplete.filtered = BBMP_WARDS.filter(ward =>
+            ward.toLowerCase().includes(query)
+        );
+
+        if (wardAutocomplete.filtered.length === 0) {
+            wardAutocomplete.dropdown.innerHTML = '<div class="autocomplete-no-results">No wards found</div>';
+            wardAutocomplete.dropdown.style.display = 'block';
+            return;
+        }
+
+        // Render dropdown
+        wardAutocomplete.dropdown.innerHTML = wardAutocomplete.filtered
+            .slice(0, 10) // Show max 10 results
+            .map((ward, index) => `
+                <div class="autocomplete-item" data-index="${index}" data-ward="${ward}">
+                    ${ward.replace(new RegExp(query, 'gi'), match => `<strong>${match}</strong>`)}
+                </div>
+            `)
+            .join('');
+
+        wardAutocomplete.dropdown.style.display = 'block';
+        wardAutocomplete.selectedIndex = -1;
+
+        // Click handlers for items
+        wardAutocomplete.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
+            item.addEventListener('click', function() {
+                selectWard(this.dataset.ward);
+            });
+            item.addEventListener('mouseenter', function() {
+                wardAutocomplete.selectedIndex = parseInt(this.dataset.index);
+                updateActiveItem();
+            });
+        });
+    });
+
+    // Keyboard navigation
+    wardAutocomplete.input.addEventListener('keydown', function(e) {
+        if (!wardAutocomplete.dropdown.style.display || wardAutocomplete.dropdown.style.display === 'none') return;
+
+        const items = wardAutocomplete.dropdown.querySelectorAll('.autocomplete-item');
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            wardAutocomplete.selectedIndex = Math.min(wardAutocomplete.selectedIndex + 1, items.length - 1);
+            updateActiveItem();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            wardAutocomplete.selectedIndex = Math.max(wardAutocomplete.selectedIndex - 1, 0);
+            updateActiveItem();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (wardAutocomplete.selectedIndex >= 0 && items[wardAutocomplete.selectedIndex]) {
+                selectWard(items[wardAutocomplete.selectedIndex].dataset.ward);
+            }
+        } else if (e.key === 'Escape') {
+            wardAutocomplete.dropdown.style.display = 'none';
+        }
+    });
+
+    // Click outside to close
+    document.addEventListener('click', function(e) {
+        if (e.target !== wardAutocomplete.input && !wardAutocomplete.dropdown.contains(e.target)) {
+            wardAutocomplete.dropdown.style.display = 'none';
+        }
+    });
+}
+
+function updateActiveItem() {
+    const items = wardAutocomplete.dropdown.querySelectorAll('.autocomplete-item');
+    items.forEach((item, index) => {
+        if (index === wardAutocomplete.selectedIndex) {
+            item.classList.add('active');
+            item.scrollIntoView({ block: 'nearest' });
+        } else {
+            item.classList.remove('active');
+        }
+    });
+}
+
+function selectWard(ward) {
+    wardAutocomplete.input.value = ward;
+    wardAutocomplete.dropdown.style.display = 'none';
 }

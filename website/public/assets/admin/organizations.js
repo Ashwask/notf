@@ -88,6 +88,9 @@ function renderOrganizations(orgs) {
                     </div>
                 </div>
                 <div class="card-actions">
+                    <button class="mini-icon-btn view" title="View Details" onclick="viewOrganization('${org.id}')">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
                     <button class="mini-icon-btn edit" title="Edit" onclick="editOrganization('${org.id}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
@@ -318,4 +321,162 @@ function closeModal() {
     document.getElementById('organizationForm').reset();
     isEditing = false;
     editingId = null;
+}
+
+// View Organization Details
+function viewOrganization(id) {
+    const org = organizations.find(o => o.id === id);
+    if (!org) return;
+
+    const meta = org.metadata || {};
+    const name = meta.name || org.slug;
+    const theme = meta.theme || '';
+    const focusAreas = meta.focus_areas || [];
+    const location = meta.location || '';
+    const description = meta.description || '';
+    const contact = meta.contact || {};
+    const offers = meta.offers || [];
+    const asks = meta.asks || [];
+    const stories = meta.stories || '';
+    const website = meta.website || '';
+    const social = meta.social || {};
+
+    // Update modal header
+    document.getElementById('viewTitle').textContent = name;
+    const statusIcon = org.status === 'active' ? 'fa-circle-check' : org.status === 'pending' ? 'fa-clock' : 'fa-circle';
+    document.getElementById('viewStatus').innerHTML = `<i class="fa-solid ${statusIcon}"></i> ${org.status}`;
+    document.getElementById('viewStatus').className = `status-indicator ${org.status}`;
+
+    // Build view content
+    let html = '';
+
+    // Basic Info Section
+    html += `
+        <div class="detail-section">
+            <h3 class="section-title">Basic Information</h3>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Location</span>
+                    <span class="detail-value">${location || '<span class="empty">Not specified</span>'}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Theme/Sector</span>
+                    <span class="detail-value">${theme || '<span class="empty">Not specified</span>'}</span>
+                </div>
+            </div>
+            ${description ? `<p style="margin-top: 1rem; color: #555; line-height: 1.6;">${description}</p>` : ''}
+        </div>
+    `;
+
+    // Focus Areas Section
+    if (focusAreas.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Focus Areas</h3>
+                <div class="tag-list">
+                    ${focusAreas.map(area => `<span class="tag">${area}</span>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // Website & Social Links
+    if (website || (social && Object.keys(social).length > 0)) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Links</h3>
+                <div class="detail-grid">
+                    ${website ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Website</span>
+                        <span class="detail-value"><a href="${website}" target="_blank" rel="noopener">${website}</a></span>
+                    </div>` : ''}
+                    ${social.twitter ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Twitter</span>
+                        <span class="detail-value"><a href="https://twitter.com/${social.twitter}" target="_blank" rel="noopener">@${social.twitter}</a></span>
+                    </div>` : ''}
+                    ${social.instagram ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Instagram</span>
+                        <span class="detail-value"><a href="https://instagram.com/${social.instagram}" target="_blank" rel="noopener">@${social.instagram}</a></span>
+                    </div>` : ''}
+                    ${social.linkedin ? `
+                    <div class="detail-item">
+                        <span class="detail-label">LinkedIn</span>
+                        <span class="detail-value"><a href="https://linkedin.com/${social.linkedin.startsWith('company/') ? social.linkedin : 'in/' + social.linkedin}" target="_blank" rel="noopener">${social.linkedin}</a></span>
+                    </div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    // Contact Section
+    if (contact && (contact.person || contact.email || contact.phone)) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">Contact Information</h3>
+                <div class="detail-grid">
+                    ${contact.person ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Contact Person</span>
+                        <span class="detail-value">${contact.person}</span>
+                    </div>` : ''}
+                    ${contact.email ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value"><a href="mailto:${contact.email}">${contact.email}</a></span>
+                    </div>` : ''}
+                    ${contact.phone ? `
+                    <div class="detail-item">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value"><a href="tel:${contact.phone}">${contact.phone}</a></span>
+                    </div>` : ''}
+                </div>
+            </div>
+        `;
+    }
+
+    // Offers Section
+    if (offers.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">What They Offer</h3>
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    ${offers.map(offer => `<li style="margin-bottom: 0.5rem;">${offer}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Asks Section
+    if (asks.length > 0) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">What They Need</h3>
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    ${asks.map(ask => `<li style="margin-bottom: 0.5rem;">${ask}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // Stories Section (if any)
+    if (stories && stories.trim()) {
+        html += `
+            <div class="detail-section">
+                <h3 class="section-title">About / Notes</h3>
+                <div class="markdown-content">
+                    ${typeof marked !== 'undefined' ? marked.parse(stories) : '<pre>' + stories + '</pre>'}
+                </div>
+            </div>
+        `;
+    }
+
+    document.getElementById('viewBody').innerHTML = html;
+    document.getElementById('viewModal').style.display = 'flex';
+}
+
+function closeViewModal() {
+    document.getElementById('viewModal').style.display = 'none';
 }
