@@ -314,6 +314,8 @@ async function handleFormSubmit(e) {
     const longitude = document.getElementById('commLongitude').value ? parseFloat(document.getElementById('commLongitude').value) : null;
     const filePath = isEditing ? document.getElementById('commFilePath').value : `communities/${slug}.md`;
 
+    console.log('Form submit - Latitude:', latitude, 'Longitude:', longitude);
+
     const supabase = authUtils.supabase;
 
     try {
@@ -327,8 +329,11 @@ async function handleFormSubmit(e) {
                 updated_at: new Date().toISOString()
             };
 
-            if (latitude !== null) updateData.latitude = latitude;
-            if (longitude !== null) updateData.longitude = longitude;
+            // Always include latitude and longitude in update (even if null to allow clearing)
+            updateData.latitude = latitude;
+            updateData.longitude = longitude;
+
+            console.log('Update data:', updateData);
 
             // Get ward from form
             const ward = document.getElementById('commWard').value.trim();
