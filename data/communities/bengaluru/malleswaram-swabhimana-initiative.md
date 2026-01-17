@@ -2,14 +2,14 @@
 name: Malleswaram Swabhimana Initiative
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "Dr. C.N. Ashwathnarayana"
-  party: "BJP"
-  constituency: "Malleshwaram"
-
+neighborhoods:
 - Malleswaram
 - Rajajinagar
 - Sadashivanagar
+mla:
+  name: "Dr. C.N. Ashwathnarayana"
+  party: "BJP"
+  constituency: "Malleshwaram"
 website: https://malleswaramswabhimana.org
 contact:
   email: info@malleswaramswabhimana.org

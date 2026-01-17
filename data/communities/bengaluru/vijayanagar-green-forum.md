@@ -2,14 +2,14 @@
 name: Vijayanagar Green Forum
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "M. Krishnamppa"
-  party: "INC"
-  constituency: "Vijay Nagar"
-
+neighborhoods:
 - Vijayanagar
 - Mahalakshmi Layout
 - Attiguppe
+mla:
+  name: "M. Krishnamppa"
+  party: "INC"
+  constituency: "Vijay Nagar"
 website: https://vijayanagargreen.org
 contact:
   email: connect@vijayanagargreen.org

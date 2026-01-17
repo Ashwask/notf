@@ -2,14 +2,14 @@
 name: Gavipuram Extension Welfare Association
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "Uday Garudachar"
-  party: "BJP"
-  constituency: "Chickpet"
-
+neighborhoods:
 - Gavipuram
 - Siddapura
 - Lakkasandra
+mla:
+  name: "Uday Garudachar"
+  party: "BJP"
+  constituency: "Chickpet"
 website: https://gavipuramewa.org
 contact:
   email: info@gavipuramewa.org

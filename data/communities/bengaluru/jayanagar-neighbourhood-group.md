@@ -2,14 +2,14 @@
 name: Jayanagar Neighbourhood Group
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "C.K. Ramamurthy"
-  party: "BJP"
-  constituency: "Jayanagar"
-
+neighborhoods:
 - Jayanagar
 - JP Nagar
 - Basavanagudi
+mla:
+  name: "C.K. Ramamurthy"
+  party: "BJP"
+  constituency: "Jayanagar"
 website: https://jayanagarng.org
 contact:
   email: info@jayanagarng.org

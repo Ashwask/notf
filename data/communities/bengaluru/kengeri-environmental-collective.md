@@ -2,14 +2,14 @@
 name: Kengeri Environmental Collective
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "Munirathna Naidu"
-  party: "BJP"
-  constituency: "Rajarajeshwarinagar"
-
+neighborhoods:
 - Kengeri
 - Uttarahalli
 - Kommaghatta
+mla:
+  name: "Munirathna Naidu"
+  party: "BJP"
+  constituency: "Rajarajeshwarinagar"
 website: https://kengeriend.org
 contact:
   email: contact@kengeriend.org

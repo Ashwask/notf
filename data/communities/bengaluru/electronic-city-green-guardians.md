@@ -2,14 +2,14 @@
 name: Electronic City Green Guardians
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "M. Krishnappa"
-  party: "BJP"
-  constituency: "Bangalore South"
-
+neighborhoods:
 - Electronic City Phase 1
 - Electronic City Phase 2
 - Bommanahalli
+mla:
+  name: "M. Krishnappa"
+  party: "BJP"
+  constituency: "Bangalore South"
 website: https://ecgreenguardians.org
 contact:
   email: info@ecgreenguardians.org

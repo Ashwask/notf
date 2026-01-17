@@ -2,14 +2,14 @@
 name: Peenya Industrial Environment Group
 type: community-org
 location: Bengaluru
-neighborhoods:mla:
-  name: "Munirathna Naidu"
-  party: "BJP"
-  constituency: "Rajarajeshwarinagar"
-
+neighborhoods:
 - Peenya
 - Jalahalli
 - Dasarahalli
+mla:
+  name: "Munirathna Naidu"
+  party: "BJP"
+  constituency: "Rajarajeshwarinagar"
 website: https://pieg.org.in
 contact:
   email: info@pieg.org.in
