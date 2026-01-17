@@ -3,10 +3,19 @@ name: "Malleshwaram"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Malleshwaram"
-mla:
-  name: "Dr. C.N. Ashwathnarayana"
-  party: "BJP"
-  constituency: "Malleshwaram"
+elected_representatives:
+  mla:
+    name: "Dr. C.N. Ashwathnarayana"
+    party: "BJP"
+    constituency: "Malleshwaram"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/malleshwaram-swabhimana-initiative-forum"
 lead_organization_name: "Malleshwaram Swabhimana Initiative Forum"
 contact:

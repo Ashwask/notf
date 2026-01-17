@@ -6,10 +6,19 @@ neighborhoods:
 - Yelahanka
 - Yelahanka New Town
 - Jakkur
-mla:
-  name: "S.R. Vishwanath"
-  party: "BJP"
-  constituency: "Yelahanka"
+elected_representatives:
+  mla:
+    name: "S.R. Vishwanath"
+    party: "BJP"
+    constituency: "Yelahanka"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://yelahankagreenbrigade.org
 contact:
   email: contact@yelahankagreenbrigade.org

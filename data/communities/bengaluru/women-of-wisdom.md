@@ -5,10 +5,19 @@ description: A group of women from J P Nagar Bangalore working for welfare of th
   residents and administration of civic, social and cultural activities
 city: Karnataka, Bengaluru
 neighborhood: JP nagar
-mla:
-  name: "M. Satish Reddy"
-  party: "BJP"
-  constituency: "Bommanahalli"
+elected_representatives:
+  mla:
+    name: "M. Satish Reddy"
+    party: "BJP"
+    constituency: "Bommanahalli"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 contact:
   person: Shwetha
   phone: 8495056340/ 984576031

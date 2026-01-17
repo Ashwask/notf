@@ -3,10 +3,19 @@ name: "Shanthinagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Shanthinagar"
-mla:
-  name: "N.A. Haris"
-  party: "INC"
-  constituency: "Shanti Nagar"
+elected_representatives:
+  mla:
+    name: "N.A. Haris"
+    party: "INC"
+    constituency: "Shanti Nagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/namma-owners-court-west"
 lead_organization_name: "Namma Owners Court West"
 status: "active"

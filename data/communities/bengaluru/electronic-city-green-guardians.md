@@ -6,10 +6,19 @@ neighborhoods:
 - Electronic City Phase 1
 - Electronic City Phase 2
 - Bommanahalli
-mla:
-  name: "M. Krishnappa"
-  party: "BJP"
-  constituency: "Bangalore South"
+elected_representatives:
+  mla:
+    name: "M. Krishnappa"
+    party: "BJP"
+    constituency: "Bangalore South"
+  mp:
+    name: "Dr. C.N. Manjunath"
+    party: "BJP"
+    constituency: "Bangalore Rural"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://ecgreenguardians.org
 contact:
   email: info@ecgreenguardians.org

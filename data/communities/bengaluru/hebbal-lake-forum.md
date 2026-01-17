@@ -6,10 +6,19 @@ neighborhoods:
 - Hebbal
 - Kempapura
 - Nagawara
-mla:
-  name: "Suresha B.S."
-  party: "INC"
-  constituency: "Hebbal"
+elected_representatives:
+  mla:
+    name: "Suresha B.S."
+    party: "INC"
+    constituency: "Hebbal"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://hebbballakeforum.org
 contact:
   email: info@hebbballakeforum.org

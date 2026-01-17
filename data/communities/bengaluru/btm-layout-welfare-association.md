@@ -6,10 +6,19 @@ neighborhoods:
 - BTM Layout
 - Madiwala
 - Tavarekere
-mla:
-  name: "Ramalinga Reddy"
-  party: "INC"
-  constituency: "B.T.M Layout"
+elected_representatives:
+  mla:
+    name: "Ramalinga Reddy"
+    party: "INC"
+    constituency: "B.T.M Layout"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://btmlwa.org
 contact:
   email: info@btmlwa.org

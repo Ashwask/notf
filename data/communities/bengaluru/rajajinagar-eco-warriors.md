@@ -6,10 +6,19 @@ neighborhoods:
 - Rajajinagar
 - Basaveshwaranagar
 - Kamakshipalya
-mla:
-  name: "S. Suresh Kumar"
-  party: "BJP"
-  constituency: "Rajaji Nagar"
+elected_representatives:
+  mla:
+    name: "S. Suresh Kumar"
+    party: "BJP"
+    constituency: "Rajaji Nagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://rajajinagarecowarriors.org
 contact:
   email: hello@rajajinagarecowarriors.org

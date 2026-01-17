@@ -6,10 +6,19 @@ neighborhoods:
 - Peenya
 - Jalahalli
 - Dasarahalli
-mla:
-  name: "Munirathna Naidu"
-  party: "BJP"
-  constituency: "Rajarajeshwarinagar"
+elected_representatives:
+  mla:
+    name: "Munirathna Naidu"
+    party: "BJP"
+    constituency: "Rajarajeshwarinagar"
+  mp:
+    name: "Dr. C.N. Manjunath"
+    party: "BJP"
+    constituency: "Bangalore Rural"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://pieg.org.in
 contact:
   email: info@pieg.org.in

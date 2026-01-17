@@ -6,10 +6,19 @@ neighborhoods:
 - Malleswaram
 - Rajajinagar
 - Sadashivanagar
-mla:
-  name: "Dr. C.N. Ashwathnarayana"
-  party: "BJP"
-  constituency: "Malleshwaram"
+elected_representatives:
+  mla:
+    name: "Dr. C.N. Ashwathnarayana"
+    party: "BJP"
+    constituency: "Malleshwaram"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://malleswaramswabhimana.org
 contact:
   email: info@malleswaramswabhimana.org

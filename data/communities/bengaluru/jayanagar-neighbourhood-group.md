@@ -6,10 +6,19 @@ neighborhoods:
 - Jayanagar
 - JP Nagar
 - Basavanagudi
-mla:
-  name: "C.K. Ramamurthy"
-  party: "BJP"
-  constituency: "Jayanagar"
+elected_representatives:
+  mla:
+    name: "C.K. Ramamurthy"
+    party: "BJP"
+    constituency: "Jayanagar"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://jayanagarng.org
 contact:
   email: info@jayanagarng.org

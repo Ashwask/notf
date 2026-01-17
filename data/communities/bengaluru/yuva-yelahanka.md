@@ -3,10 +3,19 @@ name: YUVA yelahanka
 type: community-org
 city: Karnataka, Bengaluru
 neighborhood: Yelahanka
-mla:
-  name: "S.R. Vishwanath"
-  party: "BJP"
-  constituency: "Yelahanka"
+elected_representatives:
+  mla:
+    name: "S.R. Vishwanath"
+    party: "BJP"
+    constituency: "Yelahanka"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 contact:
   person: Jagadeesh
   phone: '9845171449'

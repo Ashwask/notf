@@ -3,10 +3,19 @@ name: "Indiranagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Indiranagar"
-mla:
-  name: "S. Raghu"
-  party: "BJP"
-  constituency: "C.V. Raman Nagar"
+elected_representatives:
+  mla:
+    name: "S. Raghu"
+    party: "BJP"
+    constituency: "C.V. Raman Nagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/ichange-indiranagar"
 lead_organization_name: "iChange Indiranagar"
 contact:

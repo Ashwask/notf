@@ -3,10 +3,19 @@ name: "JP nagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "JP nagar"
-mla:
-  name: "M. Satish Reddy"
-  party: "BJP"
-  constituency: "Bommanahalli"
+elected_representatives:
+  mla:
+    name: "M. Satish Reddy"
+    party: "BJP"
+    constituency: "Bommanahalli"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/women-of-wisdom"
 lead_organization_name: "Women of Wisdom"
 contact:

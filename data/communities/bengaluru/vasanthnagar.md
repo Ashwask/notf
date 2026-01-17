@@ -3,10 +3,19 @@ name: "Vasanthnagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Vasanthnagar"
-mla:
-  name: "Rizwan Arshad"
-  party: "INC"
-  constituency: "Shivajinagar"
+elected_representatives:
+  mla:
+    name: "Rizwan Arshad"
+    party: "INC"
+    constituency: "Shivajinagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/citizens-for-citizens"
 lead_organization_name: "Citizens for Citizens"
 contact:

@@ -3,10 +3,19 @@ name: "Sahakarnagar"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Sahakarnagar"
-mla:
-  name: "Krishna Byregowda"
-  party: "INC"
-  constituency: "Byatarayanapura"
+elected_representatives:
+  mla:
+    name: "Krishna Byregowda"
+    party: "INC"
+    constituency: "Byatarayanapura"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/sahakarnagar-womens-welfare-association"
 lead_organization_name: "Sahakarnagar Women's Welfare Association"
 contact:

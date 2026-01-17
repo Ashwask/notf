@@ -4,10 +4,19 @@ type: community-org
 description: (NGO) (APU)
 city: Karnataka, Bengaluru
 neighborhood: Sarjapura
-mla:
-  name: "B. Shivanna"
-  party: "INC"
-  constituency: "Anekal"
+elected_representatives:
+  mla:
+    name: "B. Shivanna"
+    party: "INC"
+    constituency: "Anekal"
+  mp:
+    name: "Dr. C.N. Manjunath"
+    party: "BJP"
+    constituency: "Bangalore Rural"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 contact:
   person: Navaneetha
   phone: '9035760473'

@@ -3,10 +3,19 @@ name: "Kasavanahalli"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Kasavanahalli"
-mla:
-  name: "M. Satish Reddy"
-  party: "BJP"
-  constituency: "Bommanahalli"
+elected_representatives:
+  mla:
+    name: "M. Satish Reddy"
+    party: "BJP"
+    constituency: "Bommanahalli"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/bellandur-development-forum-bdf"
 lead_organization_name: "Bellandur Development Forum (BDF)"
 status: "active"

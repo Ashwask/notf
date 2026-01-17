@@ -3,10 +3,19 @@ name: "Kanakpura"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Kanakpura"
-mla:
-  name: "D.K. Shivakumar"
-  party: "INC"
-  constituency: "Kanakapura"
+elected_representatives:
+  mla:
+    name: "D.K. Shivakumar"
+    party: "INC"
+    constituency: "Kanakapura"
+  mp:
+    name: "Dr. C.N. Manjunath"
+    party: "BJP"
+    constituency: "Bangalore Rural"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/changemakers-of-kanakpura"
 lead_organization_name: "Changemakers of Kanakpura"
 contact:

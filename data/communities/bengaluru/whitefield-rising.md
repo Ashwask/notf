@@ -7,10 +7,19 @@ neighborhoods:
 - Kadugodi
 - Varthur
 - Marathahalli
-mla:
-  name: "Manjula Aravind Limbavalli"
-  party: "BJP"
-  constituency: "Mahadevapura"
+elected_representatives:
+  mla:
+    name: "Manjula Aravind Limbavalli"
+    party: "BJP"
+    constituency: "Mahadevapura"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://whitefieldrising.org
 contact:
   email: connect@whitefieldrising.org

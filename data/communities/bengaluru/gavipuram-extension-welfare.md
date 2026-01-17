@@ -6,10 +6,19 @@ neighborhoods:
 - Gavipuram
 - Siddapura
 - Lakkasandra
-mla:
-  name: "Uday Garudachar"
-  party: "BJP"
-  constituency: "Chickpet"
+elected_representatives:
+  mla:
+    name: "Uday Garudachar"
+    party: "BJP"
+    constituency: "Chickpet"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://gavipuramewa.org
 contact:
   email: info@gavipuramewa.org

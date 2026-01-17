@@ -6,10 +6,19 @@ neighborhoods:
 - Shivajinagar
 - Frazer Town
 - Cox Town
-mla:
-  name: "Rizwan Arshad"
-  party: "INC"
-  constituency: "Shivajinagar"
+elected_representatives:
+  mla:
+    name: "Rizwan Arshad"
+    party: "INC"
+    constituency: "Shivajinagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://shivajinagarcn.org
 contact:
   email: hello@shivajinagarcn.org

@@ -3,10 +3,19 @@ name: "HSR Layout"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "HSR Layout"
-mla:
-  name: "M. Satish Reddy"
-  party: "BJP"
-  constituency: "Bommanahalli"
+elected_representatives:
+  mla:
+    name: "M. Satish Reddy"
+    party: "BJP"
+    constituency: "Bommanahalli"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/hsr-citizen-forum"
 lead_organization_name: "HSR Citizen Forum"
 status: "active"

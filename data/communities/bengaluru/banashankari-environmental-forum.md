@@ -6,10 +6,19 @@ neighborhoods:
 - Banashankari
 - Kathriguppe
 - Padmanabhanagar
-mla:
-  name: "Ramalinga Reddy"
-  party: "INC"
-  constituency: "B.T.M Layout"
+elected_representatives:
+  mla:
+    name: "Ramalinga Reddy"
+    party: "INC"
+    constituency: "B.T.M Layout"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://banashankarief.org
 contact:
   email: contact@banashankarief.org

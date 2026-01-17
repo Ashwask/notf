@@ -3,10 +3,19 @@ name: iChange Indiranagar
 type: community-org
 city: Karnataka, Bengaluru
 neighborhood: Indiranagar
-mla:
-  name: "S. Raghu"
-  party: "BJP"
-  constituency: "C.V. Raman Nagar"
+elected_representatives:
+  mla:
+    name: "S. Raghu"
+    party: "BJP"
+    constituency: "C.V. Raman Nagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 contact:
   person: Sneha
   phone: '9845111117'

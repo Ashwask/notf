@@ -3,10 +3,19 @@ name: "Yelahanka"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Yelahanka"
-mla:
-  name: "S.R. Vishwanath"
-  party: "BJP"
-  constituency: "Yelahanka"
+elected_representatives:
+  mla:
+    name: "S.R. Vishwanath"
+    party: "BJP"
+    constituency: "Yelahanka"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/yuva-yelahanka"
 lead_organization_name: "YUVA yelahanka"
 contact:

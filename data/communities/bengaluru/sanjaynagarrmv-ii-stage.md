@@ -3,10 +3,19 @@ name: "Sanjaynagar/RMV II Stage"
 city: "Bengaluru"
 state: "Karnataka"
 neighborhood: "Sanjaynagar/RMV II Stage"
-mla:
-  name: "Suresha B.S."
-  party: "INC"
-  constituency: "Hebbal"
+elected_representatives:
+  mla:
+    name: "Suresha B.S."
+    party: "INC"
+    constituency: "Hebbal"
+  mp:
+    name: "Shobha Karandlaje"
+    party: "BJP"
+    constituency: "Bangalore North"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 lead_organization: "organizations/cifos"
 lead_organization_name: "CiFoS"
 contact:

@@ -6,10 +6,19 @@ neighborhoods:
 - Vijayanagar
 - Mahalakshmi Layout
 - Attiguppe
-mla:
-  name: "M. Krishnamppa"
-  party: "INC"
-  constituency: "Vijay Nagar"
+elected_representatives:
+  mla:
+    name: "M. Krishnamppa"
+    party: "INC"
+    constituency: "Vijay Nagar"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://vijayanagargreen.org
 contact:
   email: connect@vijayanagargreen.org

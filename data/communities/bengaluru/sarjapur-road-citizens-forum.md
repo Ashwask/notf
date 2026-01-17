@@ -7,10 +7,19 @@ neighborhoods:
 - Kasavanahalli
 - Carmelaram
 - Harlur
-mla:
-  name: "M. Satish Reddy"
-  party: "BJP"
-  constituency: "Bommanahalli"
+elected_representatives:
+  mla:
+    name: "M. Satish Reddy"
+    party: "BJP"
+    constituency: "Bommanahalli"
+  mp:
+    name: "Tejasvi Surya"
+    party: "BJP"
+    constituency: "Bangalore South"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://srcf.org.in
 contact:
   email: info@srcf.org.in

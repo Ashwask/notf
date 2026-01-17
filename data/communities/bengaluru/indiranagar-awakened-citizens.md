@@ -6,10 +6,19 @@ neighborhoods:
 - Indiranagar
 - Domlur
 - HAL
-mla:
-  name: "S. Raghu"
-  party: "BJP"
-  constituency: "C.V. Raman Nagar"
+elected_representatives:
+  mla:
+    name: "S. Raghu"
+    party: "BJP"
+    constituency: "C.V. Raman Nagar"
+  mp:
+    name: "P.C. Mohan"
+    party: "BJP"
+    constituency: "Bangalore Central"
+  corporator:
+    name: ""
+    party: ""
+    ward: ""
 website: https://indiranagarawakened.org
 contact:
   email: hello@indiranagarawakened.org

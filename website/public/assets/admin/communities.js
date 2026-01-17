@@ -266,9 +266,19 @@ async function editCommunity(id) {
     document.getElementById('commLastUpdated').value = comm.metadata?.last_updated || '';
     document.getElementById('commLatitude').value = comm.latitude || '';
     document.getElementById('commLongitude').value = comm.longitude || '';
-    document.getElementById('commMlaName').value = comm.metadata?.mla?.name || '';
-    document.getElementById('commMlaParty').value = comm.metadata?.mla?.party || '';
-    document.getElementById('commMlaConstituency').value = comm.metadata?.mla?.constituency || '';
+
+    // Populate Elected Representatives fields
+    document.getElementById('commMlaName').value = comm.metadata?.elected_representatives?.mla?.name || comm.metadata?.mla?.name || '';
+    document.getElementById('commMlaParty').value = comm.metadata?.elected_representatives?.mla?.party || comm.metadata?.mla?.party || '';
+    document.getElementById('commMlaConstituency').value = comm.metadata?.elected_representatives?.mla?.constituency || comm.metadata?.mla?.constituency || '';
+
+    document.getElementById('commMpName').value = comm.metadata?.elected_representatives?.mp?.name || '';
+    document.getElementById('commMpParty').value = comm.metadata?.elected_representatives?.mp?.party || '';
+    document.getElementById('commMpConstituency').value = comm.metadata?.elected_representatives?.mp?.constituency || '';
+
+    document.getElementById('commCorporatorName').value = comm.metadata?.elected_representatives?.corporator?.name || '';
+    document.getElementById('commCorporatorParty').value = comm.metadata?.elected_representatives?.corporator?.party || '';
+    document.getElementById('commCorporatorWard').value = comm.metadata?.elected_representatives?.corporator?.ward || '';
 
     document.getElementById('formModal').style.display = 'flex';
 
@@ -326,16 +336,34 @@ async function handleFormSubmit(e) {
         last_updated: new Date().toISOString().split('T')[0]
     };
 
-    // Add MLA information if provided
+    // Add Elected Representatives information
     const mlaName = document.getElementById('commMlaName').value.trim();
     const mlaParty = document.getElementById('commMlaParty').value.trim();
     const mlaConstituency = document.getElementById('commMlaConstituency').value.trim();
+    const mpName = document.getElementById('commMpName').value.trim();
+    const mpParty = document.getElementById('commMpParty').value.trim();
+    const mpConstituency = document.getElementById('commMpConstituency').value.trim();
+    const corporatorName = document.getElementById('commCorporatorName').value.trim();
+    const corporatorParty = document.getElementById('commCorporatorParty').value.trim();
+    const corporatorWard = document.getElementById('commCorporatorWard').value.trim();
 
-    if (mlaName || mlaParty || mlaConstituency) {
-        metadata.mla = {
-            name: mlaName,
-            party: mlaParty,
-            constituency: mlaConstituency
+    if (mlaName || mlaParty || mlaConstituency || mpName || mpParty || mpConstituency || corporatorName || corporatorParty || corporatorWard) {
+        metadata.elected_representatives = {
+            mla: {
+                name: mlaName,
+                party: mlaParty,
+                constituency: mlaConstituency
+            },
+            mp: {
+                name: mpName,
+                party: mpParty,
+                constituency: mpConstituency
+            },
+            corporator: {
+                name: corporatorName,
+                party: corporatorParty,
+                ward: corporatorWard
+            }
         };
     }
 
