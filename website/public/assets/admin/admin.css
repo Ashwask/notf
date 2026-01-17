@@ -1,5 +1,10 @@
 /* Admin Module Styles */
 
+/* Ensure admin pages use system fonts */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
 /* Fix navigation for admin pages */
 header {
     background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%) !important;

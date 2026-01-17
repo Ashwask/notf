@@ -294,6 +294,14 @@
             height: 600px;
             border-radius: 10px;
             margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ensure tab content doesn't overlap sticky elements */
+        .tab-content {
+            position: relative;
+            z-index: 1;
         }
 
         /* Responsive */
