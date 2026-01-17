@@ -132,7 +132,10 @@
         <!-- View Details Modal -->
         <div id="viewModal" class="modal view-modal" style="display: none;">
             <div class="modal-content">
-                <div class="view-header">
+                <div class="view-header" id="viewModalHeader">
+                    <div class="drag-handle" title="Drag to move">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
                     <div style="flex: 1;">
                         <h2 id="viewTitle">Provider Details</h2>
                         <span id="viewStatus" class="status-indicator"></span>
@@ -142,6 +145,7 @@
                 <div class="view-body" id="viewBody">
                     <!-- Content will be dynamically loaded -->
                 </div>
+                <div class="resize-handle" title="Drag to resize"></div>
             </div>
         </div>
     </div>

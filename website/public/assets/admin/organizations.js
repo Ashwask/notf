@@ -12,6 +12,7 @@ let currentStatusFilter = 'active';
 
     await loadOrganizations();
     setupEventListeners();
+    setupModalDrag();
 })();
 
 async function loadOrganizations() {
@@ -474,9 +475,107 @@ function viewOrganization(id) {
     }
 
     document.getElementById('viewBody').innerHTML = html;
+
+    // Reset modal position and size
+    const modalContent = document.querySelector('#viewModal .modal-content');
+    if (modalContent) {
+        modalContent.style.transform = 'translate(-50%, -50%)';
+        modalContent.style.left = '50%';
+        modalContent.style.top = '50%';
+        modalContent.style.width = '';
+        modalContent.style.height = '';
+    }
+
     document.getElementById('viewModal').style.display = 'flex';
 }
 
 function closeViewModal() {
     document.getElementById('viewModal').style.display = 'none';
+}
+
+// Modal Drag and Resize Functionality
+let modalDragState = {
+    isDragging: false,
+    isResizing: false,
+    startX: 0,
+    startY: 0,
+    startTop: 0,
+    startLeft: 0,
+    startWidth: 0,
+    startHeight: 0
+};
+
+function setupModalDrag() {
+    const modal = document.getElementById('viewModal');
+    const modalContent = modal.querySelector('.modal-content');
+    const header = document.getElementById('viewModalHeader');
+    const resizeHandle = modalContent.querySelector('.resize-handle');
+
+    if (!header || !resizeHandle) return;
+
+    // Drag functionality (header)
+    header.addEventListener('mousedown', function(e) {
+        // Don't drag if clicking on close button
+        if (e.target.closest('.btn-close')) return;
+
+        modalDragState.isDragging = true;
+        modalDragState.startX = e.clientX;
+        modalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        modalDragState.startLeft = rect.left;
+        modalDragState.startTop = rect.top;
+
+        modalContent.classList.add('dragging');
+        // Remove transform to enable position-based movement
+        modalContent.style.transform = 'none';
+    });
+
+    // Resize functionality (resize handle)
+    resizeHandle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        modalDragState.isResizing = true;
+        modalDragState.startX = e.clientX;
+        modalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        modalDragState.startWidth = rect.width;
+        modalDragState.startHeight = rect.height;
+
+        modalContent.classList.add('resizing');
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', function(e) {
+        if (modalDragState.isDragging) {
+            const deltaX = e.clientX - modalDragState.startX;
+            const deltaY = e.clientY - modalDragState.startY;
+
+            modalContent.style.left = (modalDragState.startLeft + deltaX) + 'px';
+            modalContent.style.top = (modalDragState.startTop + deltaY) + 'px';
+        }
+
+        if (modalDragState.isResizing) {
+            const deltaX = e.clientX - modalDragState.startX;
+            const deltaY = e.clientY - modalDragState.startY;
+
+            const newWidth = Math.max(500, modalDragState.startWidth + deltaX);
+            const newHeight = Math.max(400, modalDragState.startHeight + deltaY);
+            const maxHeight = window.innerHeight * 0.85;
+
+            modalContent.style.width = newWidth + 'px';
+            modalContent.style.height = Math.min(newHeight, maxHeight) + 'px';
+        }
+    });
+
+    // Mouse up handler
+    document.addEventListener('mouseup', function() {
+        if (modalDragState.isDragging || modalDragState.isResizing) {
+            modalDragState.isDragging = false;
+            modalDragState.isResizing = false;
+            modalContent.classList.remove('dragging', 'resizing');
+        }
+    });
 }

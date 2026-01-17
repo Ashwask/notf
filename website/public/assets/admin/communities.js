@@ -23,6 +23,7 @@ let locationMarker = null;
 
     await loadCommunities();
     setupEventListeners();
+    setupModalDrag();
 })();
 
 let currentStatusFilter = 'all';
@@ -187,7 +188,13 @@ function setupEventListeners() {
                 const name = (comm.metadata?.name || '').toLowerCase();
                 const city = (comm.metadata?.city || comm.city || '').toLowerCase();
                 const themes = (comm.metadata?.themes || []).join(' ').toLowerCase();
-                return name.includes(searchTerm) || city.includes(searchTerm) || themes.includes(searchTerm);
+                const neighborhoods = (comm.metadata?.neighborhoods || []).join(' ').toLowerCase();
+                const wards = (comm.metadata?.wards || []).join(' ').toLowerCase();
+                return name.includes(searchTerm) ||
+                       city.includes(searchTerm) ||
+                       themes.includes(searchTerm) ||
+                       neighborhoods.includes(searchTerm) ||
+                       wards.includes(searchTerm);
             });
             renderCommunities(filtered);
         });
@@ -718,7 +725,13 @@ function viewCommunity(id) {
     const name = meta.name || comm.slug;
     const city = meta.city || comm.city || '';
     const state = meta.state || '';
-    const neighborhood = comm.neighborhood || meta.neighborhood || '';
+
+    // Load neighborhoods as array (with backward compatibility)
+    const neighborhoods = meta.neighborhoods || (comm.neighborhood ? [comm.neighborhood] : (meta.neighborhood ? [meta.neighborhood] : []));
+
+    // Load wards as array (with backward compatibility)
+    const wards = meta.wards || (comm.ward ? [comm.ward] : []);
+
     const themes = meta.themes || [];
     const description = meta.description || '';
     const contact = meta.contact || {};
@@ -753,13 +766,21 @@ function viewCommunity(id) {
                     <span class="detail-label">State</span>
                     <span class="detail-value">${state || '<span class="empty">Not specified</span>'}</span>
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">Neighborhood</span>
-                    <span class="detail-value">${neighborhood || '<span class="empty">Not specified</span>'}</span>
+                <div class="detail-item" style="grid-column: 1 / -1;">
+                    <span class="detail-label">Neighborhoods</span>
+                    <span class="detail-value">
+                        ${neighborhoods.length > 0
+                            ? neighborhoods.map(n => `<span class="tag">${n}</span>`).join('')
+                            : '<span class="empty">Not specified</span>'}
+                    </span>
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">Ward</span>
-                    <span class="detail-value">${comm.ward || '<span class="empty">Not specified</span>'}</span>
+                <div class="detail-item" style="grid-column: 1 / -1;">
+                    <span class="detail-label">Wards</span>
+                    <span class="detail-value">
+                        ${wards.length > 0
+                            ? wards.map(w => `<span class="tag">${w}</span>`).join('')
+                            : '<span class="empty">Not specified</span>'}
+                    </span>
                 </div>
                 ${population ? `
                 <div class="detail-item">
@@ -966,6 +987,17 @@ function viewCommunity(id) {
     }
 
     document.getElementById('viewBody').innerHTML = html;
+
+    // Reset modal position and size
+    const modalContent = document.querySelector('#viewModal .modal-content');
+    if (modalContent) {
+        modalContent.style.transform = 'translate(-50%, -50%)';
+        modalContent.style.left = '50%';
+        modalContent.style.top = '50%';
+        modalContent.style.width = '';
+        modalContent.style.height = '';
+    }
+
     document.getElementById('viewModal').style.display = 'flex';
 }
 
@@ -1309,7 +1341,7 @@ let wardAutocomplete = {
 };
 
 function setupWardAutocomplete() {
-    wardAutocomplete.input = document.getElementById('commWard');
+    wardAutocomplete.input = document.getElementById('commWardInput');
     wardAutocomplete.dropdown = document.getElementById('wardDropdown');
 
     if (!wardAutocomplete.input || !wardAutocomplete.dropdown) return;
@@ -1350,7 +1382,8 @@ function setupWardAutocomplete() {
         // Click handlers for items
         wardAutocomplete.dropdown.querySelectorAll('.autocomplete-item').forEach(item => {
             item.addEventListener('click', function() {
-                selectWard(this.dataset.ward);
+                addWardChip(this.dataset.ward);
+                wardAutocomplete.dropdown.style.display = 'none';
             });
             item.addEventListener('mouseenter', function() {
                 wardAutocomplete.selectedIndex = parseInt(this.dataset.index);
@@ -1376,7 +1409,8 @@ function setupWardAutocomplete() {
         } else if (e.key === 'Enter') {
             e.preventDefault();
             if (wardAutocomplete.selectedIndex >= 0 && items[wardAutocomplete.selectedIndex]) {
-                selectWard(items[wardAutocomplete.selectedIndex].dataset.ward);
+                addWardChip(items[wardAutocomplete.selectedIndex].dataset.ward);
+                wardAutocomplete.dropdown.style.display = 'none';
             }
         } else if (e.key === 'Escape') {
             wardAutocomplete.dropdown.style.display = 'none';
@@ -1403,56 +1437,36 @@ function updateActiveItem() {
     });
 }
 
-function selectWard(ward) {
-    wardAutocomplete.input.value = ward;
-    wardAutocomplete.dropdown.style.display = 'none';
-
-    // Trigger elected representatives lookup when ward is selected
-    loadElectedRepresentatives(ward);
-}
-
 // Neighborhood-to-Ward and Elected Representatives Autofill
 function setupNeighborhoodWardAutofill() {
-    const neighborhoodField = document.getElementById('commNeighborhood');
-    if (!neighborhoodField) return;
+    const neighborhoodsField = document.getElementById('commNeighborhoods');
+    if (!neighborhoodsField) return;
 
     // Remove any existing listeners to avoid duplicates
-    const newNeighborhoodField = neighborhoodField.cloneNode(true);
-    neighborhoodField.parentNode.replaceChild(newNeighborhoodField, neighborhoodField);
+    const newNeighborhoodsField = neighborhoodsField.cloneNode(true);
+    neighborhoodsField.parentNode.replaceChild(newNeighborhoodsField, neighborhoodsField);
 
-    newNeighborhoodField.addEventListener('blur', function() {
-        const neighborhood = this.value.trim();
-        const wardField = document.getElementById('commWard');
+    newNeighborhoodsField.addEventListener('blur', function() {
+        const neighborhoods = this.value.split('\n').map(s => s.trim()).filter(s => s);
 
-        if (neighborhood && wardField) {
-            const ward = matchNeighborhoodToWard(neighborhood);
-            if (ward) {
-                // Set the ward value in the input field
-                wardField.value = ward;
-                console.log(`Auto-populated ward: ${ward} for neighborhood: ${neighborhood}`);
+        if (neighborhoods.length === 0) return;
 
-                // Also trigger elected representatives lookup
-                loadElectedRepresentatives(ward);
-            }
+        // Map each neighborhood to its ward
+        const mappedWards = neighborhoods
+            .map(n => matchNeighborhoodToWard(n))
+            .filter(w => w); // Remove nulls
+
+        // Remove duplicates
+        const uniqueWards = [...new Set(mappedWards)];
+
+        if (uniqueWards.length > 0) {
+            console.log(`Auto-populated ${uniqueWards.length} wards from ${neighborhoods.length} neighborhoods`);
+
+            // Clear existing chips and add new ones
+            selectedWards = [];
+            uniqueWards.forEach(ward => addWardChip(ward));
         }
     });
-
-    // Also add listener to ward field to lookup elected representatives
-    const wardField = document.getElementById('commWard');
-    if (wardField) {
-        const newWardField = wardField.cloneNode(true);
-        wardField.parentNode.replaceChild(newWardField, wardField);
-
-        newWardField.addEventListener('blur', function() {
-            const ward = this.value.trim();
-            if (ward) {
-                loadElectedRepresentatives(ward);
-            }
-        });
-
-        // Re-setup autocomplete since we cloned the field
-        setTimeout(() => setupWardAutocomplete(), 0);
-    }
 }
 
 // Load elected representatives based on ward
@@ -1516,4 +1530,91 @@ async function loadElectedRepresentatives(ward) {
     } catch (error) {
         console.log('Could not load elected representatives:', error.message);
     }
+}
+
+// Modal Drag and Resize Functionality
+let modalDragState = {
+    isDragging: false,
+    isResizing: false,
+    startX: 0,
+    startY: 0,
+    startTop: 0,
+    startLeft: 0,
+    startWidth: 0,
+    startHeight: 0
+};
+
+function setupModalDrag() {
+    const modal = document.getElementById('viewModal');
+    const modalContent = modal.querySelector('.modal-content');
+    const header = document.getElementById('viewModalHeader');
+    const resizeHandle = modalContent.querySelector('.resize-handle');
+
+    if (!header || !resizeHandle) return;
+
+    // Drag functionality (header)
+    header.addEventListener('mousedown', function(e) {
+        // Don't drag if clicking on close button
+        if (e.target.closest('.btn-close')) return;
+
+        modalDragState.isDragging = true;
+        modalDragState.startX = e.clientX;
+        modalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        modalDragState.startLeft = rect.left;
+        modalDragState.startTop = rect.top;
+
+        modalContent.classList.add('dragging');
+        // Remove transform to enable position-based movement
+        modalContent.style.transform = 'none';
+    });
+
+    // Resize functionality (resize handle)
+    resizeHandle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        modalDragState.isResizing = true;
+        modalDragState.startX = e.clientX;
+        modalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        modalDragState.startWidth = rect.width;
+        modalDragState.startHeight = rect.height;
+
+        modalContent.classList.add('resizing');
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', function(e) {
+        if (modalDragState.isDragging) {
+            const deltaX = e.clientX - modalDragState.startX;
+            const deltaY = e.clientY - modalDragState.startY;
+
+            modalContent.style.left = (modalDragState.startLeft + deltaX) + 'px';
+            modalContent.style.top = (modalDragState.startTop + deltaY) + 'px';
+        }
+
+        if (modalDragState.isResizing) {
+            const deltaX = e.clientX - modalDragState.startX;
+            const deltaY = e.clientY - modalDragState.startY;
+
+            const newWidth = Math.max(500, modalDragState.startWidth + deltaX);
+            const newHeight = Math.max(400, modalDragState.startHeight + deltaY);
+            const maxHeight = window.innerHeight * 0.85;
+
+            modalContent.style.width = newWidth + 'px';
+            modalContent.style.height = Math.min(newHeight, maxHeight) + 'px';
+        }
+    });
+
+    // Mouse up handler
+    document.addEventListener('mouseup', function() {
+        if (modalDragState.isDragging || modalDragState.isResizing) {
+            modalDragState.isDragging = false;
+            modalDragState.isResizing = false;
+            modalContent.classList.remove('dragging', 'resizing');
+        }
+    });
 }
