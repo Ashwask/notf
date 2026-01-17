@@ -145,34 +145,20 @@
             box-shadow: 0 4px 12px rgba(247, 167, 130, 0.4);
         }
 
-        .contact-link {
+        .name-link {
             color: #F7A782;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
             transition: all 0.2s ease;
-        }
-
-        .contact-link:hover {
-            color: #d97706;
-            gap: 0.5rem;
-        }
-
-        .view-details-btn {
-            color: #F7A782;
-            text-decoration: none;
-            font-weight: 600;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            transition: all 0.2s ease;
         }
 
-        .view-details-btn:hover {
+        .name-link:hover {
             color: #d97706;
-            gap: 0.5rem;
+            text-decoration: underline;
+        }
+
+        .name-link strong {
+            font-weight: 600;
         }
 
         .empty-state {
@@ -553,12 +539,11 @@
                             <th class="sortable" data-sort="theme">Focus Area</th>
                             <th class="sortable" data-sort="offers">Offers</th>
                             <th class="sortable" data-sort="asks">Asks</th>
-                            <th>Contact</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         <tr>
-                            <td colspan="6" class="empty-state">Loading solution providers...</td>
+                            <td colspan="5" class="empty-state">Loading solution providers...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -695,7 +680,7 @@
             const tbody = document.getElementById('tableBody');
 
             if (filteredProviders.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No solution providers found. Try adjusting your filters.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No solution providers found. Try adjusting your filters.</td></tr>';
                 return;
             }
 
@@ -707,22 +692,13 @@
                 const offersCount = (prov.offers || []).length;
                 const asksCount = (prov.asks || []).length;
 
-                const contact = prov.contact && prov.contact.email
-                    ? `<a href="mailto:${prov.contact.email}" class="contact-link">✉️ Email</a>`
-                    : '<span style="color: #999;">—</span>';
-
                 return `
                     <tr>
-                        <td><strong>${prov.name}</strong></td>
+                        <td><a href="#" class="name-link" onclick="showDetails(${idx}); return false;"><strong>${prov.name}</strong></a></td>
                         <td>${prov.location || '—'}</td>
                         <td class="theme-cell">${theme}</td>
                         <td><span class="count-badge" onclick="showOffers(${idx})">${offersCount}</span></td>
                         <td><span class="count-badge" onclick="showAsks(${idx})">${asksCount}</span></td>
-                        <td>
-                            ${contact}
-                            <br>
-                            <a href="#" class="view-details-btn" onclick="showDetails(${idx}); return false;">View Details →</a>
-                        </td>
                     </tr>
                 `;
             }).join('');

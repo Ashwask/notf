@@ -161,18 +161,20 @@
             gap: 0.5rem;
         }
 
-        .contact-link {
+        .name-link {
             color: #23A2A5;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        .contact-link:hover {
+        .name-link:hover {
             color: #0D7576;
-            gap: 0.5rem;
+            text-decoration: underline;
+        }
+
+        .name-link strong {
+            font-weight: 600;
         }
 
         .empty-state {
@@ -553,12 +555,11 @@
                             <th class="sortable" data-sort="themes">Themes</th>
                             <th class="sortable" data-sort="offers">Offers</th>
                             <th class="sortable" data-sort="asks">Asks</th>
-                            <th>Contact</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
                         <tr>
-                            <td colspan="6" class="empty-state">Loading communities...</td>
+                            <td colspan="5" class="empty-state">Loading communities...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -691,7 +692,7 @@
             const tbody = document.getElementById('tableBody');
 
             if (filteredCommunities.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No communities found. Try adjusting your filters.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No communities found. Try adjusting your filters.</td></tr>';
                 return;
             }
 
@@ -703,22 +704,13 @@
                 const offersCount = (comm.offers || []).length;
                 const asksCount = (comm.asks || []).length;
 
-                const contact = comm.contact && comm.contact.email
-                    ? `<a href="mailto:${comm.contact.email}" class="contact-link">✉️ Email</a>`
-                    : '<span style="color: #999;">—</span>';
-
                 return `
                     <tr>
-                        <td><strong>${comm.name}</strong></td>
+                        <td><a href="#" class="name-link" onclick="showDetails(${idx}); return false;"><strong>${comm.name}</strong></a></td>
                         <td>${comm.city || '—'}</td>
                         <td class="themes-cell">${themes}</td>
                         <td><span class="count-badge" onclick="showOffers(${idx})">${offersCount}</span></td>
                         <td><span class="count-badge" onclick="showAsks(${idx})">${asksCount}</span></td>
-                        <td>
-                            ${contact}
-                            <br>
-                            <a href="#" class="view-details-btn" onclick="showDetails(${idx}); return false;">View Details →</a>
-                        </td>
                     </tr>
                 `;
             }).join('');
