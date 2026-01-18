@@ -57,14 +57,22 @@ class DiscoveryEngine {
     search(query) {
         const queryLower = query.toLowerCase();
 
+        console.log('[Discovery] Search query:', query);
+        console.log('[Discovery] Total resources:', this.allResources.length);
+        console.log('[Discovery] Communities:', this.communities.length);
+        console.log('[Discovery] Providers:', this.members.length);
+
         // Detect if user is asking for specific resource type
         const requestedType = this.detectResourceType(queryLower);
+        console.log('[Discovery] Requested type:', requestedType);
 
         // Remove resource type keywords from query for better matching
         const cleanQuery = this.cleanQuery(queryLower);
+        console.log('[Discovery] Clean query:', cleanQuery);
 
         // If Fuse.js is not available, fall back to basic search
         if (!this.fuse) {
+            console.warn('[Discovery] Fuse.js not available, using basic search');
             return this.basicSearch(cleanQuery, requestedType);
         }
 
@@ -74,11 +82,18 @@ class DiscoveryEngine {
             matchScore: 1 - result.score  // Invert score (lower Fuse score = better match)
         }));
 
+        console.log('[Discovery] Fuse.js found', results.length, 'results before filtering');
+
         // Filter by requested resource type if specified
         if (requestedType === 'community') {
             results = results.filter(r => r.resourceType === 'community');
         } else if (requestedType === 'provider') {
             results = results.filter(r => r.resourceType === 'provider');
+        }
+
+        console.log('[Discovery] Final results after filtering:', results.length);
+        if (results.length > 0) {
+            console.log('[Discovery] Top result:', results[0]);
         }
 
         // Return top 10 results

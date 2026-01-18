@@ -834,12 +834,19 @@ class NotfChatbot {
 
     getCommunitiesData() {
         // This will be populated from the page's data
-        return window.notfData?.communities || [];
+        const communities = window.notfData?.communities || [];
+        console.log('[Chatbot] Loaded communities:', communities.length);
+        if (communities.length > 0) {
+            console.log('[Chatbot] Sample community:', communities[0]);
+        }
+        return communities;
     }
 
     getMembersData() {
         // This will be populated from the page's data
-        return window.notfData?.members || [];
+        const members = window.notfData?.members || [];
+        console.log('[Chatbot] Loaded members:', members.length);
+        return members;
     }
 
     saveSession() {
