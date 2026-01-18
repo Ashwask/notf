@@ -983,6 +983,18 @@ class NotfChatbot {
                 this.apiClient = new NotfCmsApi();
             }
 
+            // Debug: Log formData
+            console.log('[Chatbot] formData before submission:', {
+                description: this.formData.description,
+                category_id: this.formData.category_id,
+                citizen_phone: this.formData.citizen_phone,
+                citizen_email: this.formData.citizen_email,
+                citizen_name: this.formData.citizen_name,
+                address: this.formData.address,
+                latitude: this.formData.latitude,
+                longitude: this.formData.longitude
+            });
+
             // Prepare complaint data using ComplaintEngine
             const complaintData = this.complaintEngine.prepareComplaintData({
                 description: this.formData.description,

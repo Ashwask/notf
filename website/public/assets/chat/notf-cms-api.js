@@ -32,13 +32,16 @@ class NotfCmsApi {
      */
     async submitViaApi(complaintData) {
         try {
+            const formattedData = this.formatForApi(complaintData);
+            console.log('[API] Sending complaint data:', formattedData);
+
             const response = await fetch(`${this.apiBaseUrl}/submit-complaint`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Origin': window.location.origin
                 },
-                body: JSON.stringify(this.formatForApi(complaintData))
+                body: JSON.stringify(formattedData)
             });
 
             if (!response.ok) {
@@ -123,7 +126,7 @@ class NotfCmsApi {
      * Format complaint data for API submission
      */
     formatForApi(complaint) {
-        return {
+        const formatted = {
             description: complaint.description,
             category_id: complaint.category_id,
 
@@ -132,22 +135,42 @@ class NotfCmsApi {
             latitude: complaint.location.latitude,
             longitude: complaint.location.longitude,
             city: complaint.location.city,
-            corporation_code: complaint.location.corporation_code,
-            corporation_id: complaint.location.corporation_id,
-            ward: complaint.location.ward,
-            ward_number: complaint.location.wardNumber,
-
-            // Contact
-            phone: complaint.contact.phone,
-            email: complaint.contact.email,
-            name: complaint.contact.name,
 
             // Metadata
-            metadata: complaint.metadata,
-
-            // Photo (base64 or file)
-            photo: complaint.photo || null
+            metadata: complaint.metadata
         };
+
+        // Add optional location fields only if they have values
+        if (complaint.location.corporation_code) {
+            formatted.corporation_code = complaint.location.corporation_code;
+        }
+        if (complaint.location.corporation_id) {
+            formatted.corporation_id = complaint.location.corporation_id;
+        }
+        if (complaint.location.ward) {
+            formatted.ward = complaint.location.ward;
+        }
+        if (complaint.location.wardNumber) {
+            formatted.ward_number = complaint.location.wardNumber;
+        }
+
+        // Contact - only add if they have values (not null/undefined/empty)
+        if (complaint.contact.phone) {
+            formatted.phone = complaint.contact.phone;
+        }
+        if (complaint.contact.email) {
+            formatted.email = complaint.contact.email;
+        }
+        if (complaint.contact.name) {
+            formatted.name = complaint.contact.name;
+        }
+
+        // Photo (base64 or file)
+        if (complaint.photo) {
+            formatted.photo = complaint.photo;
+        }
+
+        return formatted;
     }
 
     /**
