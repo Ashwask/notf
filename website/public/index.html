@@ -220,28 +220,44 @@
     <script>
         // Load counts for stats
         (async function() {
-            await dataLoader.waitForSupabase();
-            const [communities, providers] = await Promise.all([
-                dataLoader.loadCommunities(),
-                dataLoader.loadSolutionProviders()
-            ]);
+            try {
+                console.log('[Data Loader] Starting data load...');
+                await dataLoader.waitForSupabase();
+                console.log('[Data Loader] Supabase ready, loading communities...');
 
-            const orgCount = providers.length;
-            const commCount = communities.length;
+                const [communities, providers] = await Promise.all([
+                    dataLoader.loadCommunities(),
+                    dataLoader.loadSolutionProviders()
+                ]);
 
-            document.getElementById('orgCount').textContent = orgCount;
-            document.getElementById('commCount').textContent = commCount;
-            document.getElementById('mapCommCount').textContent = commCount;
-            document.getElementById('dirCommCount').textContent = commCount;
-            document.getElementById('orgNetCount').textContent = orgCount;
-            document.getElementById('ctaOrgCount').textContent = orgCount;
-            document.getElementById('ctaCommCount').textContent = commCount;
+                console.log('[Data Loader] Loaded', communities.length, 'communities and', providers.length, 'providers');
 
-            // Make data available to chatbot
-            window.notfData = {
-                communities: communities,
-                members: providers
-            };
+                const orgCount = providers.length;
+                const commCount = communities.length;
+
+                document.getElementById('orgCount').textContent = orgCount;
+                document.getElementById('commCount').textContent = commCount;
+                document.getElementById('mapCommCount').textContent = commCount;
+                document.getElementById('dirCommCount').textContent = commCount;
+                document.getElementById('orgNetCount').textContent = orgCount;
+                document.getElementById('ctaOrgCount').textContent = orgCount;
+                document.getElementById('ctaCommCount').textContent = commCount;
+
+                // Make data available to chatbot
+                window.notfData = {
+                    communities: communities,
+                    members: providers
+                };
+
+                console.log('[Data Loader] window.notfData populated successfully');
+            } catch (error) {
+                console.error('[Data Loader] Error loading data:', error);
+                // Still set window.notfData to empty arrays so chatbot doesn't hang
+                window.notfData = {
+                    communities: [],
+                    members: []
+                };
+            }
         })();
     </script>
 
