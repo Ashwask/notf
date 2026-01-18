@@ -497,6 +497,9 @@ class NotfChatbot {
             case 'complaint_description':
                 this.handleComplaintDescription(message);
                 break;
+            case 'complaint_city':
+                this.handleComplaintCity(message);
+                break;
             case 'complaint_location':
                 this.handleComplaintLocation(message);
                 break;
@@ -526,10 +529,70 @@ class NotfChatbot {
         this.addBotMessage(`
             <p>Thank you for the description.</p>
             ${category ? `<p>I've categorized this as: <strong>${category.name}</strong></p>` : ''}
-            <p>Now, please provide the location where this issue is occurring.</p>
+        `);
+
+        if (category) {
+            this.formData.category_id = category.id;
+        }
+
+        // Ask for city
+        this.askForCity();
+    }
+
+    askForCity() {
+        this.addBotMessage(`
+            <div class="city-selection">
+                <p><strong>Which city is this complaint for?</strong></p>
+                <p>Select your city or type it:</p>
+                <div class="city-buttons">
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Bengaluru')">Bengaluru</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Mumbai')">Mumbai</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Delhi')">Delhi</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Chennai')">Chennai</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Hyderabad')">Hyderabad</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Pune')">Pune</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Kolkata')">Kolkata</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Ahmedabad')">Ahmedabad</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Jaipur')">Jaipur</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Gurugram')">Gurugram</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Bhubaneswar')">Bhubaneswar</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Visakhapatnam')">Visakhapatnam</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Thane')">Thane</button>
+                </div>
+                <p class="city-hint">💡 Or type your city name</p>
+            </div>
+        `);
+
+        this.state = 'complaint_city';
+        this.enableInput();
+    }
+
+    selectCity(city) {
+        // Called when user clicks a city button
+        this.formData.city = city;
+        this.addUserMessage(city);
+        this.askForLocation();
+    }
+
+    handleComplaintCity(message) {
+        // User typed a city name
+        const city = message.trim();
+
+        if (city.length < 3) {
+            this.addBotMessage('Please provide a valid city name.');
+            return;
+        }
+
+        this.formData.city = city;
+        this.askForLocation();
+    }
+
+    askForLocation() {
+        this.addBotMessage(`
+            <p>Great! Now, please provide the location in <strong>${this.formData.city}</strong> where this issue is occurring.</p>
             <p>You can:</p>
             <ul>
-                <li>Type the address</li>
+                <li>Type the street/area name (e.g., "MG Road, Indiranagar")</li>
                 <li>Click "Use Map" to select on a map</li>
                 <li>Click "Use My Location" for GPS</li>
             </ul>
@@ -539,11 +602,8 @@ class NotfChatbot {
             </div>
         `);
 
-        if (category) {
-            this.formData.category_id = category.id;
-        }
-
         this.state = 'complaint_location';
+        this.enableInput();
     }
 
     async handleComplaintLocation(message) {
@@ -551,13 +611,13 @@ class NotfChatbot {
         this.addBotMessage('<i class="fa-solid fa-hourglass-half"></i> Verifying your location...');
 
         try {
-            // Geocode the address
-            const geocoded = await this.geocodeAddress(message);
+            // Geocode the address with city context
+            const geocoded = await this.geocodeAddress(message, this.formData.city);
 
             if (!geocoded.success) {
                 this.addBotMessage(`
                     <p><i class="fa-solid fa-circle-xmark"></i> ${geocoded.message}</p>
-                    <p>Please try again with a more specific address (include area, landmark, city).</p>
+                    <p>Please try again with a more specific address in ${this.formData.city} (include area, landmark).</p>
                 `);
                 this.enableInput();
                 return;
@@ -853,10 +913,13 @@ class NotfChatbot {
         this.elements.inputField.disabled = true;
     }
 
-    async geocodeAddress(address) {
+    async geocodeAddress(address, city = null) {
         try {
+            // Combine address with city for better geocoding
+            const fullAddress = city ? `${address}, ${city}, India` : address;
+
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1&addressdetails=1`,
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullAddress)}&format=json&limit=1&addressdetails=1`,
                 {
                     headers: {
                         'User-Agent': 'NOTF-Chatbot/1.0 (https://notf-one.vercel.app; chatbot@notf.in)'
@@ -1010,15 +1073,38 @@ class NotfChatbot {
         `);
     }
 
+    getCityCoordinates(city) {
+        const cityCoords = {
+            'Bengaluru': [12.9716, 77.5946],
+            'Mumbai': [19.0760, 72.8777],
+            'Delhi': [28.6139, 77.2090],
+            'Chennai': [13.0827, 80.2707],
+            'Hyderabad': [17.3850, 78.4867],
+            'Pune': [18.5204, 73.8567],
+            'Kolkata': [22.5726, 88.3639],
+            'Ahmedabad': [23.0225, 72.5714],
+            'Jaipur': [26.9124, 75.7873],
+            'Gurugram': [28.4595, 77.0266],
+            'Bhubaneswar': [20.2961, 85.8245],
+            'Visakhapatnam': [17.6868, 83.2185],
+            'Thane': [19.2183, 72.9781]
+        };
+
+        return cityCoords[city] || [20.5937, 78.9629]; // Default to center of India
+    }
+
     showMapModal() {
         // Create modal overlay
         const modal = document.createElement('div');
         modal.id = 'map-picker-modal';
         modal.className = 'map-modal';
+
+        const selectedCity = this.formData.city || 'Bengaluru';
+
         modal.innerHTML = `
             <div class="map-modal-content">
                 <div class="map-modal-header">
-                    <h3><i class="fa-solid fa-map-marker-alt"></i> Select Location on Map</h3>
+                    <h3><i class="fa-solid fa-map-marker-alt"></i> Select Location in ${selectedCity}</h3>
                     <button class="map-modal-close" onclick="notfChatbot.closeMapModal()">&times;</button>
                 </div>
                 <div id="map-picker" style="height: 400px; width: 100%;"></div>
@@ -1031,9 +1117,10 @@ class NotfChatbot {
         `;
         document.body.appendChild(modal);
 
-        // Initialize Leaflet map
+        // Initialize Leaflet map with city-specific center
         setTimeout(() => {
-            const map = L.map('map-picker').setView([12.9716, 77.5946], 12); // Default to Bengaluru
+            const cityCoords = this.getCityCoordinates(selectedCity);
+            const map = L.map('map-picker').setView(cityCoords, 12);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
@@ -1155,12 +1242,19 @@ class NotfChatbot {
                 // Reverse geocode to get address
                 try {
                     const response = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`
+                        `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+                        {
+                            headers: {
+                                'User-Agent': 'NOTF-Chatbot/1.0 (https://notf-one.vercel.app; chatbot@notf.in)'
+                            }
+                        }
                     );
                     const result = await response.json();
 
+                    const city = this.formData.city || this.extractCityFromAddress(result.display_name, result.address);
+
                     // Validate location
-                    const validation = await this.boundaryValidator.validateLocation(lat, lng);
+                    const validation = await this.boundaryValidator.validateLocation(lat, lng, city);
 
                     if (!validation.valid) {
                         this.showBoundaryValidationError(validation);

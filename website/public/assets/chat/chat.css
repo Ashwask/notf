@@ -1163,3 +1163,54 @@
 .btn-open-map i {
     margin-right: 6px;
 }
+
+/* City Selection */
+.city-selection {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.city-selection p {
+    margin: 0 0 10px 0;
+    color: #065f46;
+}
+
+.city-selection p strong {
+    color: #047857;
+    font-size: 16px;
+}
+
+.city-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.city-btn {
+    padding: 10px 12px;
+    background: white;
+    border: 2px solid #14b8a6;
+    border-radius: 6px;
+    color: #047857;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.city-btn:hover {
+    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
+}
+
+.city-hint {
+    font-size: 13px;
+    color: #047857;
+    font-style: italic;
+    margin-top: 8px;
+}
