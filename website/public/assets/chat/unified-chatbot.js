@@ -49,7 +49,9 @@ class NotfChatbot {
             messagesContainer: chatWidget.querySelector('.chat-messages'),
             inputField: chatWidget.querySelector('.chat-input-field'),
             sendButton: chatWidget.querySelector('.chat-send-button'),
-            closeButton: chatWidget.querySelector('.chat-close-button')
+            closeButton: chatWidget.querySelector('.chat-close-button'),
+            switchModeButton: chatWidget.querySelector('.chat-switch-mode-button'),
+            modeTitle: chatWidget.querySelector('.chat-mode-title')
         };
 
         // Start in open state (widget visible, FAB hidden)
@@ -95,6 +97,9 @@ class NotfChatbot {
 
         // FAB button - open chatbot
         this.elements.fab?.addEventListener('click', () => this.openChatbot());
+
+        // Switch mode button
+        this.elements.switchModeButton?.addEventListener('click', () => this.switchMode());
     }
 
     showWelcomeMessage() {
@@ -131,6 +136,12 @@ class NotfChatbot {
     async selectIntent(intent) {
         this.mode = intent;
 
+        // Update header title
+        this.updateHeaderTitle(intent);
+
+        // Show mode switch button
+        this.elements.switchModeButton?.classList.remove('hidden');
+
         // Add user's choice to conversation
         const choiceText = intent === 'discovery' ? 'Find Communities & Resources' : 'File a Complaint';
         this.addUserMessage(choiceText);
@@ -141,6 +152,52 @@ class NotfChatbot {
         } else {
             this.initializeComplaintMode();
         }
+
+        this.saveSession();
+    }
+
+    updateHeaderTitle(mode) {
+        if (!this.elements.modeTitle) return;
+
+        if (mode === 'discovery') {
+            this.elements.modeTitle.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Discovery Mode';
+        } else if (mode === 'complaint') {
+            this.elements.modeTitle.innerHTML = '<i class="fa-solid fa-file-pen"></i> Complaint Mode';
+        } else {
+            this.elements.modeTitle.textContent = 'NOTF Assistant';
+        }
+    }
+
+    switchMode() {
+        // Check if there's conversation history
+        const hasMessages = this.conversationHistory.length > 1; // More than just the welcome message
+
+        if (hasMessages) {
+            // Ask for confirmation
+            const otherMode = this.mode === 'discovery' ? 'Complaint' : 'Discovery';
+            const confirmed = confirm(
+                `Switching to ${otherMode} Mode will start a new conversation. ` +
+                `Your current conversation will be cleared. Continue?`
+            );
+
+            if (!confirmed) {
+                return; // User cancelled
+            }
+        }
+
+        // Clear conversation
+        this.conversationHistory = [];
+        this.formData = {};
+        this.state = 'intent_selection';
+        this.mode = null;
+
+        // Reset UI
+        this.elements.messagesContainer.innerHTML = '';
+        this.elements.switchModeButton?.classList.add('hidden');
+        this.updateHeaderTitle(null);
+
+        // Show welcome message again
+        this.showWelcomeMessage();
 
         this.saveSession();
     }

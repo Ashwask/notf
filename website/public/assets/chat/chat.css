@@ -49,13 +49,20 @@
     gap: 8px;
 }
 
+.chat-mode-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .chat-header-actions {
     display: flex;
     gap: 8px;
 }
 
 .chat-minimize-button,
-.chat-close-button {
+.chat-close-button,
+.chat-switch-mode-button {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     color: white;
@@ -70,8 +77,13 @@
 }
 
 .chat-minimize-button:hover,
-.chat-close-button:hover {
+.chat-close-button:hover,
+.chat-switch-mode-button:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+.chat-switch-mode-button.hidden {
+    display: none;
 }
 
 /* Chat Messages Container */
