@@ -220,25 +220,33 @@ class NotfChatbot {
     }
 
     displayDiscoveryResults(results) {
+        this.currentSearchResults = results; // Store for modal access
+
         const resultsHtml = `
             <div class="discovery-results">
                 <p>I found <strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} for you:</p>
-                ${results.map(result => this.renderResourceCard(result)).join('')}
+                ${results.map((result, index) => this.renderResourceCard(result, index)).join('')}
             </div>
         `;
 
         this.addBotMessage(resultsHtml);
     }
 
-    renderResourceCard(resource) {
+    renderResourceCard(resource, index) {
         const isProvider = resource.resourceType === 'provider';
         const location = resource.location || resource.city || resource.neighborhood || '';
         const focusAreas = resource.focus_areas || resource.domains || [];
         const contact = resource.contact?.email || resource.contact;
         const website = resource.website || resource.url;
 
+        // Store resource in a temporary array for modal access
+        if (!this.currentSearchResults) {
+            this.currentSearchResults = [];
+        }
+        this.currentSearchResults[index] = resource;
+
         return `
-            <div class="community-card">
+            <div class="community-card clickable" onclick="window.notfChatbot.showResourceDetails(${index})">
                 <div class="community-header">
                     <h4>${resource.name}</h4>
                     ${isProvider ? '<span class="type-badge">Provider</span>' : '<span class="type-badge">Community</span>'}
@@ -249,14 +257,97 @@ class NotfChatbot {
                     ${focusAreas.length > 0 ? `<p class="tags">🏷️ ${focusAreas.join(', ')}</p>` : ''}
                     ${resource.members_count ? `<p class="members">👥 ${resource.members_count} members</p>` : ''}
                 </div>
-                ${contact || website ? `
-                    <div class="community-actions">
-                        ${contact ? `<a href="mailto:${contact}" class="btn-contact">Contact</a>` : ''}
-                        ${website ? `<a href="${website}" target="_blank" class="btn-learn-more">Learn More</a>` : ''}
-                    </div>
-                ` : ''}
+                <p class="view-details-hint">Click for details →</p>
             </div>
         `;
+    }
+
+    showResourceDetails(index) {
+        const resource = this.currentSearchResults[index];
+        if (!resource) return;
+
+        const isProvider = resource.resourceType === 'provider';
+        const location = resource.location || resource.city || resource.neighborhood || '';
+        const focusAreas = resource.focus_areas || resource.domains || [];
+        const contact = resource.contact?.email || resource.contact;
+        const website = resource.website || resource.url;
+        const description = resource.description || resource.notes || 'No description available.';
+        const stories = resource.stories || 'No stories shared yet.';
+
+        let modalContent = `
+            <div class="chat-modal-overlay" onclick="window.notfChatbot.closeResourceModal()">
+                <div class="chat-modal-content" onclick="event.stopPropagation()">
+                    <div class="chat-modal-header">
+                        <h3>${resource.name}</h3>
+                        <button class="chat-modal-close" onclick="window.notfChatbot.closeResourceModal()">✕</button>
+                    </div>
+                    <div class="chat-modal-body">
+                        <div class="chat-modal-section">
+                            <h4>Type</h4>
+                            <p>${isProvider ? '🏢 Solution Provider' : '🏘️ Community'}</p>
+                        </div>
+                        <div class="chat-modal-section">
+                            <h4>Location</h4>
+                            <p>${location || 'Not specified'}</p>
+                        </div>
+                        ${focusAreas.length > 0 ? `
+                            <div class="chat-modal-section">
+                                <h4>${isProvider ? 'Domains' : 'Focus Areas'}</h4>
+                                <p>${focusAreas.join(', ')}</p>
+                            </div>
+                        ` : ''}
+                        <div class="chat-modal-section">
+                            <h4>Description</h4>
+                            <p>${description}</p>
+                        </div>
+                        ${stories && stories !== 'No stories shared yet.' ? `
+                            <div class="chat-modal-section">
+                                <h4>Stories</h4>
+                                <p>${stories}</p>
+                            </div>
+                        ` : ''}
+                        ${resource.offers && resource.offers.length > 0 ? `
+                            <div class="chat-modal-section">
+                                <h4>What They Offer</h4>
+                                <ul class="chat-modal-list">
+                                    ${resource.offers.map(offer => `<li>${offer}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        ${resource.asks && resource.asks.length > 0 ? `
+                            <div class="chat-modal-section">
+                                <h4>What They Need</h4>
+                                <ul class="chat-modal-list">
+                                    ${resource.asks.map(ask => `<li>${ask}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        ${contact || website ? `
+                            <div class="chat-modal-section">
+                                <h4>Contact</h4>
+                                <div class="chat-modal-actions">
+                                    ${contact ? `<a href="mailto:${contact}" class="btn-contact" onclick="event.stopPropagation()">📧 Email</a>` : ''}
+                                    ${website ? `<a href="${website}" target="_blank" class="btn-learn-more" onclick="event.stopPropagation()">🌐 Website</a>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add modal to body
+        const modalDiv = document.createElement('div');
+        modalDiv.id = 'chat-resource-modal';
+        modalDiv.innerHTML = modalContent;
+        document.body.appendChild(modalDiv);
+    }
+
+    closeResourceModal() {
+        const modal = document.getElementById('chat-resource-modal');
+        if (modal) {
+            modal.remove();
+        }
     }
 
     processComplaintMessage(message) {
@@ -858,7 +949,6 @@ class NotfChatbot {
 }
 
 // Initialize chatbot when DOM is ready
-let notfChatbot;
 document.addEventListener('DOMContentLoaded', () => {
-    notfChatbot = new NotfChatbot();
+    window.notfChatbot = new NotfChatbot();
 });
