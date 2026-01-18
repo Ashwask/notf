@@ -641,23 +641,65 @@ class NotfChatbot {
     }
 
     askForCategory() {
-        const detectedCategory = this.formData.detectedCategory;
+        // Get top category suggestions based on description
+        const topMatches = this.complaintEngine.getTopCategorySuggestions(this.formData.description, 5);
 
-        if (detectedCategory) {
-            // Show detected category with option to confirm or change
-            this.addBotMessage(`
-                <p>Is "<strong>${detectedCategory.name}</strong>" the correct category?</p>
-                <div class="category-options">
-                    <button class="btn-confirm-category" onclick="notfChatbot.confirmCategory('${detectedCategory.id}')">
-                        <i class="fa-solid fa-check"></i> Yes, correct
+        if (topMatches.length > 0) {
+            // Show top matching categories as chip suggestions
+            let categoriesHTML = '<p>Select the issue category:</p>';
+            categoriesHTML += '<div class="category-chips" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;">';
+
+            topMatches.forEach((cat, index) => {
+                // First match is primary (filled), others are outlined
+                const isPrimary = index === 0;
+                categoriesHTML += `
+                    <button class="category-chip" onclick="notfChatbot.selectCategory('${cat.id}')" style="
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 0.5rem 1rem;
+                        background: ${isPrimary ? '#23A2A5' : 'white'};
+                        border: 1.5px solid #23A2A5;
+                        border-radius: 20px;
+                        cursor: pointer;
+                        font-size: 0.875rem;
+                        color: ${isPrimary ? 'white' : '#23A2A5'};
+                        transition: all 0.2s ease;
+                        white-space: nowrap;
+                        font-weight: 500;
+                    "
+                    onmouseover="this.style.background='#23A2A5'; this.style.color='white';"
+                    onmouseout="this.style.background='${isPrimary ? '#23A2A5' : 'white'}'; this.style.color='${isPrimary ? 'white' : '#23A2A5'}';">
+                        ${cat.name}
                     </button>
-                    <button class="btn-change-category" onclick="notfChatbot.showAllCategories()">
-                        <i class="fa-solid fa-list"></i> Choose different
-                    </button>
-                </div>
-            `);
+                `;
+            });
+
+            // Add "See all categories" button
+            categoriesHTML += `
+                <button class="btn-show-all" onclick="notfChatbot.showAllCategories()" style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 1rem;
+                    background: #f3f4f6;
+                    border: 1.5px solid #d1d5db;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    font-size: 0.875rem;
+                    color: #6b7280;
+                    font-weight: 500;
+                    transition: all 0.2s ease;
+                "
+                onmouseover="this.style.background='#e5e7eb'; this.style.borderColor='#9ca3af';"
+                onmouseout="this.style.background='#f3f4f6'; this.style.borderColor='#d1d5db';">
+                    <i class="fa-solid fa-list"></i> See all categories
+                </button>
+            `;
+
+            categoriesHTML += '</div>';
+            this.addBotMessage(categoriesHTML);
         } else {
-            // No category detected, show all categories
+            // No matches found, show all categories
             this.showAllCategories();
         }
 
@@ -687,30 +729,44 @@ class NotfChatbot {
         });
 
         let categoriesHTML = '<p>Please select the category that best describes your issue:</p>';
-        categoriesHTML += '<div class="category-grid" style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; max-height: 300px; overflow-y: auto;">';
+        categoriesHTML += '<div class="category-chips-container" style="max-height: 350px; overflow-y: auto; padding: 0.5rem 0;">';
 
         Object.keys(grouped).sort().forEach(dept => {
-            categoriesHTML += `<div class="department-group" style="margin-bottom: 0.5rem;">`;
-            categoriesHTML += `<h4 style="font-size: 0.9rem; color: #666; margin: 0.5rem 0 0.25rem 0;">${dept}</h4>`;
+            categoriesHTML += `
+                <div class="department-group" style="margin-bottom: 1rem;">
+                    <h4 style="font-size: 0.85rem; font-weight: 600; color: #666; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.5px;">
+                        ${dept}
+                    </h4>
+                    <div class="category-chips" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            `;
+
             grouped[dept].forEach(cat => {
                 categoriesHTML += `
-                    <button class="btn-category" onclick="notfChatbot.selectCategory('${cat.id}')" style="
-                        display: block;
-                        width: 100%;
-                        text-align: left;
-                        padding: 0.5rem;
-                        margin: 0.25rem 0;
+                    <button class="category-chip" onclick="notfChatbot.selectCategory('${cat.id}')" style="
+                        display: inline-flex;
+                        align-items: center;
+                        padding: 0.5rem 1rem;
                         background: white;
-                        border: 1px solid #ddd;
-                        border-radius: 4px;
+                        border: 1.5px solid #23A2A5;
+                        border-radius: 20px;
                         cursor: pointer;
-                        font-size: 0.9rem;
-                    ">
+                        font-size: 0.875rem;
+                        color: #23A2A5;
+                        transition: all 0.2s ease;
+                        white-space: nowrap;
+                        font-weight: 500;
+                    "
+                    onmouseover="this.style.background='#23A2A5'; this.style.color='white';"
+                    onmouseout="this.style.background='white'; this.style.color='#23A2A5';">
                         ${cat.name}
                     </button>
                 `;
             });
-            categoriesHTML += `</div>`;
+
+            categoriesHTML += `
+                    </div>
+                </div>
+            `;
         });
 
         categoriesHTML += '</div>';

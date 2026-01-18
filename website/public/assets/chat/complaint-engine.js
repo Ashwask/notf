@@ -181,8 +181,7 @@ class ComplaintEngine {
 
     categorizeComplaint(description) {
         const descLower = description.toLowerCase();
-        let bestMatch = null;
-        let maxScore = 0;
+        const matches = [];
 
         this.categories.forEach(category => {
             let score = 0;
@@ -193,14 +192,44 @@ class ComplaintEngine {
                 }
             });
 
-            if (score > maxScore) {
-                maxScore = score;
-                bestMatch = category;
+            if (score > 0) {
+                matches.push({ ...category, score });
             }
         });
 
-        // Only return if we have a reasonable match
-        return maxScore > 0 ? bestMatch : null;
+        // Sort by score (highest first)
+        matches.sort((a, b) => b.score - a.score);
+
+        // Return best match for backward compatibility
+        return matches.length > 0 ? matches[0] : null;
+    }
+
+    /**
+     * Get top N category matches for a description
+     * @param {string} description - The complaint description
+     * @param {number} limit - Maximum number of suggestions (default: 5)
+     * @returns {Array} - Array of category objects with scores
+     */
+    getTopCategorySuggestions(description, limit = 5) {
+        const descLower = description.toLowerCase();
+        const matches = [];
+
+        this.categories.forEach(category => {
+            let score = 0;
+
+            category.keywords.forEach(keyword => {
+                if (descLower.includes(keyword)) {
+                    score += keyword.split(' ').length; // Longer phrases get higher scores
+                }
+            });
+
+            if (score > 0) {
+                matches.push({ ...category, score });
+            }
+        });
+
+        // Sort by score (highest first) and limit results
+        return matches.sort((a, b) => b.score - a.score).slice(0, limit);
     }
 
     validatePhone(phone) {
