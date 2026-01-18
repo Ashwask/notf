@@ -189,11 +189,16 @@
 
 **Expected Result:**
 - Max 2MB file size
-- JPEG/PNG only
+- JPEG/PNG/HEIC/HEIF supported
 - Preview shown before upload
 - Optional (can skip)
+- Filename sanitization (spaces → hyphens)
 
-**Status:** ⏳ Pending
+**Status:** ✅ IMPLEMENTED (2026-01-18)
+**Notes:**
+- Full implementation with validation, preview, and FormData API integration
+- See PHOTO_UPLOAD_IMPLEMENTATION.md for details
+- Ready for manual testing
 
 ---
 
@@ -646,7 +651,7 @@ Response:
 | Category | Total Tests | Passed | Failed | Pending | Notes |
 |----------|-------------|--------|--------|---------|-------|
 | Discovery Mode | 4 | 1 | 0 | 3 | Test 1.1 passed, 1.2-1.4 code-verified |
-| Complaint Core | 5 | 0 | 0 | 4 | 2.1-2.4 code-verified, 2.5 not implemented |
+| Complaint Core | 5 | 0 | 0 | 5 | 2.1-2.5 all code-verified and ready |
 | Location/Boundary | 5 | 0 | 0 | 5 | |
 | API Integration | 4 | 0 | 0 | 4 | |
 | End-to-End Flows | 4 | 0 | 0 | 4 | |
@@ -655,7 +660,7 @@ Response:
 | Accessibility | 2 | 0 | 0 | 2 | |
 | Browser Compat | 1 | 0 | 0 | 1 | |
 | Security | 1 | 0 | 0 | 1 | |
-| **TOTAL** | **31** | **1** | **0** | **30** | 1 passed, 7 code-verified, 1 not implemented |
+| **TOTAL** | **31** | **1** | **0** | **30** | 1 passed, 8 code-verified, all ready for testing |
 
 ---
 
@@ -706,3 +711,46 @@ Response:
 1. Decide if photo upload is required for MVP
 2. Run manual tests using test script
 3. Update test plan with actual results
+
+---
+
+### 2026-01-18: Photo Upload Implementation + UX Improvements
+**Tester:** Claude Sonnet 4.5
+**Activity:** Implement photo upload feature and improve map UX
+
+**Actions Taken:**
+1. ✅ Implemented photo upload feature (Test 2.5)
+   - Photo validation: 2MB limit, JPG/JPEG/PNG/HEIC/HEIF formats
+   - Upload UI with Choose/Skip buttons
+   - Photo preview with file info before submission
+   - Remove photo functionality
+   - Filename sanitization (spaces → hyphens) for Supabase compatibility
+
+2. ✅ Updated API integration
+   - FormData-based submission when photo present
+   - Backward compatible (JSON when no photo)
+   - Photo included in complaint review
+
+3. ✅ Improved map selection UX
+   - Changed "Use Map" to directly open map modal (removed intermediate step)
+   - Added inline instructions in map modal header
+   - Reduced clicks from 2 to 1
+
+**Code Changes:**
+- `complaint-engine.js`: Added validatePhoto() function
+- `unified-chatbot.js`: Photo flow + map UX improvements (+93 lines)
+- `notf-cms-api.js`: FormData integration (+35 lines)
+
+**Commits:**
+- 328192e - Add photo upload feature to complaint chatbot
+- ad485f7 - Improve chatbot UX - open map directly
+
+**Implementation Status:**
+- ✅ **All 8 complaint core tests now code-verified and ready**
+- 0/8 tests blocked
+- See `PHOTO_UPLOAD_IMPLEMENTATION.md` for complete documentation
+
+**Next Actions:**
+1. Run manual tests on production (https://notf-one.vercel.app)
+2. Test photo upload with various file sizes and types
+3. Verify map UX improvements
