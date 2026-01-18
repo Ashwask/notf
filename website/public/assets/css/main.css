@@ -1179,6 +1179,11 @@ article h4 {
         font-size: 3rem;
     }
 
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
     main > section,
     main > h1,
     main > h2,
