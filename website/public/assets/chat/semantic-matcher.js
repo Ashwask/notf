@@ -25,10 +25,25 @@ class SemanticMatcher {
             console.log('[SemanticMatcher] Loading Transformers.js model...');
 
             // Dynamically import Transformers.js from CDN
-            const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+            const { pipeline, env } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+
+            // Configure to use Hugging Face CDN for models
+            env.allowRemoteModels = true;
+            env.allowLocalModels = false;
+            env.useBrowserCache = true;
+            env.backends.onnx.wasm.numThreads = 1; // Single thread for better compatibility
+
+            console.log('[SemanticMatcher] Loading model from Hugging Face CDN...');
 
             // Load the feature extraction pipeline with all-MiniLM-L6-v2 model
-            this.pipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+            this.pipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+                quantized: true,  // Use quantized model for smaller size
+                progress_callback: (progress) => {
+                    if (progress.status === 'downloading') {
+                        console.log(`[SemanticMatcher] Downloading: ${progress.file} (${progress.progress}%)`);
+                    }
+                }
+            });
 
             this.isReady = true;
             this.isLoading = false;
