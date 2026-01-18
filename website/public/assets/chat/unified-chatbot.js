@@ -500,6 +500,11 @@ class NotfChatbot {
             case 'complaint_city':
                 this.handleComplaintCity(message);
                 break;
+            case 'complaint_city_confirm':
+                // User is correcting the auto-detected city
+                this.formData.city = message.trim();
+                this.askForLocation();
+                break;
             case 'complaint_location':
                 this.handleComplaintLocation(message);
                 break;
@@ -526,20 +531,147 @@ class NotfChatbot {
         // Auto-categorize using ML keywords
         const category = this.complaintEngine.categorizeComplaint(message);
 
+        // Extract location information from description
+        const locationInfo = this.extractLocationFromText(message);
+
         this.addBotMessage(`
             <p>Thank you for the description.</p>
             ${category ? `<p>I've categorized this as: <strong>${category.name}</strong></p>` : ''}
+            ${locationInfo.city ? `<p>I detected city: <strong>${locationInfo.city}</strong></p>` : ''}
+            ${locationInfo.location ? `<p>I detected location: <strong>${locationInfo.location}</strong></p>` : ''}
         `);
 
         if (category) {
             this.formData.category_id = category.id;
         }
 
+        // Store extracted location info for later use
+        this.formData.extractedCity = locationInfo.city;
+        this.formData.extractedLocation = locationInfo.location;
+
         // Ask for city
         this.askForCity();
     }
 
+    extractLocationFromText(text) {
+        const lowerText = text.toLowerCase();
+
+        // City patterns - check for exact city mentions
+        const cities = [
+            'bengaluru', 'bangalore',
+            'mumbai', 'bombay',
+            'delhi', 'new delhi',
+            'chennai', 'madras',
+            'hyderabad',
+            'pune',
+            'kolkata', 'calcutta',
+            'ahmedabad',
+            'jaipur',
+            'gurugram', 'gurgaon',
+            'bhubaneswar',
+            'visakhapatnam', 'vizag', 'vishakhapatnam',
+            'thane'
+        ];
+
+        // City name mapping to standardized names
+        const cityMapping = {
+            'bangalore': 'Bengaluru',
+            'bengaluru': 'Bengaluru',
+            'mumbai': 'Mumbai',
+            'bombay': 'Mumbai',
+            'delhi': 'Delhi',
+            'new delhi': 'Delhi',
+            'chennai': 'Chennai',
+            'madras': 'Chennai',
+            'hyderabad': 'Hyderabad',
+            'pune': 'Pune',
+            'kolkata': 'Kolkata',
+            'calcutta': 'Kolkata',
+            'ahmedabad': 'Ahmedabad',
+            'jaipur': 'Jaipur',
+            'gurugram': 'Gurugram',
+            'gurgaon': 'Gurugram',
+            'bhubaneswar': 'Bhubaneswar',
+            'visakhapatnam': 'Visakhapatnam',
+            'vizag': 'Visakhapatnam',
+            'vishakhapatnam': 'Visakhapatnam',
+            'thane': 'Thane'
+        };
+
+        let detectedCity = null;
+
+        // Check for city mentions
+        for (const city of cities) {
+            const cityRegex = new RegExp(`\\b${city}\\b`, 'i');
+            if (cityRegex.test(lowerText)) {
+                detectedCity = cityMapping[city];
+                break;
+            }
+        }
+
+        // Extract location patterns (street names, area names, landmarks)
+        let detectedLocation = null;
+
+        // Pattern 1: "on [location]" or "at [location]"
+        const onAtPattern = /(?:on|at|near|in)\s+([A-Z][a-zA-Z\s]+(?:Road|Street|Avenue|Lane|Circle|Cross|Main|Layout|Nagar|Block|Sector|Ward|Area|Park|Garden|Market|Colony))/gi;
+        const onAtMatch = text.match(onAtPattern);
+        if (onAtMatch && onAtMatch.length > 0) {
+            // Extract just the location part (remove "on", "at", etc.)
+            detectedLocation = onAtMatch[0].replace(/^(?:on|at|near|in)\s+/i, '').trim();
+        }
+
+        // Pattern 2: Look for capitalized multi-word locations (e.g., "MG Road", "Indiranagar")
+        if (!detectedLocation) {
+            const capitalizedPattern = /\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b/g;
+            const matches = text.match(capitalizedPattern);
+            if (matches && matches.length > 0) {
+                // Filter out common words and city names
+                const filteredMatches = matches.filter(m =>
+                    !['The', 'I', 'A', 'An', 'There', 'This', 'That'].includes(m) &&
+                    !cities.includes(m.toLowerCase())
+                );
+                if (filteredMatches.length > 0) {
+                    detectedLocation = filteredMatches.slice(0, 2).join(', '); // Take first 2 matches
+                }
+            }
+        }
+
+        // Pattern 3: Common area/landmark patterns
+        const landmarkPattern = /(?:near|behind|opposite|beside|next to)\s+([A-Z][a-zA-Z\s]+)/gi;
+        const landmarkMatch = text.match(landmarkPattern);
+        if (landmarkMatch && landmarkMatch.length > 0 && !detectedLocation) {
+            detectedLocation = landmarkMatch[0].replace(/^(?:near|behind|opposite|beside|next to)\s+/i, '').trim();
+        }
+
+        return {
+            city: detectedCity,
+            location: detectedLocation
+        };
+    }
+
     askForCity() {
+        // If we already detected a city, auto-select it
+        if (this.formData.extractedCity) {
+            this.addBotMessage(`
+                <p>Using detected city: <strong>${this.formData.extractedCity}</strong></p>
+                <p class="city-hint">💡 Not correct? Type a different city name</p>
+            `);
+
+            this.formData.city = this.formData.extractedCity;
+            this.state = 'complaint_city_confirm';
+            this.enableInput();
+
+            // Auto-proceed to location after a delay, or wait for user correction
+            setTimeout(() => {
+                if (this.state === 'complaint_city_confirm') {
+                    this.askForLocation();
+                }
+            }, 2000); // Give user 2 seconds to type correction
+
+            return;
+        }
+
+        // No city detected, ask for it
         this.addBotMessage(`
             <div class="city-selection">
                 <p><strong>Which city is this complaint for?</strong></p>
@@ -588,6 +720,26 @@ class NotfChatbot {
     }
 
     askForLocation() {
+        // If we already detected a location, pre-fill it
+        if (this.formData.extractedLocation) {
+            this.addBotMessage(`
+                <p>I detected the location: <strong>${this.formData.extractedLocation}</strong></p>
+                <p>Is this correct? Press Enter to confirm, or type the correct location in <strong>${this.formData.city}</strong>.</p>
+                <p class="city-hint">💡 You can also click "Use Map" or "Use My Location"</p>
+                <div class="location-options">
+                    <button class="btn-location-map" onclick="notfChatbot.openMapPicker()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
+                    <button class="btn-location-gps" onclick="notfChatbot.useGPS()">🧭 Use My Location</button>
+                    <button class="btn-confirm-detected" onclick="notfChatbot.confirmDetectedLocation()">✓ Confirm "${this.formData.extractedLocation}"</button>
+                </div>
+            `);
+
+            this.state = 'complaint_location';
+            this.enableInput();
+
+            return;
+        }
+
+        // No location detected, ask for it
         this.addBotMessage(`
             <p>Great! Now, please provide the location in <strong>${this.formData.city}</strong> where this issue is occurring.</p>
             <p>You can:</p>
@@ -604,6 +756,12 @@ class NotfChatbot {
 
         this.state = 'complaint_location';
         this.enableInput();
+    }
+
+    confirmDetectedLocation() {
+        // User clicked "Confirm" button for detected location
+        this.addUserMessage(`✓ ${this.formData.extractedLocation}`);
+        this.handleComplaintLocation(this.formData.extractedLocation);
     }
 
     async handleComplaintLocation(message) {
