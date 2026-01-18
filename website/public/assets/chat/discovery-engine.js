@@ -21,14 +21,16 @@ class DiscoveryEngine {
         const fuseOptions = {
             keys: [
                 { name: 'name', weight: 2.0 },              // Name is most important
-                { name: 'focus_areas', weight: 1.5 },       // Focus areas are very relevant
+                { name: 'themes', weight: 1.5 },            // Themes for communities
+                { name: 'focus_areas', weight: 1.5 },       // Focus areas (legacy/providers)
                 { name: 'domains', weight: 1.5 },           // Domains (for providers)
-                { name: 'location', weight: 1.0 },          // Location matching
+                { name: 'location', weight: 1.0 },          // Combined location (if available)
                 { name: 'city', weight: 1.0 },              // City matching
-                { name: 'neighborhood', weight: 0.8 },      // Neighborhood
+                { name: 'neighborhood', weight: 1.2 },      // Neighborhood (boosted)
+                { name: 'state', weight: 0.7 },             // State
                 { name: 'description', weight: 0.5 }        // Description (if available)
             ],
-            threshold: 0.4,                 // 0 = exact match, 1 = match anything
+            threshold: 0.5,                 // 0 = exact match, 1 = match anything (relaxed)
             distance: 100,                  // How far to search in the text
             includeScore: true,             // Include match score for sorting
             minMatchCharLength: 2,          // Minimum character length to match
@@ -90,8 +92,11 @@ class DiscoveryEngine {
                 resource.location,
                 resource.city,
                 resource.neighborhood,
-                ...(resource.focus_areas || []),
-                ...(resource.domains || [])
+                resource.state,
+                ...(resource.themes || []),           // Communities use 'themes'
+                ...(resource.focus_areas || []),       // Providers use 'focus_areas'
+                ...(resource.domains || []),
+                resource.description
             ].filter(Boolean).join(' ').toLowerCase();
 
             queryWords.forEach(word => {
@@ -166,8 +171,10 @@ class DiscoveryEngine {
 
     searchByTheme(theme) {
         return this.communities.filter(community => {
-            if (!community.focus_areas) return false;
-            return community.focus_areas.some(area =>
+            // Check both 'themes' (communities) and 'focus_areas' (providers)
+            const areas = community.themes || community.focus_areas || [];
+            if (areas.length === 0) return false;
+            return areas.some(area =>
                 area.toLowerCase().includes(theme.toLowerCase())
             );
         });
@@ -175,16 +182,23 @@ class DiscoveryEngine {
 
     searchByLocation(city, neighborhood) {
         return this.communities.filter(community => {
-            if (!community.location) return false;
-
-            const location = community.location.toLowerCase();
+            // Communities have separate city and neighborhood fields
+            const communityCity = (community.city || '').toLowerCase();
+            const communityNeighborhood = (community.neighborhood || '').toLowerCase();
+            const communityLocation = (community.location || '').toLowerCase(); // Fallback for providers
 
             if (neighborhood) {
-                return location.includes(neighborhood.toLowerCase()) &&
-                       location.includes(city.toLowerCase());
+                // Search for both city and neighborhood
+                const neighborhoodMatch = communityNeighborhood.includes(neighborhood.toLowerCase()) ||
+                                         communityLocation.includes(neighborhood.toLowerCase());
+                const cityMatch = communityCity.includes(city.toLowerCase()) ||
+                                communityLocation.includes(city.toLowerCase());
+                return neighborhoodMatch && cityMatch;
             }
 
-            return location.includes(city.toLowerCase());
+            // Search for city only
+            return communityCity.includes(city.toLowerCase()) ||
+                   communityLocation.includes(city.toLowerCase());
         });
     }
 
