@@ -287,7 +287,10 @@ function initMatcher(members) {
                 score += 0.15;
             } else if (typeof Fuse !== 'undefined') {
                 // Fuzzy city match (handles "Bengaluru" vs "Bangalore", typos)
-                const cityFuse = new Fuse([offer.city], { threshold: 0.3 });
+                const cityFuse = new Fuse([offer.city], {
+                    threshold: 0.5,  // More lenient for city name variations
+                    ignoreLocation: true
+                });
                 const cityMatch = cityFuse.search(ask.city);
                 if (cityMatch.length > 0) {
                     score += 0.10; // Partial credit for fuzzy city match
