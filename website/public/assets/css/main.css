@@ -25,15 +25,15 @@
     --color-pink-light: #FAC1A7;
     --color-pink-lighter: #FDDACD;
 
-    /* Brand-Based Gradient System */
-    --gradient-primary: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
-    --gradient-secondary: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
-    --gradient-accent: linear-gradient(135deg, #5BC0C3 0%, #8DD4D6 100%);
-    --gradient-success: linear-gradient(135deg, #3F9799 0%, #5BC0C3 100%);
-    --gradient-warm: linear-gradient(135deg, #F7A782 0%, #FDD96E 100%);
-    --gradient-cool: linear-gradient(135deg, #23A2A5 0%, #5BC0C3 100%);
-    --gradient-sunset: linear-gradient(135deg, #FBC831 0%, #F7A782 50%, #23A2A5 100%);
-    --gradient-ocean: linear-gradient(135deg, #0D7576 0%, #23A2A5 50%, #5BC0C3 100%);
+    /* Solid Color Replacements (no gradients) */
+    --gradient-primary: #23A2A5;
+    --gradient-secondary: #F7A782;
+    --gradient-accent: #5BC0C3;
+    --gradient-success: #3F9799;
+    --gradient-warm: #FBC831;
+    --gradient-cool: #23A2A5;
+    --gradient-sunset: #FBC831;
+    --gradient-ocean: #0D7576;
 
     /* Solid Colors from Gradients */
     --color-primary: #23A2A5;
@@ -186,15 +186,15 @@ h6 {
 
 /* Gradient Backgrounds */
 .bg-gradient-primary {
-    background: var(--gradient-primary);
+    background: var(--color-teal);
 }
 
 .bg-gradient-secondary {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
 }
 
 .bg-gradient-accent {
-    background: var(--gradient-accent);
+    background: var(--color-teal-light);
 }
 
 .bg-gradient-success {
@@ -211,21 +211,21 @@ h6 {
 
 /* Gradient Text */
 .text-gradient {
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .text-gradient-secondary {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .text-gradient-accent {
-    background: var(--gradient-accent);
+    background: var(--color-teal-light);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -330,7 +330,7 @@ nav {
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     padding: 3px;
     box-shadow: var(--shadow-md);
 }
@@ -338,7 +338,7 @@ nav {
 .nav-title {
     font-weight: 800;
     font-size: 1.5rem;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -404,7 +404,7 @@ nav {
     left: 50%;
     width: 0;
     height: 2px;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -418,43 +418,20 @@ nav {
 }
 
 .join-link {
-    background: var(--gradient-primary) !important;
+    background: var(--color-teal) !important;
     color: white !important;
     font-weight: 600 !important;
     box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
 }
 
 .join-link::after {
     display: none !important;
 }
 
-.join-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--gradient-secondary);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.join-link span,
-.join-link {
-    position: relative;
-    z-index: 1;
-}
-
 .join-link:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-glow-primary);
-}
-
-.join-link:hover::before {
-    opacity: 1;
+    background: var(--color-green) !important;
 }
 
 /* Mobile Responsive */
@@ -472,7 +449,7 @@ nav {
         left: -100%;
         top: 76px;
         flex-direction: column;
-        background: linear-gradient(135deg, var(--color-green) 0%, var(--color-teal) 100%);
+        background: var(--color-teal);
         width: 100%;
         text-align: center;
         transition: left 0.3s;
@@ -506,11 +483,9 @@ nav {
 }
 
 
-/* Hero Section - Animated Gradient */
+/* Hero Section - Solid Color */
 .hero {
-    background: linear-gradient(135deg, #FBC831 0%, #F7A782 30%, #23A2A5 70%, #0D7576 100%);
-    background-size: 200% 200%;
-    animation: gradient-shift 15s ease infinite;
+    background: #23A2A5;
     color: white;
     padding: 8rem 2rem;
     text-align: center;
@@ -606,7 +581,7 @@ nav {
 }
 
 .btn-primary {
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     color: white;
     box-shadow: var(--shadow-md);
 }
@@ -633,7 +608,7 @@ nav {
 .btn-primary-large {
     padding: 1.25rem 3rem;
     font-size: 1.125rem;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     color: white;
     box-shadow: var(--shadow-lg);
     font-weight: 700;
@@ -677,15 +652,15 @@ nav {
     left: 0;
     width: 100%;
     height: 4px;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
 }
 
 .stat-card:nth-child(2)::before {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
 }
 
 .stat-card:nth-child(3)::before {
-    background: var(--gradient-accent);
+    background: var(--color-teal-light);
 }
 
 .stat-card:hover {
@@ -696,7 +671,7 @@ nav {
 .stat-number {
     font-size: 4.5rem;
     font-weight: 800;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -705,14 +680,14 @@ nav {
 }
 
 .stat-card:nth-child(2) .stat-number {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 .stat-card:nth-child(3) .stat-number {
-    background: var(--gradient-accent);
+    background: var(--color-teal-light);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -786,15 +761,15 @@ nav {
     left: 0;
     width: 100%;
     height: 4px;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
 }
 
 .feature-card:nth-child(2)::before {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
 }
 
 .feature-card:nth-child(3)::before {
-    background: var(--gradient-accent);
+    background: var(--color-teal-light);
 }
 
 .feature-card:nth-child(4)::before {
@@ -867,7 +842,7 @@ nav {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(to right, var(--color-teal), var(--color-yellow));
+    background: var(--color-teal);
     transform: scaleX(0);
     transition: transform 0.3s;
 }
@@ -939,12 +914,10 @@ nav {
     line-height: 1.7;
 }
 
-/* CTA Section - Animated Gradient */
+/* CTA Section - Solid Color */
 .cta-section {
     padding: 6rem 0;
-    background: linear-gradient(135deg, #23A2A5 0%, #5BC0C3 30%, #F7A782 70%, #FBC831 100%);
-    background-size: 200% 200%;
-    animation: gradient-shift 15s ease infinite;
+    background: #23A2A5;
     color: white;
     text-align: center;
     position: relative;
@@ -1259,7 +1232,7 @@ article h4 {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(to right, var(--color-teal), var(--color-pink));
+    background: var(--color-teal);
     border-radius: 1rem 1rem 0 0;
 }
 
@@ -1949,7 +1922,7 @@ main {
 }
 
 .community-list-card.highlighted {
-    background: linear-gradient(to right, rgba(35, 162, 165, 0.1), white);
+    background: rgba(35, 162, 165, 0.05);
     border-left-color: var(--color-yellow);
     border-left-width: 5px;
 }
@@ -2034,7 +2007,7 @@ main {
 
 .stat-card.highlight {
     border-top-color: var(--color-yellow);
-    background: linear-gradient(135deg, rgba(251, 200, 49, 0.1) 0%, white 100%);
+    background: rgba(251, 200, 49, 0.05);
 }
 
 .stat-number {
@@ -2163,7 +2136,7 @@ main {
 }
 
 .match-header {
-    background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-green) 100%);
+    background: var(--color-teal);
     color: white;
     padding: 1rem 1.5rem;
     display: flex;
@@ -2271,7 +2244,7 @@ main {
 .connector-line {
     width: 2px;
     flex: 1;
-    background: linear-gradient(to bottom, var(--color-teal), var(--color-yellow));
+    background: var(--color-teal);
 }
 
 .connector-icon {
@@ -2313,7 +2286,7 @@ main {
 .btn-primary {
     display: inline-block;
     padding: 0.75rem 2rem;
-    background: linear-gradient(135deg, var(--color-teal) 0%, var(--color-green) 100%);
+    background: var(--color-teal);
     color: white;
     text-decoration: none;
     border-radius: 0.5rem;
@@ -2350,7 +2323,7 @@ main {
         width: auto;
         height: 2px;
         flex: 1;
-        background: linear-gradient(to right, var(--color-teal), var(--color-yellow));
+        background: var(--color-teal);
     }
     
     .connector-icon {
@@ -2448,7 +2421,7 @@ main {
 }
 
 .approval-process {
-    background: linear-gradient(135deg, rgba(35, 162, 165, 0.1) 0%, rgba(251, 200, 49, 0.1) 100%);
+    background: rgba(35, 162, 165, 0.05);
     padding: 2rem;
     border-radius: 0.75rem;
     margin-bottom: 3rem;
@@ -2579,7 +2552,7 @@ main {
 }
 
 .success-message {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(35, 162, 165, 0.1) 100%);
+    background: rgba(35, 162, 165, 0.05);
     padding: 2rem;
     border-radius: 0.75rem;
     border-left: 4px solid #22c55e;
@@ -2644,7 +2617,7 @@ main {
 }
 
 .icon-btn.primary {
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     color: white;
     box-shadow: 0 2px 8px rgba(35, 162, 165, 0.2);
 }
@@ -2655,7 +2628,7 @@ main {
 }
 
 .icon-btn.secondary {
-    background: var(--gradient-secondary);
+    background: var(--color-pink);
     color: white;
     box-shadow: 0 2px 8px rgba(247, 167, 130, 0.2);
 }
@@ -2756,7 +2729,7 @@ main {
     left: 0;
     width: 3px;
     height: 100%;
-    background: var(--gradient-primary);
+    background: var(--color-teal);
     transform: scaleY(0);
     transition: transform 0.3s ease;
 }

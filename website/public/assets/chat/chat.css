@@ -63,7 +63,7 @@
 
 /* Chat Header */
 .chat-header {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
     color: white;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
@@ -163,7 +163,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,7 +185,7 @@
 }
 
 .user-message .message-content {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     margin-left: auto;
 }
@@ -232,7 +232,7 @@
 }
 
 .intent-button:hover {
-    border-color: #14b8a6;
+    border-color: #23A2A5;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(20, 184, 166, 0.15);
 }
@@ -274,7 +274,7 @@
 }
 
 .mode-message em {
-    color: #14b8a6;
+    color: #23A2A5;
     font-style: italic;
 }
 
@@ -393,7 +393,7 @@
 }
 
 .btn-contact {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
 }
 
@@ -404,8 +404,8 @@
 
 .btn-learn-more {
     background: white;
-    color: #14b8a6;
-    border: 1px solid #14b8a6;
+    color: #23A2A5;
+    border: 1px solid #23A2A5;
 }
 
 .btn-learn-more:hover {
@@ -433,7 +433,7 @@
 
 .btn-location-map:hover,
 .btn-location-gps:hover {
-    border-color: #14b8a6;
+    border-color: #23A2A5;
     background: #f0fdfa;
 }
 
@@ -543,7 +543,7 @@
 }
 
 .btn-submit-complaint {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
 }
 
@@ -559,8 +559,8 @@
 }
 
 .btn-edit:hover {
-    border-color: #14b8a6;
-    color: #14b8a6;
+    border-color: #23A2A5;
+    color: #23A2A5;
 }
 
 /* Complaint Success */
@@ -609,7 +609,7 @@
 }
 
 .success-actions button:first-child {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     border: none;
 }
@@ -643,7 +643,7 @@
 
 .chat-input-field:focus {
     outline: none;
-    border-color: #14b8a6;
+    border-color: #23A2A5;
 }
 
 .chat-input-field:disabled {
@@ -653,7 +653,7 @@
 
 .chat-send-button {
     padding: 10px 16px;
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     border: none;
     border-radius: 8px;
@@ -1016,7 +1016,7 @@
 }
 
 .chat-tips i {
-    color: #3b82f6;
+    color: #23A2A5;
     margin-right: 4px;
 }
 
@@ -1046,7 +1046,7 @@
 }
 
 .map-modal-header {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
@@ -1106,7 +1106,7 @@
 }
 
 .btn-confirm-location {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
 }
 
@@ -1159,7 +1159,7 @@
     width: 100%;
     margin-top: 12px;
     padding: 10px 16px;
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     border: none;
     border-radius: 6px;
@@ -1206,7 +1206,7 @@
 .city-btn {
     padding: 10px 12px;
     background: white;
-    border: 2px solid #14b8a6;
+    border: 2px solid #23A2A5;
     border-radius: 6px;
     color: #047857;
     font-size: 14px;
@@ -1216,7 +1216,7 @@
 }
 
 .city-btn:hover {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
@@ -1235,7 +1235,7 @@
     margin-top: 8px;
     padding: 10px 16px;
     background: white;
-    border: 2px solid #14b8a6;
+    border: 2px solid #23A2A5;
     color: #047857;
     border-radius: 6px;
     font-size: 14px;
@@ -1245,7 +1245,7 @@
 }
 
 .btn-confirm-detected:hover {
-    background: linear-gradient(135deg, #14b8a6 0%, #22c55e 100%);
+    background: #23A2A5;
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
