@@ -382,7 +382,7 @@ class NotfChatbot {
         this.enableInput();
     }
 
-    sendMessage() {
+    async sendMessage() {
         const message = this.elements.inputField.value.trim();
 
         if (!message) return;
@@ -394,17 +394,17 @@ class NotfChatbot {
         this.elements.inputField.value = '';
 
         // Process message based on current mode and state
-        this.processMessage(message);
+        await this.processMessage(message);
 
         // Save session
         this.saveSession();
     }
 
-    processMessage(message) {
+    async processMessage(message) {
         if (this.mode === 'discovery') {
             this.processDiscoveryMessage(message);
         } else if (this.mode === 'complaint') {
-            this.processComplaintMessage(message);
+            await this.processComplaintMessage(message);
         }
     }
 
@@ -580,10 +580,10 @@ class NotfChatbot {
         }
     }
 
-    processComplaintMessage(message) {
+    async processComplaintMessage(message) {
         switch (this.state) {
             case 'complaint_description':
-                this.handleComplaintDescription(message);
+                await this.handleComplaintDescription(message);
                 break;
             case 'complaint_city':
                 this.handleComplaintCity(message);
@@ -608,7 +608,7 @@ class NotfChatbot {
         }
     }
 
-    handleComplaintDescription(message) {
+    async handleComplaintDescription(message) {
         if (message.length < 10) {
             this.addBotMessage('Please provide more details about the issue (at least 10 characters).');
             return;
