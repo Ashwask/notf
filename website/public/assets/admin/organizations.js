@@ -272,19 +272,45 @@ async function handleFormSubmit(e) {
                 throw new Error(data.error);
             }
         } else {
-            // Create new - still use direct DB insert for now
-            // TODO: Create Edge Function endpoint for new file creation
-            const { error } = await supabase
-                .from('file_metadata')
-                .insert({
+            // Create new using Edge Function (storage-first architecture)
+            console.log('Creating via Edge Function:', { file_path: filePath, updates: metadata });
+
+            // Get current session
+            const { data: { session } } = await supabase.auth.getSession();
+
+            // Call Edge Function to create YAML file
+            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
+            const headers = {
+                'Content-Type': 'application/json',
+                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
+            };
+
+            if (session) {
+                headers['Authorization'] = `Bearer ${session.access_token}`;
+            }
+
+            const response = await fetch(functionUrl, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
                     file_path: filePath,
                     file_type: 'solution-provider',
-                    slug: slug,
-                    status: status,
-                    metadata: metadata
-                });
+                    updates: metadata
+                })
+            });
 
-            if (error) throw error;
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Edge Function HTTP error:', response.status, errorText);
+                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+            console.log('Edge Function response:', data);
+
+            if (data?.error) {
+                throw new Error(data.error);
+            }
         }
 
         closeModal();
@@ -307,12 +333,45 @@ async function deleteOrganization(id, name) {
     const supabase = authUtils.supabase;
 
     try {
-        const { error} = await supabase
-            .from('file_metadata')
-            .delete()
-            .eq('id', id);
+        // Find the organization to get file_path
+        const organization = organizations.find(o => o.id === id);
+        if (!organization) {
+            throw new Error('Organization not found');
+        }
 
-        if (error) throw error;
+        // Get current session
+        const { data: { session } } = await supabase.auth.getSession();
+
+        // Call delete-file Edge Function
+        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/delete-file';
+        const headers = {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
+        };
+
+        if (session) {
+            headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+
+        const response = await fetch(functionUrl, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                file_path: organization.file_path,
+                file_type: 'solution-provider'
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Edge Function HTTP error:', response.status, errorText);
+            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        if (data?.error) {
+            throw new Error(data.error);
+        }
 
         await loadOrganizations();
         alert('✅ Organization deleted successfully!');
@@ -326,12 +385,46 @@ async function updateStatus(id, newStatus) {
     const supabase = authUtils.supabase;
 
     try {
-        const { error } = await supabase
-            .from('file_metadata')
-            .update({ status: newStatus })
-            .eq('id', id);
+        // Find the organization to get file_path
+        const organization = organizations.find(o => o.id === id);
+        if (!organization) {
+            throw new Error('Organization not found');
+        }
 
-        if (error) throw error;
+        // Get current session
+        const { data: { session } } = await supabase.auth.getSession();
+
+        // Call update-file Edge Function to update status in YAML
+        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
+        const headers = {
+            'Content-Type': 'application/json',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
+        };
+
+        if (session) {
+            headers['Authorization'] = `Bearer ${session.access_token}`;
+        }
+
+        const response = await fetch(functionUrl, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                file_path: organization.file_path,
+                file_type: 'solution-provider',
+                updates: { status: newStatus }
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Edge Function HTTP error:', response.status, errorText);
+            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        if (data?.error) {
+            throw new Error(data.error);
+        }
 
         await loadOrganizations();
     } catch (error) {

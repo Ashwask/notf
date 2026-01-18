@@ -1,0 +1,122 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
+interface DeleteFileRequest {
+  file_path: string
+  file_type: 'community' | 'solution-provider'
+}
+
+serve(async (req) => {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
+  // Health check endpoint
+  if (req.method === 'GET') {
+    return new Response(
+      JSON.stringify({
+        status: 'ok',
+        version: '1.0',
+        timestamp: new Date().toISOString()
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
+      }
+    )
+  }
+
+  try {
+    // Create Supabase client with service role for admin operations
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    )
+
+    // Get the authorization header for user tracking
+    const authHeader = req.headers.get('Authorization')
+    console.log('Authorization header:', authHeader ? 'present' : 'missing')
+
+    // Try to get authenticated user (optional for now)
+    let user = null
+    if (authHeader) {
+      try {
+        const token = authHeader.replace('Bearer ', '')
+        const { data: { user: authUser }, error: authError } = await supabaseClient.auth.getUser(token)
+        if (!authError && authUser) {
+          user = authUser
+          console.log(`Authenticated user: ${user.email}`)
+        }
+      } catch (authErr) {
+        console.log('Auth check error:', authErr)
+      }
+    }
+
+    // Parse request body
+    const { file_path, file_type }: DeleteFileRequest = await req.json()
+
+    console.log(`Deleting file: ${file_path}`)
+
+    // Delete file from Storage
+    const { error: deleteError } = await supabaseClient
+      .storage
+      .from('notf')
+      .remove([file_path])
+
+    if (deleteError) {
+      console.error('Storage delete error:', deleteError)
+      // Don't throw - continue to delete DB record even if file doesn't exist
+    } else {
+      console.log(`File deleted from storage: ${file_path}`)
+    }
+
+    // Delete from database
+    const { error: dbError } = await supabaseClient
+      .from('file_metadata')
+      .delete()
+      .eq('file_path', file_path)
+
+    if (dbError) {
+      throw new Error(`Failed to delete database record: ${dbError.message}`)
+    }
+
+    console.log(`Database record deleted for ${file_path}`)
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        file_path,
+        message: 'File and database record deleted successfully'
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200
+      }
+    )
+
+  } catch (error) {
+    console.error('Error deleting file:', error)
+
+    return new Response(
+      JSON.stringify({
+        error: error.message || 'Unknown error occurred'
+      }),
+      {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 500
+      }
+    )
+  }
+})
