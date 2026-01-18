@@ -6,9 +6,62 @@
 
 class ComplaintEngine {
     constructor() {
-        this.categories = this.loadCategories();
+        this.categories = this.loadCategories(); // Fallback categories
         this.boundaryValidator = null; // Lazy load
         this.supportedCities = this.loadSupportedCities();
+        this.categoriesLoaded = false;
+        this.apiBaseUrl = 'https://notf-cms.vercel.app/api';
+
+        // Fetch categories from API in background
+        this.initializeCategories();
+    }
+
+    /**
+     * Initialize categories from API (async)
+     * Falls back to hardcoded categories if API fails
+     */
+    async initializeCategories() {
+        try {
+            const categories = await this.fetchCategoriesFromAPI();
+            if (categories && categories.length > 0) {
+                this.categories = categories;
+                this.categoriesLoaded = true;
+                console.log('[ComplaintEngine] Loaded', categories.length, 'categories from API');
+            }
+        } catch (error) {
+            console.warn('[ComplaintEngine] Failed to load categories from API, using fallback:', error.message);
+            // Already using fallback from constructor
+        }
+    }
+
+    /**
+     * Fetch categories from API
+     * @returns {Promise<Array>} - Array of category objects
+     */
+    async fetchCategoriesFromAPI() {
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/categories`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.success && result.categories) {
+                return result.categories;
+            }
+
+            throw new Error('Invalid API response format');
+        } catch (error) {
+            console.error('[ComplaintEngine] API fetch error:', error);
+            throw error;
+        }
     }
 
     /**

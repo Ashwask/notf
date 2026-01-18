@@ -746,3 +746,192 @@ fetch('https://notf-cms.vercel.app/api/submit-complaint', {
 **Total Code Changes:** ~20 lines in `/api/submit-complaint.js`
 
 The API is **production-ready** and requires minimal modifications to support the NOTF chatbot!
+
+---
+
+## Categories API Endpoint
+
+**Added:** 2026-01-18
+
+### Endpoint: GET /api/categories
+
+**URL:** `https://notf-cms.vercel.app/api/categories`
+**Method:** `GET`
+**Authentication:** None (public endpoint)
+**Purpose:** Fetch all issue categories from database for dynamic chatbot initialization
+
+---
+
+### Response Format
+
+**Success Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "categories": [
+    {
+      "id": "streetlight_not_working",
+      "uuid": "e8f47a9c-1234-5678-90ab-cdef12345678",
+      "name": "Street Light Not Working",
+      "department": "Electrical",
+      "departmentCode": "electrical",
+      "keywords": ["streetlight", "street light", "light not working", "lamp", "dark street", "no light"]
+    },
+    {
+      "id": "garbage_not_collected",
+      "uuid": "a1b2c3d4-5678-90ab-cdef-123456789abc",
+      "name": "Garbage Not Collected",
+      "department": "SWM",
+      "departmentCode": "swm",
+      "keywords": ["garbage", "waste", "not collected", "rubbish", "trash", "no pickup"]
+    }
+    // ... more categories
+  ],
+  "count": 29,
+  "cached_at": "2026-01-18T10:30:00.000Z"
+}
+```
+
+### Field Descriptions
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Category code (used as ID for API calls) |
+| `uuid` | string | Database UUID (actual primary key) |
+| `name` | string | Display name of the category |
+| `department` | string | Department name (e.g., "Electrical", "SWM") |
+| `departmentCode` | string | Department code (e.g., "electrical", "swm") |
+| `keywords` | array | Keywords for ML-based categorization |
+
+### Error Responses
+
+**500 Internal Server Error:**
+```json
+{
+  "error": "Internal server error. Please try again later.",
+  "details": "Detailed error message"
+}
+```
+
+---
+
+### Usage in Chatbot
+
+**JavaScript Fetch Example:**
+
+```javascript
+// In complaint-engine.js
+async fetchCategoriesFromAPI() {
+    try {
+        const response = await fetch('https://notf-cms.vercel.app/api/categories', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success && result.categories) {
+            return result.categories;
+        }
+
+        throw new Error('Invalid API response format');
+    } catch (error) {
+        console.error('API fetch error:', error);
+        // Fall back to hardcoded categories
+        return this.loadCategories();
+    }
+}
+```
+
+**Integration Pattern:**
+
+1. Chatbot initializes with hardcoded categories (instant load)
+2. Async API call fetches latest categories from database
+3. Categories updated in background when API responds
+4. Falls back to hardcoded if API fails
+5. User sees categories immediately, gets latest data when available
+
+**Benefits:**
+- ✅ Categories stay in sync with database
+- ✅ No code deployment needed to add/update categories
+- ✅ Instant fallback if API is down
+- ✅ Single source of truth (database)
+- ✅ Supports dynamic category changes
+
+---
+
+### CORS Configuration
+
+Same as submit-complaint endpoint:
+
+```javascript
+const allowedOrigins = [
+    'https://notf.vercel.app',
+    'https://notf-one.vercel.app',
+    'https://notf-cms.vercel.app',
+    'http://localhost:8080',
+    'http://127.0.0.1:8080'
+];
+```
+
+---
+
+### Testing
+
+**Using cURL:**
+
+```bash
+curl -X GET https://notf-cms.vercel.app/api/categories \
+  -H "Content-Type: application/json" \
+  -H "Origin: https://notf.vercel.app"
+```
+
+**Using JavaScript (Browser Console):**
+
+```javascript
+fetch('https://notf-cms.vercel.app/api/categories')
+  .then(r => r.json())
+  .then(data => {
+    console.log('Categories:', data.categories.length);
+    console.log('First category:', data.categories[0]);
+  });
+```
+
+---
+
+### Implementation File
+
+**File:** `/Users/sathya/Documents/GitHub/notf-cms/api/categories.js`
+
+**Database Query:**
+
+```javascript
+const { data: categories } = await supabase
+    .from('issue_categories')
+    .select(`
+        id,
+        code,
+        name,
+        keywords,
+        department:departments(
+            id,
+            code,
+            name
+        )
+    `)
+    .order('name');
+```
+
+**Performance:**
+- Query time: ~50-100ms
+- Response size: ~5-10KB (29 categories)
+- Cacheable: Yes (can add Cache-Control headers)
+
+---
