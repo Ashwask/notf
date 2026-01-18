@@ -487,6 +487,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/chat/chat.css">
 </head>
 <body>
     <header>
@@ -607,6 +608,37 @@
                 </div>
             </div>
         </div>
+    
+            <!-- Chatbot Widget -->
+            <div id="notf-chatbot">
+                <div class="chat-header">
+                    <div class="chat-header-title">
+                        <span>🤖</span>
+                        <span>NOTF Assistant</span>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="chat-minimize-button" aria-label="Minimize chat">−</button>
+                        <button class="chat-close-button" aria-label="Close chat">✕</button>
+                    </div>
+                </div>
+
+                <div class="chat-messages">
+
+                </div>
+
+                <div class="chat-input">
+                    <textarea
+                        class="chat-input-field"
+                        placeholder="Type your message..."
+                        rows="1"
+                        aria-label="Chat message input"
+                    ></textarea>
+                    <button class="chat-send-button" aria-label="Send message">
+                        Send
+                    </button>
+                </div>
+            </div>
+
     </main>
 
     <footer>
@@ -921,5 +953,12 @@
             }
         });
     </script>
+
+    <!-- Chatbot Scripts -->
+    <script src="/assets/chat/discovery-engine.js"></script>
+    <script src="/assets/chat/complaint-engine.js"></script>
+    <script src="/assets/chat/boundary-validator.js"></script>
+    <script src="/assets/chat/unified-chatbot.js"></script>
+
 </body>
 </html>
