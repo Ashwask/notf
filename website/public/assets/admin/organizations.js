@@ -233,38 +233,20 @@ async function handleFormSubmit(e) {
             // Update existing using Edge Function (storage-first architecture)
             console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get user session for authorization
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                throw new Error('You must be logged in to perform this action');
-            }
-
-            // Call Edge Function with user authorization
-            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.access_token}`,
-                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-            };
-
-            const response = await fetch(functionUrl, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
+            // Call Edge Function using Supabase client (handles auth automatically)
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
                     file_path: filePath,
                     file_type: 'solution-provider',
                     updates: metadata
-                })
+                }
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Edge Function HTTP error:', response.status, errorText);
-                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
             console.log('Edge Function response:', data);
+
+            if (error) {
+                throw new Error(error.message || 'Edge Function failed');
+            }
 
             if (data?.error) {
                 throw new Error(data.error);
@@ -273,38 +255,20 @@ async function handleFormSubmit(e) {
             // Create new using Edge Function (storage-first architecture)
             console.log('Creating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get user session for authorization
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                throw new Error('You must be logged in to perform this action');
-            }
-
-            // Call Edge Function to create YAML file
-            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.access_token}`,
-                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-            };
-
-            const response = await fetch(functionUrl, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
+            // Call Edge Function using Supabase client (handles auth automatically)
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
                     file_path: filePath,
                     file_type: 'solution-provider',
                     updates: metadata
-                })
+                }
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Edge Function HTTP error:', response.status, errorText);
-                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
             console.log('Edge Function response:', data);
+
+            if (error) {
+                throw new Error(error.message || 'Edge Function failed');
+            }
 
             if (data?.error) {
                 throw new Error(data.error);
@@ -337,36 +301,18 @@ async function deleteOrganization(id, name) {
             throw new Error('Organization not found');
         }
 
-        // Get user session for authorization
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            throw new Error('You must be logged in to perform this action');
-        }
-
-        // Call delete-file Edge Function
-        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/delete-file';
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-        };
-
-        const response = await fetch(functionUrl, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
+        // Call delete-file Edge Function using Supabase client (handles auth automatically)
+        const { data, error } = await supabase.functions.invoke('delete-file', {
+            body: {
                 file_path: organization.file_path,
                 file_type: 'solution-provider'
-            })
+            }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Edge Function HTTP error:', response.status, errorText);
-            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        if (error) {
+            throw new Error(error.message || 'Delete failed');
         }
 
-        const data = await response.json();
         if (data?.error) {
             throw new Error(data.error);
         }
@@ -389,37 +335,19 @@ async function updateStatus(id, newStatus) {
             throw new Error('Organization not found');
         }
 
-        // Get user session for authorization
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            throw new Error('You must be logged in to perform this action');
-        }
-
-        // Call update-file Edge Function to update status in YAML
-        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-        };
-
-        const response = await fetch(functionUrl, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
+        // Call update-file Edge Function using Supabase client (handles auth automatically)
+        const { data, error } = await supabase.functions.invoke('update-file', {
+            body: {
                 file_path: organization.file_path,
                 file_type: 'solution-provider',
                 updates: { status: newStatus }
-            })
+            }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Edge Function HTTP error:', response.status, errorText);
-            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        if (error) {
+            throw new Error(error.message || 'Status update failed');
         }
 
-        const data = await response.json();
         if (data?.error) {
             throw new Error(data.error);
         }
