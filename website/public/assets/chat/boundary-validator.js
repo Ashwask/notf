@@ -119,8 +119,8 @@ class BoundaryValidator {
                 corporation_code: corporation.code,
                 corporation_id: corporation.id,
                 corporation_name: corporation.name,
-                ward: ward.wardName,
-                wardNumber: ward.wardNumber,
+                ward: ward.wardName ? String(ward.wardName).trim() : null,
+                wardNumber: ward.wardNumber ? String(ward.wardNumber).trim() : null,
                 coordinates: { latitude: lat, longitude: lng },
                 metadata: {
                     auto_tagged: true,
@@ -220,8 +220,8 @@ class BoundaryValidator {
                 corporation_code: cityCode,
                 corporation_id: null, // Single corporation per city
                 corporation_name: `${cityInfo.name} Municipal Corporation`,
-                ward: ward.wardName,
-                wardNumber: ward.wardNumber,
+                ward: ward.wardName ? String(ward.wardName).trim() : null,
+                wardNumber: ward.wardNumber ? String(ward.wardNumber).trim() : null,
                 state: cityInfo.state,
                 coordinates: { latitude: lat, longitude: lng },
                 metadata: {

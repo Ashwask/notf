@@ -155,14 +155,15 @@ class NotfCmsApi {
         }
 
         // Contact - only add if they have values (not null/undefined/empty)
+        // Note: API expects citizen_phone, citizen_email, citizen_name
         if (complaint.contact.phone) {
-            formatted.phone = complaint.contact.phone;
+            formatted.citizen_phone = complaint.contact.phone;
         }
         if (complaint.contact.email) {
-            formatted.email = complaint.contact.email;
+            formatted.citizen_email = complaint.contact.email;
         }
         if (complaint.contact.name) {
-            formatted.name = complaint.contact.name;
+            formatted.citizen_name = complaint.contact.name;
         }
 
         // Photo (base64 or file)
