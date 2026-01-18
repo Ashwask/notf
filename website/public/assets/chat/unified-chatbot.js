@@ -128,7 +128,11 @@ class NotfChatbot {
             document.querySelectorAll('.intent-button').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const intent = e.currentTarget.dataset.intent;
-                    this.selectIntent(intent);
+                    // Don't await - let it run in background to avoid blocking click handler
+                    this.selectIntent(intent).catch(err => {
+                        console.error('Intent selection error:', err);
+                        this.addBotMessage('Sorry, something went wrong. Please try again.');
+                    });
                 });
             });
         }, 100);
@@ -137,20 +141,22 @@ class NotfChatbot {
     async selectIntent(intent) {
         this.mode = intent;
 
-        // Update header title
+        // Update header title immediately (non-blocking)
         this.updateHeaderTitle(intent);
 
-        // Show mode switch button
+        // Show mode switch button immediately
         this.elements.switchModeButton?.classList.remove('hidden');
 
-        // Add user's choice to conversation
+        // Add user's choice to conversation immediately
         const choiceText = intent === 'discovery' ? 'Find Communities & Resources' : 'File a Complaint';
         this.addUserMessage(choiceText);
 
-        // Initialize appropriate engine
+        // Initialize appropriate engine (async, but UI already updated)
         if (intent === 'discovery') {
+            // This will show loading state and wait for data asynchronously
             await this.initializeDiscoveryMode();
         } else {
+            // Complaint mode is immediate, no data loading required
             this.initializeComplaintMode();
         }
 
