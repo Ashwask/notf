@@ -128,9 +128,8 @@ class NotfCmsApi {
     formatForApi(complaint) {
         const formatted = {
             description: complaint.description,
-            // TODO: Map category codes to UUIDs - for now send null
-            // complaint.category_id is a code like 'garbage_not_collected' but API needs UUID
-            category_id: null,
+            // Send category code - API will convert to UUID automatically
+            category_id: complaint.category_id || null,
 
             // Location
             address: complaint.location.address,
