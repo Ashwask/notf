@@ -249,9 +249,22 @@ class NotfChatbot {
     displayDiscoveryResults(results) {
         this.currentSearchResults = results; // Store for modal access
 
+        // Determine what types of results we have
+        const hasCommunities = results.some(r => r.resourceType === 'community');
+        const hasProviders = results.some(r => r.resourceType === 'provider');
+
+        let resultTypeText = '';
+        if (hasCommunities && hasProviders) {
+            resultTypeText = ' (communities and providers)';
+        } else if (hasCommunities) {
+            resultTypeText = ' (communities)';
+        } else if (hasProviders) {
+            resultTypeText = ' (providers)';
+        }
+
         const resultsHtml = `
             <div class="discovery-results">
-                <p>I found <strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} for you:</p>
+                <p>I found <strong>${results.length}</strong> result${results.length === 1 ? '' : 's'}${resultTypeText} for you:</p>
                 ${results.map((result, index) => this.renderResourceCard(result, index)).join('')}
             </div>
         `;

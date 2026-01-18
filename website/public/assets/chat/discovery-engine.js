@@ -61,7 +61,15 @@ class DiscoveryEngine {
     }
 
     search(query) {
-        const queryWords = query.toLowerCase().split(/\s+/);
+        const queryLower = query.toLowerCase();
+
+        // Detect if user is asking for specific resource type
+        const requestedType = this.detectResourceType(queryLower);
+
+        // Remove resource type keywords from query for better matching
+        const cleanQuery = this.cleanQuery(queryLower);
+        const queryWords = cleanQuery.split(/\s+/).filter(w => w.length > 0);
+
         const matchScores = new Map();
 
         queryWords.forEach(word => {
@@ -82,15 +90,69 @@ class DiscoveryEngine {
         });
 
         // Sort by score
-        const results = Array.from(matchScores.entries())
+        let results = Array.from(matchScores.entries())
             .sort((a, b) => b[1] - a[1])
-            .slice(0, 10)
             .map(([idx, score]) => ({
                 ...this.allResources[idx],
                 matchScore: score
             }));
 
-        return results;
+        // Filter by requested resource type if specified
+        if (requestedType === 'community') {
+            results = results.filter(r => r.resourceType === 'community');
+        } else if (requestedType === 'provider') {
+            results = results.filter(r => r.resourceType === 'provider');
+        }
+
+        // Return top 10 results
+        return results.slice(0, 10);
+    }
+
+    detectResourceType(query) {
+        // Keywords that indicate user wants communities
+        const communityKeywords = [
+            'community', 'communities', 'neighbourhood', 'neighborhood',
+            'resident', 'residents', 'rwa', 'local group', 'civic group'
+        ];
+
+        // Keywords that indicate user wants providers
+        const providerKeywords = [
+            'provider', 'providers', 'organization', 'organizations',
+            'ngo', 'ngos', 'company', 'companies', 'service', 'services',
+            'solution provider', 'vendor', 'agency'
+        ];
+
+        // Check for community keywords
+        if (communityKeywords.some(keyword => query.includes(keyword))) {
+            return 'community';
+        }
+
+        // Check for provider keywords
+        if (providerKeywords.some(keyword => query.includes(keyword))) {
+            return 'provider';
+        }
+
+        // No specific type requested - search both
+        return null;
+    }
+
+    cleanQuery(query) {
+        // Remove resource type keywords and common words to improve matching
+        const stopWords = [
+            'community', 'communities', 'provider', 'providers',
+            'organization', 'organizations', 'find', 'search',
+            'looking for', 'show me', 'in', 'at', 'near',
+            'the', 'a', 'an'
+        ];
+
+        let cleaned = query;
+        stopWords.forEach(word => {
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            cleaned = cleaned.replace(regex, ' ');
+        });
+
+        // Clean up multiple spaces
+        return cleaned.replace(/\s+/g, ' ').trim();
     }
 
     searchByTheme(theme) {
