@@ -461,21 +461,12 @@ async function handleFormSubmit(e) {
             // Update existing using Edge Function (storage-first architecture)
             console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get current session
-            const { data: { session } } = await supabase.auth.getSession();
-            console.log('Session status:', session ? 'active' : 'none');
-
-            // Call Edge Function directly with fetch for better control
+            // Call Edge Function (uses service role internally, no user auth needed)
             const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
             const headers = {
                 'Content-Type': 'application/json',
                 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
             };
-
-            // Add auth token if session exists
-            if (session) {
-                headers['Authorization'] = `Bearer ${session.access_token}`;
-            }
 
             const response = await fetch(functionUrl, {
                 method: 'POST',
@@ -504,19 +495,12 @@ async function handleFormSubmit(e) {
             // Create new using Edge Function (storage-first architecture)
             console.log('Creating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get current session
-            const { data: { session } } = await supabase.auth.getSession();
-
-            // Call Edge Function to create markdown file
+            // Call Edge Function to create markdown file (uses service role internally)
             const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
             const headers = {
                 'Content-Type': 'application/json',
                 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
             };
-
-            if (session) {
-                headers['Authorization'] = `Bearer ${session.access_token}`;
-            }
 
             const response = await fetch(functionUrl, {
                 method: 'POST',
@@ -569,19 +553,12 @@ async function deleteCommunity(id, name) {
             throw new Error('Community not found');
         }
 
-        // Get current session
-        const { data: { session } } = await supabase.auth.getSession();
-
-        // Call delete-file Edge Function
+        // Call delete-file Edge Function (uses service role internally)
         const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/delete-file';
         const headers = {
             'Content-Type': 'application/json',
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
         };
-
-        if (session) {
-            headers['Authorization'] = `Bearer ${session.access_token}`;
-        }
 
         const response = await fetch(functionUrl, {
             method: 'POST',
@@ -620,19 +597,12 @@ async function updateStatus(id, newStatus) {
             throw new Error('Community not found');
         }
 
-        // Get current session
-        const { data: { session } } = await supabase.auth.getSession();
-
-        // Call update-file Edge Function to update status in frontmatter
+        // Call update-file Edge Function to update status in frontmatter (uses service role internally)
         const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
         const headers = {
             'Content-Type': 'application/json',
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
         };
-
-        if (session) {
-            headers['Authorization'] = `Bearer ${session.access_token}`;
-        }
 
         const response = await fetch(functionUrl, {
             method: 'POST',
