@@ -180,23 +180,41 @@ function matchNeighborhoodToWard(neighborhood) {
 }
 
 function setupEventListeners() {
-    // Search
+    // Search with Fuse.js fuzzy matching
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const filtered = communities.filter(comm => {
-                const name = (comm.metadata?.name || '').toLowerCase();
-                const city = (comm.metadata?.city || comm.city || '').toLowerCase();
-                const themes = (comm.metadata?.themes || []).join(' ').toLowerCase();
-                const neighborhoods = (comm.metadata?.neighborhoods || []).join(' ').toLowerCase();
-                const wards = (comm.metadata?.wards || []).join(' ').toLowerCase();
-                return name.includes(searchTerm) ||
-                       city.includes(searchTerm) ||
-                       themes.includes(searchTerm) ||
-                       neighborhoods.includes(searchTerm) ||
-                       wards.includes(searchTerm);
-            });
+            const searchTerm = e.target.value.trim();
+
+            if (!searchTerm) {
+                // Show all communities if search is empty
+                renderCommunities(communities);
+                return;
+            }
+
+            // Configure Fuse.js for admin search
+            const fuseOptions = {
+                keys: [
+                    { name: 'metadata.name', weight: 2.0 },              // Name highest priority
+                    { name: 'metadata.neighborhoods', weight: 1.5 },     // Neighborhoods
+                    { name: 'metadata.wards', weight: 1.5 },             // Wards
+                    { name: 'metadata.city', weight: 1.2 },              // City
+                    { name: 'city', weight: 1.2 },                       // City (fallback field)
+                    { name: 'metadata.themes', weight: 1.0 },            // Themes
+                    { name: 'metadata.state', weight: 0.8 },             // State
+                    { name: 'slug', weight: 0.5 }                        // Slug lowest priority
+                ],
+                threshold: 0.4,                 // Fuzzy matching tolerance
+                includeScore: true,             // Include relevance scores
+                ignoreLocation: true,           // Search entire string
+                shouldSort: true,               // Sort by relevance
+                minMatchCharLength: 2           // Minimum characters to match
+            };
+
+            const fuse = new Fuse(communities, fuseOptions);
+            const fuseResults = fuse.search(searchTerm);
+            const filtered = fuseResults.map(result => result.item);
+
             renderCommunities(filtered);
         });
     }

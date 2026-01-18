@@ -113,15 +113,37 @@ function renderOrganizations(orgs) {
 }
 
 function setupEventListeners() {
-    // Search
+    // Search with Fuse.js fuzzy matching
     document.getElementById('searchInput').addEventListener('input', function(e) {
-        const searchTerm = e.target.value.toLowerCase();
-        const filtered = organizations.filter(org => {
-            const name = (org.metadata?.name || '').toLowerCase();
-            const theme = (org.metadata?.theme || '').toLowerCase();
-            const location = (org.metadata?.location || '').toLowerCase();
-            return name.includes(searchTerm) || theme.includes(searchTerm) || location.includes(searchTerm);
-        });
+        const searchTerm = e.target.value.trim();
+
+        if (!searchTerm) {
+            // Show all organizations if search is empty
+            renderOrganizations(organizations);
+            return;
+        }
+
+        // Configure Fuse.js for admin search
+        const fuseOptions = {
+            keys: [
+                { name: 'metadata.name', weight: 2.0 },              // Name highest priority
+                { name: 'metadata.theme', weight: 1.5 },             // Theme
+                { name: 'metadata.location', weight: 1.2 },          // Location
+                { name: 'metadata.city', weight: 1.0 },              // City
+                { name: 'metadata.domains', weight: 1.0 },           // Domains
+                { name: 'slug', weight: 0.5 }                        // Slug lowest priority
+            ],
+            threshold: 0.4,                 // Fuzzy matching tolerance
+            includeScore: true,             // Include relevance scores
+            ignoreLocation: true,           // Search entire string
+            shouldSort: true,               // Sort by relevance
+            minMatchCharLength: 2           // Minimum characters to match
+        };
+
+        const fuse = new Fuse(organizations, fuseOptions);
+        const fuseResults = fuse.search(searchTerm);
+        const filtered = fuseResults.map(result => result.item);
+
         renderOrganizations(filtered);
     });
 
