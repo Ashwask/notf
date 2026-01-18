@@ -1,291 +1,318 @@
 /**
  * Boundary Validator
- * Strict boundary validation - rejects complaints outside known boundaries
- * Uses point-in-polygon algorithm with city/corporation boundaries
+ * Ward-level boundary validation for 12 cities using GeoJSON boundaries
+ * Auto-tags corporation and ward for complaint routing
  */
 
 class BoundaryValidator {
     constructor() {
-        this.bengaluruBoundaries = null;
-        this.cityBoundaries = new Map();
-        this.loadingPromises = new Map();
+        this.boundaryLoader = null; // Will be initialized when needed
+        this.bengaluruCorporations = null;
 
-        // Supported cities
-        this.supportedCities = [
-            { code: 'ahmedabad', name: 'Ahmedabad', file: 'ahmedabad-wards.geojson' },
-            { code: 'bhubaneswar', name: 'Bhubaneswar', file: 'bhubaneshwar-wards.geojson' },
-            { code: 'chennai', name: 'Chennai', file: 'chennai-wards.geojson' },
-            { code: 'gurugram', name: 'Gurugram', file: 'gurugram-wards.geojson' },
-            { code: 'hyderabad', name: 'Hyderabad', file: 'hyderabad-wards.geojson' },
-            { code: 'jaipur', name: 'Jaipur', file: 'jaipur-wards.geojson' },
-            { code: 'kolkata', name: 'Kolkata', file: 'kolkata-wards.geojson' },
-            { code: 'mumbai', name: 'Mumbai', file: 'mumbai-wards.geojson' },
-            { code: 'pune', name: 'Pune', file: 'pune-wards.geojson' },
-            { code: 'thane', name: 'Thane', file: 'thane-wards.geojson' },
-            { code: 'visakhapatnam', name: 'Visakhapatnam', file: 'vizag-wards.geojson' }
-        ];
+        // Bengaluru corporation mapping (ward number to corporation)
+        // This maps ward numbers to their corporation codes
+        this.bengaluruCorporationMap = this.loadBengaluruCorporationMap();
     }
 
+    /**
+     * Initialize BoundaryLoader (lazy loading)
+     */
+    getBoundaryLoader() {
+        if (!this.boundaryLoader) {
+            if (typeof BoundaryLoader === 'undefined') {
+                throw new Error('BoundaryLoader not loaded. Include boundary-loader.js before boundary-validator.js');
+            }
+            this.boundaryLoader = new BoundaryLoader();
+        }
+        return this.boundaryLoader;
+    }
+
+    /**
+     * Load Bengaluru corporation mapping (ward → corporation)
+     * Based on BBMP structure: North, South, East, West, Central
+     */
+    loadBengaluruCorporationMap() {
+        // This is a simplified mapping - in production, load from database or config
+        // Ward numbers 1-369 mapped to 5 corporations
+        const map = {};
+
+        // Note: Actual ward-to-corporation mapping would come from the database
+        // For now, we'll derive it from the ward boundary properties
+
+        return map;
+    }
+
+    /**
+     * Validate location and determine corporation/ward
+     * Returns: { valid, city, corporation_code, corporation_id, ward, ... }
+     */
     async validateLocation(lat, lng, userProvidedCity) {
-        // Check if it's Bengaluru first (most detailed - 5 corporations)
-        if (this.isProbablyBengaluru(lat, lng, userProvidedCity)) {
+        const loader = this.getBoundaryLoader();
+
+        // Normalize city name
+        const cityCode = userProvidedCity ? loader.normalizeCity(userProvidedCity) : null;
+
+        // Special handling for Bengaluru (has 5 corporations)
+        if (cityCode === 'bengaluru' || this.isProbablyBengaluru(lat, lng, userProvidedCity)) {
             return await this.validateBengaluruLocation(lat, lng);
         }
 
-        // Check other 11 cities
-        return await this.validateOtherCityLocation(lat, lng, userProvidedCity);
+        // For other cities
+        if (cityCode) {
+            return await this.validateCityLocation(lat, lng, cityCode);
+        }
+
+        // Try to detect city from coordinates (expensive - tries all cities)
+        return await this.detectCityFromCoordinates(lat, lng);
     }
 
+    /**
+     * Check if location is probably in Bengaluru (quick bounding box check)
+     */
     isProbablyBengaluru(lat, lng, userProvidedCity) {
-        // Rough bounding box for Bengaluru
-        const bengaluruBox = {
+        // Rough bounding box for Greater Bengaluru
+        const bbox = {
             minLat: 12.7342,
             maxLat: 13.1736,
             minLng: 77.3766,
             maxLng: 77.8826
         };
 
-        const inBBox = lat >= bengaluruBox.minLat && lat <= bengaluruBox.maxLat &&
-                       lng >= bengaluruBox.minLng && lng <= bengaluruBox.maxLng;
+        const inBox = lat >= bbox.minLat && lat <= bbox.maxLat &&
+                      lng >= bbox.minLng && lng <= bbox.maxLng;
 
         const cityMatch = userProvidedCity?.toLowerCase().includes('bengaluru') ||
                          userProvidedCity?.toLowerCase().includes('bangalore');
 
-        return inBBox || cityMatch;
+        return inBox || cityMatch;
     }
 
+    /**
+     * Validate Bengaluru location with corporation detection
+     */
     async validateBengaluruLocation(lat, lng) {
-        // Load Bengaluru boundaries if not loaded
-        if (!this.bengaluruBoundaries) {
-            try {
-                const response = await fetch('/assets/data/bengaluru-corporations.geojson');
-                if (!response.ok) throw new Error('Failed to load boundaries');
-                this.bengaluruBoundaries = await response.json();
-            } catch (error) {
-                console.error('Failed to load Bengaluru boundaries:', error);
+        const loader = this.getBoundaryLoader();
+
+        try {
+            // Load Bengaluru ward boundaries
+            const boundaryData = await loader.loadBoundary('bengaluru');
+
+            // Find which ward this location is in
+            const ward = loader.findWard('bengaluru', lat, lng);
+
+            if (!ward) {
                 return {
                     valid: false,
-                    error: 'boundary_loading_failed',
-                    message: 'Unable to load boundary data. Please try again or select your corporation manually.'
+                    error: 'location_outside_bengaluru',
+                    message: 'This location is outside Bengaluru municipal boundaries. Please verify the address.',
+                    suggested_action: 'try_different_address',
+                    coordinates: { latitude: lat, longitude: lng }
                 };
             }
+
+            // Determine corporation from ward properties
+            const corporation = this.getBengaluruCorporationFromWard(ward);
+
+            return {
+                valid: true,
+                city: 'Bengaluru',
+                corporation_code: corporation.code,
+                corporation_id: corporation.id,
+                corporation_name: corporation.name,
+                ward: ward.wardName,
+                wardNumber: ward.wardNumber,
+                coordinates: { latitude: lat, longitude: lng },
+                metadata: {
+                    auto_tagged: true,
+                    boundary_match: true,
+                    tagged_at: new Date().toISOString()
+                }
+            };
+        } catch (error) {
+            console.error('Bengaluru validation error:', error);
+
+            return {
+                valid: false,
+                error: 'boundary_loading_failed',
+                message: 'Unable to load boundary data. Please try again or select your corporation manually.',
+                details: error.message
+            };
+        }
+    }
+
+    /**
+     * Determine Bengaluru corporation from ward information
+     */
+    getBengaluruCorporationFromWard(ward) {
+        // Check ward properties for corporation info
+        const props = ward.properties || {};
+
+        // Try to extract corporation from properties
+        const corpCode = props.corporation || props.zone || props.area;
+
+        if (corpCode) {
+            return this.mapBengaluruCorporation(corpCode);
         }
 
-        // Point-in-polygon check against all 5 corporations
-        for (const feature of this.bengaluruBoundaries.features) {
-            if (this.pointInPolygon([lng, lat], feature.geometry)) {
+        // Fallback: derive from ward number (simplified logic)
+        // In production, use actual ward-to-corporation mapping from database
+        const wardNum = parseInt(ward.wardNumber) || 0;
+
+        if (wardNum >= 1 && wardNum <= 74) {
+            return { code: 'north', id: null, name: 'Bengaluru North Corporation' };
+        } else if (wardNum >= 75 && wardNum <= 148) {
+            return { code: 'south', id: null, name: 'Bengaluru South Corporation' };
+        } else if (wardNum >= 149 && wardNum <= 222) {
+            return { code: 'east', id: null, name: 'Bengaluru East Corporation' };
+        } else if (wardNum >= 223 && wardNum <= 296) {
+            return { code: 'west', id: null, name: 'Bengaluru West Corporation' };
+        } else {
+            return { code: 'central', id: null, name: 'Bengaluru Central Corporation' };
+        }
+    }
+
+    /**
+     * Map corporation code to full info
+     */
+    mapBengaluruCorporation(code) {
+        const corporations = {
+            'north': { code: 'north', id: null, name: 'Bengaluru North Corporation' },
+            'south': { code: 'south', id: null, name: 'Bengaluru South Corporation' },
+            'east': { code: 'east', id: null, name: 'Bengaluru East Corporation' },
+            'west': { code: 'west', id: null, name: 'Bengaluru West Corporation' },
+            'central': { code: 'central', id: null, name: 'Bengaluru Central Corporation' }
+        };
+
+        return corporations[code.toLowerCase()] || corporations.central;
+    }
+
+    /**
+     * Validate location for other cities (11 cities besides Bengaluru)
+     */
+    async validateCityLocation(lat, lng, cityCode) {
+        const loader = this.getBoundaryLoader();
+
+        try {
+            // Load city ward boundaries
+            const boundaryData = await loader.loadBoundary(cityCode);
+
+            // Find which ward this location is in
+            const ward = loader.findWard(cityCode, lat, lng);
+
+            if (!ward) {
+                const cityInfo = loader.getCityInfo(cityCode);
+
                 return {
-                    valid: true,
-                    city: 'Bengaluru',
-                    corporation_code: feature.properties.code,
-                    corporation_id: feature.properties.id,
-                    corporation_name: feature.properties.name,
-                    ward: feature.properties.ward || null
+                    valid: false,
+                    error: 'location_outside_city',
+                    message: `This location is outside ${cityInfo.name} municipal boundaries. Please verify the address.`,
+                    suggested_action: 'try_different_address',
+                    city: cityInfo.name,
+                    coordinates: { latitude: lat, longitude: lng }
                 };
+            }
+
+            const cityInfo = loader.getCityInfo(cityCode);
+
+            return {
+                valid: true,
+                city: cityInfo.name,
+                corporation_code: cityCode,
+                corporation_id: null, // Single corporation per city
+                corporation_name: `${cityInfo.name} Municipal Corporation`,
+                ward: ward.wardName,
+                wardNumber: ward.wardNumber,
+                state: cityInfo.state,
+                coordinates: { latitude: lat, longitude: lng },
+                metadata: {
+                    auto_tagged: true,
+                    boundary_match: true,
+                    tagged_at: new Date().toISOString()
+                }
+            };
+        } catch (error) {
+            console.error(`${cityCode} validation error:`, error);
+
+            // Fallback: accept location without strict validation
+            const cityInfo = loader.getCityInfo(cityCode);
+
+            return {
+                valid: true,
+                city: cityInfo.name,
+                corporation_code: cityCode,
+                corporation_id: null,
+                corporation_name: `${cityInfo.name} Municipal Corporation`,
+                ward: null,
+                wardNumber: null,
+                state: cityInfo.state,
+                coordinates: { latitude: lat, longitude: lng },
+                metadata: {
+                    auto_tagged: true,
+                    boundary_match: false,
+                    fallback_mode: true,
+                    note: 'Location accepted based on user input (boundary validation unavailable)',
+                    tagged_at: new Date().toISOString()
+                }
+            };
+        }
+    }
+
+    /**
+     * Detect city from coordinates (try all cities)
+     */
+    async detectCityFromCoordinates(lat, lng) {
+        const loader = this.getBoundaryLoader();
+        const cities = loader.getSupportedCities();
+
+        // Try each city (expensive but necessary without user input)
+        for (const cityInfo of cities) {
+            try {
+                await loader.loadBoundary(cityInfo.code);
+                const ward = loader.findWard(cityInfo.code, lat, lng);
+
+                if (ward) {
+                    // Found the city!
+                    if (cityInfo.code === 'bengaluru') {
+                        return await this.validateBengaluruLocation(lat, lng);
+                    } else {
+                        return await this.validateCityLocation(lat, lng, cityInfo.code);
+                    }
+                }
+            } catch (error) {
+                // Skip this city and try next
+                continue;
             }
         }
 
-        // Location is outside all 5 corporations
+        // Location not in any supported city
         return {
             valid: false,
-            error: 'location_outside_bengaluru',
-            message: 'This location is outside Bengaluru corporation boundaries. Please verify the address.',
-            suggested_action: 'try_different_address',
+            error: 'location_outside_all_boundaries',
+            message: this.getOutOfBoundsMessage(),
+            suggested_action: 'view_coverage_map',
+            coordinates: { latitude: lat, longitude: lng },
             nearest_city: await this.findNearestCity(lat, lng)
         };
     }
 
-    async validateOtherCityLocation(lat, lng, userProvidedCity) {
-        // Try to determine which city based on coordinates or user input
-        let targetCity = null;
-
-        if (userProvidedCity) {
-            targetCity = this.supportedCities.find(city =>
-                userProvidedCity.toLowerCase().includes(city.name.toLowerCase())
-            );
-        }
-
-        if (!targetCity) {
-            // Try all cities (expensive but necessary)
-            for (const city of this.supportedCities) {
-                const inCity = await this.checkCityBoundary(lat, lng, city);
-                if (inCity) {
-                    targetCity = city;
-                    break;
-                }
-            }
-        }
-
-        if (!targetCity) {
-            // Location is outside all known cities
-            return {
-                valid: false,
-                error: 'location_outside_all_boundaries',
-                message: this.getOutOfBoundsMessage(lat, lng),
-                suggested_action: 'view_coverage_map',
-                nearest_city: await this.findNearestCity(lat, lng)
-            };
-        }
-
-        // Load city boundary and validate
-        const cityData = await this.loadCityBoundary(targetCity.code);
-
-        if (!cityData) {
-            return {
-                valid: false,
-                error: 'boundary_loading_failed',
-                message: 'Unable to load boundary data for ' + targetCity.name
-            };
-        }
-
-        // Fallback mode: boundary file not available (KML not yet converted)
-        if (cityData === 'fallback') {
-            console.warn(`Using fallback mode for ${targetCity.name} - boundary validation skipped`);
-            return {
-                valid: true,
-                city: targetCity.name,
-                corporation_code: targetCity.code,
-                corporation_id: null, // Will be resolved by API
-                corporation_name: targetCity.name + ' Municipal Corporation',
-                ward: null,
-                fallback_mode: true,
-                note: 'Boundary validation unavailable - location accepted based on user input'
-            };
-        }
-
-        // Check if point is within city boundary
-        const isInside = this.pointInPolygon([lng, lat], cityData.geometry);
-
-        if (isInside) {
-            return {
-                valid: true,
-                city: targetCity.name,
-                corporation_code: targetCity.code,
-                corporation_id: cityData.properties?.id || null,
-                corporation_name: targetCity.name + ' Municipal Corporation',
-                ward: this.detectWard(lat, lng, cityData)
-            };
-        } else {
-            return {
-                valid: false,
-                error: 'location_outside_city',
-                message: `This location is outside ${targetCity.name} municipal boundaries. Please verify the address.`,
-                suggested_action: 'try_different_address',
-                nearest_city: await this.findNearestCity(lat, lng)
-            };
-        }
-    }
-
-    async checkCityBoundary(lat, lng, city) {
-        const cityData = await this.loadCityBoundary(city.code);
-        if (!cityData) return false;
-
-        return this.pointInPolygon([lng, lat], cityData.geometry);
-    }
-
-    async loadCityBoundary(cityCode) {
-        // Check cache first
-        if (this.cityBoundaries.has(cityCode)) {
-            return this.cityBoundaries.get(cityCode);
-        }
-
-        // Check if already loading
-        if (this.loadingPromises.has(cityCode)) {
-            return await this.loadingPromises.get(cityCode);
-        }
-
-        // Start loading
-        const loadPromise = (async () => {
-            try {
-                const city = this.supportedCities.find(c => c.code === cityCode);
-                if (!city) return null;
-
-                const response = await fetch(`/assets/data/cities/${city.file}`);
-                if (!response.ok) {
-                    console.warn(`Boundary file not found for ${cityCode}. Using fallback mode.`);
-                    throw new Error('Boundary file not available');
-                }
-
-                const geojson = await response.json();
-
-                // Assume the GeoJSON has a single feature for city boundary
-                // Or merge all wards into single boundary
-                const cityBoundary = geojson.features ? geojson.features[0] : geojson;
-
-                // Cache it
-                this.cityBoundaries.set(cityCode, cityBoundary);
-                this.loadingPromises.delete(cityCode);
-
-                return cityBoundary;
-            } catch (error) {
-                console.warn(`Failed to load ${cityCode} boundary:`, error.message);
-                console.warn(`Fallback mode: Accepting location without strict boundary validation`);
-                this.loadingPromises.delete(cityCode);
-
-                // Return a fallback "boundary" that accepts the location
-                // This is used when GeoJSON files are not yet converted from KML
-                return 'fallback';
-            }
-        })();
-
-        this.loadingPromises.set(cityCode, loadPromise);
-        return await loadPromise;
-    }
-
-    pointInPolygon(point, geometry) {
-        // Simple ray casting algorithm for point-in-polygon
-        // point is [lng, lat]
-        // geometry is GeoJSON geometry object
-
-        if (geometry.type === 'Polygon') {
-            return this.pointInPolygonRing(point, geometry.coordinates[0]);
-        } else if (geometry.type === 'MultiPolygon') {
-            for (const polygon of geometry.coordinates) {
-                if (this.pointInPolygonRing(point, polygon[0])) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        return false;
-    }
-
-    pointInPolygonRing(point, ring) {
-        const [x, y] = point;
-        let inside = false;
-
-        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-            const [xi, yi] = ring[i];
-            const [xj, yj] = ring[j];
-
-            const intersect = ((yi > y) !== (yj > y)) &&
-                (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-
-            if (intersect) inside = !inside;
-        }
-
-        return inside;
-    }
-
-    detectWard(lat, lng, cityData) {
-        // If city data has ward information, detect it
-        // For now, return null - can be enhanced later
-        return null;
-    }
-
-    getOutOfBoundsMessage(lat, lng) {
+    /**
+     * Get message for locations outside all boundaries
+     */
+    getOutOfBoundsMessage() {
         return `⚠️ This location is outside our service areas.
 
-We currently support complaints from:
+We currently support complaints from 12 cities:
 • Bengaluru (5 corporations)
-• Mumbai, Chennai, Ahmedabad, Bhubaneswar, Gurugram, Hyderabad, Jaipur, Kolkata, Pune, Thane, Visakhapatnam
+• Ahmedabad, Bhubaneswar, Chennai, Gurugram, Hyderabad
+• Jaipur, Kolkata, Mumbai, Pune, Thane, Visakhapatnam
 
 Please verify the address is within one of these cities.`;
     }
 
+    /**
+     * Find nearest supported city
+     */
     async findNearestCity(lat, lng) {
-        // Calculate distance to all city centers
         const cityCenters = {
             'Bengaluru': { lat: 12.9716, lng: 77.5946 },
             'Mumbai': { lat: 19.0760, lng: 72.8777 },
@@ -315,8 +342,10 @@ Please verify the address is within one of these cities.`;
         return nearest;
     }
 
+    /**
+     * Calculate distance between two points using Haversine formula
+     */
     calculateDistance(lat1, lng1, lat2, lng2) {
-        // Haversine formula for distance in km
         const R = 6371; // Earth's radius in km
         const dLat = this.toRad(lat2 - lat1);
         const dLng = this.toRad(lng2 - lng1);
@@ -331,5 +360,21 @@ Please verify the address is within one of these cities.`;
 
     toRad(degrees) {
         return degrees * Math.PI / 180;
+    }
+
+    /**
+     * Get cache statistics
+     */
+    getCacheStats() {
+        return this.getBoundaryLoader().getCacheStats();
+    }
+
+    /**
+     * Clear cached boundaries (memory management)
+     */
+    clearCache() {
+        if (this.boundaryLoader) {
+            this.boundaryLoader.clearCache();
+        }
     }
 }

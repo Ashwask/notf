@@ -598,40 +598,56 @@ class NotfChatbot {
         this.addBotMessage('<i class="fa-solid fa-hourglass-half"></i> Submitting your complaint...');
 
         try {
-            const response = await fetch('https://notf-cms.vercel.app/api/submit-complaint', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    description: this.formData.description,
-                    address: this.formData.address,
-                    latitude: this.formData.latitude,
-                    longitude: this.formData.longitude,
-                    corporation_id: this.formData.corporation_id,
-                    category_id: this.formData.category_id,
-                    citizen_phone: this.formData.citizen_phone,
-                    citizen_email: this.formData.citizen_email,
-                    citizen_name: this.formData.citizen_name,
-                    metadata: {
-                        source: 'notf-chatbot',
-                        original_city: this.formData.locationTag.city,
-                        corporation_code: this.formData.locationTag.corporation_code,
-                        ward: this.formData.locationTag.ward,
-                        auto_tagged: true,
-                        tagged_at: new Date().toISOString(),
-                        tagging_method: 'point-in-polygon',
-                        session_id: this.sessionId
-                    }
-                })
+            // Initialize API client if not already done
+            if (!this.apiClient) {
+                this.apiClient = new NotfCmsApi();
+            }
+
+            // Prepare complaint data using ComplaintEngine
+            const complaintData = this.complaintEngine.prepareComplaintData({
+                description: this.formData.description,
+                category_id: this.formData.category_id,
+
+                // Location data (with auto-tagging from boundary validation)
+                address: this.formData.address,
+                latitude: this.formData.latitude,
+                longitude: this.formData.longitude,
+                city: this.formData.locationTag?.city || this.formData.city,
+                corporation_code: this.formData.locationTag?.corporation_code,
+                corporation_id: this.formData.locationTag?.corporation_id,
+                ward: this.formData.locationTag?.ward,
+                wardNumber: this.formData.locationTag?.wardNumber,
+
+                // Contact
+                phone: this.formData.citizen_phone,
+                email: this.formData.citizen_email,
+                name: this.formData.citizen_name,
+
+                // Photo
+                photo: this.formData.photo,
+
+                // Metadata
+                metadata: {
+                    auto_tagged: this.formData.locationTag?.metadata?.auto_tagged || false,
+                    boundary_match: this.formData.locationTag?.metadata?.boundary_match || false,
+                    session_id: this.sessionId
+                }
             });
 
-            const result = await response.json();
+            // Validate before submission
+            const validation = this.complaintEngine.validateComplaintData(complaintData);
+
+            if (!validation.valid) {
+                throw new Error('Validation failed: ' + validation.errors.join(', '));
+            }
+
+            // Submit to notf-cms API
+            const result = await this.apiClient.submitComplaint(complaintData);
 
             if (result.success) {
-                this.showComplaintSuccess(result.complaint);
+                this.showComplaintSuccess(result);
             } else {
-                throw new Error(result.error || 'Submission failed');
+                throw new Error(result.message || result.error || 'Submission failed');
             }
 
         } catch (error) {
@@ -646,16 +662,23 @@ class NotfChatbot {
         }
     }
 
-    showComplaintSuccess(complaint) {
+    showComplaintSuccess(result) {
+        const trackingUrl = result.tracking_url || `https://notf-cms.vercel.app/track/${result.complaint_number}`;
+
         this.addBotMessage(`
             <div class="complaint-success">
                 <h4><i class="fa-solid fa-circle-check"></i> Complaint Filed Successfully!</h4>
                 <div class="ticket-info">
-                    <p class="ticket-number">Ticket Number: <strong>${complaint.complaint_number}</strong></p>
-                    <p>Corporation: ${this.formData.locationTag.corporation_name}</p>
-                    <p>Status: <span class="status-badge new">New</span></p>
+                    <p class="ticket-number">Ticket Number: <strong>${result.complaint_number}</strong></p>
+                    <p><i class="fa-solid fa-building"></i> Corporation: ${this.formData.locationTag?.corporation_name || this.formData.locationTag?.city + ' Municipal Corporation'}</p>
+                    ${this.formData.locationTag?.ward ? `<p><i class="fa-solid fa-map-pin"></i> Ward: ${this.formData.locationTag.ward}</p>` : ''}
+                    <p><i class="fa-solid fa-circle"></i> Status: <span class="status-badge new">New</span></p>
                 </div>
                 <p class="next-steps">You will receive updates on your complaint via ${this.formData.citizen_phone ? 'phone' : 'email'}.</p>
+                <p class="tracking-info">
+                    <i class="fa-solid fa-link"></i> Track your complaint:
+                    <a href="${trackingUrl}" target="_blank">${result.complaint_number}</a>
+                </p>
                 <div class="success-actions">
                     <button onclick="notfChatbot.fileAnotherComplaint()">File Another Complaint</button>
                     <button onclick="notfChatbot.closeChatbot()">Close</button>

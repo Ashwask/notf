@@ -1,0 +1,82 @@
+{
+  "cities": [
+    {
+      "name": "Ahmedabad",
+      "code": "ahmedabad",
+      "file": "ahmedabad-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Bengaluru",
+      "code": "bengaluru",
+      "file": "bengaluru-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Bhubaneswar",
+      "code": "bhubaneswar",
+      "file": "bhubaneswar-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Chennai",
+      "code": "chennai",
+      "file": "chennai-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Gurugram",
+      "code": "gurugram",
+      "file": "gurugram-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Hyderabad",
+      "code": "hyderabad",
+      "file": "hyderabad-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Jaipur",
+      "code": "jaipur",
+      "file": "jaipur-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Kolkata",
+      "code": "kolkata",
+      "file": "kolkata-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Mumbai",
+      "code": "mumbai",
+      "file": "mumbai-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Pune",
+      "code": "pune",
+      "file": "pune-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Thane",
+      "code": "thane",
+      "file": "thane-wards.geojson",
+      "hasBoundaries": true
+    },
+    {
+      "name": "Visakhapatnam",
+      "code": "visakhapatnam",
+      "file": "visakhapatnam-wards.geojson",
+      "hasBoundaries": true
+    }
+  ],
+  "metadata": {
+    "generatedAt": "2026-01-18T04:15:17.925Z",
+    "totalCities": 12,
+    "format": "GeoJSON",
+    "projection": "WGS84 (EPSG:4326)"
+  }
+}
