@@ -119,6 +119,7 @@ class NotfChatbot {
                         <span class="description">Report civic issues in your area</span>
                     </button>
                 </div>
+                <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the bottom-right corner.</p>
             </div>
         `);
 
@@ -169,14 +170,17 @@ class NotfChatbot {
     }
 
     switchMode() {
+        // Determine which mode to switch to
+        const otherMode = this.mode === 'discovery' ? 'complaint' : 'discovery';
+        const otherModeLabel = otherMode === 'discovery' ? 'Discovery' : 'Complaint';
+
         // Check if there's conversation history
         const hasMessages = this.conversationHistory.length > 1; // More than just the welcome message
 
         if (hasMessages) {
             // Ask for confirmation
-            const otherMode = this.mode === 'discovery' ? 'Complaint' : 'Discovery';
             const confirmed = confirm(
-                `Switching to ${otherMode} Mode will start a new conversation. ` +
+                `Switching to ${otherModeLabel} Mode will start a new conversation. ` +
                 `Your current conversation will be cleared. Continue?`
             );
 
@@ -188,18 +192,12 @@ class NotfChatbot {
         // Clear conversation
         this.conversationHistory = [];
         this.formData = {};
-        this.state = 'intent_selection';
-        this.mode = null;
 
         // Reset UI
         this.elements.messagesContainer.innerHTML = '';
-        this.elements.switchModeButton?.classList.add('hidden');
-        this.updateHeaderTitle(null);
 
-        // Show welcome message again
-        this.showWelcomeMessage();
-
-        this.saveSession();
+        // Switch to the other mode
+        this.selectIntent(otherMode);
     }
 
     async initializeDiscoveryMode() {
@@ -999,9 +997,146 @@ class NotfChatbot {
     }
 
     openMapPicker() {
-        // Implement map picker UI (will create in separate file)
-        console.log('Map picker not yet implemented');
-        this.addBotMessage('Map picker coming soon! Please type your address for now.');
+        this.addBotMessage(`
+            <div class="map-picker-instructions">
+                <p><i class="fa-solid fa-info-circle"></i> <strong>Map Picker:</strong></p>
+                <ol>
+                    <li>Click "Open Map" below</li>
+                    <li>Click on the map where the issue is located</li>
+                    <li>Click "Use This Location" to confirm</li>
+                </ol>
+                <button class="btn-open-map" onclick="notfChatbot.showMapModal()"><i class="fa-solid fa-map"></i> Open Map</button>
+            </div>
+        `);
+    }
+
+    showMapModal() {
+        // Create modal overlay
+        const modal = document.createElement('div');
+        modal.id = 'map-picker-modal';
+        modal.className = 'map-modal';
+        modal.innerHTML = `
+            <div class="map-modal-content">
+                <div class="map-modal-header">
+                    <h3><i class="fa-solid fa-map-marker-alt"></i> Select Location on Map</h3>
+                    <button class="map-modal-close" onclick="notfChatbot.closeMapModal()">&times;</button>
+                </div>
+                <div id="map-picker" style="height: 400px; width: 100%;"></div>
+                <div class="map-modal-footer">
+                    <p id="selected-coords">Click on the map to select a location</p>
+                    <button class="btn-confirm-location" onclick="notfChatbot.confirmMapLocation()" disabled>Use This Location</button>
+                    <button class="btn-cancel" onclick="notfChatbot.closeMapModal()">Cancel</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Initialize Leaflet map
+        setTimeout(() => {
+            const map = L.map('map-picker').setView([12.9716, 77.5946], 12); // Default to Bengaluru
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            let marker;
+            this.selectedLocation = null;
+
+            map.on('click', (e) => {
+                const { lat, lng } = e.latlng;
+
+                // Remove old marker
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+
+                // Add new marker
+                marker = L.marker([lat, lng]).addTo(map);
+
+                // Store location
+                this.selectedLocation = { lat, lng };
+
+                // Update UI
+                document.getElementById('selected-coords').textContent =
+                    `Selected: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+                document.querySelector('.btn-confirm-location').disabled = false;
+            });
+
+            this.mapPickerInstance = map;
+        }, 100);
+    }
+
+    closeMapModal() {
+        const modal = document.getElementById('map-picker-modal');
+        if (modal) {
+            modal.remove();
+        }
+        if (this.mapPickerInstance) {
+            this.mapPickerInstance.remove();
+            this.mapPickerInstance = null;
+        }
+    }
+
+    async confirmMapLocation() {
+        if (!this.selectedLocation) {
+            return;
+        }
+
+        this.closeMapModal();
+
+        const { lat, lng } = this.selectedLocation;
+
+        this.addBotMessage('<i class="fa-solid fa-hourglass-half"></i> Verifying your location...');
+        this.disableInput();
+
+        try {
+            // Reverse geocode to get address
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+                {
+                    headers: {
+                        'User-Agent': 'NOTF-Chatbot/1.0 (https://notf-one.vercel.app; chatbot@notf.in)'
+                    }
+                }
+            );
+            const result = await response.json();
+
+            const address = result.display_name || `Location at ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            const city = this.extractCityFromAddress(result.display_name, result.address);
+
+            // Validate against boundaries
+            const validation = await this.boundaryValidator.validateLocation(lat, lng, city);
+
+            if (!validation.valid) {
+                this.showBoundaryValidationError(validation);
+                this.enableInput();
+                return;
+            }
+
+            // Location is valid!
+            this.formData.address = address;
+            this.formData.latitude = lat;
+            this.formData.longitude = lng;
+            this.formData.corporation_id = validation.corporation_code;
+            this.formData.locationTag = validation;
+
+            this.addBotMessage(`
+                <div class="location-verified">
+                    <p><i class="fa-solid fa-circle-check"></i> <strong>Location Verified!</strong></p>
+                    <p><i class="fa-solid fa-location-dot"></i> ${address}</p>
+                    <p><i class="fa-solid fa-building"></i> ${validation.corporation_name}</p>
+                    ${validation.ward ? `<p>🗺️ Ward: ${validation.ward}</p>` : ''}
+                    <p class="success-message">Your complaint will be routed to ${validation.corporation_name}</p>
+                </div>
+            `);
+
+            this.askForContact();
+
+        } catch (error) {
+            console.error('Map location error:', error);
+            this.addBotMessage('Unable to verify location. Please try typing the address instead.');
+            this.enableInput();
+        }
     }
 
     useGPS() {
