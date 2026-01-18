@@ -72,7 +72,17 @@ class NotfCmsApi {
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                // Try to get JSON error, but also get text as fallback
+                const contentType = response.headers.get('content-type');
+                let errorData;
+
+                if (contentType && contentType.includes('application/json')) {
+                    errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                } else {
+                    const textError = await response.text();
+                    errorData = { error: 'Non-JSON response', details: textError };
+                }
+
                 console.error('[API] ❌ Error response:', {
                     status: response.status,
                     statusText: response.statusText,
