@@ -483,9 +483,9 @@ nav {
 }
 
 
-/* Hero Section - Solid Color */
+/* Hero Section - Pink */
 .hero {
-    background: #23A2A5;
+    background: #F7A782;
     color: white;
     padding: 8rem 2rem;
     text-align: center;
@@ -1039,10 +1039,10 @@ table.table-striped tbody tr:nth-child(even) {
     line-height: 1.7;
 }
 
-/* CTA Section - Solid Color */
+/* CTA Section - Pink */
 .cta-section {
     padding: 6rem 0;
-    background: #23A2A5;
+    background: #F7A782;
     color: white;
     text-align: center;
     position: relative;
