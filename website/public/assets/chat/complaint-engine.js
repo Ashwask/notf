@@ -22,11 +22,32 @@ class ComplaintEngine {
      */
     async initializeCategories() {
         try {
-            const categories = await this.fetchCategoriesFromAPI();
-            if (categories && categories.length > 0) {
-                this.categories = categories;
+            const apiCategories = await this.fetchCategoriesFromAPI();
+            if (apiCategories && apiCategories.length > 0) {
+                // Filter API categories - only use those WITH keywords
+                const apiCategoriesWithKeywords = apiCategories.filter(cat =>
+                    cat.keywords && cat.keywords.length > 0
+                );
+
+                // Get hardcoded categories (which have comprehensive keywords)
+                const hardcodedCategories = this.loadCategories();
+
+                // Merge: Use API categories with keywords + hardcoded categories
+                // Deduplicate by ID, preferring API categories
+                const categoryMap = new Map();
+
+                // Add hardcoded first (fallback)
+                hardcodedCategories.forEach(cat => categoryMap.set(cat.id, cat));
+
+                // Override with API categories (if they have keywords)
+                apiCategoriesWithKeywords.forEach(cat => categoryMap.set(cat.id, cat));
+
+                this.categories = Array.from(categoryMap.values());
                 this.categoriesLoaded = true;
-                console.log('[ComplaintEngine] Loaded', categories.length, 'categories from API');
+
+                console.log('[ComplaintEngine] Loaded', apiCategoriesWithKeywords.length, 'categories from API with keywords');
+                console.log('[ComplaintEngine] Using', hardcodedCategories.length, 'hardcoded categories');
+                console.log('[ComplaintEngine] Total categories:', this.categories.length);
 
                 // Initialize semantic matcher with categories
                 await this.initializeSemanticMatcher();
