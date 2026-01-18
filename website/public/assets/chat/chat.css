@@ -33,13 +33,13 @@
     height: 24px;
     cursor: nwse-resize;
     z-index: 10;
-    background: linear-gradient(225deg, transparent 50%, rgba(255,255,255,0.3) 50%);
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.3) 50%, transparent 50%);
     border-radius: 12px 0 0 0;
     transition: background 0.2s;
 }
 
 .chat-resize-handle:hover {
-    background: linear-gradient(225deg, transparent 50%, rgba(255,255,255,0.5) 50%);
+    background: linear-gradient(to bottom right, rgba(255,255,255,0.5) 50%, transparent 50%);
 }
 
 .chat-resize-handle::before {
