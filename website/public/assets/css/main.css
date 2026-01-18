@@ -587,22 +587,75 @@ nav {
 }
 
 .btn-primary:hover {
+    background: var(--color-green);
     transform: translateY(-3px);
     box-shadow: var(--shadow-glow-primary);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: white;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: var(--color-yellow);
+    color: var(--color-text);
+    border: 2px solid var(--color-yellow);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #E5B629;
+    border-color: #E5B629;
     transform: translateY(-3px);
-    border-color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-accent {
+    background: var(--color-pink);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-accent:hover {
+    background: #F5956C;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-success {
+    background: var(--color-green);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-success:hover {
+    background: #0A5D5E;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: var(--color-teal);
+    border: 2px solid var(--color-teal);
+    box-shadow: none;
+}
+
+.btn-outline-primary:hover {
+    background: var(--color-teal);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline-yellow {
+    background: transparent;
+    color: var(--color-yellow);
+    border: 2px solid var(--color-yellow);
+    box-shadow: none;
+}
+
+.btn-outline-yellow:hover {
+    background: var(--color-yellow);
+    color: var(--color-text);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-primary-large {
@@ -615,8 +668,80 @@ nav {
 }
 
 .btn-primary-large:hover {
+    background: var(--color-green);
     transform: translateY(-3px);
     box-shadow: var(--shadow-glow-primary);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+thead {
+    background: var(--color-yellow);
+    color: var(--color-text);
+}
+
+thead th {
+    padding: 1rem;
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: rgba(251, 200, 49, 0.05);
+}
+
+tbody td {
+    padding: 1rem;
+    color: var(--color-text);
+}
+
+/* Table variants */
+table.table-teal thead {
+    background: var(--color-teal);
+    color: white;
+}
+
+table.table-teal tbody tr:hover {
+    background: rgba(35, 162, 165, 0.05);
+}
+
+table.table-pink thead {
+    background: var(--color-pink);
+    color: white;
+}
+
+table.table-pink tbody tr:hover {
+    background: rgba(247, 167, 130, 0.05);
+}
+
+table.table-green thead {
+    background: var(--color-green);
+    color: white;
+}
+
+table.table-green tbody tr:hover {
+    background: rgba(13, 117, 118, 0.05);
+}
+
+table.table-striped tbody tr:nth-child(even) {
+    background: var(--color-bg-light);
 }
 
 /* Stats Section */

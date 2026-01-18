@@ -63,8 +63,8 @@
 
 /* Chat Header */
 .chat-header {
-    background: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
-    color: white;
+    background: #FBC831;
+    color: #1f2937;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
     display: flex;
@@ -94,9 +94,9 @@
 .chat-minimize-button,
 .chat-close-button,
 .chat-switch-mode-button {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.1);
     border: none;
-    color: white;
+    color: #1f2937;
     width: 32px;
     height: 32px;
     border-radius: 6px;
@@ -110,7 +110,7 @@
 .chat-minimize-button:hover,
 .chat-close-button:hover,
 .chat-switch-mode-button:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .chat-switch-mode-button.hidden {
@@ -231,10 +231,27 @@
     gap: 6px;
 }
 
+.intent-button:first-child {
+    border-color: #FBC831;
+}
+
+.intent-button:last-child {
+    border-color: #F7A782;
+}
+
 .intent-button:hover {
-    border-color: #23A2A5;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.intent-button:first-child:hover {
+    background: rgba(251, 200, 49, 0.05);
+    border-color: #E5B629;
+}
+
+.intent-button:last-child:hover {
+    background: rgba(247, 167, 130, 0.05);
+    border-color: #F5956C;
 }
 
 .intent-button .icon {
@@ -670,6 +687,37 @@
 
 .chat-send-button:active {
     transform: translateY(0);
+}
+
+/* Button color variants for chatbot */
+button.btn-yellow {
+    background: #FBC831;
+    color: #1f2937;
+    border: none;
+}
+
+button.btn-yellow:hover {
+    background: #E5B629;
+}
+
+button.btn-pink {
+    background: #F7A782;
+    color: white;
+    border: none;
+}
+
+button.btn-pink:hover {
+    background: #F5956C;
+}
+
+button.btn-green {
+    background: #0D7576;
+    color: white;
+    border: none;
+}
+
+button.btn-green:hover {
+    background: #0A5D5E;
 }
 
 /* Mobile Responsive */

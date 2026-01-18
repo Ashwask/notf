@@ -26,6 +26,9 @@ class NotfChatbot {
         this.initializeUI();
         this.bindEvents();
 
+        // Load chatbot state (minimized/expanded)
+        this.loadChatbotState();
+
         // Show welcome message
         this.showWelcomeMessage();
     }
@@ -124,6 +127,8 @@ class NotfChatbot {
         setTimeout(() => {
             this.elements.inputField?.focus();
         }, 100);
+        // Save state
+        this.saveChatbotState('expanded');
     }
 
     closeChatbot() {
@@ -131,6 +136,29 @@ class NotfChatbot {
         this.elements.widget.classList.add('hidden');
         if (this.elements.fab) {
             this.elements.fab.classList.remove('hidden');
+        }
+        // Save state
+        this.saveChatbotState('minimized');
+    }
+
+    saveChatbotState(state) {
+        try {
+            localStorage.setItem('notf_chatbot_state', state);
+        } catch (e) {
+            console.error('Failed to save chatbot state:', e);
+        }
+    }
+
+    loadChatbotState() {
+        try {
+            const state = localStorage.getItem('notf_chatbot_state');
+            if (state === 'minimized') {
+                // Start minimized
+                this.closeChatbot();
+            }
+            // If expanded or no saved state, widget stays visible (default)
+        } catch (e) {
+            console.error('Failed to load chatbot state:', e);
         }
     }
 

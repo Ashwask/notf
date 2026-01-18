@@ -132,6 +132,135 @@ button {
     transform: translateY(0) !important;
 }
 
+/* Additional button variants */
+.btn-yellow {
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: #FBC831;
+    color: #1f2937;
+    border: 2px solid #FBC831;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-yellow:hover {
+    background: #E5B629;
+    border-color: #E5B629;
+    box-shadow: 0 6px 16px rgba(251, 200, 49, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+.btn-pink {
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: #F7A782;
+    color: white;
+    border: 2px solid #F7A782;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-pink:hover {
+    background: #F5956C;
+    border-color: #F5956C;
+    box-shadow: 0 6px 16px rgba(247, 167, 130, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+.btn-green {
+    min-height: 44px;
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: #0D7576;
+    color: white;
+    border: 2px solid #0D7576;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-green:hover {
+    background: #0A5D5E;
+    border-color: #0A5D5E;
+    box-shadow: 0 6px 16px rgba(13, 117, 118, 0.4) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+    background: #FBC831;
+    color: #1f2937;
+}
+
+thead th {
+    padding: 1rem;
+    font-weight: 600;
+    text-align: left;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: rgba(251, 200, 49, 0.05);
+}
+
+tbody td {
+    padding: 1rem;
+    color: #1f2937;
+}
+
+/* Table variants for admin */
+table.table-teal thead {
+    background: #23A2A5;
+    color: white;
+}
+
+table.table-teal tbody tr:hover {
+    background: rgba(35, 162, 165, 0.05);
+}
+
+table.table-pink thead {
+    background: #F7A782;
+    color: white;
+}
+
+table.table-pink tbody tr:hover {
+    background: rgba(247, 167, 130, 0.05);
+}
+
+table.table-green thead {
+    background: #0D7576;
+    color: white;
+}
+
+table.table-green tbody tr:hover {
+    background: rgba(13, 117, 118, 0.05);
+}
+
+table.table-striped tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
 /* Mini icon buttons with softer style - Enhanced size and borders */
 .mini-icon-btn {
     width: 36px;
