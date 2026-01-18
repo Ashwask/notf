@@ -6,56 +6,47 @@
 
 class ComplaintEngine {
     constructor() {
-        this.categories = this.loadCategories(); // Fallback categories
+        this.categories = []; // Will be loaded from API
         this.boundaryValidator = null; // Lazy load
         this.supportedCities = this.loadSupportedCities();
         this.categoriesLoaded = false;
         this.apiBaseUrl = 'https://notf-cms.vercel.app/api';
 
-        // Fetch categories from API in background
+        // Fetch categories from API
         this.initializeCategories();
     }
 
     /**
      * Initialize categories from API (async)
-     * Falls back to hardcoded categories if API fails
+     * All categories now come from the database with keywords
      */
     async initializeCategories() {
         try {
             const apiCategories = await this.fetchCategoriesFromAPI();
+
             if (apiCategories && apiCategories.length > 0) {
                 // Filter API categories - only use those WITH keywords
                 const apiCategoriesWithKeywords = apiCategories.filter(cat =>
                     cat.keywords && cat.keywords.length > 0
                 );
 
-                // Get hardcoded categories (which have comprehensive keywords)
-                const hardcodedCategories = this.loadCategories();
-
-                // Merge: Use API categories with keywords + hardcoded categories
-                // Deduplicate by ID, preferring API categories
-                const categoryMap = new Map();
-
-                // Add hardcoded first (fallback)
-                hardcodedCategories.forEach(cat => categoryMap.set(cat.id, cat));
-
-                // Override with API categories (if they have keywords)
-                apiCategoriesWithKeywords.forEach(cat => categoryMap.set(cat.id, cat));
-
-                this.categories = Array.from(categoryMap.values());
+                // Use API categories directly (all 304 have keywords now!)
+                this.categories = apiCategoriesWithKeywords;
                 this.categoriesLoaded = true;
 
-                console.log('[ComplaintEngine] Loaded', apiCategoriesWithKeywords.length, 'categories from API with keywords');
-                console.log('[ComplaintEngine] Using', hardcodedCategories.length, 'hardcoded categories');
-                console.log('[ComplaintEngine] Total categories:', this.categories.length);
+                console.log('[ComplaintEngine] ✅ Loaded', apiCategoriesWithKeywords.length, 'categories from database');
+                console.log('[ComplaintEngine] 🔧 All categories loaded from API (no hardcoded fallback)');
 
                 // Initialize semantic matcher with categories
                 await this.initializeSemanticMatcher();
+            } else {
+                console.error('[ComplaintEngine] ❌ No categories returned from API');
+                throw new Error('No categories available from API');
             }
         } catch (error) {
-            console.warn('[ComplaintEngine] Failed to load categories from API, using fallback:', error.message);
-            // Already using fallback from constructor
-            await this.initializeSemanticMatcher();
+            console.error('[ComplaintEngine] ❌ Failed to load categories from API:', error.message);
+            console.error('[ComplaintEngine] Chatbot cannot function without categories - please check API');
+            // Don't initialize semantic matcher if we have no categories
         }
     }
 
@@ -145,182 +136,11 @@ class ComplaintEngine {
         return this.boundaryValidator;
     }
 
-    loadCategories() {
-        // Issue categories with keywords (matches notf-cms database)
-        return [
-            // Street Lighting (NEW separate department)
-            {
-                id: 'light_not_working',
-                name: 'Light Not Working',
-                department: 'Street Lighting',
-                keywords: ['streetlight', 'street light', 'light not working', 'lamp', 'dark street', 'no light', 'light off']
-            },
-            {
-                id: 'light_broken',
-                name: 'Light Broken',
-                department: 'Street Lighting',
-                keywords: ['light broken', 'broken light', 'damaged light', 'shattered light', 'light damaged']
-            },
-            {
-                id: 'pole_damaged',
-                name: 'Pole Damaged',
-                department: 'Street Lighting',
-                keywords: ['pole damaged', 'pole broken', 'leaning pole', 'bent pole', 'pole issue']
-            },
-            {
-                id: 'daytime_light',
-                name: 'Daytime Light On',
-                department: 'Street Lighting',
-                keywords: ['daytime light', 'light on day', 'light on morning', 'wasting electricity', 'light during day']
-            },
-
-            // Power Supply (separate from lighting)
-            {
-                id: 'dangling_wire',
-                name: 'Exposed/Dangling Wires',
-                department: 'Power Supply',
-                keywords: ['wire', 'cable', 'exposed wire', 'dangling', 'electric cable', 'dangerous wire', 'hanging wire']
-            },
-
-            // Solid Waste Management (NEW critical department)
-            {
-                id: 'garbage_not_collected',
-                name: 'Garbage Not Collected',
-                department: 'Solid Waste Management',
-                keywords: ['garbage', 'waste', 'not collected', 'rubbish', 'trash', 'no pickup', 'collection missed']
-            },
-            {
-                id: 'garbage_dump',
-                name: 'Garbage Dump',
-                department: 'Solid Waste Management',
-                keywords: ['dump', 'dumping', 'illegal dump', 'garbage pile', 'waste dump', 'trash pile']
-            },
-            {
-                id: 'overflowing_bin',
-                name: 'Overflowing Bin',
-                department: 'Solid Waste Management',
-                keywords: ['overflowing', 'bin overflow', 'dustbin full', 'full bin', 'bin overflowing']
-            },
-            {
-                id: 'missing_dustbin',
-                name: 'Missing Dustbin',
-                department: 'Solid Waste Management',
-                keywords: ['missing dustbin', 'no dustbin', 'dustbin missing', 'bin missing', 'need dustbin']
-            },
-            {
-                id: 'street_not_cleaned',
-                name: 'Street Not Cleaned',
-                department: 'Solid Waste Management',
-                keywords: ['street not cleaned', 'dirty street', 'street sweeping', 'unclean road', 'littered street']
-            },
-            {
-                id: 'construction_debris',
-                name: 'Construction Debris',
-                department: 'Solid Waste Management',
-                keywords: ['construction waste', 'debris', 'building waste', 'rubble', 'construction material']
-            },
-            {
-                id: 'plastic_waste',
-                name: 'Plastic Waste',
-                department: 'Solid Waste Management',
-                keywords: ['plastic', 'plastic waste', 'plastic bags', 'polythene', 'plastic bottles']
-            },
-
-            // Roads & Traffic
-            {
-                id: 'pothole',
-                name: 'Pothole',
-                department: 'Roads & Traffic',
-                keywords: ['pothole', 'hole', 'pit', 'road damage', 'crater', 'road hole']
-            },
-            {
-                id: 'road_cavein',
-                name: 'Road Cave-in',
-                department: 'Roads & Traffic',
-                keywords: ['cave-in', 'cave in', 'road collapse', 'road sinking', 'road subsidence', 'road caved']
-            },
-            {
-                id: 'footpath_damage',
-                name: 'Footpath Damage',
-                department: 'Roads & Traffic',
-                keywords: ['footpath', 'pavement', 'sidewalk', 'walking path', 'pedestrian', 'footpath damage', 'broken footpath']
-            },
-
-            // Water
-            {
-                id: 'no_water_supply',
-                name: 'No Water Supply',
-                department: 'Water',
-                keywords: ['no water', 'water supply', 'water cut', 'dry tap', 'no supply']
-            },
-            {
-                id: 'pipe_leak',
-                name: 'Water Pipe Leakage',
-                department: 'Water',
-                keywords: ['leak', 'leakage', 'pipe burst', 'water leak', 'broken pipe']
-            },
-
-            // Drainage & Sewage
-            {
-                id: 'drainage_overflow',
-                name: 'Drain Overflow',
-                department: 'Drainage',
-                keywords: ['blocked', 'clogged', 'drain block', 'choked drain', 'overflow', 'drain overflow']
-            },
-            {
-                id: 'sewage_dumping',
-                name: 'Sewage Dumping',
-                department: 'Sewage',
-                keywords: ['sewage', 'sewage dump', 'sewage leak', 'sewage smell', 'manhole', 'sewage overflow']
-            },
-            {
-                id: 'broken_drain',
-                name: 'Broken Drain',
-                department: 'Drainage',
-                keywords: ['broken drain', 'damaged drain', 'cracked drain', 'drain damage']
-            },
-            {
-                id: 'flooding',
-                name: 'Flooding',
-                department: 'Drainage',
-                keywords: ['flooding', 'flood', 'water stagnation', 'waterlogging']
-            },
-
-            // Trees
-            {
-                id: 'tree_fallen',
-                name: 'Fallen Tree',
-                department: 'Forest',
-                keywords: ['fallen tree', 'tree fall', 'uprooted', 'tree down']
-            },
-            {
-                id: 'tree_pruning',
-                name: 'Tree Pruning Required',
-                department: 'Forest',
-                keywords: ['pruning', 'overgrown', 'branches', 'trim tree', 'cutting']
-            },
-
-            // Pest & Animal Control
-            {
-                id: 'mosquito_breeding',
-                name: 'Mosquito Breeding',
-                department: 'Pest & Animal Control',
-                keywords: ['mosquito', 'breeding', 'dengue', 'malaria', 'stagnant water', 'mosquito larvae']
-            },
-            {
-                id: 'stray_dogs',
-                name: 'Stray Dogs',
-                department: 'Pest & Animal Control',
-                keywords: ['stray dog', 'stray dogs', 'dog menace', 'street dog', 'rabies', 'dog bite']
-            },
-            {
-                id: 'dead_animal',
-                name: 'Dead Animal',
-                department: 'Pest & Animal Control',
-                keywords: ['dead animal', 'carcass', 'dead dog', 'dead cat', 'animal body', 'dead cow']
-            }
-        ];
-    }
+    /**
+     * NOTE: Hardcoded categories removed!
+     * All categories now loaded from database via API with keywords.
+     * See /database/populate-category-keywords.sql for keyword management.
+     */
 
     async categorizeComplaint(description) {
         // Try semantic matching first (best quality)
