@@ -377,18 +377,35 @@ class ComplaintEngine {
      * @returns {Array} - Array of category objects with scores
      */
     async getTopCategorySuggestions(description, limit = 5) {
+        console.log('[ComplaintEngine] Getting suggestions for:', description);
+        console.log('[ComplaintEngine] Total categories loaded:', this.categories.length);
+
         // Try semantic matching first (best quality)
         if (window.semanticMatcher && window.semanticMatcher.isReady) {
-            const semanticMatches = await window.semanticMatcher.findMatches(description, limit, 0.4);
-            if (semanticMatches.length > 0) {
-                console.log('[ComplaintEngine] Found', semanticMatches.length, 'semantic matches');
-                return semanticMatches;
+            console.log('[ComplaintEngine] Using semantic matching...');
+            try {
+                const semanticMatches = await window.semanticMatcher.findMatches(description, limit, 0.4);
+                console.log('[ComplaintEngine] Semantic matches found:', semanticMatches.length);
+                if (semanticMatches.length > 0) {
+                    console.table(semanticMatches.map(m => ({name: m.name, score: m.score.toFixed(3)})));
+                    return semanticMatches;
+                }
+            } catch (error) {
+                console.error('[ComplaintEngine] Semantic matching error:', error);
             }
+        } else {
+            console.log('[ComplaintEngine] Semantic matcher not ready, using Fuse.js');
         }
 
         // Fall back to Fuse.js fuzzy matching (typo tolerance)
         if (typeof Fuse !== 'undefined') {
-            return this.getTopSuggestionsWithFuse(description, limit);
+            console.log('[ComplaintEngine] Using Fuse.js fuzzy matching...');
+            const fuseResults = this.getTopSuggestionsWithFuse(description, limit);
+            console.log('[ComplaintEngine] Fuse.js matches found:', fuseResults.length);
+            if (fuseResults.length > 0) {
+                console.table(fuseResults.map(m => ({name: m.name, score: m.score.toFixed(3)})));
+            }
+            return fuseResults;
         }
 
         // Final fallback: basic substring matching with position awareness
