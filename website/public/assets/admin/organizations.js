@@ -233,10 +233,17 @@ async function handleFormSubmit(e) {
             // Update existing using Edge Function (storage-first architecture)
             console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Call Edge Function (uses service role internally, no user auth needed)
+            // Get user session for authorization
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                throw new Error('You must be logged in to perform this action');
+            }
+
+            // Call Edge Function with user authorization
             const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
             const headers = {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.access_token}`,
                 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
             };
 
@@ -266,10 +273,17 @@ async function handleFormSubmit(e) {
             // Create new using Edge Function (storage-first architecture)
             console.log('Creating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Call Edge Function to create YAML file (uses service role internally)
+            // Get user session for authorization
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                throw new Error('You must be logged in to perform this action');
+            }
+
+            // Call Edge Function to create YAML file
             const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
             const headers = {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.access_token}`,
                 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
             };
 
@@ -323,10 +337,17 @@ async function deleteOrganization(id, name) {
             throw new Error('Organization not found');
         }
 
-        // Call delete-file Edge Function (uses service role internally)
+        // Get user session for authorization
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+            throw new Error('You must be logged in to perform this action');
+        }
+
+        // Call delete-file Edge Function
         const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/delete-file';
         const headers = {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
         };
 
@@ -368,10 +389,17 @@ async function updateStatus(id, newStatus) {
             throw new Error('Organization not found');
         }
 
-        // Call update-file Edge Function to update status in YAML (uses service role internally)
+        // Get user session for authorization
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+            throw new Error('You must be logged in to perform this action');
+        }
+
+        // Call update-file Edge Function to update status in YAML
         const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
         const headers = {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
         };
 
