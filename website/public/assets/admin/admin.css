@@ -627,6 +627,46 @@ header {
     overflow-y: auto;
 }
 
+/* Make form modals draggable and resizable */
+.modal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 600px;
+    min-height: 500px;
+}
+
+.modal .modal-header {
+    cursor: move;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.modal .drag-handle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: #999;
+    cursor: move;
+}
+
+.modal .drag-handle:hover {
+    color: #333;
+}
+
+.modal .modal-content.dragging {
+    transition: none;
+    cursor: move;
+}
+
+.modal .modal-content.resizing {
+    transition: none;
+    cursor: nwse-resize;
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;

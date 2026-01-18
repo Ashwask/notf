@@ -25,6 +25,7 @@ let locationMarker = null;
     setupEventListeners();
     setupModalDrag();
     setupStoryModalDrag();
+    setupFormModalDrag();
 })();
 
 let currentStatusFilter = 'all';
@@ -461,39 +462,21 @@ async function handleFormSubmit(e) {
             // Update existing using Edge Function (storage-first architecture)
             console.log('Updating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get user session for authorization
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                throw new Error('You must be logged in to perform this action');
-            }
-
-            // Call Edge Function with user authorization
-            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.access_token}`,
-                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-            };
-
-            const response = await fetch(functionUrl, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
+            // Call Edge Function using Supabase client (handles auth automatically)
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
                     file_path: filePath,
                     file_type: 'community',
                     updates: metadata,
                     markdown_body: stories || ''
-                })
+                }
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Edge Function HTTP error:', response.status, errorText);
-                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
             console.log('Edge Function response:', data);
+
+            if (error) {
+                throw new Error(error.message || 'Edge Function failed');
+            }
 
             if (data?.error) {
                 throw new Error(data.error);
@@ -502,39 +485,21 @@ async function handleFormSubmit(e) {
             // Create new using Edge Function (storage-first architecture)
             console.log('Creating via Edge Function:', { file_path: filePath, updates: metadata });
 
-            // Get user session for authorization
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                throw new Error('You must be logged in to perform this action');
-            }
-
-            // Call Edge Function to create markdown file
-            const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.access_token}`,
-                'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-            };
-
-            const response = await fetch(functionUrl, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({
+            // Call Edge Function using Supabase client (handles auth automatically)
+            const { data, error } = await supabase.functions.invoke('update-file', {
+                body: {
                     file_path: filePath,
                     file_type: 'community',
                     updates: metadata,
                     markdown_body: stories || ''
-                })
+                }
             });
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Edge Function HTTP error:', response.status, errorText);
-                throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
             console.log('Edge Function response:', data);
+
+            if (error) {
+                throw new Error(error.message || 'Edge Function failed');
+            }
 
             if (data?.error) {
                 throw new Error(data.error);
@@ -567,36 +532,18 @@ async function deleteCommunity(id, name) {
             throw new Error('Community not found');
         }
 
-        // Get user session for authorization
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            throw new Error('You must be logged in to perform this action');
-        }
-
-        // Call delete-file Edge Function
-        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/delete-file';
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-        };
-
-        const response = await fetch(functionUrl, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
+        // Call delete-file Edge Function using Supabase client (handles auth automatically)
+        const { data, error } = await supabase.functions.invoke('delete-file', {
+            body: {
                 file_path: community.file_path,
                 file_type: 'community'
-            })
+            }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Edge Function HTTP error:', response.status, errorText);
-            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        if (error) {
+            throw new Error(error.message || 'Delete failed');
         }
 
-        const data = await response.json();
         if (data?.error) {
             throw new Error(data.error);
         }
@@ -618,37 +565,19 @@ async function updateStatus(id, newStatus) {
             throw new Error('Community not found');
         }
 
-        // Get user session for authorization
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            throw new Error('You must be logged in to perform this action');
-        }
-
-        // Call update-file Edge Function to update status in frontmatter
-        const functionUrl = 'https://abblyaukkoxmgzwretvm.supabase.co/functions/v1/update-file';
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiYmx5YXVra294bWd6d3JldHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMzE4NTQsImV4cCI6MjA4MzgwNzg1NH0.neJmkUmGFPfXMC5PZNRhaXIGEefj_b79L_YceXl5jxU'
-        };
-
-        const response = await fetch(functionUrl, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify({
+        // Call update-file Edge Function using Supabase client (handles auth automatically)
+        const { data, error } = await supabase.functions.invoke('update-file', {
+            body: {
                 file_path: community.file_path,
                 file_type: 'community',
                 updates: { status: newStatus }
-            })
+            }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Edge Function HTTP error:', response.status, errorText);
-            throw new Error(`Edge Function returned ${response.status}: ${errorText}`);
+        if (error) {
+            throw new Error(error.message || 'Status update failed');
         }
 
-        const data = await response.json();
         if (data?.error) {
             throw new Error(data.error);
         }
@@ -1811,6 +1740,92 @@ function setupStoryModalDrag() {
         if (storyModalDragState.isDragging || storyModalDragState.isResizing) {
             storyModalDragState.isDragging = false;
             storyModalDragState.isResizing = false;
+            modalContent.classList.remove('dragging', 'resizing');
+        }
+    });
+}
+
+// Form Modal Drag and Resize
+let formModalDragState = {
+    isDragging: false,
+    isResizing: false,
+    startX: 0,
+    startY: 0,
+    startTop: 0,
+    startLeft: 0,
+    startWidth: 0,
+    startHeight: 0
+};
+
+function setupFormModalDrag() {
+    const modal = document.getElementById('formModal');
+    const modalContent = modal.querySelector('.modal-content');
+    const header = document.getElementById('formModalHeader');
+    const resizeHandle = modalContent.querySelector('.resize-handle');
+
+    if (!header || !resizeHandle) return;
+
+    // Drag functionality (header)
+    header.addEventListener('mousedown', function(e) {
+        // Don't drag if clicking on close button or input fields
+        if (e.target.closest('.btn-close') || e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select')) return;
+
+        formModalDragState.isDragging = true;
+        formModalDragState.startX = e.clientX;
+        formModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        formModalDragState.startLeft = rect.left;
+        formModalDragState.startTop = rect.top;
+
+        modalContent.classList.add('dragging');
+        modalContent.style.transform = 'none';
+    });
+
+    // Resize functionality (resize handle)
+    resizeHandle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        formModalDragState.isResizing = true;
+        formModalDragState.startX = e.clientX;
+        formModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        formModalDragState.startWidth = rect.width;
+        formModalDragState.startHeight = rect.height;
+
+        modalContent.classList.add('resizing');
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', function(e) {
+        if (formModalDragState.isDragging) {
+            const deltaX = e.clientX - formModalDragState.startX;
+            const deltaY = e.clientY - formModalDragState.startY;
+
+            modalContent.style.left = (formModalDragState.startLeft + deltaX) + 'px';
+            modalContent.style.top = (formModalDragState.startTop + deltaY) + 'px';
+        }
+
+        if (formModalDragState.isResizing) {
+            const deltaX = e.clientX - formModalDragState.startX;
+            const deltaY = e.clientY - formModalDragState.startY;
+
+            const newWidth = Math.max(600, formModalDragState.startWidth + deltaX);
+            const newHeight = Math.max(500, formModalDragState.startHeight + deltaY);
+            const maxHeight = window.innerHeight * 0.9;
+
+            modalContent.style.width = newWidth + 'px';
+            modalContent.style.height = Math.min(newHeight, maxHeight) + 'px';
+        }
+    });
+
+    // Mouse up handler
+    document.addEventListener('mouseup', function() {
+        if (formModalDragState.isDragging || formModalDragState.isResizing) {
+            formModalDragState.isDragging = false;
+            formModalDragState.isResizing = false;
             modalContent.classList.remove('dragging', 'resizing');
         }
     });

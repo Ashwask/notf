@@ -55,8 +55,13 @@
         <!-- Create/Edit Modal -->
         <div id="formModal" class="modal" style="display: none;">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="modalTitle">Add Community</h2>
+                <div class="modal-header" id="formModalHeader">
+                    <div class="drag-handle" title="Drag to move">
+                        <i class="fa-solid fa-grip-vertical"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <h2 id="modalTitle">Add Community</h2>
+                    </div>
                     <button onclick="closeModal()" class="btn-close">×</button>
                 </div>
                 <form id="communityForm" class="organization-form">
@@ -273,6 +278,7 @@
                         </button>
                     </div>
                 </form>
+                <div class="resize-handle" title="Drag to resize"></div>
             </div>
         </div>
 

@@ -13,6 +13,7 @@ let currentStatusFilter = 'active';
     await loadOrganizations();
     setupEventListeners();
     setupModalDrag();
+    setupFormModalDrag();
 })();
 
 async function loadOrganizations() {
@@ -616,6 +617,92 @@ function setupModalDrag() {
         if (modalDragState.isDragging || modalDragState.isResizing) {
             modalDragState.isDragging = false;
             modalDragState.isResizing = false;
+            modalContent.classList.remove('dragging', 'resizing');
+        }
+    });
+}
+
+// Form Modal Drag and Resize
+let formModalDragState = {
+    isDragging: false,
+    isResizing: false,
+    startX: 0,
+    startY: 0,
+    startTop: 0,
+    startLeft: 0,
+    startWidth: 0,
+    startHeight: 0
+};
+
+function setupFormModalDrag() {
+    const modal = document.getElementById('formModal');
+    const modalContent = modal.querySelector('.modal-content');
+    const header = document.getElementById('formModalHeader');
+    const resizeHandle = modalContent.querySelector('.resize-handle');
+
+    if (!header || !resizeHandle) return;
+
+    // Drag functionality (header)
+    header.addEventListener('mousedown', function(e) {
+        // Don't drag if clicking on close button or input fields
+        if (e.target.closest('.btn-close') || e.target.closest('input') || e.target.closest('textarea') || e.target.closest('select')) return;
+
+        formModalDragState.isDragging = true;
+        formModalDragState.startX = e.clientX;
+        formModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        formModalDragState.startLeft = rect.left;
+        formModalDragState.startTop = rect.top;
+
+        modalContent.classList.add('dragging');
+        modalContent.style.transform = 'none';
+    });
+
+    // Resize functionality (resize handle)
+    resizeHandle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        formModalDragState.isResizing = true;
+        formModalDragState.startX = e.clientX;
+        formModalDragState.startY = e.clientY;
+
+        const rect = modalContent.getBoundingClientRect();
+        formModalDragState.startWidth = rect.width;
+        formModalDragState.startHeight = rect.height;
+
+        modalContent.classList.add('resizing');
+    });
+
+    // Mouse move handler
+    document.addEventListener('mousemove', function(e) {
+        if (formModalDragState.isDragging) {
+            const deltaX = e.clientX - formModalDragState.startX;
+            const deltaY = e.clientY - formModalDragState.startY;
+
+            modalContent.style.left = (formModalDragState.startLeft + deltaX) + 'px';
+            modalContent.style.top = (formModalDragState.startTop + deltaY) + 'px';
+        }
+
+        if (formModalDragState.isResizing) {
+            const deltaX = e.clientX - formModalDragState.startX;
+            const deltaY = e.clientY - formModalDragState.startY;
+
+            const newWidth = Math.max(600, formModalDragState.startWidth + deltaX);
+            const newHeight = Math.max(500, formModalDragState.startHeight + deltaY);
+            const maxHeight = window.innerHeight * 0.9;
+
+            modalContent.style.width = newWidth + 'px';
+            modalContent.style.height = Math.min(newHeight, maxHeight) + 'px';
+        }
+    });
+
+    // Mouse up handler
+    document.addEventListener('mouseup', function() {
+        if (formModalDragState.isDragging || formModalDragState.isResizing) {
+            formModalDragState.isDragging = false;
+            formModalDragState.isResizing = false;
             modalContent.classList.remove('dragging', 'resizing');
         }
     });
