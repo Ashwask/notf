@@ -80,8 +80,10 @@ User Input: "garbage found on road near post office"
 | File | Purpose |
 |------|---------|
 | `/assets/chat/semantic-matcher.js` | Transformers.js integration |
-| `/assets/chat/complaint-engine.js` | Updated to use semantic matching |
-| `/assets/chat/unified-chatbot.js` | Updated to handle async matching |
+| `/assets/chat/complaint-engine.js` | Complaint categorization with semantic matching |
+| `/assets/chat/unified-chatbot.js` | Chatbot with async matching support |
+| `/assets/chat/discovery-engine.js` | Community/provider search with semantic matching |
+| `/admin/matcher.html` | Ask/offer matcher with semantic text similarity |
 
 ---
 
@@ -205,6 +207,119 @@ window.semanticMatcher.findMatches("garbage on road", 10, 0.3)
         type: m.matchType
     }))));
 ```
+
+---
+
+## Use Cases
+
+### 1. Complaint Categorization
+
+**File:** `/assets/chat/complaint-engine.js`
+
+Automatically categorizes citizen complaints into government issue categories using semantic understanding.
+
+**Example:**
+```
+Input: "garbage dumping near post office"
+Match: "Sewage Dumping" (0.72 similarity)
+       "Waste Management" (0.85 similarity)
+```
+
+**Benefits:**
+- Understands "garbage" = "waste" = "trash"
+- Matches issue keywords even with different wording
+- Prioritizes issue over location mentions
+
+### 2. Community & Provider Discovery
+
+**File:** `/assets/chat/discovery-engine.js`
+
+Finds relevant communities and solution providers based on user queries.
+
+**Example:**
+```
+Input: "waste management experts in Bangalore"
+Matches:
+- Provider: "Green Earth Solutions" (0.82 similarity)
+  Offers: waste management consulting, composting solutions
+- Community: "Malleshwaram Zero Waste" (0.76 similarity)
+  Themes: waste management, recycling
+```
+
+**Benefits:**
+- Searches across name, description, themes, asks, offers, location
+- Understands query intent (e.g., "waste" matches "environment", "composting")
+- Filters by resource type (community vs provider)
+
+**Implementation:**
+```javascript
+// Precompute embeddings for all resources
+for (const resource of allResources) {
+    const resourceText = [
+        resource.name,
+        resource.description,
+        ...resource.themes,
+        ...resource.asks,
+        ...resource.offers,
+        resource.city
+    ].join(' ');
+
+    resource.embedding = await semanticMatcher.embed(resourceText);
+}
+
+// Search with semantic matching
+const queryEmbedding = await semanticMatcher.embed(query);
+const matches = resources.filter(r => {
+    const similarity = semanticMatcher.cosineSimilarity(queryEmbedding, r.embedding);
+    return similarity >= 0.4;
+}).sort((a, b) => b.matchScore - a.matchScore);
+```
+
+### 3. Ask/Offer Matching
+
+**File:** `/admin/matcher.html`
+
+Matches community needs (asks) with available resources (offers) from solution providers.
+
+**Example:**
+```
+Ask: "Need funding for rainwater harvesting project"
+Offer: "Grant support for water conservation initiatives"
+Text Similarity: 0.78 (semantic matching)
+Overall Match: 92% (including tag/keyword/location bonuses)
+```
+
+**Scoring Components:**
+1. **Tag Matching** (40% weight) - Categories: funding, volunteers, space, expertise
+2. **Keyword Matching** (30% weight) - Exact keyword overlaps
+3. **City Matching** (15% weight) - Fuzzy city name matching (Fuse.js)
+4. **Theme Matching** (15% weight) - Exact theme matches
+5. **Text Similarity** (25% weight) - **Semantic matching** (Transformers.js) or Fuse.js fallback
+
+**Benefits:**
+- **Before:** "rainwater harvesting" wouldn't match "water conservation" (0% similarity)
+- **After:** Semantic understanding recognizes related concepts (0.78 similarity)
+- Hybrid approach: Semantic for text, Fuse.js for city names (handles "Bengaluru" vs "Bangalore")
+
+**Implementation:**
+```javascript
+// Precompute embeddings for asks and offers
+for (const ask of allAsks) {
+    ask.embedding = await semanticMatcher.embed(ask.text);
+}
+for (const offer of allOffers) {
+    offer.embedding = await semanticMatcher.embed(offer.text);
+}
+
+// Calculate text similarity
+const textSimilarity = semanticMatcher.cosineSimilarity(ask.embedding, offer.embedding);
+score += textSimilarity * 0.25;  // 25% weight
+```
+
+**Performance:**
+- **Initialization:** ~2-3 seconds (model load) + ~5-10 seconds (precompute embeddings)
+- **Matching:** Instant (embeddings precomputed, only cosine similarity calculation)
+- **User Experience:** Shows loading indicator during initialization, smooth matching afterward
 
 ---
 

@@ -34,6 +34,8 @@ class NotfCmsApi {
         try {
             const formattedData = this.formatForApi(complaintData);
             console.log('[API] Sending complaint data:', formattedData);
+            console.log('[API] Corporation ID:', formattedData.corporation_id);
+            console.log('[API] Category ID:', formattedData.category_id);
 
             // Check if there's a photo to upload
             let headers = {
@@ -69,6 +71,12 @@ class NotfCmsApi {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                console.error('[API] Error response:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorData: errorData,
+                    details: errorData.details
+                });
                 throw new Error(errorData.error || errorData.message || `HTTP ${response.status}`);
             }
 

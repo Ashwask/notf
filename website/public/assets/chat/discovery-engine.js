@@ -1,6 +1,6 @@
 /**
  * Discovery Engine
- * Handles community and resource discovery using Fuse.js for fuzzy search
+ * Handles community and resource discovery using semantic matching and Fuse.js fallback
  */
 
 class DiscoveryEngine {
@@ -12,8 +12,63 @@ class DiscoveryEngine {
             ...this.members.map(m => ({...m, resourceType: 'provider'}))
         ];
 
-        // Initialize Fuse.js for fuzzy search
+        // Initialize both semantic matcher and Fuse.js
+        this.initializeSemanticMatcher();
         this.initializeFuse();
+    }
+
+    async initializeSemanticMatcher() {
+        if (typeof window.semanticMatcher === 'undefined' || !window.semanticMatcher.isReady) {
+            console.log('[Discovery] SemanticMatcher not ready yet');
+            return;
+        }
+
+        try {
+            console.log('[Discovery] Precomputing embeddings for', this.allResources.length, 'resources...');
+
+            // Precompute embeddings for all resources
+            this.resourceEmbeddings = [];
+
+            for (const resource of this.allResources) {
+                // Create rich text representation
+                const resourceText = this.getResourceText(resource);
+
+                // Get embedding
+                const embedding = await window.semanticMatcher.embed(resourceText);
+                this.resourceEmbeddings.push({
+                    resource: resource,
+                    embedding: embedding,
+                    text: resourceText
+                });
+            }
+
+            console.log('[Discovery] Semantic matching ready for', this.resourceEmbeddings.length, 'resources!');
+        } catch (error) {
+            console.error('[Discovery] Failed to initialize semantic matcher:', error);
+        }
+    }
+
+    getResourceText(resource) {
+        const parts = [resource.name];
+
+        // Add description
+        if (resource.description) parts.push(resource.description);
+
+        // Add themes/focus areas/domains
+        if (resource.themes) parts.push(...resource.themes);
+        if (resource.focus_areas) parts.push(...resource.focus_areas);
+        if (resource.domains) parts.push(...resource.domains);
+
+        // Add asks and offers
+        if (resource.asks) parts.push(...resource.asks);
+        if (resource.offers) parts.push(...resource.offers);
+        if (resource.infrastructure_offers) parts.push(...resource.infrastructure_offers);
+
+        // Add location
+        if (resource.neighborhood) parts.push(resource.neighborhood);
+        if (resource.city) parts.push(resource.city);
+
+        return parts.join(' ');
     }
 
     initializeFuse() {
@@ -54,7 +109,7 @@ class DiscoveryEngine {
         this.fuse = new Fuse(this.allResources, fuseOptions);
     }
 
-    search(query) {
+    async search(query) {
         const queryLower = query.toLowerCase();
 
         console.log('[Discovery] Search query:', query);
@@ -70,12 +125,27 @@ class DiscoveryEngine {
         const cleanQuery = this.cleanQuery(queryLower);
         console.log('[Discovery] Clean query:', cleanQuery);
 
-        // If Fuse.js is not available, fall back to basic search
+        // Try semantic matching first
+        if (this.resourceEmbeddings && this.resourceEmbeddings.length > 0) {
+            console.log('[Discovery] Using semantic matching...');
+            try {
+                const semanticResults = await this.semanticSearch(cleanQuery, requestedType);
+                if (semanticResults.length > 0) {
+                    console.log('[Discovery] Found', semanticResults.length, 'semantic matches');
+                    return semanticResults;
+                }
+            } catch (error) {
+                console.error('[Discovery] Semantic search error:', error);
+            }
+        }
+
+        // Fall back to Fuse.js
         if (!this.fuse) {
             console.warn('[Discovery] Fuse.js not available, using basic search');
             return this.basicSearch(cleanQuery, requestedType);
         }
 
+        console.log('[Discovery] Using Fuse.js fuzzy matching...');
         // Use Fuse.js for fuzzy search
         let results = this.fuse.search(cleanQuery).map(result => ({
             ...result.item,
@@ -98,6 +168,62 @@ class DiscoveryEngine {
 
         // Return top 10 results
         return results.slice(0, 10);
+    }
+
+    /**
+     * Semantic search using Transformers.js embeddings
+     * @param {string} query - The search query
+     * @param {string} requestedType - Optional resource type filter ('community' or 'provider')
+     * @returns {Array} - Matching resources with semantic scores
+     */
+    async semanticSearch(query, requestedType) {
+        if (!window.semanticMatcher || !window.semanticMatcher.isReady) {
+            console.warn('[Discovery] SemanticMatcher not ready');
+            return [];
+        }
+
+        try {
+            // Embed the search query
+            const queryEmbedding = await window.semanticMatcher.embed(query);
+
+            const matches = [];
+            const SEMANTIC_THRESHOLD = 0.4;  // Minimum similarity score (0-1)
+
+            // Calculate similarity with all resource embeddings
+            for (const resEmb of this.resourceEmbeddings) {
+                const similarity = window.semanticMatcher.cosineSimilarity(queryEmbedding, resEmb.embedding);
+
+                if (similarity >= SEMANTIC_THRESHOLD) {
+                    matches.push({
+                        ...resEmb.resource,
+                        matchScore: similarity,
+                        matchType: 'semantic',
+                        matchedText: resEmb.text
+                    });
+                }
+            }
+
+            // Filter by requested resource type if specified
+            let filteredMatches = matches;
+            if (requestedType === 'community') {
+                filteredMatches = matches.filter(m => m.resourceType === 'community');
+            } else if (requestedType === 'provider') {
+                filteredMatches = matches.filter(m => m.resourceType === 'provider');
+            }
+
+            // Sort by similarity score (highest first) and return top 10
+            const sortedMatches = filteredMatches.sort((a, b) => b.matchScore - a.matchScore).slice(0, 10);
+
+            console.log('[Discovery] Semantic search found', sortedMatches.length, 'matches');
+            if (sortedMatches.length > 0) {
+                console.log('[Discovery] Top semantic match:', sortedMatches[0].name, 'Score:', sortedMatches[0].matchScore.toFixed(3));
+            }
+
+            return sortedMatches;
+        } catch (error) {
+            console.error('[Discovery] Semantic search error:', error);
+            return [];
+        }
     }
 
     // Fallback basic search if Fuse.js fails to load

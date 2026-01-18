@@ -95,6 +95,7 @@
     </div>
 </section>
 
+<script type="module" src="/assets/chat/semantic-matcher.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/admin/auth.js"></script>
 <script>
@@ -149,7 +150,21 @@ async function loadAndMatchData() {
     initMatcher(members);
 }
 
-function initMatcher(members) {
+async function initMatcher(members) {
+    // Initialize semantic matcher
+    let askEmbeddings = [];
+    let offerEmbeddings = [];
+    let semanticReady = false;
+
+    if (window.semanticMatcher) {
+        console.log('[Matcher] Initializing semantic matcher...');
+        const initialized = await window.semanticMatcher.initialize();
+        if (initialized) {
+            semanticReady = true;
+            console.log('[Matcher] Semantic matcher ready!');
+        }
+    }
+
     // Extract all asks
     function extractAsks() {
         const asks = [];
@@ -269,8 +284,8 @@ function initMatcher(members) {
         return [...new Set(words)];
     }
 
-    // Calculate match score with Fuse.js fuzzy matching
-    function calculateMatchScore(ask, offer) {
+    // Calculate match score with semantic and fuzzy matching
+    async function calculateMatchScore(ask, offer) {
         let score = 0;
 
         // 1. Tag matching (exact) - 40% weight
@@ -303,9 +318,14 @@ function initMatcher(members) {
             score += 0.15;
         }
 
-        // 5. Text similarity with Fuse.js - 25% weight
-        if (typeof Fuse !== 'undefined' && ask.text && offer.text) {
-            // Create mini corpus of offers to search
+        // 5. Text similarity with semantic matching (primary) or Fuse.js (fallback) - 25% weight
+        if (semanticReady && ask.embedding && offer.embedding) {
+            // Use semantic matching for better understanding
+            const textSimilarity = window.semanticMatcher.cosineSimilarity(ask.embedding, offer.embedding);
+            score += textSimilarity * 0.25;
+            console.log(`[Matcher] Semantic similarity between "${ask.text.substring(0, 30)}..." and "${offer.text.substring(0, 30)}...": ${textSimilarity.toFixed(3)}`);
+        } else if (typeof Fuse !== 'undefined' && ask.text && offer.text) {
+            // Fall back to Fuse.js if semantic matching unavailable
             const offerFuse = new Fuse([{ text: offer.text }], {
                 keys: ['text'],
                 threshold: 0.5,  // More lenient for text matching
@@ -325,17 +345,17 @@ function initMatcher(members) {
     }
 
     // Find all matches
-    function findMatches(asks, offers, minConfidence = 0.5) {
+    async function findMatches(asks, offers, minConfidence = 0.5) {
         const matches = [];
 
-        asks.forEach(ask => {
-            offers.forEach(offer => {
+        for (const ask of asks) {
+            for (const offer of offers) {
                 // Skip self-matches
                 if (ask.from === offer.from) {
-                    return;
+                    continue;
                 }
 
-                const score = calculateMatchScore(ask, offer);
+                const score = await calculateMatchScore(ask, offer);
 
                 if (score >= minConfidence) {
                     matches.push({
@@ -348,8 +368,8 @@ function initMatcher(members) {
                         matchedKeywords: ask.keywords.filter(k => offer.keywords.includes(k))
                     });
                 }
-            });
-        });
+            }
+        }
 
         return matches.sort((a, b) => b.score - a.score);
     }
@@ -433,7 +453,27 @@ function initMatcher(members) {
     // Initialize
     const allAsks = extractAsks();
     const allOffers = extractOffers();
-    let allMatches = findMatches(allAsks, allOffers, 0.5);
+
+    // Precompute embeddings if semantic matcher is ready
+    if (semanticReady) {
+        console.log('[Matcher] Precomputing embeddings for', allAsks.length, 'asks and', allOffers.length, 'offers...');
+
+        // Embed all asks
+        for (const ask of allAsks) {
+            ask.embedding = await window.semanticMatcher.embed(ask.text);
+        }
+
+        // Embed all offers
+        for (const offer of allOffers) {
+            offer.embedding = await window.semanticMatcher.embed(offer.text);
+        }
+
+        console.log('[Matcher] Embeddings precomputed! Using semantic matching for text similarity.');
+    } else {
+        console.log('[Matcher] Semantic matcher not available, using Fuse.js fallback.');
+    }
+
+    let allMatches = await findMatches(allAsks, allOffers, 0.5);
     let filteredMatches = allMatches;
 
     // Update stats
