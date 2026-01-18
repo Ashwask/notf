@@ -39,31 +39,27 @@ class NotfCmsApi {
             console.log('[API] Description:', formattedData.description);
             console.log('[API] Full data:', JSON.stringify(formattedData, null, 2));
 
-            // Check if there's a photo to upload
-            let headers = {
+            // Convert photo to base64 if provided
+            if (complaintData.photo && complaintData.photo instanceof File) {
+                console.log('[API] Converting photo to base64...');
+                try {
+                    const base64Photo = await this.fileToBase64(complaintData.photo);
+                    formattedData.photo = base64Photo;
+                    formattedData.photo_filename = complaintData.photo.name;
+                    formattedData.photo_size = complaintData.photo.size;
+                    console.log('[API] Photo converted successfully');
+                } catch (error) {
+                    console.error('[API] Failed to convert photo:', error);
+                    throw new Error('Failed to process photo. Please try again.');
+                }
+            }
+
+            // Always send as JSON (no FormData)
+            const headers = {
+                'Content-Type': 'application/json',
                 'Origin': window.location.origin
             };
-            let body;
-
-            if (complaintData.photo && complaintData.photo instanceof File) {
-                // Use FormData for photo upload
-                const formData = new FormData();
-
-                // Add all complaint data as JSON string
-                const dataWithoutPhoto = { ...formattedData };
-                delete dataWithoutPhoto.photo;
-                formData.append('data', JSON.stringify(dataWithoutPhoto));
-
-                // Add photo file
-                formData.append('photo', complaintData.photo);
-
-                body = formData;
-                // Don't set Content-Type - browser will set it with boundary for FormData
-            } else {
-                // Regular JSON submission without photo
-                headers['Content-Type'] = 'application/json';
-                body = JSON.stringify(formattedData);
-            }
+            const body = JSON.stringify(formattedData);
 
             const response = await fetch(`${this.apiBaseUrl}/submit-complaint`, {
                 method: 'POST',
@@ -260,6 +256,20 @@ class NotfCmsApi {
             // Timestamps handled by database
             created_at: new Date().toISOString()
         };
+    }
+
+    /**
+     * Convert File to base64 string
+     * @param {File} file - The file to convert
+     * @returns {Promise<string>} - Base64 string with data URL prefix
+     */
+    fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
     }
 
     /**
