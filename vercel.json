@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "website/_site",
+  "outputDirectory": "website/public",
   "framework": null,
-  "buildCommand": "cd website && npm run build"
+  "buildCommand": null
 }
