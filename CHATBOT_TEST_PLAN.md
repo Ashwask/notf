@@ -8,7 +8,7 @@
 
 ## Test Environment
 
-- **Production URL:** https://notf.vercel.app
+- **Production URL:** https://notf-one.vercel.app
 - **API Backend:** https://notf-cms.vercel.app/api
 - **Database:** Supabase (abblyaukkoxmgzwretvm.supabase.co)
 
@@ -30,7 +30,8 @@
 - Display shows: Name, Location, Theme tags
 - "No results" message if no match
 
-**Status:** ⏳ Pending
+**Status:** ✅ PASSED (2026-01-18)
+**Notes:** Fixed race condition and data structure mismatches. Search now working correctly.
 
 ---
 
