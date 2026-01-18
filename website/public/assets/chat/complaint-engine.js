@@ -306,8 +306,9 @@ class ComplaintEngine {
 
                 if (nameResults.length > 0) {
                     const matchQuality = 1 - nameResults[0].score;
-                    // Lower weight for name-only matches (less confident)
-                    categoryScore = matchQuality * 0.5;
+                    // Very low weight for name-only matches to avoid matching location references
+                    // (e.g., "post office" as a location shouldn't match "Post Offices" category)
+                    categoryScore = matchQuality * 0.2;
                     matchedKeywords.push(`[name: ${category.name}]`);
                 }
             }
@@ -366,7 +367,8 @@ class ComplaintEngine {
      * @returns {Array} - Top matching categories with scores
      */
     getTopSuggestionsWithFuse(description, limit = 5) {
-        const matches = [];
+        const keywordMatches = [];
+        const nameMatches = [];
 
         // Create a Fuse instance for searching keywords IN the description
         const descFuse = new Fuse([description], {
@@ -377,12 +379,14 @@ class ComplaintEngine {
             findAllMatches: true
         });
 
-        // Minimum score threshold to filter weak matches
-        const MIN_SCORE = 0.3;
+        // Minimum score thresholds
+        const MIN_KEYWORD_SCORE = 0.3;  // Higher bar for keyword matches
+        const MIN_NAME_SCORE = 0.15;     // Lower bar for name matches
 
         this.categories.forEach(category => {
             let categoryScore = 0;
             const matchedKeywords = [];
+            let hasKeywordMatch = false;
 
             // If category has keywords, use them for matching
             if (category.keywords && category.keywords.length > 0) {
@@ -397,31 +401,48 @@ class ComplaintEngine {
                         const keywordWeight = keyword.split(' ').length;
                         categoryScore += matchQuality * keywordWeight;
                         matchedKeywords.push(keyword);
+                        hasKeywordMatch = true;
                     }
                 });
+
+                // Store in keyword matches array if it passed threshold
+                if (categoryScore >= MIN_KEYWORD_SCORE) {
+                    keywordMatches.push({
+                        ...category,
+                        score: categoryScore,
+                        matchedKeywords: matchedKeywords,
+                        matchType: 'keyword'
+                    });
+                }
             } else {
                 // Fallback: If no keywords, match against category name
                 const nameResults = descFuse.search(category.name);
 
                 if (nameResults.length > 0) {
                     const matchQuality = 1 - nameResults[0].score;
-                    // Lower weight for name-only matches (less confident)
-                    categoryScore = matchQuality * 0.5;
+                    // Very low weight for name-only matches to avoid matching location references
+                    // (e.g., "post office" as a location shouldn't match "Post Offices" category)
+                    categoryScore = matchQuality * 0.2;
                     matchedKeywords.push(`[name: ${category.name}]`);
-                }
-            }
 
-            // Only include matches above minimum score threshold
-            if (categoryScore >= MIN_SCORE) {
-                matches.push({
-                    ...category,
-                    score: categoryScore,
-                    matchedKeywords: matchedKeywords
-                });
+                    // Store in name matches array if it passed threshold
+                    if (categoryScore >= MIN_NAME_SCORE) {
+                        nameMatches.push({
+                            ...category,
+                            score: categoryScore,
+                            matchedKeywords: matchedKeywords,
+                            matchType: 'name'
+                        });
+                    }
+                }
             }
         });
 
-        return matches.sort((a, b) => b.score - a.score).slice(0, limit);
+        // Prioritize keyword matches over name matches
+        // If we have keyword matches, use those; otherwise fall back to name matches
+        const results = keywordMatches.length > 0 ? keywordMatches : nameMatches;
+
+        return results.sort((a, b) => b.score - a.score).slice(0, limit);
     }
 
     validatePhone(phone) {
