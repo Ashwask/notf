@@ -238,7 +238,7 @@ class ComplaintEngine {
             return this.categorizeWithFuse(description);
         }
 
-        // Fallback to basic substring matching
+        // Fallback to basic substring matching with position awareness
         const descLower = description.toLowerCase();
         const matches = [];
 
@@ -246,8 +246,13 @@ class ComplaintEngine {
             let score = 0;
 
             category.keywords.forEach(keyword => {
-                if (descLower.includes(keyword)) {
-                    score += keyword.split(' ').length; // Longer phrases get higher scores
+                const index = descLower.indexOf(keyword);
+                if (index !== -1) {
+                    const phraseLength = keyword.split(' ').length;
+                    // Bonus for keywords appearing earlier in description (issue before location)
+                    // At start (0): 1.5x bonus, within first 20 chars: 1.2x, later: 1.0x
+                    const positionBonus = index === 0 ? 1.5 : (index < 20 ? 1.2 : 1.0);
+                    score += phraseLength * positionBonus;
                 }
             });
 
@@ -273,11 +278,14 @@ class ComplaintEngine {
         let bestScore = 0;
 
         // Create a Fuse instance for searching keywords IN the description
+        // Use location scoring to prioritize keywords at the START (issue before location)
         const descFuse = new Fuse([description], {
             threshold: 0.4,           // Allow 40% difference (typo tolerance)
             includeScore: true,       // Return match quality
             minMatchCharLength: 2,    // Minimum 2 chars to match
-            ignoreLocation: true,     // Search entire string
+            location: 0,              // Search from beginning of text
+            distance: 100,            // How far from location to search (characters)
+            ignoreLocation: false,    // DO use location in scoring (prioritize early matches)
             findAllMatches: true      // Get all keyword matches
         });
 
@@ -338,7 +346,7 @@ class ComplaintEngine {
             return this.getTopSuggestionsWithFuse(description, limit);
         }
 
-        // Fallback to basic substring matching
+        // Fallback to basic substring matching with position awareness
         const descLower = description.toLowerCase();
         const matches = [];
 
@@ -346,8 +354,13 @@ class ComplaintEngine {
             let score = 0;
 
             category.keywords.forEach(keyword => {
-                if (descLower.includes(keyword)) {
-                    score += keyword.split(' ').length; // Longer phrases get higher scores
+                const index = descLower.indexOf(keyword);
+                if (index !== -1) {
+                    const phraseLength = keyword.split(' ').length;
+                    // Bonus for keywords appearing earlier in description (issue before location)
+                    // At start (0): 1.5x bonus, within first 20 chars: 1.2x, later: 1.0x
+                    const positionBonus = index === 0 ? 1.5 : (index < 20 ? 1.2 : 1.0);
+                    score += phraseLength * positionBonus;
                 }
             });
 
@@ -371,11 +384,14 @@ class ComplaintEngine {
         const nameMatches = [];
 
         // Create a Fuse instance for searching keywords IN the description
+        // Use location scoring to prioritize keywords at the START (issue before location)
         const descFuse = new Fuse([description], {
             threshold: 0.4,
             includeScore: true,
             minMatchCharLength: 2,
-            ignoreLocation: true,
+            location: 0,              // Search from beginning of text
+            distance: 100,            // How far from location to search (characters)
+            ignoreLocation: false,    // DO use location in scoring (prioritize early matches)
             findAllMatches: true
         });
 
