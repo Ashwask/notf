@@ -266,6 +266,15 @@ class NotfChatbot {
     }
 
     processDiscoveryMessage(message) {
+        // Re-initialize discovery engine if it's null (data loaded after initialization)
+        if (!this.discoveryEngine) {
+            console.log('[Chatbot] Re-initializing discovery engine with loaded data');
+            this.discoveryEngine = new DiscoveryEngine(
+                this.getCommunitiesData(),
+                this.getMembersData()
+            );
+        }
+
         // Use discovery engine to process query
         const results = this.discoveryEngine.search(message);
 
