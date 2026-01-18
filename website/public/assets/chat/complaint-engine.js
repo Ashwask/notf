@@ -285,19 +285,32 @@ class ComplaintEngine {
             let categoryScore = 0;
             const matchedKeywords = [];
 
-            // Check each keyword against the description
-            category.keywords.forEach(keyword => {
-                const results = descFuse.search(keyword);
+            // If category has keywords, use them for matching
+            if (category.keywords && category.keywords.length > 0) {
+                // Check each keyword against the description
+                category.keywords.forEach(keyword => {
+                    const results = descFuse.search(keyword);
 
-                if (results.length > 0) {
-                    // Found a match - score based on match quality
-                    const matchQuality = 1 - results[0].score;
-                    // Weight by keyword length (longer phrases = more specific = higher score)
-                    const keywordWeight = keyword.split(' ').length;
-                    categoryScore += matchQuality * keywordWeight;
-                    matchedKeywords.push(keyword);
+                    if (results.length > 0) {
+                        // Found a match - score based on match quality
+                        const matchQuality = 1 - results[0].score;
+                        // Weight by keyword length (longer phrases = more specific = higher score)
+                        const keywordWeight = keyword.split(' ').length;
+                        categoryScore += matchQuality * keywordWeight;
+                        matchedKeywords.push(keyword);
+                    }
+                });
+            } else {
+                // Fallback: If no keywords, match against category name
+                const nameResults = descFuse.search(category.name);
+
+                if (nameResults.length > 0) {
+                    const matchQuality = 1 - nameResults[0].score;
+                    // Lower weight for name-only matches (less confident)
+                    categoryScore = matchQuality * 0.5;
+                    matchedKeywords.push(`[name: ${category.name}]`);
                 }
-            });
+            }
 
             if (categoryScore > bestScore) {
                 bestScore = categoryScore;
@@ -364,25 +377,42 @@ class ComplaintEngine {
             findAllMatches: true
         });
 
+        // Minimum score threshold to filter weak matches
+        const MIN_SCORE = 0.3;
+
         this.categories.forEach(category => {
             let categoryScore = 0;
             const matchedKeywords = [];
 
-            // Check each keyword against the description
-            category.keywords.forEach(keyword => {
-                const results = descFuse.search(keyword);
+            // If category has keywords, use them for matching
+            if (category.keywords && category.keywords.length > 0) {
+                // Check each keyword against the description
+                category.keywords.forEach(keyword => {
+                    const results = descFuse.search(keyword);
 
-                if (results.length > 0) {
-                    // Found a match - score based on match quality
-                    const matchQuality = 1 - results[0].score;
-                    // Weight by keyword length (longer phrases = more specific = higher score)
-                    const keywordWeight = keyword.split(' ').length;
-                    categoryScore += matchQuality * keywordWeight;
-                    matchedKeywords.push(keyword);
+                    if (results.length > 0) {
+                        // Found a match - score based on match quality
+                        const matchQuality = 1 - results[0].score;
+                        // Weight by keyword length (longer phrases = more specific = higher score)
+                        const keywordWeight = keyword.split(' ').length;
+                        categoryScore += matchQuality * keywordWeight;
+                        matchedKeywords.push(keyword);
+                    }
+                });
+            } else {
+                // Fallback: If no keywords, match against category name
+                const nameResults = descFuse.search(category.name);
+
+                if (nameResults.length > 0) {
+                    const matchQuality = 1 - nameResults[0].score;
+                    // Lower weight for name-only matches (less confident)
+                    categoryScore = matchQuality * 0.5;
+                    matchedKeywords.push(`[name: ${category.name}]`);
                 }
-            });
+            }
 
-            if (categoryScore > 0) {
+            // Only include matches above minimum score threshold
+            if (categoryScore >= MIN_SCORE) {
                 matches.push({
                     ...category,
                     score: categoryScore,
