@@ -33,14 +33,31 @@ serve(async (req) => {
   }
 
   try {
-    // Create Supabase client with service role for admin operations
-    const supabaseClient = createClient(
+    // Create Supabase admin client with service role for database operations
+    const supabaseAdmin = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
       {
         auth: {
           autoRefreshToken: false,
           persistSession: false
+        }
+      }
+    )
+
+    // Create client with anon key for user JWT validation
+    const supabaseAnon = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        },
+        global: {
+          headers: {
+            Authorization: req.headers.get('Authorization') ?? ''
+          }
         }
       }
     )
@@ -53,8 +70,7 @@ serve(async (req) => {
     let user = null
     if (authHeader) {
       try {
-        const token = authHeader.replace('Bearer ', '')
-        const { data: { user: authUser }, error: authError } = await supabaseClient.auth.getUser(token)
+        const { data: { user: authUser }, error: authError } = await supabaseAnon.auth.getUser()
         if (!authError && authUser) {
           user = authUser
           console.log(`Authenticated user: ${user.email}`)
@@ -70,7 +86,7 @@ serve(async (req) => {
     console.log(`Deleting file: ${file_path}`)
 
     // Delete file from Storage
-    const { error: deleteError } = await supabaseClient
+    const { error: deleteError } = await supabaseAdmin
       .storage
       .from('notf')
       .remove([file_path])
@@ -83,7 +99,7 @@ serve(async (req) => {
     }
 
     // Delete from database
-    const { error: dbError } = await supabaseClient
+    const { error: dbError } = await supabaseAdmin
       .from('file_metadata')
       .delete()
       .eq('file_path', file_path)

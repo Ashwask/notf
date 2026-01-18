@@ -37,14 +37,31 @@ serve(async (req) => {
   }
 
   try {
-    // Create Supabase client with service role for admin operations
-    const supabaseClient = createClient(
+    // Create Supabase admin client with service role for database operations
+    const supabaseAdmin = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
       {
         auth: {
           autoRefreshToken: false,
           persistSession: false
+        }
+      }
+    )
+
+    // Create client with anon key for user JWT validation
+    const supabaseAnon = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        },
+        global: {
+          headers: {
+            Authorization: req.headers.get('Authorization') ?? ''
+          }
         }
       }
     )
@@ -57,8 +74,7 @@ serve(async (req) => {
     let user = null
     if (authHeader) {
       try {
-        const token = authHeader.replace('Bearer ', '')
-        const { data: { user: authUser }, error: authError } = await supabaseClient.auth.getUser(token)
+        const { data: { user: authUser }, error: authError } = await supabaseAnon.auth.getUser()
         if (!authError && authUser) {
           user = authUser
           console.log(`Authenticated user: ${user.email}`)
@@ -87,7 +103,7 @@ serve(async (req) => {
     }
 
     // Try to download current file from Storage
-    const { data: fileData, error: downloadError } = await supabaseClient
+    const { data: fileData, error: downloadError } = await supabaseAdmin
       .storage
       .from('notf')
       .download(file_path)
@@ -151,7 +167,7 @@ serve(async (req) => {
     }
 
     // Upload updated file to Storage
-    const { error: uploadError } = await supabaseClient
+    const { error: uploadError } = await supabaseAdmin
       .storage
       .from('notf')
       .upload(file_path, updatedContent, {
@@ -195,7 +211,7 @@ serve(async (req) => {
     if (mergedData.location?.longitude) dbUpdate.longitude = mergedData.location.longitude
 
     // Upsert to database
-    const { error: dbError } = await supabaseClient
+    const { error: dbError } = await supabaseAdmin
       .from('file_metadata')
       .upsert(dbUpdate, {
         onConflict: 'file_path'
