@@ -4,19 +4,24 @@
  */
 
 class DiscoveryEngine {
-    constructor(communities) {
+    constructor(communities, members) {
         this.communities = communities || [];
+        this.members = members || [];
+        this.allResources = [
+            ...this.communities.map(c => ({...c, resourceType: 'community'})),
+            ...this.members.map(m => ({...m, resourceType: 'provider'}))
+        ];
         this.index = this.buildSearchIndex();
     }
 
     buildSearchIndex() {
-        // Build searchable index of communities
+        // Build searchable index of all resources (communities + members)
         const index = new Map();
 
-        this.communities.forEach((community, idx) => {
+        this.allResources.forEach((resource, idx) => {
             // Index by name
-            if (community.name) {
-                const nameWords = community.name.toLowerCase().split(/\s+/);
+            if (resource.name) {
+                const nameWords = resource.name.toLowerCase().split(/\s+/);
                 nameWords.forEach(word => {
                     if (!index.has(word)) {
                         index.set(word, []);
@@ -26,8 +31,9 @@ class DiscoveryEngine {
             }
 
             // Index by location
-            if (community.location) {
-                const locationWords = community.location.toLowerCase().split(/\s+/);
+            const location = resource.location || resource.city || resource.neighborhood;
+            if (location) {
+                const locationWords = location.toLowerCase().split(/\s+/);
                 locationWords.forEach(word => {
                     if (!index.has(word)) {
                         index.set(word, []);
@@ -36,9 +42,10 @@ class DiscoveryEngine {
                 });
             }
 
-            // Index by focus areas/themes
-            if (community.focus_areas) {
-                community.focus_areas.forEach(area => {
+            // Index by focus areas/themes/domains
+            const focusAreas = resource.focus_areas || resource.domains || [];
+            if (focusAreas && focusAreas.length > 0) {
+                focusAreas.forEach(area => {
                     const areaWords = area.toLowerCase().split(/\s+/);
                     areaWords.forEach(word => {
                         if (!index.has(word)) {
@@ -79,7 +86,7 @@ class DiscoveryEngine {
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10)
             .map(([idx, score]) => ({
-                ...this.communities[idx],
+                ...this.allResources[idx],
                 matchScore: score
             }));
 

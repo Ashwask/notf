@@ -123,7 +123,10 @@ class NotfChatbot {
 
         // Lazy load discovery engine
         if (!this.discoveryEngine) {
-            this.discoveryEngine = new DiscoveryEngine(this.getCommunitiesData());
+            this.discoveryEngine = new DiscoveryEngine(
+                this.getCommunitiesData(),
+                this.getMembersData()
+            );
         }
 
         this.addBotMessage(`
@@ -219,30 +222,37 @@ class NotfChatbot {
     displayDiscoveryResults(results) {
         const resultsHtml = `
             <div class="discovery-results">
-                <p>I found <strong>${results.length}</strong> ${results.length === 1 ? 'community' : 'communities'} for you:</p>
-                ${results.map(result => this.renderCommunityCard(result)).join('')}
+                <p>I found <strong>${results.length}</strong> result${results.length === 1 ? '' : 's'} for you:</p>
+                ${results.map(result => this.renderResourceCard(result)).join('')}
             </div>
         `;
 
         this.addBotMessage(resultsHtml);
     }
 
-    renderCommunityCard(community) {
+    renderResourceCard(resource) {
+        const isProvider = resource.resourceType === 'provider';
+        const location = resource.location || resource.city || resource.neighborhood || '';
+        const focusAreas = resource.focus_areas || resource.domains || [];
+        const contact = resource.contact?.email || resource.contact;
+        const website = resource.website || resource.url;
+
         return `
             <div class="community-card">
                 <div class="community-header">
-                    <h4>${community.name}</h4>
-                    ${community.status ? `<span class="status-badge ${community.status}">${community.status}</span>` : ''}
+                    <h4>${resource.name}</h4>
+                    ${isProvider ? '<span class="type-badge">Provider</span>' : '<span class="type-badge">Community</span>'}
+                    ${resource.status ? `<span class="status-badge ${resource.status}">${resource.status}</span>` : ''}
                 </div>
                 <div class="community-details">
-                    ${community.location ? `<p class="location">📍 ${community.location}</p>` : ''}
-                    ${community.focus_areas ? `<p class="tags">🏷️ ${community.focus_areas.join(', ')}</p>` : ''}
-                    ${community.members_count ? `<p class="members">👥 ${community.members_count} members</p>` : ''}
+                    ${location ? `<p class="location">📍 ${location}</p>` : ''}
+                    ${focusAreas.length > 0 ? `<p class="tags">🏷️ ${focusAreas.join(', ')}</p>` : ''}
+                    ${resource.members_count ? `<p class="members">👥 ${resource.members_count} members</p>` : ''}
                 </div>
-                ${community.contact ? `
+                ${contact || website ? `
                     <div class="community-actions">
-                        <a href="mailto:${community.contact}" class="btn-contact">Contact</a>
-                        ${community.url ? `<a href="${community.url}" target="_blank" class="btn-learn-more">Learn More</a>` : ''}
+                        ${contact ? `<a href="mailto:${contact}" class="btn-contact">Contact</a>` : ''}
+                        ${website ? `<a href="${website}" target="_blank" class="btn-learn-more">Learn More</a>` : ''}
                     </div>
                 ` : ''}
             </div>
@@ -671,6 +681,11 @@ class NotfChatbot {
     getCommunitiesData() {
         // This will be populated from the page's data
         return window.notfData?.communities || [];
+    }
+
+    getMembersData() {
+        // This will be populated from the page's data
+        return window.notfData?.members || [];
     }
 
     saveSession() {
