@@ -982,10 +982,10 @@ button.btn-green:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #23A2A5 0%, #5BC0C3 100%);
-    color: white;
+    background: #FBC831;
+    color: #1f2937;
     border: none;
-    box-shadow: 0 4px 20px rgba(35, 162, 165, 0.4);
+    box-shadow: 0 4px 20px rgba(251, 200, 49, 0.4);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -997,7 +997,8 @@ button.btn-green:hover {
 
 .chat-fab:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(35, 162, 165, 0.6);
+    background: #E5B629;
+    box-shadow: 0 6px 30px rgba(251, 200, 49, 0.6);
 }
 
 .chat-fab:active {
