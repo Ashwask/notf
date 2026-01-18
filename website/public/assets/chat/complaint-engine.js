@@ -176,7 +176,7 @@ class ComplaintEngine {
 
             // Power Supply (separate from lighting)
             {
-                id: 'electrical_wire',
+                id: 'dangling_wire',
                 name: 'Exposed/Dangling Wires',
                 department: 'Power Supply',
                 keywords: ['wire', 'cable', 'exposed wire', 'dangling', 'electric cable', 'dangerous wire', 'hanging wire']
@@ -248,7 +248,7 @@ class ComplaintEngine {
 
             // Water
             {
-                id: 'no_water',
+                id: 'no_water_supply',
                 name: 'No Water Supply',
                 department: 'Water',
                 keywords: ['no water', 'water supply', 'water cut', 'dry tap', 'no supply']
@@ -262,9 +262,9 @@ class ComplaintEngine {
 
             // Drainage & Sewage
             {
-                id: 'drain_overflow',
+                id: 'drainage_overflow',
                 name: 'Drain Overflow',
-                department: 'Sewage',
+                department: 'Drainage',
                 keywords: ['blocked', 'clogged', 'drain block', 'choked drain', 'overflow', 'drain overflow']
             },
             {
@@ -288,7 +288,7 @@ class ComplaintEngine {
 
             // Trees
             {
-                id: 'tree_fall',
+                id: 'tree_fallen',
                 name: 'Fallen Tree',
                 department: 'Forest',
                 keywords: ['fallen tree', 'tree fall', 'uprooted', 'tree down']

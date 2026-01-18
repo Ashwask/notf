@@ -36,6 +36,8 @@ class NotfCmsApi {
             console.log('[API] Sending complaint data:', formattedData);
             console.log('[API] Corporation ID:', formattedData.corporation_id);
             console.log('[API] Category ID:', formattedData.category_id);
+            console.log('[API] Description:', formattedData.description);
+            console.log('[API] Full data:', JSON.stringify(formattedData, null, 2));
 
             // Check if there's a photo to upload
             let headers = {
@@ -71,13 +73,20 @@ class NotfCmsApi {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-                console.error('[API] Error response:', {
+                console.error('[API] ❌ Error response:', {
                     status: response.status,
                     statusText: response.statusText,
-                    errorData: errorData,
+                    error: errorData.error,
+                    message: errorData.message,
                     details: errorData.details
                 });
-                throw new Error(errorData.error || errorData.message || `HTTP ${response.status}`);
+                console.error('[API] Full error data:', JSON.stringify(errorData, null, 2));
+
+                // Show detailed error message to help debugging
+                const errorMsg = errorData.details
+                    ? `${errorData.error || errorData.message}: ${errorData.details}`
+                    : (errorData.error || errorData.message || `HTTP ${response.status}`);
+                throw new Error(errorMsg);
             }
 
             const result = await response.json();
