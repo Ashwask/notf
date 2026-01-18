@@ -815,7 +815,7 @@ class NotfChatbot {
                 <p>Is this correct? Press Enter to confirm, or type the correct location in <strong>${this.formData.city}</strong>.</p>
                 <p class="city-hint">💡 You can also click "Use Map" or "Use My Location"</p>
                 <div class="location-options">
-                    <button class="btn-location-map" onclick="notfChatbot.openMapPicker()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
+                    <button class="btn-location-map" onclick="notfChatbot.showMapModal()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
                     <button class="btn-location-gps" onclick="notfChatbot.useGPS()">🧭 Use My Location</button>
                     <button class="btn-confirm-detected" onclick="notfChatbot.confirmDetectedLocation()">✓ Confirm "${this.formData.extractedLocation}"</button>
                 </div>
@@ -837,7 +837,7 @@ class NotfChatbot {
                 <li>Click "Use My Location" for GPS</li>
             </ul>
             <div class="location-options">
-                <button class="btn-location-map" onclick="notfChatbot.openMapPicker()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
+                <button class="btn-location-map" onclick="notfChatbot.showMapModal()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
                 <button class="btn-location-gps" onclick="notfChatbot.useGPS()">🧭 Use My Location</button>
             </div>
         `);
@@ -922,7 +922,7 @@ class NotfChatbot {
                 <div class="recovery-options">
                     <p>What would you like to do?</p>
                     <button onclick="notfChatbot.retryLocation()">Try Different Address</button>
-                    <button onclick="notfChatbot.openMapPicker()">Use Map Picker</button>
+                    <button onclick="notfChatbot.showMapModal()">Use Map Picker</button>
                     <button onclick="notfChatbot.viewCoverageMap()">View Coverage Areas</button>
                 </div>
             </div>
@@ -1456,6 +1456,9 @@ class NotfChatbot {
                 <div class="map-modal-header">
                     <h3><i class="fa-solid fa-map-marker-alt"></i> Select Location in ${selectedCity}</h3>
                     <button class="map-modal-close" onclick="notfChatbot.closeMapModal()">&times;</button>
+                </div>
+                <div class="map-instructions" style="padding: 0.75rem 1rem; background: #f0f9ff; border-bottom: 1px solid #e0f2fe; font-size: 0.9rem;">
+                    <p style="margin: 0; color: #0369a1;"><i class="fa-solid fa-info-circle"></i> <strong>How to use:</strong> Click on the map where the issue is located, then click "Use This Location"</p>
                 </div>
                 <div id="map-picker" style="height: 400px; width: 100%;"></div>
                 <div class="map-modal-footer">
