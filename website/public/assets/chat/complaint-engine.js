@@ -222,18 +222,30 @@ class ComplaintEngine {
                 keywords: ['leak', 'leakage', 'pipe burst', 'water leak', 'broken pipe']
             },
 
-            // Drainage
+            // Drainage & Sewage
             {
-                id: 'drain_block',
-                name: 'Blocked Drain',
-                department: 'Drainage',
-                keywords: ['blocked', 'clogged', 'drain block', 'choked drain', 'overflow']
+                id: 'drain_overflow',
+                name: 'Drain Overflow',
+                department: 'Sewage',
+                keywords: ['blocked', 'clogged', 'drain block', 'choked drain', 'overflow', 'drain overflow']
             },
             {
-                id: 'sewage_overflow',
-                name: 'Sewage Overflow',
+                id: 'sewage_dumping',
+                name: 'Sewage Dumping',
+                department: 'Sewage',
+                keywords: ['sewage', 'sewage dump', 'sewage leak', 'sewage smell', 'manhole', 'sewage overflow']
+            },
+            {
+                id: 'broken_drain',
+                name: 'Broken Drain',
                 department: 'Drainage',
-                keywords: ['sewage', 'overflow', 'sewage leak', 'sewage smell', 'manhole']
+                keywords: ['broken drain', 'damaged drain', 'cracked drain', 'drain damage']
+            },
+            {
+                id: 'flooding',
+                name: 'Flooding',
+                department: 'Drainage',
+                keywords: ['flooding', 'flood', 'water stagnation', 'waterlogging']
             },
 
             // Trees
