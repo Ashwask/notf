@@ -205,7 +205,8 @@ class ComplaintEngine {
 
     validatePhone(phone) {
         const phoneRegex = /^[6-9]\d{9}$/;
-        return phoneRegex.test(phone.replace(/\s+/g, ''));
+        // Remove whitespace, dashes, and common separators
+        return phoneRegex.test(phone.replace(/[\s\-().+]/g, ''));
     }
 
     validateEmail(email) {
