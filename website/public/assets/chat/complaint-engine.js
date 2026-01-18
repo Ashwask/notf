@@ -272,35 +272,40 @@ class ComplaintEngine {
         let bestMatch = null;
         let bestScore = 0;
 
+        // Create a Fuse instance for searching keywords IN the description
+        const descFuse = new Fuse([description], {
+            threshold: 0.4,           // Allow 40% difference (typo tolerance)
+            includeScore: true,       // Return match quality
+            minMatchCharLength: 2,    // Minimum 2 chars to match
+            ignoreLocation: true,     // Search entire string
+            findAllMatches: true      // Get all keyword matches
+        });
+
         this.categories.forEach(category => {
-            // Create Fuse instance for this category's keywords
-            const fuse = new Fuse(category.keywords, {
-                threshold: 0.4,           // Allow 40% difference (typo tolerance)
-                includeScore: true,       // Return match quality
-                minMatchCharLength: 2,    // Minimum 2 chars to match
-                ignoreLocation: true,     // Search entire string
-                findAllMatches: true      // Get all keyword matches
+            let categoryScore = 0;
+            const matchedKeywords = [];
+
+            // Check each keyword against the description
+            category.keywords.forEach(keyword => {
+                const results = descFuse.search(keyword);
+
+                if (results.length > 0) {
+                    // Found a match - score based on match quality
+                    const matchQuality = 1 - results[0].score;
+                    // Weight by keyword length (longer phrases = more specific = higher score)
+                    const keywordWeight = keyword.split(' ').length;
+                    categoryScore += matchQuality * keywordWeight;
+                    matchedKeywords.push(keyword);
+                }
             });
 
-            // Search for keyword matches in description
-            const keywordMatches = fuse.search(description);
-
-            if (keywordMatches.length > 0) {
-                // Calculate category score based on match quality
-                // Lower Fuse.js score = better match, so invert it
-                const avgMatchQuality = keywordMatches.reduce((sum, m) => sum + (1 - m.score), 0) / keywordMatches.length;
-
-                // Weight by number of matches
-                const categoryScore = avgMatchQuality * keywordMatches.length;
-
-                if (categoryScore > bestScore) {
-                    bestScore = categoryScore;
-                    bestMatch = {
-                        ...category,
-                        score: categoryScore,
-                        matchedKeywords: keywordMatches.map(m => m.item)
-                    };
-                }
+            if (categoryScore > bestScore) {
+                bestScore = categoryScore;
+                bestMatch = {
+                    ...category,
+                    score: categoryScore,
+                    matchedKeywords: matchedKeywords
+                };
             }
         });
 
@@ -350,25 +355,38 @@ class ComplaintEngine {
     getTopSuggestionsWithFuse(description, limit = 5) {
         const matches = [];
 
+        // Create a Fuse instance for searching keywords IN the description
+        const descFuse = new Fuse([description], {
+            threshold: 0.4,
+            includeScore: true,
+            minMatchCharLength: 2,
+            ignoreLocation: true,
+            findAllMatches: true
+        });
+
         this.categories.forEach(category => {
-            const fuse = new Fuse(category.keywords, {
-                threshold: 0.4,
-                includeScore: true,
-                minMatchCharLength: 2,
-                ignoreLocation: true,
-                findAllMatches: true
+            let categoryScore = 0;
+            const matchedKeywords = [];
+
+            // Check each keyword against the description
+            category.keywords.forEach(keyword => {
+                const results = descFuse.search(keyword);
+
+                if (results.length > 0) {
+                    // Found a match - score based on match quality
+                    const matchQuality = 1 - results[0].score;
+                    // Weight by keyword length (longer phrases = more specific = higher score)
+                    const keywordWeight = keyword.split(' ').length;
+                    categoryScore += matchQuality * keywordWeight;
+                    matchedKeywords.push(keyword);
+                }
             });
 
-            const keywordMatches = fuse.search(description);
-
-            if (keywordMatches.length > 0) {
-                const avgMatchQuality = keywordMatches.reduce((sum, m) => sum + (1 - m.score), 0) / keywordMatches.length;
-                const categoryScore = avgMatchQuality * keywordMatches.length;
-
+            if (categoryScore > 0) {
                 matches.push({
                     ...category,
                     score: categoryScore,
-                    matchedKeywords: keywordMatches.map(m => m.item)
+                    matchedKeywords: matchedKeywords
                 });
             }
         });
