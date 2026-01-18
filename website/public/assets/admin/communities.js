@@ -364,10 +364,6 @@ async function handleFormSubmit(e) {
     // Get wards from chips (managed by chip functions)
     const wards = getSelectedWards();
 
-    // For backward compatibility: store first value in singular fields
-    const neighborhood = neighborhoods.length > 0 ? neighborhoods[0] : '';
-    const ward = wards.length > 0 ? wards[0] : '';
-
     const contactPhone = document.getElementById('commContactPhone').value.trim();
     const stories = document.getElementById('commStories').value.trim();
 
@@ -512,16 +508,12 @@ async function handleFormSubmit(e) {
                 file_type: 'community',
                 slug: slug,
                 city: city,
-                neighborhood: neighborhood || null,
                 status: status,
                 metadata: metadata
             };
 
             if (latitude !== null) insertData.latitude = latitude;
             if (longitude !== null) insertData.longitude = longitude;
-
-            // Ward already extracted above (first ward from chips)
-            if (ward) insertData.ward = ward;
 
             const { error } = await supabase
                 .from('file_metadata')

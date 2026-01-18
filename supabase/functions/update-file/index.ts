@@ -190,7 +190,7 @@ serve(async (req) => {
 
     // Add indexed fields
     if (city) dbUpdate.city = city
-    if (mergedData.neighborhood) dbUpdate.neighborhood = mergedData.neighborhood
+    // Note: neighborhood and ward are now stored as arrays in metadata.neighborhoods and metadata.wards
     if (mergedData.location?.latitude) dbUpdate.latitude = mergedData.location.latitude
     if (mergedData.location?.longitude) dbUpdate.longitude = mergedData.location.longitude
 
