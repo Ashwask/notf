@@ -35,13 +35,36 @@ class NotfCmsApi {
             const formattedData = this.formatForApi(complaintData);
             console.log('[API] Sending complaint data:', formattedData);
 
+            // Check if there's a photo to upload
+            let headers = {
+                'Origin': window.location.origin
+            };
+            let body;
+
+            if (complaintData.photo && complaintData.photo instanceof File) {
+                // Use FormData for photo upload
+                const formData = new FormData();
+
+                // Add all complaint data as JSON string
+                const dataWithoutPhoto = { ...formattedData };
+                delete dataWithoutPhoto.photo;
+                formData.append('data', JSON.stringify(dataWithoutPhoto));
+
+                // Add photo file
+                formData.append('photo', complaintData.photo);
+
+                body = formData;
+                // Don't set Content-Type - browser will set it with boundary for FormData
+            } else {
+                // Regular JSON submission without photo
+                headers['Content-Type'] = 'application/json';
+                body = JSON.stringify(formattedData);
+            }
+
             const response = await fetch(`${this.apiBaseUrl}/submit-complaint`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Origin': window.location.origin
-                },
-                body: JSON.stringify(formattedData)
+                headers: headers,
+                body: body
             });
 
             if (!response.ok) {
@@ -57,6 +80,7 @@ class NotfCmsApi {
                 complaint_id: result.id,
                 message: result.message || 'Complaint submitted successfully',
                 tracking_url: result.tracking_url || null,
+                photo_url: result.photo_url || null,
                 data: result
             };
         } catch (error) {
@@ -220,7 +244,9 @@ class NotfCmsApi {
                 throw new Error('Supabase client not available');
             }
 
-            const fileName = `${complaintId}/${Date.now()}-${file.name}`;
+            // Sanitize filename - replace spaces with hyphens for Supabase storage
+            const sanitizedFileName = file.name.replace(/\s+/g, '-');
+            const fileName = `${complaintId}/${Date.now()}-${sanitizedFileName}`;
 
             const { data, error } = await supabase.storage
                 .from('notf-cms')
@@ -234,7 +260,7 @@ class NotfCmsApi {
             return {
                 success: true,
                 file_path: data.path,
-                file_name: file.name,
+                file_name: sanitizedFileName,
                 file_size: file.size,
                 file_type: file.type
             };

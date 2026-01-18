@@ -215,6 +215,45 @@ class ComplaintEngine {
     }
 
     /**
+     * Validate photo upload
+     * @param {File} file - The file to validate
+     * @returns {Object} - { valid: boolean, error?: string }
+     */
+    validatePhoto(file) {
+        const MAX_SIZE = 2 * 1024 * 1024; // 2MB in bytes
+        const ALLOWED_TYPES = [
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/heic',
+            'image/heif'
+        ];
+
+        if (!file) {
+            return { valid: false, error: 'No file provided' };
+        }
+
+        // Check file size
+        if (file.size > MAX_SIZE) {
+            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+            return {
+                valid: false,
+                error: `File size (${sizeMB}MB) exceeds the 2MB limit`
+            };
+        }
+
+        // Check file type
+        if (!ALLOWED_TYPES.includes(file.type.toLowerCase())) {
+            return {
+                valid: false,
+                error: 'Invalid file type. Only JPG, JPEG, PNG, HEIC, and HEIF images are allowed'
+            };
+        }
+
+        return { valid: true };
+    }
+
+    /**
      * Validate location and get corporation/ward details
      * Returns: { valid, city, corporation_code, ward, ... } or { valid: false, error, message }
      */

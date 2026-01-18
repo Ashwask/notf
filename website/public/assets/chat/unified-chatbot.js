@@ -976,10 +976,101 @@ class NotfChatbot {
             this.formData.citizen_name = message;
         }
 
+        this.askForPhoto();
+    }
+
+    askForPhoto() {
+        this.addBotMessage(`
+            <p>Would you like to add a photo to your complaint?</p>
+            <p class="tip">💡 Photos help authorities better understand the issue</p>
+            <p class="tip">📸 Max size: 2MB | Formats: JPG, PNG, HEIC, HEIF</p>
+            <div class="photo-upload-container">
+                <input type="file" id="complaint-photo-input" accept="image/jpeg,image/jpg,image/png,image/heic,image/heif" style="display: none;" onchange="notfChatbot.handlePhotoSelect(event)">
+                <button class="btn-secondary" onclick="document.getElementById('complaint-photo-input').click()">
+                    <i class="fa-solid fa-camera"></i> Choose Photo
+                </button>
+                <button class="btn-secondary" onclick="notfChatbot.skipPhoto()">
+                    Skip
+                </button>
+            </div>
+        `);
+
+        this.state = 'complaint_photo';
+        this.disableInput();
+    }
+
+    handlePhotoSelect(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Validate photo
+        const validation = this.complaintEngine.validatePhoto(file);
+
+        if (!validation.valid) {
+            this.addBotMessage(`
+                <p class="error">❌ ${validation.error}</p>
+                <p>Please try again with a different photo.</p>
+            `);
+            // Reset file input
+            event.target.value = '';
+            return;
+        }
+
+        // Sanitize filename - replace spaces with hyphens for Supabase storage
+        const sanitizedName = file.name.replace(/\s+/g, '-');
+        const sanitizedFile = new File([file], sanitizedName, { type: file.type });
+
+        // Store file for upload
+        this.formData.photo = sanitizedFile;
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            this.addBotMessage(`
+                <p>✅ Photo uploaded successfully!</p>
+                <div class="photo-preview">
+                    <img src="${e.target.result}" alt="Complaint photo" style="max-width: 300px; max-height: 300px; border-radius: 8px; margin-top: 0.5rem;">
+                    <p class="file-info">${sanitizedFile.name} (${(sanitizedFile.size / 1024).toFixed(1)} KB)</p>
+                </div>
+                <button class="btn-secondary" onclick="notfChatbot.removePhoto()">
+                    <i class="fa-solid fa-trash"></i> Remove Photo
+                </button>
+            `);
+            this.showComplaintReview();
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removePhoto() {
+        this.formData.photo = null;
+        this.addBotMessage('<p>Photo removed. You can upload a different photo or continue without one.</p>');
+        this.askForPhoto();
+    }
+
+    skipPhoto() {
+        this.formData.photo = null;
+        this.addBotMessage('<p>No problem! Continuing without a photo.</p>');
         this.showComplaintReview();
     }
 
     showComplaintReview() {
+        // Generate photo preview HTML if photo exists
+        let photoPreviewHTML = '';
+        if (this.formData.photo) {
+            const photoURL = URL.createObjectURL(this.formData.photo);
+            photoPreviewHTML = `
+                <div style="margin-top: 1rem;">
+                    <strong>Photo:</strong>
+                    <div class="photo-preview" style="margin-top: 0.5rem;">
+                        <img src="${photoURL}" alt="Complaint photo" style="max-width: 250px; max-height: 250px; border-radius: 8px;">
+                        <p class="file-info" style="font-size: 0.85rem; color: #666; margin-top: 0.25rem;">
+                            ${this.formData.photo.name} (${(this.formData.photo.size / 1024).toFixed(1)} KB)
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
         this.addBotMessage(`
             <div class="complaint-review">
                 <h4>📋 Complaint Summary</h4>
@@ -990,6 +1081,7 @@ class NotfChatbot {
                     ${this.formData.locationTag.ward ? `<p><strong>Ward:</strong> ${this.formData.locationTag.ward}</p>` : ''}
                     <p><strong>Contact:</strong> ${this.formData.citizen_phone || this.formData.citizen_email}</p>
                     ${this.formData.citizen_name ? `<p><strong>Name:</strong> ${this.formData.citizen_name}</p>` : '<p><em>Anonymous</em></p>'}
+                    ${photoPreviewHTML}
                 </div>
                 <div class="review-actions">
                     <button class="btn-submit-complaint" onclick="notfChatbot.submitComplaint()">Submit Complaint</button>
