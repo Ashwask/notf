@@ -212,7 +212,7 @@ class NotfChatbot {
         }
 
         // Remove loading message
-        const loadingMsg = this.messagesContainer.querySelector('.loading-message');
+        const loadingMsg = this.elements.messagesContainer.querySelector('.loading-message');
         if (loadingMsg) {
             loadingMsg.remove();
         }
@@ -1103,14 +1103,14 @@ class NotfChatbot {
             }
 
             // Extract city from display name or address components
-            const city = this.extractCityFromAddress(results[0].display_name, results[0].address);
+            const detectedCity = this.extractCityFromAddress(results[0].display_name, results[0].address);
 
             return {
                 success: true,
                 lat: parseFloat(results[0].lat),
                 lng: parseFloat(results[0].lon),
                 display_name: results[0].display_name,
-                city: city
+                city: city || detectedCity  // Use provided city or detected city
             };
         } catch (error) {
             console.error('Geocoding error:', error);
