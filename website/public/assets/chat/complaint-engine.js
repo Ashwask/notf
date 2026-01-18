@@ -233,6 +233,12 @@ class ComplaintEngine {
     }
 
     categorizeComplaint(description) {
+        // Try Fuse.js fuzzy matching first
+        if (typeof Fuse !== 'undefined') {
+            return this.categorizeWithFuse(description);
+        }
+
+        // Fallback to basic substring matching
         const descLower = description.toLowerCase();
         const matches = [];
 
@@ -258,12 +264,62 @@ class ComplaintEngine {
     }
 
     /**
+     * Fuzzy categorization using Fuse.js
+     * @param {string} description - The complaint description
+     * @returns {Object|null} - Best matching category with score
+     */
+    categorizeWithFuse(description) {
+        let bestMatch = null;
+        let bestScore = 0;
+
+        this.categories.forEach(category => {
+            // Create Fuse instance for this category's keywords
+            const fuse = new Fuse(category.keywords, {
+                threshold: 0.4,           // Allow 40% difference (typo tolerance)
+                includeScore: true,       // Return match quality
+                minMatchCharLength: 2,    // Minimum 2 chars to match
+                ignoreLocation: true,     // Search entire string
+                findAllMatches: true      // Get all keyword matches
+            });
+
+            // Search for keyword matches in description
+            const keywordMatches = fuse.search(description);
+
+            if (keywordMatches.length > 0) {
+                // Calculate category score based on match quality
+                // Lower Fuse.js score = better match, so invert it
+                const avgMatchQuality = keywordMatches.reduce((sum, m) => sum + (1 - m.score), 0) / keywordMatches.length;
+
+                // Weight by number of matches
+                const categoryScore = avgMatchQuality * keywordMatches.length;
+
+                if (categoryScore > bestScore) {
+                    bestScore = categoryScore;
+                    bestMatch = {
+                        ...category,
+                        score: categoryScore,
+                        matchedKeywords: keywordMatches.map(m => m.item)
+                    };
+                }
+            }
+        });
+
+        return bestMatch;
+    }
+
+    /**
      * Get top N category matches for a description
      * @param {string} description - The complaint description
      * @param {number} limit - Maximum number of suggestions (default: 5)
      * @returns {Array} - Array of category objects with scores
      */
     getTopCategorySuggestions(description, limit = 5) {
+        // Try Fuse.js fuzzy matching first
+        if (typeof Fuse !== 'undefined') {
+            return this.getTopSuggestionsWithFuse(description, limit);
+        }
+
+        // Fallback to basic substring matching
         const descLower = description.toLowerCase();
         const matches = [];
 
@@ -282,6 +338,41 @@ class ComplaintEngine {
         });
 
         // Sort by score (highest first) and limit results
+        return matches.sort((a, b) => b.score - a.score).slice(0, limit);
+    }
+
+    /**
+     * Get top N category suggestions using Fuse.js fuzzy matching
+     * @param {string} description - The complaint description
+     * @param {number} limit - Maximum number of suggestions
+     * @returns {Array} - Top matching categories with scores
+     */
+    getTopSuggestionsWithFuse(description, limit = 5) {
+        const matches = [];
+
+        this.categories.forEach(category => {
+            const fuse = new Fuse(category.keywords, {
+                threshold: 0.4,
+                includeScore: true,
+                minMatchCharLength: 2,
+                ignoreLocation: true,
+                findAllMatches: true
+            });
+
+            const keywordMatches = fuse.search(description);
+
+            if (keywordMatches.length > 0) {
+                const avgMatchQuality = keywordMatches.reduce((sum, m) => sum + (1 - m.score), 0) / keywordMatches.length;
+                const categoryScore = avgMatchQuality * keywordMatches.length;
+
+                matches.push({
+                    ...category,
+                    score: categoryScore,
+                    matchedKeywords: keywordMatches.map(m => m.item)
+                });
+            }
+        });
+
         return matches.sort((a, b) => b.score - a.score).slice(0, limit);
     }
 
