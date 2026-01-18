@@ -590,8 +590,22 @@ class NotfChatbot {
     async geocodeAddress(address) {
         try {
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`
+                `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1&addressdetails=1`,
+                {
+                    headers: {
+                        'User-Agent': 'NOTF-Chatbot/1.0 (https://notf-one.vercel.app; chatbot@notf.in)'
+                    }
+                }
             );
+
+            if (!response.ok) {
+                console.error('Geocoding API error:', response.status, response.statusText);
+                return {
+                    success: false,
+                    message: 'Geocoding service is temporarily unavailable. Please try again in a moment.'
+                };
+            }
+
             const results = await response.json();
 
             if (results.length === 0) {
@@ -601,8 +615,8 @@ class NotfChatbot {
                 };
             }
 
-            // Extract city from display name
-            const city = this.extractCityFromAddress(results[0].display_name);
+            // Extract city from display name or address components
+            const city = this.extractCityFromAddress(results[0].display_name, results[0].address);
 
             return {
                 success: true,
@@ -612,20 +626,37 @@ class NotfChatbot {
                 city: city
             };
         } catch (error) {
+            console.error('Geocoding error:', error);
             return {
                 success: false,
-                message: 'Unable to verify address. Please try using the map picker instead.'
+                message: 'Unable to verify address. Please check your internet connection and try again.'
             };
         }
     }
 
-    extractCityFromAddress(displayName) {
-        const parts = displayName.split(',').map(p => p.trim());
-        // Try to find known city names
+    extractCityFromAddress(displayName, addressComponents) {
         const knownCities = ['Bengaluru', 'Mumbai', 'Chennai', 'Ahmedabad', 'Hyderabad',
                              'Kolkata', 'Pune', 'Jaipur', 'Gurugram', 'Thane',
                              'Bhubaneswar', 'Visakhapatnam'];
 
+        // First try address components if available
+        if (addressComponents) {
+            // Try city, town, municipality fields
+            const cityField = addressComponents.city || addressComponents.town ||
+                             addressComponents.municipality || addressComponents.state_district;
+
+            if (cityField) {
+                for (const city of knownCities) {
+                    if (cityField.toLowerCase().includes(city.toLowerCase()) ||
+                        city.toLowerCase().includes(cityField.toLowerCase())) {
+                        return city;
+                    }
+                }
+            }
+        }
+
+        // Fallback to parsing display name
+        const parts = displayName.split(',').map(p => p.trim());
         for (const part of parts) {
             for (const city of knownCities) {
                 if (part.toLowerCase().includes(city.toLowerCase())) {
