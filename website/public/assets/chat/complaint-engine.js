@@ -148,64 +148,102 @@ class ComplaintEngine {
     loadCategories() {
         // Issue categories with keywords (matches notf-cms database)
         return [
-            // Electrical
+            // Street Lighting (NEW separate department)
             {
-                id: 'streetlight_not_working',
-                name: 'Street Light Not Working',
-                department: 'Electrical',
-                keywords: ['streetlight', 'street light', 'light not working', 'lamp', 'dark street', 'no light']
+                id: 'light_not_working',
+                name: 'Light Not Working',
+                department: 'Street Lighting',
+                keywords: ['streetlight', 'street light', 'light not working', 'lamp', 'dark street', 'no light', 'light off']
             },
             {
-                id: 'streetlight_flickering',
-                name: 'Street Light Flickering',
-                department: 'Electrical',
-                keywords: ['flickering', 'blinking', 'flashing light', 'unstable light']
+                id: 'light_broken',
+                name: 'Light Broken',
+                department: 'Street Lighting',
+                keywords: ['light broken', 'broken light', 'damaged light', 'shattered light', 'light damaged']
             },
+            {
+                id: 'pole_damaged',
+                name: 'Pole Damaged',
+                department: 'Street Lighting',
+                keywords: ['pole damaged', 'pole broken', 'leaning pole', 'bent pole', 'pole issue']
+            },
+            {
+                id: 'daytime_light',
+                name: 'Daytime Light On',
+                department: 'Street Lighting',
+                keywords: ['daytime light', 'light on day', 'light on morning', 'wasting electricity', 'light during day']
+            },
+
+            // Power Supply (separate from lighting)
             {
                 id: 'electrical_wire',
                 name: 'Exposed/Dangling Wires',
-                department: 'Electrical',
-                keywords: ['wire', 'cable', 'exposed wire', 'dangling', 'electric cable', 'dangerous wire']
+                department: 'Power Supply',
+                keywords: ['wire', 'cable', 'exposed wire', 'dangling', 'electric cable', 'dangerous wire', 'hanging wire']
             },
 
-            // SWM (Solid Waste Management)
+            // Solid Waste Management (NEW critical department)
             {
                 id: 'garbage_not_collected',
                 name: 'Garbage Not Collected',
-                department: 'SWM',
-                keywords: ['garbage', 'waste', 'not collected', 'rubbish', 'trash', 'no pickup']
+                department: 'Solid Waste Management',
+                keywords: ['garbage', 'waste', 'not collected', 'rubbish', 'trash', 'no pickup', 'collection missed']
             },
             {
                 id: 'garbage_dump',
-                name: 'Illegal Garbage Dump',
-                department: 'SWM',
-                keywords: ['dump', 'dumping', 'illegal dump', 'garbage pile', 'waste dump']
+                name: 'Garbage Dump',
+                department: 'Solid Waste Management',
+                keywords: ['dump', 'dumping', 'illegal dump', 'garbage pile', 'waste dump', 'trash pile']
             },
             {
-                id: 'dustbin',
-                name: 'Dustbin Overflow/Missing',
-                department: 'SWM',
-                keywords: ['dustbin', 'bin', 'overflow', 'full bin', 'no dustbin']
+                id: 'overflowing_bin',
+                name: 'Overflowing Bin',
+                department: 'Solid Waste Management',
+                keywords: ['overflowing', 'bin overflow', 'dustbin full', 'full bin', 'bin overflowing']
+            },
+            {
+                id: 'missing_dustbin',
+                name: 'Missing Dustbin',
+                department: 'Solid Waste Management',
+                keywords: ['missing dustbin', 'no dustbin', 'dustbin missing', 'bin missing', 'need dustbin']
+            },
+            {
+                id: 'street_not_cleaned',
+                name: 'Street Not Cleaned',
+                department: 'Solid Waste Management',
+                keywords: ['street not cleaned', 'dirty street', 'street sweeping', 'unclean road', 'littered street']
+            },
+            {
+                id: 'construction_debris',
+                name: 'Construction Debris',
+                department: 'Solid Waste Management',
+                keywords: ['construction waste', 'debris', 'building waste', 'rubble', 'construction material']
+            },
+            {
+                id: 'plastic_waste',
+                name: 'Plastic Waste',
+                department: 'Solid Waste Management',
+                keywords: ['plastic', 'plastic waste', 'plastic bags', 'polythene', 'plastic bottles']
             },
 
-            // Roads
+            // Roads & Traffic
             {
                 id: 'pothole',
                 name: 'Pothole',
-                department: 'Roads',
-                keywords: ['pothole', 'hole', 'pit', 'road damage', 'crater']
+                department: 'Roads & Traffic',
+                keywords: ['pothole', 'hole', 'pit', 'road damage', 'crater', 'road hole']
             },
             {
-                id: 'road_damage',
-                name: 'Road Damage/Cracks',
-                department: 'Roads',
-                keywords: ['road damage', 'crack', 'broken road', 'road repair']
+                id: 'road_cavein',
+                name: 'Road Cave-in',
+                department: 'Roads & Traffic',
+                keywords: ['cave-in', 'cave in', 'road collapse', 'road sinking', 'road subsidence', 'road caved']
             },
             {
-                id: 'footpath',
-                name: 'Footpath Issues',
-                department: 'Roads',
-                keywords: ['footpath', 'pavement', 'sidewalk', 'walking path', 'pedestrian']
+                id: 'footpath_damage',
+                name: 'Footpath Damage',
+                department: 'Roads & Traffic',
+                keywords: ['footpath', 'pavement', 'sidewalk', 'walking path', 'pedestrian', 'footpath damage', 'broken footpath']
             },
 
             // Water
@@ -262,32 +300,24 @@ class ComplaintEngine {
                 keywords: ['pruning', 'overgrown', 'branches', 'trim tree', 'cutting']
             },
 
-            // Health
+            // Pest & Animal Control
             {
-                id: 'mosquito',
+                id: 'mosquito_breeding',
                 name: 'Mosquito Breeding',
-                department: 'Health',
-                keywords: ['mosquito', 'breeding', 'dengue', 'malaria', 'stagnant water']
+                department: 'Pest & Animal Control',
+                keywords: ['mosquito', 'breeding', 'dengue', 'malaria', 'stagnant water', 'mosquito larvae']
+            },
+            {
+                id: 'stray_dogs',
+                name: 'Stray Dogs',
+                department: 'Pest & Animal Control',
+                keywords: ['stray dog', 'stray dogs', 'dog menace', 'street dog', 'rabies', 'dog bite']
             },
             {
                 id: 'dead_animal',
-                name: 'Dead Animal Removal',
-                department: 'Health',
-                keywords: ['dead animal', 'carcass', 'dead dog', 'dead cat', 'animal body']
-            },
-
-            // Animals
-            {
-                id: 'stray_dogs',
-                name: 'Stray Dogs Menace',
-                department: 'Animals',
-                keywords: ['stray dog', 'dog', 'dogs', 'barking', 'dog bite', 'aggressive dog']
-            },
-            {
-                id: 'stray_cattle',
-                name: 'Stray Cattle',
-                department: 'Animals',
-                keywords: ['cattle', 'cow', 'bull', 'stray cattle', 'animals on road']
+                name: 'Dead Animal',
+                department: 'Pest & Animal Control',
+                keywords: ['dead animal', 'carcass', 'dead dog', 'dead cat', 'animal body', 'dead cow']
             }
         ];
     }
