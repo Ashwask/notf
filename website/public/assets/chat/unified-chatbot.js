@@ -52,10 +52,10 @@ class NotfChatbot {
             closeButton: chatWidget.querySelector('.chat-close-button')
         };
 
-        // Start in minimized mode (FAB visible, widget hidden)
-        this.elements.widget.classList.add('hidden');
+        // Start in open state (widget visible, FAB hidden)
+        this.elements.widget.classList.remove('hidden');
         if (this.elements.fab) {
-            this.elements.fab.classList.remove('hidden');
+            this.elements.fab.classList.add('hidden');
         }
     }
 
