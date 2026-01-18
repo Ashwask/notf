@@ -342,23 +342,23 @@ class ComplaintEngine {
             errors.push('Issue category is required');
         }
 
-        // Location required
-        if (!data.latitude || !data.longitude) {
+        // Location required (check nested location object)
+        if (!data.location || !data.location.latitude || !data.location.longitude) {
             errors.push('Location is required');
         }
 
-        // Contact required (phone OR email)
-        if (!data.phone && !data.email) {
+        // Contact required (phone OR email - check nested contact object)
+        if (!data.contact || (!data.contact.phone && !data.contact.email)) {
             errors.push('Phone number or email is required');
         }
 
         // Validate phone if provided
-        if (data.phone && !this.validatePhone(data.phone)) {
+        if (data.contact?.phone && !this.validatePhone(data.contact.phone)) {
             errors.push('Invalid phone number (must be 10 digits starting with 6-9)');
         }
 
         // Validate email if provided
-        if (data.email && !this.validateEmail(data.email)) {
+        if (data.contact?.email && !this.validateEmail(data.contact.email)) {
             errors.push('Invalid email address');
         }
 
