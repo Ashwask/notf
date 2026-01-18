@@ -616,8 +616,8 @@ class NotfChatbot {
 
         this.formData.description = message;
 
-        // Auto-categorize using ML keywords
-        const category = this.complaintEngine.categorizeComplaint(message);
+        // Auto-categorize using ML keywords (async)
+        const category = await this.complaintEngine.categorizeComplaint(message);
 
         // Extract location information from description
         const locationInfo = this.extractLocationFromText(message);
@@ -637,12 +637,12 @@ class NotfChatbot {
         this.formData.extractedLocation = locationInfo.location;
 
         // Ask for category confirmation/selection
-        this.askForCategory();
+        await this.askForCategory();
     }
 
-    askForCategory() {
-        // Get top category suggestions based on description
-        const topMatches = this.complaintEngine.getTopCategorySuggestions(this.formData.description, 5);
+    async askForCategory() {
+        // Get top category suggestions based on description (async)
+        const topMatches = await this.complaintEngine.getTopCategorySuggestions(this.formData.description, 5);
 
         if (topMatches.length > 0) {
             // Show top matching categories as chip suggestions

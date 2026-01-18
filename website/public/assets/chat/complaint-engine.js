@@ -27,10 +27,37 @@ class ComplaintEngine {
                 this.categories = categories;
                 this.categoriesLoaded = true;
                 console.log('[ComplaintEngine] Loaded', categories.length, 'categories from API');
+
+                // Initialize semantic matcher with categories
+                await this.initializeSemanticMatcher();
             }
         } catch (error) {
             console.warn('[ComplaintEngine] Failed to load categories from API, using fallback:', error.message);
             // Already using fallback from constructor
+            await this.initializeSemanticMatcher();
+        }
+    }
+
+    /**
+     * Initialize semantic matcher (Transformers.js) for better matching
+     */
+    async initializeSemanticMatcher() {
+        if (typeof window.semanticMatcher === 'undefined') {
+            console.log('[ComplaintEngine] SemanticMatcher not available, using Fuse.js only');
+            return;
+        }
+
+        try {
+            console.log('[ComplaintEngine] Initializing semantic matcher...');
+            const initialized = await window.semanticMatcher.initialize();
+
+            if (initialized) {
+                // Precompute embeddings for all categories
+                await window.semanticMatcher.precomputeCategoryEmbeddings(this.categories);
+                console.log('[ComplaintEngine] Semantic matching ready!');
+            }
+        } catch (error) {
+            console.warn('[ComplaintEngine] Semantic matcher initialization failed:', error);
         }
     }
 
@@ -232,13 +259,22 @@ class ComplaintEngine {
         ];
     }
 
-    categorizeComplaint(description) {
-        // Try Fuse.js fuzzy matching first
+    async categorizeComplaint(description) {
+        // Try semantic matching first (best quality)
+        if (window.semanticMatcher && window.semanticMatcher.isReady) {
+            const semanticMatch = await window.semanticMatcher.getBestMatch(description, 0.5);
+            if (semanticMatch) {
+                console.log('[ComplaintEngine] Semantic match:', semanticMatch.name, 'score:', semanticMatch.score.toFixed(3));
+                return semanticMatch;
+            }
+        }
+
+        // Fall back to Fuse.js fuzzy matching (typo tolerance)
         if (typeof Fuse !== 'undefined') {
             return this.categorizeWithFuse(description);
         }
 
-        // Fallback to basic substring matching with position awareness
+        // Final fallback: basic substring matching with position awareness
         const descLower = description.toLowerCase();
         const matches = [];
 
@@ -340,13 +376,22 @@ class ComplaintEngine {
      * @param {number} limit - Maximum number of suggestions (default: 5)
      * @returns {Array} - Array of category objects with scores
      */
-    getTopCategorySuggestions(description, limit = 5) {
-        // Try Fuse.js fuzzy matching first
+    async getTopCategorySuggestions(description, limit = 5) {
+        // Try semantic matching first (best quality)
+        if (window.semanticMatcher && window.semanticMatcher.isReady) {
+            const semanticMatches = await window.semanticMatcher.findMatches(description, limit, 0.4);
+            if (semanticMatches.length > 0) {
+                console.log('[ComplaintEngine] Found', semanticMatches.length, 'semantic matches');
+                return semanticMatches;
+            }
+        }
+
+        // Fall back to Fuse.js fuzzy matching (typo tolerance)
         if (typeof Fuse !== 'undefined') {
             return this.getTopSuggestionsWithFuse(description, limit);
         }
 
-        // Fallback to basic substring matching with position awareness
+        // Final fallback: basic substring matching with position awareness
         const descLower = description.toLowerCase();
         const matches = [];
 
