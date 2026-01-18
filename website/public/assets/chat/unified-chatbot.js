@@ -128,7 +128,7 @@ class NotfChatbot {
         }, 100);
     }
 
-    selectIntent(intent) {
+    async selectIntent(intent) {
         this.mode = intent;
 
         // Add user's choice to conversation
@@ -137,7 +137,7 @@ class NotfChatbot {
 
         // Initialize appropriate engine
         if (intent === 'discovery') {
-            this.initializeDiscoveryMode();
+            await this.initializeDiscoveryMode();
         } else {
             this.initializeComplaintMode();
         }
@@ -145,8 +145,22 @@ class NotfChatbot {
         this.saveSession();
     }
 
-    initializeDiscoveryMode() {
+    async initializeDiscoveryMode() {
         this.state = 'discovery_welcome';
+
+        // Wait for data to load
+        const dataLoaded = await this.waitForData();
+
+        if (!dataLoaded) {
+            // Data failed to load, error message already shown
+            return;
+        }
+
+        // Remove loading message
+        const loadingMsg = this.messagesContainer.querySelector('.loading-message');
+        if (loadingMsg) {
+            loadingMsg.remove();
+        }
 
         // Lazy load discovery engine
         if (!this.discoveryEngine) {
@@ -171,6 +185,30 @@ class NotfChatbot {
         `);
 
         this.enableInput();
+    }
+
+    async waitForData(maxAttempts = 50) {
+        // Wait for window.notfData to be populated
+        for (let i = 0; i < maxAttempts; i++) {
+            if (window.notfData &&
+                (window.notfData.communities?.length > 0 || window.notfData.members?.length > 0)) {
+                console.log('[Chatbot] Data loaded successfully');
+                return true;
+            }
+
+            if (i === 0) {
+                console.log('[Chatbot] Waiting for data to load...');
+                // Show loading indicator
+                this.addBotMessage('<div class="loading-message"><i class="fa-solid fa-spinner fa-spin"></i> Loading communities data...</div>');
+            }
+
+            // Wait 100ms and try again
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        console.warn('[Chatbot] Data loading timed out after 5 seconds');
+        this.addBotMessage('<div class="error-message"><i class="fa-solid fa-exclamation-triangle"></i> Could not load communities data. Please refresh the page and try again.</div>');
+        return false;
     }
 
     initializeComplaintMode() {
