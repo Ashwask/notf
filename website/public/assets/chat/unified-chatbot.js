@@ -49,11 +49,29 @@ class NotfChatbot {
             messagesContainer: chatWidget.querySelector('.chat-messages'),
             inputField: chatWidget.querySelector('.chat-input-field'),
             sendButton: chatWidget.querySelector('.chat-send-button'),
-            closeButton: chatWidget.querySelector('.chat-close-button'),
-            minimizeButton: chatWidget.querySelector('.chat-minimize-button')
+            closeButton: chatWidget.querySelector('.chat-close-button')
         };
 
-        // Initially hide the chat widget, show FAB
+        // Start in minimized mode (FAB visible, widget hidden)
+        this.elements.widget.classList.add('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.remove('hidden');
+        }
+    }
+
+    openChatbot() {
+        this.elements.widget.classList.remove('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.add('hidden');
+        }
+        // Focus input field for better UX
+        setTimeout(() => {
+            this.elements.inputField?.focus();
+        }, 100);
+    }
+
+    closeChatbot() {
+        // Close = minimize (return to FAB)
         this.elements.widget.classList.add('hidden');
         if (this.elements.fab) {
             this.elements.fab.classList.remove('hidden');
@@ -72,22 +90,11 @@ class NotfChatbot {
             }
         });
 
-        // Close button
+        // Close button (minimizes to FAB)
         this.elements.closeButton?.addEventListener('click', () => this.closeChatbot());
-
-        // Minimize button
-        this.elements.minimizeButton?.addEventListener('click', () => this.minimizeChatbot());
 
         // FAB button - open chatbot
         this.elements.fab?.addEventListener('click', () => this.openChatbot());
-    }
-
-    openChatbot() {
-        this.elements.widget.classList.remove('hidden');
-        if (this.elements.fab) {
-            this.elements.fab.classList.add('hidden');
-        }
-        this.elements.inputField?.focus();
     }
 
     showWelcomeMessage() {
@@ -830,20 +837,6 @@ class NotfChatbot {
             }
         } catch (e) {
             console.error('Failed to load session:', e);
-        }
-    }
-
-    closeChatbot() {
-        this.elements.widget.classList.add('hidden');
-        if (this.elements.fab) {
-            this.elements.fab.classList.remove('hidden');
-        }
-    }
-
-    minimizeChatbot() {
-        this.elements.widget.classList.add('hidden');
-        if (this.elements.fab) {
-            this.elements.fab.classList.remove('hidden');
         }
     }
 
