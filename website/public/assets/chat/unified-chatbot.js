@@ -43,6 +43,12 @@ class NotfChatbot {
             return;
         }
 
+        // Add resize handle
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'chat-resize-handle';
+        resizeHandle.setAttribute('aria-label', 'Resize chatbot window');
+        chatWidget.insertBefore(resizeHandle, chatWidget.firstChild);
+
         this.elements = {
             widget: chatWidget,
             fab: chatFab,
@@ -51,14 +57,62 @@ class NotfChatbot {
             sendButton: chatWidget.querySelector('.chat-send-button'),
             closeButton: chatWidget.querySelector('.chat-close-button'),
             switchModeButton: chatWidget.querySelector('.chat-switch-mode-button'),
-            modeTitle: chatWidget.querySelector('.chat-mode-title')
+            modeTitle: chatWidget.querySelector('.chat-mode-title'),
+            resizeHandle: resizeHandle
         };
+
+        // Setup resize functionality
+        this.setupResize();
 
         // Start in open state (widget visible, FAB hidden)
         this.elements.widget.classList.remove('hidden');
         if (this.elements.fab) {
             this.elements.fab.classList.add('hidden');
         }
+    }
+
+    setupResize() {
+        let isResizing = false;
+        let startX, startY, startWidth, startHeight, startBottom, startRight;
+
+        this.elements.resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = this.elements.widget.getBoundingClientRect();
+            startWidth = rect.width;
+            startHeight = rect.height;
+            startBottom = window.innerHeight - rect.bottom;
+            startRight = window.innerWidth - rect.right;
+
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+
+            const deltaX = startX - e.clientX; // Reversed for top-left
+            const deltaY = startY - e.clientY; // Reversed for top-left
+
+            const newWidth = startWidth + deltaX;
+            const newHeight = startHeight + deltaY;
+
+            // Apply min/max constraints
+            const finalWidth = Math.max(360, Math.min(newWidth, window.innerWidth - 40));
+            const finalHeight = Math.max(400, Math.min(newHeight, window.innerHeight - 40));
+
+            this.elements.widget.style.width = finalWidth + 'px';
+            this.elements.widget.style.height = finalHeight + 'px';
+
+            // Keep bottom-right position fixed
+            this.elements.widget.style.bottom = startBottom + 'px';
+            this.elements.widget.style.right = startRight + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+        });
     }
 
     openChatbot() {
@@ -119,7 +173,7 @@ class NotfChatbot {
                         <span class="description">Report civic issues in Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Ahmedabad, Jaipur, Gurugram, Bhubaneswar, Visakhapatnam, or Thane</span>
                     </button>
                 </div>
-                <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the bottom-right corner.</p>
+                <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the top-left corner.</p>
             </div>
         `);
 

@@ -128,11 +128,15 @@ async function indexAllCommunities() {
         const slug = community.slug;
         const name = community.metadata?.name || slug;
 
+        // Get city from metadata to construct correct path
+        const city = (community.metadata?.city || community.city || 'bengaluru').toLowerCase();
+
         try {
             // Try to fetch markdown from Storage
+            // Path format: communities/{city}/{slug}.md
             const { data: markdownFile, error: downloadError } = await supabase.storage
                 .from('notf')
-                .download(`communities/${slug}.md`);
+                .download(`communities/${city}/${slug}.md`);
 
             if (downloadError || !markdownFile) {
                 console.log(`⚠️  ${name} - No markdown file found, skipping`);
@@ -202,12 +206,12 @@ async function indexAllCommunities() {
 /**
  * Test extraction on a sample
  */
-async function testExtraction(slug) {
-    console.log(`🧪 Testing extraction for: ${slug}\n`);
+async function testExtraction(slug, city = 'bengaluru') {
+    console.log(`🧪 Testing extraction for: ${slug} (${city})\n`);
 
     const { data: markdownFile, error } = await supabase.storage
         .from('notf')
-        .download(`communities/${slug}.md`);
+        .download(`communities/${city.toLowerCase()}/${slug}.md`);
 
     if (error || !markdownFile) {
         console.error('❌ Could not fetch markdown file:', error);
