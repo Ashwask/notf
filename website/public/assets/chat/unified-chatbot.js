@@ -116,7 +116,7 @@ class NotfChatbot {
                     <button class="intent-button complaint-button" data-intent="complaint">
                         <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
                         <span class="label">File a Complaint</span>
-                        <span class="description">Report civic issues in your area</span>
+                        <span class="description">Report civic issues in Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Ahmedabad, Jaipur, Gurugram, Bhubaneswar, Visakhapatnam, or Thane</span>
                     </button>
                 </div>
                 <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the bottom-right corner.</p>
