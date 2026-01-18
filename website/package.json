@@ -1,17 +1,11 @@
 {
   "name": "notf-website",
   "version": "1.0.0",
+  "description": "Neighbourhoods of the Future - Static Website",
   "scripts": {
-    "build": "eleventy",
-    "start": "eleventy --serve",
-    "clean": "rm -rf _site"
-  },
-  "devDependencies": {
-    "@11ty/eleventy": "^2.0.0",
-    "js-yaml": "^4.1.1"
+    "clean": "echo 'No build artifacts to clean - using static HTML'"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.78.0",
-    "gray-matter": "^4.0.3"
+    "@supabase/supabase-js": "^2.78.0"
   }
 }
