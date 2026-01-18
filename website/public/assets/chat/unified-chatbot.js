@@ -36,6 +36,8 @@ class NotfChatbot {
 
     initializeUI() {
         const chatWidget = document.getElementById('notf-chatbot');
+        const chatFab = document.getElementById('chat-fab');
+
         if (!chatWidget) {
             console.error('Chatbot widget element not found');
             return;
@@ -43,12 +45,19 @@ class NotfChatbot {
 
         this.elements = {
             widget: chatWidget,
+            fab: chatFab,
             messagesContainer: chatWidget.querySelector('.chat-messages'),
             inputField: chatWidget.querySelector('.chat-input-field'),
             sendButton: chatWidget.querySelector('.chat-send-button'),
             closeButton: chatWidget.querySelector('.chat-close-button'),
             minimizeButton: chatWidget.querySelector('.chat-minimize-button')
         };
+
+        // Initially hide the chat widget, show FAB
+        this.elements.widget.classList.add('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.remove('hidden');
+        }
     }
 
     bindEvents() {
@@ -68,21 +77,32 @@ class NotfChatbot {
 
         // Minimize button
         this.elements.minimizeButton?.addEventListener('click', () => this.minimizeChatbot());
+
+        // FAB button - open chatbot
+        this.elements.fab?.addEventListener('click', () => this.openChatbot());
+    }
+
+    openChatbot() {
+        this.elements.widget.classList.remove('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.add('hidden');
+        }
+        this.elements.inputField?.focus();
     }
 
     showWelcomeMessage() {
         this.addBotMessage(`
             <div class="welcome-message">
-                <h3>👋 Hello! I'm the NOTF Assistant</h3>
+                <h3><i class="fa-solid fa-hand"></i> Hello! I'm the NOTF Assistant</h3>
                 <p>I can help you:</p>
                 <div class="intent-options">
                     <button class="intent-button discovery-button" data-intent="discovery">
-                        <span class="icon">🔍</span>
+                        <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
                         <span class="label">Find Communities & Resources</span>
                         <span class="description">Discover organizations, projects, and opportunities</span>
                     </button>
                     <button class="intent-button complaint-button" data-intent="complaint">
-                        <span class="icon">📝</span>
+                        <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
                         <span class="label">File a Complaint</span>
                         <span class="description">Report civic issues in your area</span>
                     </button>
@@ -134,9 +154,9 @@ class NotfChatbot {
                 <p>Great! I'll help you discover communities and resources.</p>
                 <p>What are you looking for? You can search by:</p>
                 <ul>
-                    <li>🏘️ Community name or neighborhood</li>
-                    <li>🏷️ Theme (waste, education, water, health, etc.)</li>
-                    <li>📍 Location (city, area)</li>
+                    <li><i class="fa-solid fa-house-user"></i> Community name or neighborhood</li>
+                    <li><i class="fa-solid fa-tags"></i> Theme (waste, education, water, health, etc.)</li>
+                    <li><i class="fa-solid fa-location-dot"></i> Location (city, area)</li>
                     <li>🤝 Resources (funding, volunteers, space)</li>
                 </ul>
                 <p>Try asking: <em>"Find communities working on waste management in Bengaluru"</em></p>
@@ -253,9 +273,9 @@ class NotfChatbot {
                     ${resource.status ? `<span class="status-badge ${resource.status}">${resource.status}</span>` : ''}
                 </div>
                 <div class="community-details">
-                    ${location ? `<p class="location">📍 ${location}</p>` : ''}
-                    ${focusAreas.length > 0 ? `<p class="tags">🏷️ ${focusAreas.join(', ')}</p>` : ''}
-                    ${resource.members_count ? `<p class="members">👥 ${resource.members_count} members</p>` : ''}
+                    ${location ? `<p class="location"><i class="fa-solid fa-location-dot"></i> ${location}</p>` : ''}
+                    ${focusAreas.length > 0 ? `<p class="tags"><i class="fa-solid fa-tags"></i> ${focusAreas.join(', ')}</p>` : ''}
+                    ${resource.members_count ? `<p class="members"><i class="fa-solid fa-users"></i> ${resource.members_count} members</p>` : ''}
                 </div>
                 <p class="view-details-hint">Click for details →</p>
             </div>
@@ -284,7 +304,7 @@ class NotfChatbot {
                     <div class="chat-modal-body">
                         <div class="chat-modal-section">
                             <h4>Type</h4>
-                            <p>${isProvider ? '🏢 Solution Provider' : '🏘️ Community'}</p>
+                            <p>${isProvider ? '<i class="fa-solid fa-building"></i> Solution Provider' : '<i class="fa-solid fa-house-user"></i> Community'}</p>
                         </div>
                         <div class="chat-modal-section">
                             <h4>Location</h4>
@@ -326,8 +346,8 @@ class NotfChatbot {
                             <div class="chat-modal-section">
                                 <h4>Contact</h4>
                                 <div class="chat-modal-actions">
-                                    ${contact ? `<a href="mailto:${contact}" class="btn-contact" onclick="event.stopPropagation()">📧 Email</a>` : ''}
-                                    ${website ? `<a href="${website}" target="_blank" class="btn-learn-more" onclick="event.stopPropagation()">🌐 Website</a>` : ''}
+                                    ${contact ? `<a href="mailto:${contact}" class="btn-contact" onclick="event.stopPropagation()"><i class="fa-solid fa-envelope"></i> Email</a>` : ''}
+                                    ${website ? `<a href="${website}" target="_blank" class="btn-learn-more" onclick="event.stopPropagation()"><i class="fa-solid fa-globe"></i> Website</a>` : ''}
                                 </div>
                             </div>
                         ` : ''}
@@ -392,7 +412,7 @@ class NotfChatbot {
                 <li>Click "Use My Location" for GPS</li>
             </ul>
             <div class="location-options">
-                <button class="btn-location-map" onclick="notfChatbot.openMapPicker()">📍 Use Map</button>
+                <button class="btn-location-map" onclick="notfChatbot.openMapPicker()"><i class="fa-solid fa-location-dot"></i> Use Map</button>
                 <button class="btn-location-gps" onclick="notfChatbot.useGPS()">🧭 Use My Location</button>
             </div>
         `);
@@ -406,7 +426,7 @@ class NotfChatbot {
 
     async handleComplaintLocation(message) {
         this.disableInput();
-        this.addBotMessage('⏳ Verifying your location...');
+        this.addBotMessage('<i class="fa-solid fa-hourglass-half"></i> Verifying your location...');
 
         try {
             // Geocode the address
@@ -414,7 +434,7 @@ class NotfChatbot {
 
             if (!geocoded.success) {
                 this.addBotMessage(`
-                    <p>❌ ${geocoded.message}</p>
+                    <p><i class="fa-solid fa-circle-xmark"></i> ${geocoded.message}</p>
                     <p>Please try again with a more specific address (include area, landmark, city).</p>
                 `);
                 this.enableInput();
@@ -443,9 +463,9 @@ class NotfChatbot {
 
             this.addBotMessage(`
                 <div class="location-verified">
-                    <p>✅ <strong>Location Verified!</strong></p>
-                    <p>📍 ${message}</p>
-                    <p>🏢 ${validation.corporation_name}</p>
+                    <p><i class="fa-solid fa-circle-check"></i> <strong>Location Verified!</strong></p>
+                    <p><i class="fa-solid fa-location-dot"></i> ${message}</p>
+                    <p><i class="fa-solid fa-building"></i> ${validation.corporation_name}</p>
                     ${validation.ward ? `<p>🗺️ Ward: ${validation.ward}</p>` : ''}
                     <p class="success-message">Your complaint will be routed to ${validation.corporation_name}</p>
                 </div>
@@ -456,7 +476,7 @@ class NotfChatbot {
         } catch (error) {
             console.error('Location validation error:', error);
             this.addBotMessage(`
-                <p>❌ Unable to verify location. Please try again.</p>
+                <p><i class="fa-solid fa-circle-xmark"></i> Unable to verify location. Please try again.</p>
                 <p>You can also use the map picker or GPS option above.</p>
             `);
             this.enableInput();
@@ -555,7 +575,7 @@ class NotfChatbot {
     }
 
     async submitComplaint() {
-        this.addBotMessage('⏳ Submitting your complaint...');
+        this.addBotMessage('<i class="fa-solid fa-hourglass-half"></i> Submitting your complaint...');
 
         try {
             const response = await fetch('https://notf-cms.vercel.app/api/submit-complaint', {
@@ -598,7 +618,7 @@ class NotfChatbot {
             console.error('Complaint submission error:', error);
             this.addBotMessage(`
                 <div class="error-message">
-                    <p>❌ Failed to submit complaint: ${error.message}</p>
+                    <p><i class="fa-solid fa-circle-xmark"></i> Failed to submit complaint: ${error.message}</p>
                     <p>Please try again or contact support.</p>
                     <button onclick="notfChatbot.submitComplaint()">Retry</button>
                 </div>
@@ -609,7 +629,7 @@ class NotfChatbot {
     showComplaintSuccess(complaint) {
         this.addBotMessage(`
             <div class="complaint-success">
-                <h4>✅ Complaint Filed Successfully!</h4>
+                <h4><i class="fa-solid fa-circle-check"></i> Complaint Filed Successfully!</h4>
                 <div class="ticket-info">
                     <p class="ticket-number">Ticket Number: <strong>${complaint.complaint_number}</strong></p>
                     <p>Corporation: ${this.formData.locationTag.corporation_name}</p>
@@ -635,7 +655,7 @@ class NotfChatbot {
         const messageEl = document.createElement('div');
         messageEl.className = 'chat-message bot-message';
         messageEl.innerHTML = `
-            <div class="message-avatar">🤖</div>
+            <div class="message-avatar"><i class="fa-solid fa-robot"></i></div>
             <div class="message-content">${html}</div>
         `;
         this.elements.messagesContainer.appendChild(messageEl);
@@ -814,11 +834,17 @@ class NotfChatbot {
     }
 
     closeChatbot() {
-        this.elements.widget.style.display = 'none';
+        this.elements.widget.classList.add('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.remove('hidden');
+        }
     }
 
     minimizeChatbot() {
-        this.elements.widget.classList.toggle('minimized');
+        this.elements.widget.classList.add('hidden');
+        if (this.elements.fab) {
+            this.elements.fab.classList.remove('hidden');
+        }
     }
 
     fileAnotherComplaint() {
@@ -844,7 +870,7 @@ class NotfChatbot {
             return;
         }
 
-        this.addBotMessage('📍 Getting your location...');
+        this.addBotMessage('<i class="fa-solid fa-location-dot"></i> Getting your location...');
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
@@ -875,9 +901,9 @@ class NotfChatbot {
 
                     this.addBotMessage(`
                         <div class="location-verified">
-                            <p>✅ <strong>Location Detected!</strong></p>
-                            <p>📍 ${result.display_name}</p>
-                            <p>🏢 ${validation.corporation_name}</p>
+                            <p><i class="fa-solid fa-circle-check"></i> <strong>Location Detected!</strong></p>
+                            <p><i class="fa-solid fa-location-dot"></i> ${result.display_name}</p>
+                            <p><i class="fa-solid fa-building"></i> ${validation.corporation_name}</p>
                         </div>
                     `);
 
