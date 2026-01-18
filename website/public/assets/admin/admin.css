@@ -658,7 +658,7 @@ header {
 }
 
 .organization-form {
-    padding: 1.5rem;
+    padding: 2rem;
 }
 
 .form-row {
@@ -691,6 +691,7 @@ header {
     border-radius: 8px;
     font-size: 1rem;
     font-family: inherit;
+    box-sizing: border-box;
 }
 
 .form-group textarea {
