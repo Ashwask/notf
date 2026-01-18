@@ -269,22 +269,53 @@ function initMatcher(members) {
         return [...new Set(words)];
     }
 
-    // Calculate match score
+    // Calculate match score with Fuse.js fuzzy matching
     function calculateMatchScore(ask, offer) {
         let score = 0;
 
+        // 1. Tag matching (exact) - 40% weight
         const commonTags = ask.tags.filter(t => offer.tags.includes(t));
         score += commonTags.length * 0.4;
 
+        // 2. Keyword matching (exact) - 30% weight max
         const commonKeywords = ask.keywords.filter(k => offer.keywords.includes(k));
         score += Math.min(commonKeywords.length * 0.1, 0.3);
 
-        if (ask.city && offer.city && ask.city === offer.city) {
+        // 3. City matching with fuzzy logic - 15% weight
+        if (ask.city && offer.city) {
+            if (ask.city.toLowerCase() === offer.city.toLowerCase()) {
+                score += 0.15;
+            } else if (typeof Fuse !== 'undefined') {
+                // Fuzzy city match (handles "Bengaluru" vs "Bangalore", typos)
+                const cityFuse = new Fuse([offer.city], { threshold: 0.3 });
+                const cityMatch = cityFuse.search(ask.city);
+                if (cityMatch.length > 0) {
+                    score += 0.10; // Partial credit for fuzzy city match
+                }
+            }
+        }
+
+        // 4. Theme matching - 15% weight
+        if (ask.theme && offer.theme && ask.theme === offer.theme) {
             score += 0.15;
         }
 
-        if (ask.theme && offer.theme && ask.theme === offer.theme) {
-            score += 0.15;
+        // 5. Text similarity with Fuse.js - 25% weight
+        if (typeof Fuse !== 'undefined' && ask.text && offer.text) {
+            // Create mini corpus of offers to search
+            const offerFuse = new Fuse([{ text: offer.text }], {
+                keys: ['text'],
+                threshold: 0.5,  // More lenient for text matching
+                includeScore: true,
+                ignoreLocation: true
+            });
+
+            const textMatch = offerFuse.search(ask.text);
+            if (textMatch.length > 0) {
+                // Fuse score is 0 (perfect) to 1 (poor), invert it
+                const textSimilarity = 1 - textMatch[0].score;
+                score += textSimilarity * 0.25;
+            }
         }
 
         return Math.min(score, 1.0);
@@ -707,6 +738,7 @@ function initMatcher(members) {
     </main>
 
     <!-- Chatbot Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <script src="/assets/chat/discovery-engine.js"></script>
     <script src="/assets/chat/complaint-engine.js"></script>
     <script src="/assets/chat/boundary-validator.js"></script>

@@ -1,6 +1,6 @@
 /**
  * Discovery Engine
- * Handles community and resource discovery
+ * Handles community and resource discovery using Fuse.js for fuzzy search
  */
 
 class DiscoveryEngine {
@@ -11,53 +11,41 @@ class DiscoveryEngine {
             ...this.communities.map(c => ({...c, resourceType: 'community'})),
             ...this.members.map(m => ({...m, resourceType: 'provider'}))
         ];
-        this.index = this.buildSearchIndex();
+
+        // Initialize Fuse.js for fuzzy search
+        this.initializeFuse();
     }
 
-    buildSearchIndex() {
-        // Build searchable index of all resources (communities + members)
-        const index = new Map();
+    initializeFuse() {
+        // Configure Fuse.js with weighted keys for better relevance
+        const fuseOptions = {
+            keys: [
+                { name: 'name', weight: 2.0 },              // Name is most important
+                { name: 'focus_areas', weight: 1.5 },       // Focus areas are very relevant
+                { name: 'domains', weight: 1.5 },           // Domains (for providers)
+                { name: 'location', weight: 1.0 },          // Location matching
+                { name: 'city', weight: 1.0 },              // City matching
+                { name: 'neighborhood', weight: 0.8 },      // Neighborhood
+                { name: 'description', weight: 0.5 }        // Description (if available)
+            ],
+            threshold: 0.4,                 // 0 = exact match, 1 = match anything
+            distance: 100,                  // How far to search in the text
+            includeScore: true,             // Include match score for sorting
+            minMatchCharLength: 2,          // Minimum character length to match
+            shouldSort: true,               // Sort by best match
+            findAllMatches: false,          // Stop at first good match per item
+            ignoreLocation: true,           // Search entire string, not just beginning
+            useExtendedSearch: false        // Simple fuzzy search
+        };
 
-        this.allResources.forEach((resource, idx) => {
-            // Index by name
-            if (resource.name) {
-                const nameWords = resource.name.toLowerCase().split(/\s+/);
-                nameWords.forEach(word => {
-                    if (!index.has(word)) {
-                        index.set(word, []);
-                    }
-                    index.get(word).push(idx);
-                });
-            }
+        // Check if Fuse is available
+        if (typeof Fuse === 'undefined') {
+            console.error('Fuse.js not loaded. Falling back to basic search.');
+            this.fuse = null;
+            return;
+        }
 
-            // Index by location
-            const location = resource.location || resource.city || resource.neighborhood;
-            if (location) {
-                const locationWords = location.toLowerCase().split(/\s+/);
-                locationWords.forEach(word => {
-                    if (!index.has(word)) {
-                        index.set(word, []);
-                    }
-                    index.get(word).push(idx);
-                });
-            }
-
-            // Index by focus areas/themes/domains
-            const focusAreas = resource.focus_areas || resource.domains || [];
-            if (focusAreas && focusAreas.length > 0) {
-                focusAreas.forEach(area => {
-                    const areaWords = area.toLowerCase().split(/\s+/);
-                    areaWords.forEach(word => {
-                        if (!index.has(word)) {
-                            index.set(word, []);
-                        }
-                        index.get(word).push(idx);
-                    });
-                });
-            }
-        });
-
-        return index;
+        this.fuse = new Fuse(this.allResources, fuseOptions);
     }
 
     search(query) {
@@ -68,34 +56,17 @@ class DiscoveryEngine {
 
         // Remove resource type keywords from query for better matching
         const cleanQuery = this.cleanQuery(queryLower);
-        const queryWords = cleanQuery.split(/\s+/).filter(w => w.length > 0);
 
-        const matchScores = new Map();
+        // If Fuse.js is not available, fall back to basic search
+        if (!this.fuse) {
+            return this.basicSearch(cleanQuery, requestedType);
+        }
 
-        queryWords.forEach(word => {
-            if (this.index.has(word)) {
-                this.index.get(word).forEach(idx => {
-                    matchScores.set(idx, (matchScores.get(idx) || 0) + 1);
-                });
-            }
-
-            // Also do partial matching
-            this.index.forEach((indices, indexedWord) => {
-                if (indexedWord.includes(word) || word.includes(indexedWord)) {
-                    indices.forEach(idx => {
-                        matchScores.set(idx, (matchScores.get(idx) || 0) + 0.5);
-                    });
-                }
-            });
-        });
-
-        // Sort by score
-        let results = Array.from(matchScores.entries())
-            .sort((a, b) => b[1] - a[1])
-            .map(([idx, score]) => ({
-                ...this.allResources[idx],
-                matchScore: score
-            }));
+        // Use Fuse.js for fuzzy search
+        let results = this.fuse.search(cleanQuery).map(result => ({
+            ...result.item,
+            matchScore: 1 - result.score  // Invert score (lower Fuse score = better match)
+        }));
 
         // Filter by requested resource type if specified
         if (requestedType === 'community') {
@@ -105,6 +76,44 @@ class DiscoveryEngine {
         }
 
         // Return top 10 results
+        return results.slice(0, 10);
+    }
+
+    // Fallback basic search if Fuse.js fails to load
+    basicSearch(cleanQuery, requestedType) {
+        const queryWords = cleanQuery.split(/\s+/).filter(w => w.length > 0);
+        const matchScores = new Map();
+
+        this.allResources.forEach((resource, idx) => {
+            const searchText = [
+                resource.name,
+                resource.location,
+                resource.city,
+                resource.neighborhood,
+                ...(resource.focus_areas || []),
+                ...(resource.domains || [])
+            ].filter(Boolean).join(' ').toLowerCase();
+
+            queryWords.forEach(word => {
+                if (searchText.includes(word)) {
+                    matchScores.set(idx, (matchScores.get(idx) || 0) + 1);
+                }
+            });
+        });
+
+        let results = Array.from(matchScores.entries())
+            .sort((a, b) => b[1] - a[1])
+            .map(([idx, score]) => ({
+                ...this.allResources[idx],
+                matchScore: score
+            }));
+
+        if (requestedType === 'community') {
+            results = results.filter(r => r.resourceType === 'community');
+        } else if (requestedType === 'provider') {
+            results = results.filter(r => r.resourceType === 'provider');
+        }
+
         return results.slice(0, 10);
     }
 
