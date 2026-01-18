@@ -20,15 +20,19 @@ class DiscoveryEngine {
         // Configure Fuse.js with weighted keys for better relevance
         const fuseOptions = {
             keys: [
-                { name: 'name', weight: 2.0 },              // Name is most important
-                { name: 'themes', weight: 1.5 },            // Themes for communities
-                { name: 'focus_areas', weight: 1.5 },       // Focus areas (legacy/providers)
-                { name: 'domains', weight: 1.5 },           // Domains (for providers)
-                { name: 'location', weight: 1.0 },          // Combined location (if available)
-                { name: 'city', weight: 1.0 },              // City matching
-                { name: 'neighborhood', weight: 1.2 },      // Neighborhood (boosted)
-                { name: 'state', weight: 0.7 },             // State
-                { name: 'description', weight: 0.5 }        // Description (if available)
+                { name: 'name', weight: 2.0 },                           // Name is most important
+                { name: 'themes', weight: 1.5 },                         // Themes for communities
+                { name: 'focus_areas', weight: 1.5 },                    // Focus areas (legacy/providers)
+                { name: 'domains', weight: 1.5 },                        // Domains (for providers)
+                { name: 'asks', weight: 1.3 },                           // What communities need
+                { name: 'offers', weight: 1.3 },                         // What communities offer
+                { name: 'infrastructure_offers', weight: 1.2 },          // Infrastructure available
+                { name: 'neighborhood', weight: 1.2 },                   // Neighborhood (boosted)
+                { name: 'city', weight: 1.0 },                           // City matching
+                { name: 'location', weight: 1.0 },                       // Combined location (if available)
+                { name: 'metadata.searchable_content', weight: 0.8 },    // Markdown content keywords
+                { name: 'state', weight: 0.7 },                          // State
+                { name: 'description', weight: 0.5 }                     // Description (if available)
             ],
             threshold: 0.5,                 // 0 = exact match, 1 = match anything (relaxed)
             distance: 100,                  // How far to search in the text
@@ -93,10 +97,14 @@ class DiscoveryEngine {
                 resource.city,
                 resource.neighborhood,
                 resource.state,
-                ...(resource.themes || []),           // Communities use 'themes'
-                ...(resource.focus_areas || []),       // Providers use 'focus_areas'
+                ...(resource.themes || []),                      // Communities use 'themes'
+                ...(resource.focus_areas || []),                  // Providers use 'focus_areas'
                 ...(resource.domains || []),
-                resource.description
+                ...(resource.asks || []),                         // What communities need
+                ...(resource.offers || []),                       // What communities offer
+                ...(resource.infrastructure_offers || []),        // Infrastructure available
+                resource.description,
+                resource.metadata?.searchable_content || ''       // Indexed markdown content
             ].filter(Boolean).join(' ').toLowerCase();
 
             queryWords.forEach(word => {
