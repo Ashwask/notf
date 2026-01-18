@@ -624,21 +624,107 @@ class NotfChatbot {
 
         this.addBotMessage(`
             <p>Thank you for the description.</p>
-            ${category ? `<p>I've categorized this as: <strong>${category.name}</strong></p>` : ''}
+            ${category ? `<p>I've categorized this as: <strong>${category.name}</strong></p>` : '<p>Let me help you categorize this issue.</p>'}
             ${locationInfo.city ? `<p>I detected city: <strong>${locationInfo.city}</strong></p>` : ''}
             ${locationInfo.location ? `<p>I detected location: <strong>${locationInfo.location}</strong></p>` : ''}
         `);
 
-        if (category) {
-            this.formData.category_id = category.id;
-        }
+        // Store detected category
+        this.formData.detectedCategory = category;
 
         // Store extracted location info for later use
         this.formData.extractedCity = locationInfo.city;
         this.formData.extractedLocation = locationInfo.location;
 
-        // Ask for city
-        this.askForCity();
+        // Ask for category confirmation/selection
+        this.askForCategory();
+    }
+
+    askForCategory() {
+        const detectedCategory = this.formData.detectedCategory;
+
+        if (detectedCategory) {
+            // Show detected category with option to confirm or change
+            this.addBotMessage(`
+                <p>Is "<strong>${detectedCategory.name}</strong>" the correct category?</p>
+                <div class="category-options">
+                    <button class="btn-confirm-category" onclick="notfChatbot.confirmCategory('${detectedCategory.id}')">
+                        <i class="fa-solid fa-check"></i> Yes, correct
+                    </button>
+                    <button class="btn-change-category" onclick="notfChatbot.showAllCategories()">
+                        <i class="fa-solid fa-list"></i> Choose different
+                    </button>
+                </div>
+            `);
+        } else {
+            // No category detected, show all categories
+            this.showAllCategories();
+        }
+
+        this.state = 'complaint_category';
+        this.disableInput();
+    }
+
+    confirmCategory(categoryId) {
+        const category = this.complaintEngine.categories.find(c => c.id === categoryId);
+        if (category) {
+            this.formData.category_id = categoryId;
+            this.addUserMessage(`✓ ${category.name}`);
+            this.askForCity();
+        }
+    }
+
+    showAllCategories() {
+        const categories = this.complaintEngine.categories;
+
+        // Group categories by department
+        const grouped = {};
+        categories.forEach(cat => {
+            if (!grouped[cat.department]) {
+                grouped[cat.department] = [];
+            }
+            grouped[cat.department].push(cat);
+        });
+
+        let categoriesHTML = '<p>Please select the category that best describes your issue:</p>';
+        categoriesHTML += '<div class="category-grid" style="display: grid; grid-template-columns: 1fr; gap: 0.5rem; max-height: 300px; overflow-y: auto;">';
+
+        Object.keys(grouped).sort().forEach(dept => {
+            categoriesHTML += `<div class="department-group" style="margin-bottom: 0.5rem;">`;
+            categoriesHTML += `<h4 style="font-size: 0.9rem; color: #666; margin: 0.5rem 0 0.25rem 0;">${dept}</h4>`;
+            grouped[dept].forEach(cat => {
+                categoriesHTML += `
+                    <button class="btn-category" onclick="notfChatbot.selectCategory('${cat.id}')" style="
+                        display: block;
+                        width: 100%;
+                        text-align: left;
+                        padding: 0.5rem;
+                        margin: 0.25rem 0;
+                        background: white;
+                        border: 1px solid #ddd;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 0.9rem;
+                    ">
+                        ${cat.name}
+                    </button>
+                `;
+            });
+            categoriesHTML += `</div>`;
+        });
+
+        categoriesHTML += '</div>';
+        this.addBotMessage(categoriesHTML);
+    }
+
+    selectCategory(categoryId) {
+        const category = this.complaintEngine.categories.find(c => c.id === categoryId);
+        if (category) {
+            this.formData.category_id = categoryId;
+            this.addUserMessage(category.name);
+            this.addBotMessage(`<p>✓ Category set to: <strong>${category.name}</strong></p>`);
+            this.askForCity();
+        }
     }
 
     extractLocationFromText(text) {
