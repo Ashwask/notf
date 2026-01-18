@@ -383,9 +383,9 @@ class ComplaintEngine {
         const keywordMatches = [];
         const nameMatches = [];
 
-        // Create a Fuse instance for searching keywords IN the description
-        // Use location scoring to prioritize keywords at the START (issue before location)
-        const descFuse = new Fuse([description], {
+        // Create TWO separate Fuse instances:
+        // 1. For keywords: location-aware (prioritize early matches)
+        const keywordFuse = new Fuse([description], {
             threshold: 0.4,
             includeScore: true,
             minMatchCharLength: 2,
@@ -395,9 +395,18 @@ class ComplaintEngine {
             findAllMatches: true
         });
 
+        // 2. For names: location-agnostic (search whole string, very strict threshold)
+        const nameFuse = new Fuse([description], {
+            threshold: 0.3,           // Stricter threshold for name matching (30% difference max)
+            includeScore: true,
+            minMatchCharLength: 3,    // Require at least 3 chars to match names
+            ignoreLocation: true,     // Search entire string for name matches
+            findAllMatches: true
+        });
+
         // Minimum score thresholds
-        const MIN_KEYWORD_SCORE = 0.3;  // Higher bar for keyword matches
-        const MIN_NAME_SCORE = 0.15;     // Lower bar for name matches
+        const MIN_KEYWORD_SCORE = 0.3;  // For categories with keywords
+        const MIN_NAME_SCORE = 0.6;      // VERY high bar for name-only matches (60% match quality required)
 
         this.categories.forEach(category => {
             let categoryScore = 0;
@@ -406,9 +415,9 @@ class ComplaintEngine {
 
             // If category has keywords, use them for matching
             if (category.keywords && category.keywords.length > 0) {
-                // Check each keyword against the description
+                // Check each keyword against the description using keyword-specific Fuse
                 category.keywords.forEach(keyword => {
-                    const results = descFuse.search(keyword);
+                    const results = keywordFuse.search(keyword);
 
                     if (results.length > 0) {
                         // Found a match - score based on match quality
@@ -431,14 +440,13 @@ class ComplaintEngine {
                     });
                 }
             } else {
-                // Fallback: If no keywords, match against category name
-                const nameResults = descFuse.search(category.name);
+                // Fallback: If no keywords, match against category name using name-specific Fuse
+                const nameResults = nameFuse.search(category.name);
 
                 if (nameResults.length > 0) {
                     const matchQuality = 1 - nameResults[0].score;
-                    // Very low weight for name-only matches to avoid matching location references
-                    // (e.g., "post office" as a location shouldn't match "Post Offices" category)
-                    categoryScore = matchQuality * 0.2;
+                    // Score based purely on match quality (no arbitrary multiplier)
+                    categoryScore = matchQuality;
                     matchedKeywords.push(`[name: ${category.name}]`);
 
                     // Store in name matches array if it passed threshold
@@ -456,9 +464,21 @@ class ComplaintEngine {
 
         // Prioritize keyword matches over name matches
         // If we have keyword matches, use those; otherwise fall back to name matches
-        const results = keywordMatches.length > 0 ? keywordMatches : nameMatches;
+        let results = keywordMatches.length > 0 ? keywordMatches : nameMatches;
 
-        return results.sort((a, b) => b.score - a.score).slice(0, limit);
+        // Sort by score and limit results
+        results = results.sort((a, b) => b.score - a.score).slice(0, limit);
+
+        // Final safeguard: If we're returning name matches and have too many low-quality results,
+        // return empty array to force "See all categories" instead of showing weak matches
+        if (results.length > 0 && results[0].matchType === 'name') {
+            // If best name match has score < 0.7 (70% quality), only keep very top matches
+            if (results[0].score < 0.7) {
+                results = results.slice(0, Math.min(3, results.length));
+            }
+        }
+
+        return results;
     }
 
     validatePhone(phone) {
