@@ -141,10 +141,12 @@ class NotfCmsApi {
         };
 
         // Add optional location fields only if they have values
+        // Note: API expects corporation_id (will auto-convert codes to UUIDs)
         if (complaint.location.corporation_code) {
-            formatted.corporation_code = complaint.location.corporation_code;
-        }
-        if (complaint.location.corporation_id) {
+            // Send code as corporation_id - API will convert to UUID
+            formatted.corporation_id = complaint.location.corporation_code;
+        } else if (complaint.location.corporation_id) {
+            // Or send UUID directly if available
             formatted.corporation_id = complaint.location.corporation_id;
         }
         if (complaint.location.ward) {
