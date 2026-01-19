@@ -634,6 +634,91 @@ footer {
     color: rgba(250, 246, 232, 0.7);
 }
 
+/* Footer Icons */
+.cc-icon {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+.cc-license {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+}
+
+.cc-text {
+    margin-left: 12px;
+}
+
+/* === JOIN THE MOVEMENT SECTION === */
+.cities {
+    padding: var(--space-3xl) var(--space-md);
+    background: var(--color-bg-white);
+}
+
+.cities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.city-card {
+    background: var(--warm-cream);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.city-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--olive-green);
+}
+
+.city-card h3 {
+    color: var(--forest-green);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.city-card p {
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+}
+
+/* === CTA CENTER === */
+.cta-center {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-lg);
+}
+
+/* === PAGE CONTAINERS === */
+.page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
+
+main {
+    min-height: calc(100vh - 200px);
+}
+
+/* Content padding for directory pages */
+body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta-section):not(.cities) {
+    padding: var(--space-md);
+}
+
 /* === RESPONSIVE DESIGN === */
 @media (max-width: 768px) {
     .hamburger {

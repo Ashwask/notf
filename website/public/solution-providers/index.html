@@ -56,7 +56,7 @@
         }
 
         thead {
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             border-bottom: none;
         }
 
@@ -109,7 +109,7 @@
 
         .theme-tag {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(253, 217, 110, 0.2) 0%, rgba(247, 167, 130, 0.2) 100%);
+            background: rgba(196, 90, 42, 0.15);
             color: #d97706;
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
@@ -121,13 +121,13 @@
         }
 
         .theme-tag:hover {
-            background: linear-gradient(135deg, rgba(253, 217, 110, 0.3) 0%, rgba(247, 167, 130, 0.3) 100%);
+            background: rgba(196, 90, 42, 0.25);
             transform: translateY(-1px);
         }
 
         .count-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             color: white;
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
@@ -200,7 +200,7 @@
 
         .modal-header {
             padding: 2rem;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             color: white;
             display: flex;
             justify-content: space-between;
@@ -245,7 +245,7 @@
 
         .modal-section h3 {
             margin: 0 0 0.75rem 0;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -274,7 +274,7 @@
 
         /* CTA Card Styles */
         .provider-cta-card {
-            background: linear-gradient(135deg, rgba(247, 167, 130, 0.05) 0%, rgba(251, 200, 49, 0.05) 100%);
+            background: rgba(196, 90, 42, 0.08);
             border: 2px solid transparent;
             background-clip: padding-box;
             border-radius: 1.5rem;
@@ -292,7 +292,7 @@
         .cta-card-header {
             text-align: center;
             padding: 3rem 2rem 2rem 2rem;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             color: white;
             position: relative;
         }
@@ -340,7 +340,7 @@
             margin: 0 0 1.5rem 0;
             font-size: 1.25rem;
             font-weight: 600;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -358,7 +358,7 @@
             align-items: center;
             gap: 1rem;
             padding: 1.25rem;
-            background: linear-gradient(135deg, rgba(247, 167, 130, 0.08) 0%, rgba(251, 200, 49, 0.08) 100%);
+            background: rgba(196, 90, 42, 0.12);
             border-radius: 12px;
             border: 1px solid rgba(247, 167, 130, 0.2);
             transition: all 0.3s ease;
@@ -395,7 +395,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, #F7A782 0%, #FBC831 100%);
+            background: #C45A2A;
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -517,8 +517,9 @@
     </header>
 
     <main>
-        <section class="content">
-            <h1>Solution Providers</h1>
+        <div class="page-container">
+            <section class="content">
+                <h1>Solution Providers</h1>
             <p class="lead">Organizations providing expertise, services, and solutions to support community-driven transformation.</p>
 
             <div class="filters">
@@ -592,6 +593,7 @@
                 </div>
             </section>
         </section>
+        </div>
 
         <!-- Modal for viewing details -->
         <div id="detailsModal" class="modal">
