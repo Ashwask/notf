@@ -440,7 +440,10 @@ async function handleFormSubmit(e) {
 
     const latitude = latFieldValue ? parseFloat(latFieldValue) : null;
     const longitude = lngFieldValue ? parseFloat(lngFieldValue) : null;
-    const filePath = isEditing ? document.getElementById('commFilePath').value : `communities/${slug}.md`;
+
+    // Normalize city name for file path (lowercase, replace spaces with hyphens)
+    const citySlug = city.toLowerCase().replace(/\s+/g, '-');
+    const filePath = isEditing ? document.getElementById('commFilePath').value : `communities/${citySlug}/${slug}.md`;
 
     console.log('Form submit - Parsed coordinates:', { latitude, longitude });
 

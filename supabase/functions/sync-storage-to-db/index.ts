@@ -45,9 +45,10 @@ serve(async (req) => {
       files: []
     }
 
-    // List all files in communities folder
+    // List all files in communities folder (organized by city)
     if (!fileType || fileType === 'community') {
-      const { data: communityFiles, error: commListError } = await supabaseAdmin
+      // First, list all city folders in communities/
+      const { data: cityFolders, error: cityListError } = await supabaseAdmin
         .storage
         .from('notf')
         .list('communities', {
@@ -55,25 +56,55 @@ serve(async (req) => {
           sortBy: { column: 'name', order: 'asc' }
         })
 
-      if (commListError) {
-        throw new Error(`Failed to list community files: ${commListError.message}`)
+      if (cityListError) {
+        throw new Error(`Failed to list city folders: ${cityListError.message}`)
       }
 
-      for (const file of communityFiles || []) {
-        if (!file.name.endsWith('.md') && !file.name.endsWith('.yaml') && !file.name.endsWith('.yml')) {
+      // Filter for folders only (they don't have file extensions)
+      const cities = (cityFolders || []).filter(item =>
+        !item.name.endsWith('.md') &&
+        !item.name.endsWith('.yaml') &&
+        !item.name.endsWith('.yml') &&
+        item.id // folders have an id
+      )
+
+      console.log(`Found ${cities.length} city folders: ${cities.map(c => c.name).join(', ')}`)
+
+      // For each city, list all community files
+      for (const city of cities) {
+        const cityName = city.name
+        const { data: communityFiles, error: filesError } = await supabaseAdmin
+          .storage
+          .from('notf')
+          .list(`communities/${cityName}`, {
+            limit: 1000,
+            sortBy: { column: 'name', order: 'asc' }
+          })
+
+        if (filesError) {
+          console.error(`Error listing files in ${cityName}:`, filesError.message)
+          results.errors.push({ path: `communities/${cityName}`, error: filesError.message })
           continue
         }
 
-        const filePath = `communities/${file.name}`
-        const result = await syncFile(supabaseAdmin, filePath, 'community', dryRun)
-        results.processed++
+        console.log(`Found ${communityFiles?.length || 0} files in ${cityName}`)
 
-        if (result.success) {
-          if (result.created) results.created++
-          else results.updated++
-          results.files.push({ path: filePath, status: 'synced', action: result.created ? 'created' : 'updated' })
-        } else {
-          results.errors.push({ path: filePath, error: result.error })
+        for (const file of communityFiles || []) {
+          if (!file.name.endsWith('.md') && !file.name.endsWith('.yaml') && !file.name.endsWith('.yml')) {
+            continue
+          }
+
+          const filePath = `communities/${cityName}/${file.name}`
+          const result = await syncFile(supabaseAdmin, filePath, 'community', dryRun)
+          results.processed++
+
+          if (result.success) {
+            if (result.created) results.created++
+            else results.updated++
+            results.files.push({ path: filePath, status: 'synced', action: result.created ? 'created' : 'updated' })
+          } else {
+            results.errors.push({ path: filePath, error: result.error })
+          }
         }
       }
     }
