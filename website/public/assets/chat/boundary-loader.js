@@ -19,6 +19,7 @@ class BoundaryLoader {
             'gurugram': { name: 'Gurugram', state: 'Haryana', wards: 35 },
             'hyderabad': { name: 'Hyderabad', state: 'Telangana', wards: 145 },
             'jaipur': { name: 'Jaipur', state: 'Rajasthan', wards: 150 },
+            'kochi': { name: 'Kochi', state: 'Kerala', wards: 74 },
             'kolkata': { name: 'Kolkata', state: 'West Bengal', wards: 141 },
             'mumbai': { name: 'Mumbai', state: 'Maharashtra', wards: 24 },
             'pune': { name: 'Pune', state: 'Maharashtra', wards: 58 },
