@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/chat/chat.css">
+    <link rel="stylesheet" href="/assets/i18n/language-selector.css">
 </head>
 <body>
     <header>
@@ -26,12 +27,12 @@
             </button>
 
             <div class="nav-menu" id="navMenu">
-                <a href="/">Home</a>
-                <a href="/communities/">Communities</a>
-                <a href="/solution-providers/">Providers</a>
-                <a href="/map/">Map</a>
-                <a href="/join/" class="join-link">Join</a>
-                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
+                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
@@ -42,11 +43,11 @@
             <!-- Hero Section -->
             <section class="hero">
                 <div class="hero-content">
-                    <h1>Building Connected, Resilient Neighbourhoods</h1>
-                    <p class="hero-subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
+                    <h1 data-i18n="hero.title">Building Connected, Resilient Neighbourhoods</h1>
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
                     <div class="hero-cta">
-                        <a href="/admin/login.html" class="btn btn-primary-large"><i class="fa-solid fa-user-lock"></i> Admin Login</a>
-                        <a href="/join/" class="btn btn-secondary">Join the Network</a>
+                        <a href="/admin/login.html" class="btn btn-primary-large"><i class="fa-solid fa-user-lock"></i> <span data-i18n="hero.adminLogin">Admin Login</span></a>
+                        <a href="/join/" class="btn btn-secondary" data-i18n="hero.joinNetwork">Join the Network</a>
                     </div>
                 </div>
             </section>
@@ -55,44 +56,44 @@
             <section class="stats">
                 <div class="stat-card">
                     <div class="stat-number" id="orgCount">-</div>
-                    <div class="stat-label">Organizations</div>
+                    <div class="stat-label" data-i18n="stats.organizations">Organizations</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number" id="commCount">-</div>
-                    <div class="stat-label">Communities</div>
+                    <div class="stat-label" data-i18n="stats.communities">Communities</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">100+</div>
-                    <div class="stat-label">Active Collaborations</div>
+                    <div class="stat-label" data-i18n="stats.collaborations">Active Collaborations</div>
                 </div>
             </section>
 
             <!-- Features -->
             <section class="features">
                 <div class="container">
-                    <h2 class="section-title">How NOTF Works</h2>
-                    <p class="section-subtitle">Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources</p>
+                    <h2 class="section-title" data-i18n="features.title">How NOTF Works</h2>
+                    <p class="section-subtitle" data-i18n="features.subtitle">Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources</p>
 
                     <div class="feature-grid">
                         <div class="feature-card">
                             <div class="feature-icon"><i class="fa-solid fa-house-user"></i></div>
-                            <h3>Community Directory</h3>
-                            <p>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
-                            <a href="/communities/" class="feature-link">Browse Communities →</a>
+                            <h3 data-i18n="features.community.title">Community Directory</h3>
+                            <p data-i18n="features.community.description" data-i18n-params='{"count":"<span id=\"dirCommCount\">-</span>"}'>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
+                            <a href="/communities/" class="feature-link" data-i18n="features.community.link">Browse Communities →</a>
                         </div>
 
                         <div class="feature-card">
                             <div class="feature-icon"><i class="fa-solid fa-building"></i></div>
-                            <h3>Providers Directory</h3>
-                            <p>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
-                            <a href="/solution-providers/" class="feature-link">View Providers →</a>
+                            <h3 data-i18n="features.providers.title">Providers Directory</h3>
+                            <p data-i18n="features.providers.description" data-i18n-params='{"count":"<span id=\"orgNetCount\">-</span>"}'>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
+                            <a href="/solution-providers/" class="feature-link" data-i18n="features.providers.link">View Providers →</a>
                         </div>
 
                         <div class="feature-card">
                             <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                            <h3>Interactive Map</h3>
-                            <p>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
-                            <a href="/map/" class="feature-link">View Map →</a>
+                            <h3 data-i18n="features.map.title">Interactive Map</h3>
+                            <p data-i18n="features.map.description" data-i18n-params='{"count":"<span id=\"mapCommCount\">-</span>"}'>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
+                            <a href="/map/" class="feature-link" data-i18n="features.map.link">View Map →</a>
                         </div>
                     </div>
                 </div>
@@ -101,25 +102,25 @@
             <!-- Cities -->
             <section class="cities">
                 <div class="container">
-                    <h2 class="section-title">Join the Movement</h2>
-                    <p class="section-subtitle">Three simple steps to start transforming your neighbourhood</p>
+                    <h2 class="section-title" data-i18n="join.title">Join the Movement</h2>
+                    <p class="section-subtitle" data-i18n="join.subtitle">Three simple steps to start transforming your neighbourhood</p>
 
                     <div class="cities-grid">
                         <div class="city-card">
-                            <h3>1. Register</h3>
-                            <p>Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
-                            <a href="/join/" class="feature-link">Get Started →</a>
+                            <h3 data-i18n="join.step1.title">1. Register</h3>
+                            <p data-i18n="join.step1.description">Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
+                            <a href="/join/" class="feature-link" data-i18n="join.step1.link">Get Started →</a>
                         </div>
 
                         <div class="city-card">
-                            <h3>2. Connect</h3>
-                            <p>Get matched with communities and organizations that align with your needs and offers.</p>
+                            <h3 data-i18n="join.step2.title">2. Connect</h3>
+                            <p data-i18n="join.step2.description">Get matched with communities and organizations that align with your needs and offers.</p>
                         </div>
 
                         <div class="city-card">
-                            <h3>3. Collaborate</h3>
-                            <p>Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
-                            <a href="/join/" class="feature-link">Join Network →</a>
+                            <h3 data-i18n="join.step3.title">3. Collaborate</h3>
+                            <p data-i18n="join.step3.description">Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
+                            <a href="/join/" class="feature-link" data-i18n="join.step3.link">Join Network →</a>
                         </div>
                     </div>
                 </div>
@@ -128,17 +129,17 @@
             <!-- CTA Section -->
             <section class="cta-section">
                 <div class="container">
-                    <h2>Ready to Transform Your Neighbourhood?</h2>
-                    <p>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
+                    <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
+                    <p data-i18n="cta.subtitle" data-i18n-params='{"orgCount":"<span id=\"ctaOrgCount\">-</span>","commCount":"<span id=\"ctaCommCount\">-</span>"}'>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
                     <div class="cta-center">
-                        <a href="/join/" class="btn btn-primary-large">Join NOTF Network</a>
+                        <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
                     </div>
                 </div>
             </section>
 
             <!-- Chatbot Widget -->
             <!-- Floating Action Button (shows when minimized) -->
-            <button id="chat-fab" class="chat-fab hidden" aria-label="Open NOTF Assistant">
+            <button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">
                 <i class="fa-solid fa-comments"></i>
             </button>
 
@@ -147,13 +148,13 @@
                 <div class="chat-header">
                     <div class="chat-header-title">
                         <i class="fa-solid fa-robot"></i>
-                        <span class="chat-mode-title">NOTF Assistant</span>
+                        <span class="chat-mode-title" data-i18n="chatbot.title">NOTF Assistant</span>
                     </div>
                     <div class="chat-header-actions">
                         <button class="chat-switch-mode-button hidden" aria-label="Switch mode" title="Switch between Discovery and Complaint modes">
                             <i class="fa-solid fa-repeat"></i>
                         </button>
-                        <button class="chat-close-button" aria-label="Close chat">
+                        <button class="chat-close-button" data-i18n-aria="common.close" aria-label="Close chat">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
@@ -215,6 +216,9 @@
         });
     </script>
 
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+
     <!-- Load Supabase and data -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
@@ -273,5 +277,8 @@
     <script src="/assets/chat/boundary-validator.js"></script>
     <script src="/assets/chat/notf-cms-api.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>
+
+    <!-- Language Selector -->
+    <script src="/assets/i18n/language-selector.js"></script>
 </body>
 </html>

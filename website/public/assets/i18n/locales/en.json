@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "home": "Home",
+    "communities": "Communities",
+    "providers": "Providers",
+    "map": "Map",
+    "join": "Join",
+    "admin": "Admin Login"
+  },
+  "hero": {
+    "title": "Building Connected, Resilient Neighbourhoods",
+    "subtitle": "Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.",
+    "adminLogin": "Admin Login",
+    "joinNetwork": "Join the Network"
+  },
+  "stats": {
+    "organizations": "Organizations",
+    "communities": "Communities",
+    "collaborations": "Active Collaborations"
+  },
+  "features": {
+    "title": "How NOTF Works",
+    "subtitle": "Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources",
+    "community": {
+      "title": "Community Directory",
+      "description": "Browse {{count}} active neighbourhoods. Learn about their work and discover collaboration opportunities.",
+      "link": "Browse Communities"
+    },
+    "providers": {
+      "title": "Providers Directory",
+      "description": "Connect with {{count}} organizations supporting community work. CBOs, solution providers, and more.",
+      "link": "View Providers"
+    },
+    "map": {
+      "title": "Interactive Map",
+      "description": "Visualize all {{count}} communities across Bengaluru. Discover neighbours and find local initiatives.",
+      "link": "View Map"
+    }
+  },
+  "join": {
+    "title": "Join the Movement",
+    "subtitle": "Three simple steps to start transforming your neighbourhood",
+    "step1": {
+      "title": "1. Register",
+      "description": "Submit your community or organization details through our simple form. We'll review within 3-5 days.",
+      "link": "Get Started"
+    },
+    "step2": {
+      "title": "2. Connect",
+      "description": "Get matched with communities and organizations that align with your needs and offers."
+    },
+    "step3": {
+      "title": "3. Collaborate",
+      "description": "Build partnerships, share resources, and create lasting impact in your neighbourhood.",
+      "link": "Join Network"
+    }
+  },
+  "cta": {
+    "title": "Ready to Transform Your Neighbourhood?",
+    "subtitle": "Join {{orgCount}}+ organizations and {{commCount}} communities building a better future together.",
+    "button": "Join NOTF Network"
+  },
+  "chatbot": {
+    "openChat": "Open NOTF Assistant",
+    "title": "NOTF Assistant",
+    "welcome": "Welcome! How can I help you today?",
+    "intentDiscovery": "Find Communities & Resources",
+    "intentComplaint": "File a Complaint",
+    "tips": "Tips: You can switch modes anytime using the repeat button in the header. Resize this window by dragging the top-left corner."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "close": "Close",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "active": "Active",
+    "pending": "Pending",
+    "archived": "Archived"
+  }
+}

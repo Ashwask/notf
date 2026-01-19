@@ -1,0 +1,250 @@
+/**
+ * Language Selector UI
+ * Globe icon + dropdown for language selection
+ */
+
+.language-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.language-selector-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: transparent;
+    border: 1px solid rgba(47, 74, 44, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--forest-green, #2F4A2C);
+    transition: all 0.3s ease;
+}
+
+.language-selector-button:hover {
+    background: rgba(185, 201, 138, 0.1);
+    border-color: var(--olive-green, #B9C98A);
+}
+
+.language-selector-button .icon {
+    font-size: 1rem;
+}
+
+.language-selector-button .chevron {
+    font-size: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.language-selector.open .chevron {
+    transform: rotate(180deg);
+}
+
+.language-selector-current {
+    font-weight: 500;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 200px;
+    background: white;
+    border: 1px solid rgba(47, 74, 44, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.language-selector.open .language-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.language-dropdown-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(47, 74, 44, 0.1);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--forest-green, #2F4A2C);
+}
+
+.language-options {
+    padding: 0.5rem 0;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 0.9375rem;
+}
+
+.language-option:hover {
+    background: rgba(185, 201, 138, 0.1);
+}
+
+.language-option.active {
+    background: rgba(185, 201, 138, 0.15);
+    font-weight: 600;
+}
+
+.language-option.active::after {
+    content: '\2713'; /* Checkmark */
+    margin-left: auto;
+    color: var(--forest-green, #2F4A2C);
+    font-weight: bold;
+}
+
+.language-option-flag {
+    font-size: 1.25rem;
+}
+
+.language-option-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.language-option-native {
+    font-size: 0.9375rem;
+    color: #2B2B2B;
+}
+
+.language-option-english {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+/* Scrollbar styling for dropdown */
+.language-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.language-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(185, 201, 138, 0.4);
+    border-radius: 3px;
+}
+
+.language-dropdown::-webkit-scrollbar-thumb:hover {
+    background: rgba(185, 201, 138, 0.6);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .language-selector-button {
+        padding: 0.5rem;
+        border: none;
+    }
+
+    .language-selector-current {
+        display: none; /* Hide text on mobile, show only globe icon */
+    }
+
+    .language-dropdown {
+        right: -1rem;
+        min-width: 180px;
+    }
+}
+
+/* RTL support for Urdu */
+[dir="rtl"] .language-dropdown {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] .language-option {
+    flex-direction: row-reverse;
+}
+
+/* Font loading for Indic scripts */
+@font-face {
+    font-family: 'Noto Sans Devanagari';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosansdevanagari/v25/TuGoUUFzXI5FBtUq5a8bjKYTZjtRU6Sgv1V6e-GJzcA.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Kannada';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosanskannada/v26/8vIs7xs32H97qzQKnzfeXycxXZyUmySvZWItmf1f.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Tamil';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosanstamil/v27/ieVc2YdFI3GCY6SyQy1KfStzYKZgzN1z4LKDbeZce-0429tBManUktuex7vGor0RqKDt_EvT.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Telugu';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosanstelugu/v25/0FlxVOGZlE2Rrtr-HmgkMWJNjJ5_RyT8o8c7fHkeg-esVC5dzHkHIJQqrEntezfqQfC_kKU.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Gujarati';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosansgujarati/v23/wlpWgx_HC1ti5ViekvcxnhMlCVo3f5pv17ivlzsUB14gg1TMR2Gw4VceEl7MA5mJ.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Bengali';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosansbengali/v20/Cn-SJsCGWQxOjaGwMQ6fIiMywrNJIky6nvd8BjzVMvJx2mcSPVFpVEqE-6KmsolKudCk8izI0lc.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Malayalam';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosansmalayalam/v26/sJoi3K5XjsSdcnzn071rL37lpAOsUThnDZIfPdbeSNzVakglNM-Qw8EaeB8Nss-_RuH9BFzEr6HxEA.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Sans Oriya';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notosansoriya/v27/AYCppXfzfccDCstK_hrjDyADv5e9748vhj3CJBLHIARtgD6TJQS0dJT5Ivj0fq_c6LhHBRe-.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Noto Nastaliq Urdu';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/notonastaliqurdu/v19/LhWNMWJJZQIjeQfF72m8CiNiQfY2x0ubBcxv77TKJBt8j7S4rA.woff2') format('woff2');
+}
