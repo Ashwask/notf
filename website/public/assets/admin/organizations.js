@@ -3,7 +3,7 @@
 let organizations = [];
 let isEditing = false;
 let editingId = null;
-let currentStatusFilter = 'active';
+let currentStatusFilter = 'all';
 
 // Require authentication and load data
 (async function() {
