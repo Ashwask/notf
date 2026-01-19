@@ -66,7 +66,8 @@
     "welcome": "Welcome! How can I help you today?",
     "intentDiscovery": "Find Communities & Resources",
     "intentComplaint": "File a Complaint",
-    "tips": "Tips: You can switch modes anytime using the repeat button in the header. Resize this window by dragging the top-left corner."
+    "tips": "Tips: You can switch modes anytime using the repeat button in the header. Resize this window by dragging the top-left corner.",
+    "inputPlaceholder": "Type your message..."
   },
   "common": {
     "loading": "Loading...",
