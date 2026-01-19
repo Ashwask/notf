@@ -1371,3 +1371,117 @@ header {
     transition: none;
     cursor: nwse-resize;
 }
+
+/* ========================================
+   EXCEL IMPORT/EXPORT STYLES
+   ======================================== */
+
+/* Success button (green for Excel export) */
+.icon-btn.success {
+    background: #2F4A2C;
+    color: white;
+    border-color: #2F4A2C;
+}
+
+.icon-btn.success:hover {
+    background: #244020;
+    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.3) !important;
+}
+
+/* Warning button (yellow for import) */
+.icon-btn.warning {
+    background: #F5B82E;
+    color: #2B2B2B;
+    border-color: #F5B82E;
+}
+
+.icon-btn.warning:hover {
+    background: #E5A822;
+    box-shadow: 0 4px 12px rgba(245, 184, 46, 0.3) !important;
+}
+
+/* Upload area drag-over state */
+#uploadArea.drag-over {
+    background: #E8F5E9 !important;
+    border-color: #2F4A2C !important;
+    border-width: 3px !important;
+}
+
+/* Validation stats */
+.validation-stat {
+    text-align: center;
+    padding: 1rem;
+    background: #FAF6E8;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.validation-stat .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2F4A2C;
+    margin-bottom: 0.25rem;
+}
+
+.validation-stat .stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Errors table */
+.errors-table {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+}
+
+.error-row {
+    display: grid;
+    grid-template-columns: 60px 120px 1fr 150px;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+}
+
+.error-row:last-child {
+    border-bottom: none;
+}
+
+.error-row:hover {
+    background: #fafafa;
+}
+
+.error-row-num {
+    font-weight: bold;
+    color: #C45A2A;
+}
+
+.error-field {
+    font-weight: 600;
+    color: #3F5F7A;
+}
+
+.error-message {
+    color: #666;
+}
+
+.error-value {
+    color: #999;
+    font-family: monospace;
+    font-size: 0.85rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Import actions */
+#importActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}

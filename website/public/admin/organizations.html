@@ -20,6 +20,12 @@
                 <button class="icon-btn primary" data-tooltip="Add Organization" onclick="showCreateForm()">
                     <i class="fa-solid fa-plus"></i>
                 </button>
+                <button class="icon-btn success" data-tooltip="Export to Excel" onclick="exportToExcel()">
+                    <i class="fa-solid fa-file-excel"></i>
+                </button>
+                <button class="icon-btn warning" data-tooltip="Import from Excel" onclick="showImportModal()">
+                    <i class="fa-solid fa-file-import"></i>
+                </button>
                 <button class="icon-btn" data-tooltip="Refresh" onclick="loadOrganizations()">
                     <i class="fa-solid fa-arrows-rotate"></i>
                 </button>
@@ -155,6 +161,85 @@
                 <div class="resize-handle" title="Drag to resize"></div>
             </div>
         </div>
+
+        <!-- Import Modal -->
+        <div id="importModal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 700px;">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-file-import"></i> Import from Excel</h2>
+                    <button onclick="closeImportModal()" class="btn-close">×</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Upload Area -->
+                    <div id="uploadArea" style="
+                        border: 2px dashed #B9C98A;
+                        border-radius: 8px;
+                        padding: 3rem;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        background: #FAF6E8;
+                    ">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; color: #B9C98A; margin-bottom: 1rem;"></i>
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Drop Excel file here or click to browse</p>
+                        <p style="font-size: 0.9rem; color: #666;">Supports .xlsx files exported from this system</p>
+                        <input type="file" id="fileInput" accept=".xlsx" style="display: none;" />
+                    </div>
+
+                    <!-- Validation Results -->
+                    <div id="validationResults" style="display: none; margin-top: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Validation Results</h3>
+                        <div id="validationStats" style="
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            gap: 1rem;
+                            margin-bottom: 1.5rem;
+                        "></div>
+                        <div id="errorsList"></div>
+                    </div>
+
+                    <!-- Import Actions -->
+                    <div id="importActions" style="display: none; margin-top: 2rem; gap: 0.75rem;">
+                        <button type="button" id="downloadErrorsBtn" onclick="downloadErrorLog()" class="btn-secondary" style="display: none;">
+                            <i class="fa-solid fa-download"></i> Download Error Log
+                        </button>
+                        <button type="button" id="executeImportBtn" onclick="executeImport()" class="btn-primary">
+                            <i class="fa-solid fa-check"></i> Import Valid Rows
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Import Progress Modal -->
+        <div id="progressModal" class="modal" style="display: none;">
+            <div class="modal-content" style="max-width: 500px;">
+                <div class="modal-header">
+                    <h2><i class="fa-solid fa-spinner fa-spin"></i> Importing...</h2>
+                </div>
+                <div class="modal-body">
+                    <div style="padding: 2rem;">
+                        <div id="progressText" style="text-align: center; margin-bottom: 1rem; font-size: 1.1rem;">
+                            Updating records...
+                        </div>
+                        <div style="
+                            width: 100%;
+                            height: 30px;
+                            background: #e0e0e0;
+                            border-radius: 15px;
+                            overflow: hidden;
+                        ">
+                            <div id="progressBar" style="
+                                height: 100%;
+                                background: linear-gradient(90deg, #B9C98A, #2F4A2C);
+                                width: 0%;
+                                transition: width 0.3s ease;
+                            "></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -162,9 +247,15 @@
 <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
 <!-- Fuse.js for fuzzy search -->
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<!-- SheetJS for Excel export/import -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/admin/auth.js"></script>
 <script src="/assets/admin/organizations.js"></script>
+<!-- Excel export/import modules -->
+<script src="/assets/admin/excel-common.js"></script>
+<script src="/assets/admin/excel-export.js"></script>
+<script src="/assets/admin/excel-import.js"></script>
 
     </main>
 
