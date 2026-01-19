@@ -73,6 +73,9 @@
         (async function() {
             const session = await authUtils.requireAuth();
             if (!session) return;
+
+            // Restore last visited page
+            restoreLastPage();
         })();
 
         // Sidebar toggle functionality
@@ -137,6 +140,51 @@
             }
         });
 
+        // Save current page to localStorage
+        function saveCurrentPage(page) {
+            localStorage.setItem('admin-last-page', page);
+        }
+
+        // Restore last visited page
+        function restoreLastPage() {
+            const lastPage = localStorage.getItem('admin-last-page');
+
+            if (lastPage) {
+                // Find the nav item for this page
+                const navItem = document.querySelector(`.nav-item[data-page="${lastPage}"]`);
+
+                if (navItem) {
+                    // Update active state
+                    document.querySelectorAll('.nav-item:not(.nav-item-toggle)').forEach(i => i.classList.remove('active'));
+                    navItem.classList.add('active');
+
+                    // Load the page
+                    loadPage(lastPage);
+                }
+            }
+            // If no last page saved, default communities.html is already loaded in iframe src
+        }
+
+        // Load page by name
+        function loadPage(page) {
+            const iframe = document.getElementById('contentFrame');
+
+            switch(page) {
+                case 'communities':
+                    iframe.src = '/admin/communities.html';
+                    break;
+                case 'solution-providers':
+                    iframe.src = '/admin/organizations.html';
+                    break;
+                case 'matcher':
+                    iframe.src = '/admin/matcher.html';
+                    break;
+                case 'geocode':
+                    iframe.src = '/admin/geocode-tool.html';
+                    break;
+            }
+        }
+
         // Navigation handling
         document.querySelectorAll('.nav-item:not(.nav-item-toggle)').forEach(item => {
             item.addEventListener('click', function(e) {
@@ -148,22 +196,10 @@
 
                 // Load page
                 const page = this.dataset.page;
-                const iframe = document.getElementById('contentFrame');
+                loadPage(page);
 
-                switch(page) {
-                    case 'communities':
-                        iframe.src = '/admin/communities.html';
-                        break;
-                    case 'solution-providers':
-                        iframe.src = '/admin/organizations.html';
-                        break;
-                    case 'matcher':
-                        iframe.src = '/admin/matcher.html';
-                        break;
-                    case 'geocode':
-                        iframe.src = '/admin/geocode-tool.html';
-                        break;
-                }
+                // Save current page to localStorage
+                saveCurrentPage(page);
 
                 // Keep sidebar open after navigation (no auto-close)
                 // Optional: Close on mobile only
