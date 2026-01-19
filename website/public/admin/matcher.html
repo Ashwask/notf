@@ -168,59 +168,69 @@
             </div>
         </div>
 
-        <div class="matcher-controls">
-            <div class="filter-section">
-                <label>Filter by Category:</label>
-                <div class="category-filters" id="categoryFilters">
-                    <button class="category-btn active" data-category="all">All</button>
-                    <button class="category-btn" data-category="funding"><i class="fa-solid fa-sack-dollar"></i> Funding</button>
-                    <button class="category-btn" data-category="volunteers"><i class="fa-solid fa-hand-holding-heart"></i> Volunteers</button>
-                    <button class="category-btn" data-category="space"><i class="fa-solid fa-building"></i> Space</button>
-                    <button class="category-btn" data-category="expertise"><i class="fa-solid fa-graduation-cap"></i> Expertise</button>
-                    <button class="category-btn" data-category="equipment"><i class="fa-solid fa-toolbox"></i> Equipment</button>
-                    <button class="category-btn" data-category="network"><i class="fa-solid fa-network-wired"></i> Network</button>
+        <!-- Filters Section -->
+        <div class="matcher-section">
+            <h3 class="section-title"><i class="fa-solid fa-filter"></i> Filters</h3>
+            <div class="matcher-controls filters-grid">
+                <div class="filter-group category-filter-group">
+                    <label>Category:</label>
+                    <div class="category-filters" id="categoryFilters">
+                        <button class="category-btn active" data-category="all">All</button>
+                        <button class="category-btn" data-category="funding"><i class="fa-solid fa-sack-dollar"></i> Funding</button>
+                        <button class="category-btn" data-category="volunteers"><i class="fa-solid fa-hand-holding-heart"></i> Volunteers</button>
+                        <button class="category-btn" data-category="space"><i class="fa-solid fa-building"></i> Space</button>
+                        <button class="category-btn" data-category="expertise"><i class="fa-solid fa-graduation-cap"></i> Expertise</button>
+                        <button class="category-btn" data-category="equipment"><i class="fa-solid fa-toolbox"></i> Equipment</button>
+                        <button class="category-btn" data-category="network"><i class="fa-solid fa-network-wired"></i> Network</button>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-user"></i> Name:</label>
+                    <div class="autocomplete-wrapper">
+                        <input type="text" id="nameFilter" list="nameList" placeholder="Community or provider name..." class="autocomplete-input">
+                        <button id="clearName" class="clear-btn" style="display:none" title="Clear filter">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <datalist id="nameList"></datalist>
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Location:</label>
+                    <div class="autocomplete-wrapper">
+                        <input type="text" id="locationFilter" list="locationList" placeholder="City or location..." class="autocomplete-input">
+                        <button id="clearLocation" class="clear-btn" style="display:none" title="Clear filter">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <datalist id="locationList"></datalist>
+                </div>
+
+                <div class="filter-group">
+                    <label><i class="fa-solid fa-signal"></i> Min Confidence:</label>
+                    <select id="confidenceSelect" class="form-control">
+                        <option value="0">Show All (0%+)</option>
+                        <option value="50" selected>Potential (50%+)</option>
+                        <option value="70">Good (70%+)</option>
+                        <option value="85">Excellent (85%+)</option>
+                    </select>
                 </div>
             </div>
+        </div>
 
-            <div class="sort-section">
-                <label>Sort by:</label>
-                <select id="sortSelect">
-                    <option value="score">Match Score (High to Low)</option>
-                    <option value="location">Same Location First</option>
-                    <option value="recent">Recently Added</option>
-                </select>
-            </div>
-
-            <div class="confidence-filter">
-                <label>Min Confidence:</label>
-                <select id="confidenceSelect">
-                    <option value="0">Show All (0%+)</option>
-                    <option value="50" selected>Potential (50%+)</option>
-                    <option value="70">Good (70%+)</option>
-                    <option value="85">Excellent (85%+)</option>
-                </select>
-            </div>
-
-            <div class="entity-filter">
-                <label><i class="fa-solid fa-user"></i> Filter by Name:</label>
-                <div class="autocomplete-wrapper">
-                    <input type="text" id="nameFilter" list="nameList" placeholder="Type community or provider name..." class="autocomplete-input">
-                    <button id="clearName" class="clear-btn" style="display:none" title="Clear filter">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+        <!-- Sort Section -->
+        <div class="matcher-section">
+            <h3 class="section-title"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort</h3>
+            <div class="matcher-controls sort-controls">
+                <div class="filter-group">
+                    <label>Sort by:</label>
+                    <select id="sortSelect" class="form-control">
+                        <option value="score">Match Score (High to Low)</option>
+                        <option value="location">Same Location First</option>
+                        <option value="recent">Recently Added</option>
+                    </select>
                 </div>
-                <datalist id="nameList"></datalist>
-            </div>
-
-            <div class="entity-filter">
-                <label><i class="fa-solid fa-location-dot"></i> Filter by Location:</label>
-                <div class="autocomplete-wrapper">
-                    <input type="text" id="locationFilter" list="locationList" placeholder="Type city or location..." class="autocomplete-input">
-                    <button id="clearLocation" class="clear-btn" style="display:none" title="Clear filter">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <datalist id="locationList"></datalist>
             </div>
         </div>
 
@@ -449,6 +459,9 @@ async function loadAndMatchData() {
 }
 
 async function initMatcher(members) {
+    // Store members for filter population
+    window.allMembers = members;
+
     // Load settings from localStorage
     loadSettings();
     applySettingsToUI(currentSettings);
@@ -1047,14 +1060,17 @@ async function initMatcher(members) {
     document.getElementById('highConfidence').textContent = allMatches.filter(m => m.score >= 0.85).length;
 
     // Populate autocomplete datalists
-    // All unique names (communities + providers)
-    const allNames = [...new Set(allAsks.map(a => a.from).concat(allOffers.map(o => o.from)))].sort();
+    // Get ALL member names from the members array (not just those with asks/offers)
+    const allNames = [...new Set(window.allMembers.map(m => m.name))].sort();
 
-    // All unique cities/locations
+    // All unique cities/locations from asks and offers
     const allCities = [...new Set(
         allAsks.map(a => a.city).concat(allOffers.map(o => o.city))
         .filter(c => c && c.trim())
     )].sort();
+
+    console.log('[Matcher] Populated name filter with', allNames.length, 'members');
+    console.log('[Matcher] Populated location filter with', allCities.length, 'cities');
 
     const nameList = document.getElementById('nameList');
     const locationList = document.getElementById('locationList');
@@ -1225,28 +1241,56 @@ async function initMatcher(members) {
     margin-bottom: 2rem;
 }
 
-.matcher-controls {
+.matcher-section {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #23A2A5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.matcher-controls {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
-.filter-section, .sort-section, .confidence-filter, .entity-filter {
+.filters-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.sort-controls {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+}
+
+.filter-group {
     margin-bottom: 0;
 }
 
-.filter-section label, .sort-section label, .confidence-filter label, .entity-filter label {
+.filter-group label {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.category-filter-group {
+    grid-column: 1 / -1;
 }
 
 .category-filters {
@@ -1312,10 +1356,6 @@ async function initMatcher(members) {
 .clear-btn:hover {
     background: #f3f4f6;
     color: #374151;
-}
-
-.filter-section {
-    grid-column: 1 / -1;
 }
 
 .matches-container {
