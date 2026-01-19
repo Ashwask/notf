@@ -592,6 +592,18 @@ nav {
     box-shadow: 0 8px 24px rgba(43, 43, 43, 0.25);
 }
 
+/* Override button styles in CTA section for contrast */
+.cta-section .btn-primary-large {
+    background: var(--forest-green); /* Forest Green contrasts with Terracotta background */
+    color: var(--warm-cream);
+}
+
+.cta-section .btn-primary-large:hover {
+    background: var(--charcoal); /* Charcoal on hover for extra contrast */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(43, 43, 43, 0.35);
+}
+
 /* === FOOTER === */
 footer {
     background: var(--charcoal);
