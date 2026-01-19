@@ -657,18 +657,18 @@ class NotfChatbot {
                         display: inline-flex;
                         align-items: center;
                         padding: 0.5rem 1rem;
-                        background: ${isPrimary ? '#23A2A5' : 'white'};
-                        border: 1.5px solid #23A2A5;
+                        background: ${isPrimary ? '#2F4A2C' : 'white'};
+                        border: 1.5px solid #2F4A2C;
                         border-radius: 20px;
                         cursor: pointer;
                         font-size: 0.875rem;
-                        color: ${isPrimary ? 'white' : '#23A2A5'};
+                        color: ${isPrimary ? 'white' : '#2F4A2C'};
                         transition: all 0.2s ease;
                         white-space: nowrap;
                         font-weight: 500;
                     "
-                    onmouseover="this.style.background='#23A2A5'; this.style.color='white';"
-                    onmouseout="this.style.background='${isPrimary ? '#23A2A5' : 'white'}'; this.style.color='${isPrimary ? 'white' : '#23A2A5'}';">
+                    onmouseover="this.style.background='#2F4A2C'; this.style.color='white';"
+                    onmouseout="this.style.background='${isPrimary ? '#2F4A2C' : 'white'}'; this.style.color='${isPrimary ? 'white' : '#2F4A2C'}';">
                         ${cat.name}
                     </button>
                 `;
@@ -747,17 +747,17 @@ class NotfChatbot {
                         align-items: center;
                         padding: 0.5rem 1rem;
                         background: white;
-                        border: 1.5px solid #23A2A5;
+                        border: 1.5px solid #2F4A2C;
                         border-radius: 20px;
                         cursor: pointer;
                         font-size: 0.875rem;
-                        color: #23A2A5;
+                        color: #2F4A2C;
                         transition: all 0.2s ease;
                         white-space: nowrap;
                         font-weight: 500;
                     "
-                    onmouseover="this.style.background='#23A2A5'; this.style.color='white';"
-                    onmouseout="this.style.background='white'; this.style.color='#23A2A5';">
+                    onmouseover="this.style.background='#2F4A2C'; this.style.color='white';"
+                    onmouseout="this.style.background='white'; this.style.color='#2F4A2C';">
                         ${cat.name}
                     </button>
                 `;

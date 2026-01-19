@@ -163,7 +163,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #23A2A5;
+    background: #2F4A2C;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,7 +185,7 @@
 }
 
 .user-message .message-content {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     margin-left: auto;
 }
@@ -232,11 +232,11 @@
 }
 
 .intent-button:first-child {
-    border-color: #FBC831;
+    border-color: #F5B82E;
 }
 
 .intent-button:last-child {
-    border-color: #F7A782;
+    border-color: #C45A2A;
 }
 
 .intent-button:hover {
@@ -291,7 +291,7 @@
 }
 
 .mode-message em {
-    color: #23A2A5;
+    color: #2F4A2C;
     font-style: italic;
 }
 
@@ -324,7 +324,7 @@
 
 .community-card.clickable:hover {
     background: white;
-    border-color: #23A2A5;
+    border-color: #2F4A2C;
     box-shadow: 0 4px 12px rgba(35, 162, 165, 0.2);
     transform: translateY(-2px);
 }
@@ -332,7 +332,7 @@
 .view-details-hint {
     margin: 12px 0 0 0;
     font-size: 12px;
-    color: #23A2A5;
+    color: #2F4A2C;
     font-weight: 500;
     text-align: right;
 }
@@ -419,7 +419,7 @@
 }
 
 .btn-contact {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
 }
 
@@ -430,8 +430,8 @@
 
 .btn-learn-more {
     background: white;
-    color: #23A2A5;
-    border: 1px solid #23A2A5;
+    color: #2F4A2C;
+    border: 1px solid #2F4A2C;
 }
 
 .btn-learn-more:hover {
@@ -459,7 +459,7 @@
 
 .btn-location-map:hover,
 .btn-location-gps:hover {
-    border-color: #23A2A5;
+    border-color: #2F4A2C;
     background: #f0fdfa;
 }
 
@@ -569,7 +569,7 @@
 }
 
 .btn-submit-complaint {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
 }
 
@@ -585,8 +585,8 @@
 }
 
 .btn-edit:hover {
-    border-color: #23A2A5;
-    color: #23A2A5;
+    border-color: #2F4A2C;
+    color: #2F4A2C;
 }
 
 /* Complaint Success */
@@ -635,7 +635,7 @@
 }
 
 .success-actions button:first-child {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     border: none;
 }
@@ -669,7 +669,7 @@
 
 .chat-input-field:focus {
     outline: none;
-    border-color: #23A2A5;
+    border-color: #2F4A2C;
 }
 
 .chat-input-field:disabled {
@@ -679,7 +679,7 @@
 
 .chat-send-button {
     padding: 10px 16px;
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     border: none;
     border-radius: 8px;
@@ -700,7 +700,7 @@
 
 /* Button color variants for chatbot */
 button.btn-yellow {
-    background: #FBC831;
+    background: #F5B82E;
     color: #1f2937;
     border: none;
 }
@@ -710,7 +710,7 @@ button.btn-yellow:hover {
 }
 
 button.btn-pink {
-    background: #F7A782;
+    background: #C45A2A;
     color: white;
     border: none;
 }
@@ -720,7 +720,7 @@ button.btn-pink:hover {
 }
 
 button.btn-green {
-    background: #0D7576;
+    background: #253B23;
     color: white;
     border: none;
 }
@@ -913,7 +913,7 @@ button.btn-green:hover {
     margin: 0 0 8px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #23A2A5;
+    color: #2F4A2C;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -935,7 +935,7 @@ button.btn-green:hover {
     padding: 10px 12px;
     margin: 6px 0;
     border-radius: 6px;
-    border-left: 3px solid #23A2A5;
+    border-left: 3px solid #2F4A2C;
     color: #374151;
 }
 
@@ -950,7 +950,7 @@ button.btn-green:hover {
     align-items: center;
     gap: 6px;
     padding: 10px 16px;
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -1077,7 +1077,7 @@ button.btn-green:hover {
 }
 
 .chat-tips i {
-    color: #23A2A5;
+    color: #2F4A2C;
     margin-right: 4px;
 }
 
@@ -1107,7 +1107,7 @@ button.btn-green:hover {
 }
 
 .map-modal-header {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
@@ -1167,7 +1167,7 @@ button.btn-green:hover {
 }
 
 .btn-confirm-location {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
 }
 
@@ -1220,7 +1220,7 @@ button.btn-green:hover {
     width: 100%;
     margin-top: 12px;
     padding: 10px 16px;
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     border: none;
     border-radius: 6px;
@@ -1267,7 +1267,7 @@ button.btn-green:hover {
 .city-btn {
     padding: 10px 12px;
     background: white;
-    border: 2px solid #23A2A5;
+    border: 2px solid #2F4A2C;
     border-radius: 6px;
     color: #047857;
     font-size: 14px;
@@ -1277,7 +1277,7 @@ button.btn-green:hover {
 }
 
 .city-btn:hover {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
@@ -1296,7 +1296,7 @@ button.btn-green:hover {
     margin-top: 8px;
     padding: 10px 16px;
     background: white;
-    border: 2px solid #23A2A5;
+    border: 2px solid #2F4A2C;
     color: #047857;
     border-radius: 6px;
     font-size: 14px;
@@ -1306,7 +1306,7 @@ button.btn-green:hover {
 }
 
 .btn-confirm-detected:hover {
-    background: #23A2A5;
+    background: #2F4A2C;
     color: white;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
