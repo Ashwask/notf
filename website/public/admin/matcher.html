@@ -200,6 +200,28 @@
                     <option value="85">Excellent (85%+)</option>
                 </select>
             </div>
+
+            <div class="entity-filter">
+                <label><i class="fa-solid fa-house"></i> Filter by Community:</label>
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="communityFilter" list="communityList" placeholder="Type to search communities..." class="autocomplete-input">
+                    <button id="clearCommunity" class="clear-btn" style="display:none" title="Clear filter">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <datalist id="communityList"></datalist>
+            </div>
+
+            <div class="entity-filter">
+                <label><i class="fa-solid fa-wrench"></i> Filter by Solution Provider:</label>
+                <div class="autocomplete-wrapper">
+                    <input type="text" id="providerFilter" list="providerList" placeholder="Type to search providers..." class="autocomplete-input">
+                    <button id="clearProvider" class="clear-btn" style="display:none" title="Clear filter">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <datalist id="providerList"></datalist>
+            </div>
         </div>
 
         <div class="matches-container">
@@ -1024,6 +1046,55 @@ async function initMatcher(members) {
     document.getElementById('totalMatches').textContent = allMatches.length;
     document.getElementById('highConfidence').textContent = allMatches.filter(m => m.score >= 0.85).length;
 
+    // Populate autocomplete datalists
+    const communityNames = [...new Set(allAsks.map(a => a.from).concat(allOffers.filter(o => o.type === 'community').map(o => o.from)))].sort();
+    const providerNames = [...new Set(allOffers.filter(o => o.type === 'solution-provider').map(o => o.from))].sort();
+
+    const communityList = document.getElementById('communityList');
+    const providerList = document.getElementById('providerList');
+
+    communityNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        communityList.appendChild(option);
+    });
+
+    providerNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        providerList.appendChild(option);
+    });
+
+    // Autocomplete filter inputs
+    const communityFilter = document.getElementById('communityFilter');
+    const providerFilter = document.getElementById('providerFilter');
+    const clearCommunity = document.getElementById('clearCommunity');
+    const clearProvider = document.getElementById('clearProvider');
+
+    // Show/hide clear buttons
+    communityFilter.addEventListener('input', function() {
+        clearCommunity.style.display = this.value ? 'block' : 'none';
+        applyFilters();
+    });
+
+    providerFilter.addEventListener('input', function() {
+        clearProvider.style.display = this.value ? 'block' : 'none';
+        applyFilters();
+    });
+
+    // Clear button handlers
+    clearCommunity.addEventListener('click', function() {
+        communityFilter.value = '';
+        this.style.display = 'none';
+        applyFilters();
+    });
+
+    clearProvider.addEventListener('click', function() {
+        providerFilter.value = '';
+        this.style.display = 'none';
+        applyFilters();
+    });
+
     // Display matches
     function displayMatches(matches) {
         const excellentGrid = document.getElementById('excellentMatchesGrid');
@@ -1109,8 +1180,30 @@ async function initMatcher(members) {
 
     function applyFilters() {
         const minConfidence = parseInt(document.getElementById('confidenceSelect').value) / 100;
-        const filtered = filteredMatches.filter(m => m.score >= minConfidence);
+        const selectedCommunity = communityFilter.value.trim();
+        const selectedProvider = providerFilter.value.trim();
+
+        let filtered = filteredMatches.filter(m => m.score >= minConfidence);
+
+        // Filter by community if selected
+        if (selectedCommunity) {
+            filtered = filtered.filter(m =>
+                m.ask.from === selectedCommunity || m.offer.from === selectedCommunity
+            );
+        }
+
+        // Filter by provider if selected
+        if (selectedProvider) {
+            filtered = filtered.filter(m =>
+                m.ask.from === selectedProvider || m.offer.from === selectedProvider
+            );
+        }
+
         displayMatches(filtered);
+
+        // Update match count display
+        document.getElementById('totalMatches').textContent = filtered.length;
+        document.getElementById('highConfidence').textContent = filtered.filter(m => m.score >= 0.85).length;
     }
 
     // Initial display
@@ -1132,16 +1225,22 @@ async function initMatcher(members) {
     border-radius: 12px;
     margin-bottom: 2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
 }
 
-.filter-section, .sort-section, .confidence-filter {
-    margin-bottom: 1rem;
+.filter-section, .sort-section, .confidence-filter, .entity-filter {
+    margin-bottom: 0;
 }
 
-.filter-section label, .sort-section label, .confidence-filter label {
+.filter-section label, .sort-section label, .confidence-filter label, .entity-filter label {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .category-filters {
@@ -1167,6 +1266,50 @@ async function initMatcher(members) {
     background: #667eea;
     color: white;
     border-color: #667eea;
+}
+
+/* Autocomplete Filters */
+.autocomplete-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.autocomplete-input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: white;
+}
+
+.autocomplete-input:focus {
+    outline: none;
+    border-color: #23A2A5;
+    box-shadow: 0 0 0 3px rgba(35, 162, 165, 0.1);
+}
+
+.clear-btn {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.clear-btn:hover {
+    background: #f3f4f6;
+    color: #374151;
+}
+
+.filter-section {
+    grid-column: 1 / -1;
 }
 
 .matches-container {
