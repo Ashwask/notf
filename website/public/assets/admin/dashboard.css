@@ -34,23 +34,87 @@
     display: none !important;
 }
 
-/* Sidebar - Glassmorphism with Gradient */
+/* Sidebar - Glassmorphism with Geometric Pattern */
 .sidebar {
     position: relative;
     background: linear-gradient(180deg,
-        rgba(47, 74, 44, 0.95) 0%,
-        rgba(37, 59, 35, 0.95) 100%
+        rgba(63, 95, 122, 0.95) 0%,      /* Slate Blue - Trust, policy, structure */
+        rgba(47, 74, 44, 0.97) 50%,      /* Forest Green - Stability, systems */
+        rgba(43, 43, 43, 0.98) 100%      /* Charcoal - Anchoring */
     );
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     color: white;
     display: flex;
     flex-direction: column;
-    box-shadow: 4px 0 24px rgba(47, 74, 44, 0.2);
+    box-shadow: 4px 0 24px rgba(47, 74, 44, 0.3);
     z-index: 100;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(185, 201, 138, 0.2); /* Olive Green border */
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Geometric Pattern Overlay */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        /* Circles - Community, wholeness */
+        radial-gradient(circle at 10% 15%, rgba(185, 201, 138, 0.08) 0%, transparent 15%),
+        radial-gradient(circle at 85% 25%, rgba(196, 90, 42, 0.06) 0%, transparent 12%),
+        radial-gradient(circle at 15% 60%, rgba(245, 184, 46, 0.07) 0%, transparent 18%),
+        radial-gradient(circle at 90% 75%, rgba(63, 95, 122, 0.05) 0%, transparent 20%),
+
+        /* Diamonds - Intersection of ideas */
+        linear-gradient(45deg, transparent 48%, rgba(185, 201, 138, 0.06) 48%, rgba(185, 201, 138, 0.06) 52%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(185, 201, 138, 0.06) 48%, rgba(185, 201, 138, 0.06) 52%, transparent 52%);
+
+    background-size:
+        200px 200px,
+        180px 180px,
+        220px 220px,
+        240px 240px,
+        80px 80px,
+        80px 80px;
+
+    background-position:
+        0 0,
+        100px 50px,
+        50px 200px,
+        150px 300px,
+        0 0,
+        0 0;
+
+    pointer-events: none;
+    opacity: 1;
+    z-index: 0;
+}
+
+/* Subtle accent shapes at top and bottom */
+.sidebar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background:
+        /* Semi-circle at bottom - Transition, connection */
+        radial-gradient(ellipse at 50% 100%, rgba(196, 90, 42, 0.12) 0%, transparent 60%),
+        /* Triangle accent - Direction, energy */
+        linear-gradient(135deg, transparent 40%, rgba(185, 201, 138, 0.08) 40%, rgba(185, 201, 138, 0.08) 60%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Ensure sidebar content appears above pattern */
+.sidebar > * {
+    position: relative;
+    z-index: 1;
 }
 
 /* ========================================
