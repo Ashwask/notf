@@ -71,6 +71,12 @@ function setStatusFilter(status, chipElement) {
 function renderCommunities(comms) {
     const container = document.getElementById('communitiesList');
 
+    // Update count display
+    const countEl = document.getElementById('adminCommunityCount');
+    if (countEl) {
+        countEl.textContent = `(${comms.length})`;
+    }
+
     if (comms.length === 0) {
         container.innerHTML = '<p class="empty-state">No communities found. Click "Add New" to create one.</p>';
         return;

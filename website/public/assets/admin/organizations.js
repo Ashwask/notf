@@ -57,6 +57,12 @@ function setStatusFilter(status, chipElement) {
 function renderOrganizations(orgs) {
     const container = document.getElementById('organizationsList');
 
+    // Update count display
+    const countEl = document.getElementById('adminProviderCount');
+    if (countEl) {
+        countEl.textContent = `(${orgs.length})`;
+    }
+
     if (orgs.length === 0) {
         container.innerHTML = '<p class="empty-state">No organizations found. Click "Add New" to create one.</p>';
         return;
