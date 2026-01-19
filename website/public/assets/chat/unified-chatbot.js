@@ -198,7 +198,7 @@ class NotfChatbot {
                     <button class="intent-button complaint-button" data-intent="complaint">
                         <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
                         <span class="label">File a Complaint</span>
-                        <span class="description">Report civic issues in Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Ahmedabad, Jaipur, Gurugram, Bhubaneswar, Visakhapatnam, or Thane</span>
+                        <span class="description">Report civic issues in Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Kochi, Ahmedabad, Jaipur, Gurugram, Bhubaneswar, Visakhapatnam, or Thane</span>
                     </button>
                 </div>
                 <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the top-left corner.</p>
@@ -795,6 +795,7 @@ class NotfChatbot {
             'hyderabad',
             'pune',
             'kolkata', 'calcutta',
+            'kochi', 'cochin',
             'ahmedabad',
             'jaipur',
             'gurugram', 'gurgaon',
@@ -817,6 +818,8 @@ class NotfChatbot {
             'pune': 'Pune',
             'kolkata': 'Kolkata',
             'calcutta': 'Kolkata',
+            'kochi': 'Kochi',
+            'cochin': 'Kochi',
             'ahmedabad': 'Ahmedabad',
             'jaipur': 'Jaipur',
             'gurugram': 'Gurugram',
@@ -914,6 +917,7 @@ class NotfChatbot {
                     <button class="city-btn" onclick="notfChatbot.selectCity('Hyderabad')">Hyderabad</button>
                     <button class="city-btn" onclick="notfChatbot.selectCity('Pune')">Pune</button>
                     <button class="city-btn" onclick="notfChatbot.selectCity('Kolkata')">Kolkata</button>
+                    <button class="city-btn" onclick="notfChatbot.selectCity('Kochi')">Kochi</button>
                     <button class="city-btn" onclick="notfChatbot.selectCity('Ahmedabad')">Ahmedabad</button>
                     <button class="city-btn" onclick="notfChatbot.selectCity('Jaipur')">Jaipur</button>
                     <button class="city-btn" onclick="notfChatbot.selectCity('Gurugram')">Gurugram</button>
@@ -1460,7 +1464,7 @@ class NotfChatbot {
 
     extractCityFromAddress(displayName, addressComponents) {
         const knownCities = ['Bengaluru', 'Mumbai', 'Chennai', 'Ahmedabad', 'Hyderabad',
-                             'Kolkata', 'Pune', 'Jaipur', 'Gurugram', 'Thane',
+                             'Kolkata', 'Pune', 'Kochi', 'Jaipur', 'Gurugram', 'Thane',
                              'Bhubaneswar', 'Visakhapatnam'];
 
         // First try address components if available
@@ -1577,6 +1581,7 @@ class NotfChatbot {
             'Hyderabad': [17.3850, 78.4867],
             'Pune': [18.5204, 73.8567],
             'Kolkata': [22.5726, 88.3639],
+            'Kochi': [9.9312, 76.2673],
             'Ahmedabad': [23.0225, 72.5714],
             'Jaipur': [26.9124, 75.7873],
             'Gurugram': [28.4595, 77.0266],
