@@ -597,6 +597,22 @@ footer {
     background: var(--charcoal);
     color: var(--warm-cream);
     padding: var(--space-xl) var(--space-md) var(--space-md);
+    text-align: center;
+}
+
+footer p {
+    text-align: center;
+    margin: 0;
+}
+
+footer a {
+    color: rgba(250, 246, 232, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--mustard-yellow);
 }
 
 .footer-content {
