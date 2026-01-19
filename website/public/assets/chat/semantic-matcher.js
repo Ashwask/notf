@@ -10,13 +10,25 @@ class SemanticMatcher {
         this.isReady = false;
         this.categoryEmbeddings = null;
         this.categories = [];
+        this.modelName = 'Xenova/all-MiniLM-L6-v2'; // Default model
+        this.cityEmbeddingCache = new Map(); // Cache for city embeddings
+        this.progressCallback = null; // Callback for progress updates
     }
 
     /**
      * Initialize the semantic matcher with Transformers.js
-     * Uses all-MiniLM-L6-v2 model (23MB, ~100ms inference)
+     * Uses all-MiniLM-L6-v2 model (23MB, ~100ms inference) by default
+     * @param {string} modelName - Optional model name to use
+     * @param {function} progressCallback - Optional callback for progress updates
      */
-    async initialize() {
+    async initialize(modelName = null, progressCallback = null) {
+        if (modelName) {
+            this.modelName = modelName;
+        }
+        if (progressCallback) {
+            this.progressCallback = progressCallback;
+        }
+
         if (this.isReady) return true;
         if (this.isLoading) return false;
 
@@ -33,27 +45,46 @@ class SemanticMatcher {
             env.useBrowserCache = true;
             env.backends.onnx.wasm.numThreads = 1; // Single thread for better compatibility
 
-            console.log('[SemanticMatcher] Loading model from Hugging Face CDN...');
+            console.log(`[SemanticMatcher] Loading model ${this.modelName} from Hugging Face CDN...`);
 
-            // Load the feature extraction pipeline with all-MiniLM-L6-v2 model
-            this.pipeline = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+            // Load the feature extraction pipeline with specified model
+            this.pipeline = await pipeline('feature-extraction', this.modelName, {
                 quantized: true,  // Use quantized model for smaller size
                 progress_callback: (progress) => {
                     if (progress.status === 'downloading') {
                         console.log(`[SemanticMatcher] Downloading: ${progress.file} (${progress.progress}%)`);
+                        if (this.progressCallback) {
+                            this.progressCallback(progress);
+                        }
                     }
                 }
             });
 
             this.isReady = true;
             this.isLoading = false;
-            console.log('[SemanticMatcher] Model loaded successfully!');
+            console.log(`[SemanticMatcher] Model ${this.modelName} loaded successfully!`);
             return true;
         } catch (error) {
             console.error('[SemanticMatcher] Failed to load model:', error);
             this.isLoading = false;
             return false;
         }
+    }
+
+    /**
+     * Load a new model (useful for switching models)
+     * @param {string} modelName - Model name to load
+     * @param {function} progressCallback - Optional callback for progress updates
+     */
+    async loadModel(modelName, progressCallback = null) {
+        // Reset state
+        this.isReady = false;
+        this.isLoading = false;
+        this.pipeline = null;
+        this.cityEmbeddingCache.clear(); // Clear city cache when changing models
+
+        // Initialize with new model
+        return await this.initialize(modelName, progressCallback);
     }
 
     /**
@@ -127,6 +158,45 @@ class SemanticMatcher {
 
         const output = await this.pipeline(text, { pooling: 'mean', normalize: true });
         return Array.from(output.data);
+    }
+
+    /**
+     * Batch embed multiple texts for better performance
+     * @param {Array<string>} texts - Array of texts to embed
+     * @param {number} batchSize - Number of texts to process at once (default: 10)
+     * @returns {Array<Array>} - Array of embedding vectors
+     */
+    async embedBatch(texts, batchSize = 10) {
+        if (!this.isReady) {
+            throw new Error('SemanticMatcher not initialized');
+        }
+
+        const embeddings = [];
+        for (let i = 0; i < texts.length; i += batchSize) {
+            const batch = texts.slice(i, i + batchSize);
+            const results = await Promise.all(batch.map(t => this.embed(t)));
+            embeddings.push(...results);
+        }
+        return embeddings;
+    }
+
+    /**
+     * Embed a city name with caching
+     * @param {string} cityName - City name to embed
+     * @returns {Array} - Embedding vector
+     */
+    async embedCity(cityName) {
+        if (!cityName) return null;
+
+        const normalizedCity = cityName.toLowerCase().trim();
+
+        if (this.cityEmbeddingCache.has(normalizedCity)) {
+            return this.cityEmbeddingCache.get(normalizedCity);
+        }
+
+        const embedding = await this.embed(cityName);
+        this.cityEmbeddingCache.set(normalizedCity, embedding);
+        return embedding;
     }
 
     /**
