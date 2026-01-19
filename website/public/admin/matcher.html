@@ -904,7 +904,7 @@ async function initMatcher(members) {
                     <div class="match-side ask-side">
                         <div class="side-label">ASK</div>
                         <h3>${match.ask.from}</h3>
-                        <p class="match-location"><i class="fa-solid fa-location-dot"></i> ${match.ask.location || match.ask.city || 'Location not specified'}</p>
+                        <p class="match-location"><i class="fa-solid fa-location-dot"></i> ${match.ask.city || match.ask.location || 'Location not specified'}</p>
                         <div class="match-text">${match.ask.text}</div>
                         ${match.ask.contact && (match.ask.contact.email || match.ask.contact.phone) ? `
                             <div class="contact-info">
@@ -924,7 +924,7 @@ async function initMatcher(members) {
                     <div class="match-side offer-side">
                         <div class="side-label">OFFER</div>
                         <h3>${match.offer.from}</h3>
-                        <p class="match-location"><i class="fa-solid fa-location-dot"></i> ${match.offer.location || match.offer.city || 'Location not specified'}</p>
+                        <p class="match-location"><i class="fa-solid fa-location-dot"></i> ${match.offer.city || match.offer.location || 'Location not specified'}</p>
                         <div class="match-text">${match.offer.text}</div>
                         ${match.offer.contact && (match.offer.contact.email || match.offer.contact.phone) ? `
                             <div class="contact-info">
