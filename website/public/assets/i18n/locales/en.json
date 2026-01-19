@@ -84,5 +84,32 @@
     "active": "Active",
     "pending": "Pending",
     "archived": "Archived"
+  },
+  "communities": {
+    "title": "Active Communities",
+    "lead": "NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.",
+    "filterLabel": "Filter by City:",
+    "allCities": "All Cities",
+    "tableHeaders": {
+      "name": "Name",
+      "city": "City",
+      "themes": "Themes",
+      "offers": "Offers",
+      "asks": "Asks"
+    },
+    "loadingCommunities": "Loading communities...",
+    "cta": {
+      "title": "Start in Your Neighborhood",
+      "subtitle": "Bring NOTF to your community and join a network of neighbourhoods transforming their futures together",
+      "whyJoin": "Why Join NOTF?",
+      "benefits": {
+        "network": "Connect with other neighbourhoods",
+        "resources": "Access resources & expertise",
+        "growth": "Track your community's growth",
+        "partnerships": "Build lasting partnerships"
+      },
+      "contactUs": "Contact Us",
+      "note": "Use the button above to join NOTF, update your community's details, or share your success stories"
+    }
   }
 }
