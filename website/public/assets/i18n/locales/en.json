@@ -111,5 +111,32 @@
       "contactUs": "Contact Us",
       "note": "Use the button above to join NOTF, update your community's details, or share your success stories"
     }
+  },
+  "providers": {
+    "title": "Solution Providers",
+    "lead": "Organizations providing expertise, services, and solutions to support community-driven transformation.",
+    "filterLabel": "Filter by Location:",
+    "allLocations": "All Locations",
+    "tableHeaders": {
+      "name": "Organization Name",
+      "type": "Type",
+      "themes": "Focus Areas",
+      "location": "Location",
+      "contact": "Contact"
+    },
+    "loadingProviders": "Loading providers...",
+    "cta": {
+      "title": "Join as a Solution Provider",
+      "subtitle": "Support community initiatives with your expertise, services, and solutions",
+      "whyJoin": "Why Join NOTF?",
+      "benefits": {
+        "network": "Connect with active communities",
+        "impact": "Create measurable social impact",
+        "visibility": "Gain visibility in the network",
+        "collaboration": "Collaborate with like-minded organizations"
+      },
+      "contactUs": "Partner With Us",
+      "note": "Use the button above to become a solution provider, update your organization's profile, or explore partnership opportunities"
+    }
   }
 }
