@@ -165,6 +165,7 @@
     height: 36px;
     border-radius: 50%;
     background: #2F4A2C;
+    color: #FAF6E8; /* Warm Cream - high contrast with Forest Green background */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,6 +175,7 @@
 
 .user-message .message-avatar {
     background: #e5e7eb;
+    color: #2F4A2C; /* Forest Green - high contrast with light gray background */
     order: 2;
 }
 
