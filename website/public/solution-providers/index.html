@@ -723,7 +723,7 @@
             tbody.innerHTML = filteredProviders.map((prov, idx) => {
                 const theme = prov.theme
                     ? `<span class="theme-tag">${prov.theme}</span>`
-                    : '<span style="color: #999;">—</span>';
+                    : '<span style="color: var(--color-text-lighter);">—</span>';
 
                 const offersCount = (prov.offers || []).length;
                 const asksCount = (prov.asks || []).length;
@@ -842,7 +842,7 @@
                     </div>
                 `;
             } else {
-                modalBody.innerHTML = '<p style="color: #999;">No offers listed yet.</p>';
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No offers listed yet.</p>';
             }
 
             modal.classList.add('active');
@@ -866,7 +866,7 @@
                     </div>
                 `;
             } else {
-                modalBody.innerHTML = '<p style="color: #999;">No asks listed yet.</p>';
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No asks listed yet.</p>';
             }
 
             modal.classList.add('active');
@@ -882,7 +882,7 @@
 
             const theme = prov.theme
                 ? `<span class="theme-tag">${prov.theme}</span>`
-                : '<span style="color: #999;">—</span>';
+                : '<span style="color: var(--color-text-lighter);">—</span>';
 
             const description = prov.description || 'No description available.';
             const stories = prov.stories || 'No stories shared yet.';

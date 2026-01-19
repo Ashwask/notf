@@ -732,7 +732,7 @@
             tbody.innerHTML = filteredCommunities.map((comm, idx) => {
                 const themes = comm.themes && comm.themes.length > 0
                     ? comm.themes.slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
-                    : '<span style="color: #999;">—</span>';
+                    : '<span style="color: var(--color-text-lighter);">—</span>';
 
                 const offersCount = (comm.offers || []).length;
                 const asksCount = (comm.asks || []).length;
@@ -851,7 +851,7 @@
                     </div>
                 `;
             } else {
-                modalBody.innerHTML = '<p style="color: #999;">No offers listed yet.</p>';
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No offers listed yet.</p>';
             }
 
             modal.classList.add('active');
@@ -875,7 +875,7 @@
                     </div>
                 `;
             } else {
-                modalBody.innerHTML = '<p style="color: #999;">No asks listed yet.</p>';
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No asks listed yet.</p>';
             }
 
             modal.classList.add('active');
@@ -891,7 +891,7 @@
 
             const themes = comm.themes && comm.themes.length > 0
                 ? comm.themes.map(t => `<span class="theme-tag">${t}</span>`).join(' ')
-                : '<span style="color: #999;">—</span>';
+                : '<span style="color: var(--color-text-lighter);">—</span>';
 
             const description = comm.description || 'No description available.';
             const stories = comm.stories || 'No stories shared yet.';

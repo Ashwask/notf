@@ -70,7 +70,7 @@
 
         .stat-label {
             font-size: 0.75rem;
-            color: #666;
+            color: var(--color-text-light);
             margin-top: 0.25rem;
         }
 
@@ -113,7 +113,7 @@
 
         .community-neighborhood {
             font-size: 0.875rem;
-            color: #666;
+            color: var(--color-text-light);
         }
 
         .community-coords {
@@ -247,7 +247,7 @@
         .loading {
             text-align: center;
             padding: 2rem;
-            color: #666;
+            color: var(--color-text-light);
         }
     </style>
     <link rel="stylesheet" href="/assets/chat/chat.css">
@@ -358,7 +358,7 @@
             let html = '';
 
             if (missing.length > 0) {
-                html += '<h3 style="padding: 0.5rem 0; margin: 0 0 0.5rem 0; color: #666; font-size: 0.875rem;">NEEDS COORDINATES</h3>';
+                html += '<h3 style="padding: 0.5rem 0; margin: 0 0 0.5rem 0; color: var(--color-text-light); font-size: 0.875rem;">NEEDS COORDINATES</h3>';
                 missing.forEach(comm => {
                     html += `
                         <div class="community-item" onclick="selectCommunity('${comm.id}')">
@@ -370,7 +370,7 @@
             }
 
             if (completed.length > 0) {
-                html += '<h3 style="padding: 0.5rem 0; margin: 1rem 0 0.5rem 0; color: #666; font-size: 0.875rem;">ALREADY GEOCODED</h3>';
+                html += '<h3 style="padding: 0.5rem 0; margin: 1rem 0 0.5rem 0; color: var(--color-text-light); font-size: 0.875rem;">ALREADY GEOCODED</h3>';
                 completed.forEach(comm => {
                     html += `
                         <div class="community-item completed">

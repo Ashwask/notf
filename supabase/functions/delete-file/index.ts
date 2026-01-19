@@ -93,7 +93,7 @@ serve(async (req) => {
 
     if (deleteError) {
       console.error('Storage delete error:', deleteError)
-      // Don't throw - continue to delete DB record even if file doesn't exist
+      throw new Error(`Failed to delete file from storage: ${deleteError.message}`)
     } else {
       console.log(`File deleted from storage: ${file_path}`)
     }

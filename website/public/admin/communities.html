@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label for="commNeighborhoods">Neighborhoods/Areas (one per line)</label>
                             <textarea id="commNeighborhoods" rows="3" placeholder="Malleshwaram&#10;HSR Layout&#10;Koramangala"></textarea>
-                            <small style="color: #666; font-size: 0.85rem;">Enter each neighborhood on a new line. First neighborhood will be used for ward lookup.</small>
+                            <small style="color: var(--color-text-light); font-size: 0.85rem;">Enter each neighborhood on a new line. First neighborhood will be used for ward lookup.</small>
                         </div>
                         <div class="form-group">
                             <label for="commWardInput">Wards</label>
@@ -101,14 +101,14 @@
                             <div id="commWardChips" class="chip-container" style="margin-top: 0.75rem;">
                                 <!-- Ward chips will be rendered here dynamically -->
                             </div>
-                            <small style="color: #666; font-size: 0.85rem; display: block; margin-top: 0.5rem;">
+                            <small style="color: var(--color-text-light); font-size: 0.85rem; display: block; margin-top: 0.5rem;">
                                 Wards auto-populate from neighborhoods. Use search above to add more wards. Click × to remove.
                             </small>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label style="font-weight: 600; font-size: 1.1rem; margin-top: 1rem; color: #333;">Elected Representatives</label>
+                        <label style="font-weight: 600; font-size: 1.1rem; margin-top: 1rem; color: var(--color-text);">Elected Representatives</label>
                     </div>
 
                     <!-- MLA Section -->
@@ -228,7 +228,7 @@
                                 ✏️ Open Editor
                             </button>
                         </div>
-                        <small style="color: #666; font-size: 0.85rem;">Supports markdown: **bold**, *italic*, [links](url), # headers, etc.</small>
+                        <small style="color: var(--color-text-light); font-size: 0.85rem;">Supports markdown: **bold**, *italic*, [links](url), # headers, etc.</small>
                     </div>
 
                     <div class="form-row">
@@ -253,14 +253,14 @@
                         </div>
                         <div class="form-group">
                             <label for="commLastUpdated">Last Updated</label>
-                            <input type="date" id="commLastUpdated" readonly style="background: #f5f5f5;" />
+                            <input type="date" id="commLastUpdated" readonly style="background: var(--color-bg-gray);" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Location (Click on map to set coordinates)</label>
                         <div id="locationMap" style="height: 300px; border-radius: 8px; overflow: hidden; margin-top: 0.5rem; border: 2px solid #e0e0e0;"></div>
-                        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: #666;">
+                        <div style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--color-text-light);">
                             <span id="currentCoords">No location set</span>
                             <button type="button" onclick="clearLocation()" style="margin-left: 1rem; padding: 0.25rem 0.75rem; background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer;">Clear</button>
                         </div>
@@ -297,7 +297,7 @@
                         <!-- Editor Pane -->
                         <div style="border-right: 1px solid #e0e0e0; display: flex; flex-direction: column;">
                             <div style="padding: 1rem; border-bottom: 1px solid #e0e0e0; background: #f8f9fa;">
-                                <h3 style="margin: 0; font-size: 1rem; color: #666;">
+                                <h3 style="margin: 0; font-size: 1rem; color: var(--color-text-light);">
                                     ✍️ Markdown Editor
                                 </h3>
                                 <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #999;">
@@ -319,7 +319,7 @@
                         <!-- Preview Pane -->
                         <div style="display: flex; flex-direction: column; background: #fafafa;">
                             <div style="padding: 1rem; border-bottom: 1px solid #e0e0e0; background: #f8f9fa;">
-                                <h3 style="margin: 0; font-size: 1rem; color: #666;">
+                                <h3 style="margin: 0; font-size: 1rem; color: var(--color-text-light);">
                                     👁️ Preview
                                 </h3>
                             </div>

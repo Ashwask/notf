@@ -63,8 +63,8 @@
 
 /* Chat Header */
 .chat-header {
-    background: var(--gradient-primary);
-    color: white;
+    background: #2F4A2C;
+    color: #FAF6E8;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
     display: flex;
@@ -861,8 +861,8 @@ button.btn-green:hover {
 }
 
 .chat-modal-header {
-    background: linear-gradient(135deg, #23A2A5 0%, #5BC0C3 100%);
-    color: white;
+    background: #2F4A2C;
+    color: #FAF6E8;
     padding: 24px;
     border-radius: 16px 16px 0 0;
     display: flex;
@@ -994,10 +994,10 @@ button.btn-green:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: #FBC831;
-    color: #1f2937;
+    background: #C45A2A;
+    color: #FAF6E8;
     border: none;
-    box-shadow: 0 4px 20px rgba(251, 200, 49, 0.4);
+    box-shadow: 0 4px 20px rgba(196, 90, 42, 0.4);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1009,8 +1009,8 @@ button.btn-green:hover {
 
 .chat-fab:hover {
     transform: scale(1.1);
-    background: #E5B629;
-    box-shadow: 0 6px 30px rgba(251, 200, 49, 0.6);
+    background: #B04E24;
+    box-shadow: 0 6px 30px rgba(196, 90, 42, 0.6);
 }
 
 .chat-fab:active {
