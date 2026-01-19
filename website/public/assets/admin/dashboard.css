@@ -11,7 +11,7 @@
     height: 100vh;
     overflow: hidden;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-dark) 100%);
+    background: #FAF6E8; /* Warm Cream - Flat color only, no gradients */
     transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -34,27 +34,21 @@
     display: none !important;
 }
 
-/* Sidebar - Glassmorphism with Geometric Pattern */
+/* Sidebar - Flat color with Geometric Pattern (Brand Compliant) */
 .sidebar {
     position: relative;
-    background: linear-gradient(180deg,
-        rgba(63, 95, 122, 0.95) 0%,      /* Slate Blue - Trust, policy, structure */
-        rgba(47, 74, 44, 0.97) 50%,      /* Forest Green - Stability, systems */
-        rgba(43, 43, 43, 0.98) 100%      /* Charcoal - Anchoring */
-    );
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: white;
+    background: #2F4A2C; /* Forest Green - Flat color only, no gradients */
+    color: #FAF6E8; /* Warm Cream text */
     display: flex;
     flex-direction: column;
     box-shadow: 4px 0 24px rgba(47, 74, 44, 0.3);
     z-index: 100;
-    border-right: 1px solid rgba(185, 201, 138, 0.2); /* Olive Green border */
+    border-right: 2px solid #B9C98A; /* Olive Green border */
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Geometric Pattern Overlay */
+/* Geometric Pattern Overlay - SVG shapes, no gradients */
 .sidebar::before {
     content: '';
     position: absolute;
@@ -62,51 +56,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image:
-        /* Circles - Community, wholeness */
-        radial-gradient(circle at 10% 15%, rgba(185, 201, 138, 0.08) 0%, transparent 15%),
-        radial-gradient(circle at 85% 25%, rgba(196, 90, 42, 0.06) 0%, transparent 12%),
-        radial-gradient(circle at 15% 60%, rgba(245, 184, 46, 0.07) 0%, transparent 18%),
-        radial-gradient(circle at 90% 75%, rgba(63, 95, 122, 0.05) 0%, transparent 20%),
-
-        /* Diamonds - Intersection of ideas */
-        linear-gradient(45deg, transparent 48%, rgba(185, 201, 138, 0.06) 48%, rgba(185, 201, 138, 0.06) 52%, transparent 52%),
-        linear-gradient(-45deg, transparent 48%, rgba(185, 201, 138, 0.06) 48%, rgba(185, 201, 138, 0.06) 52%, transparent 52%);
-
-    background-size:
-        200px 200px,
-        180px 180px,
-        220px 220px,
-        240px 240px,
-        80px 80px,
-        80px 80px;
-
-    background-position:
-        0 0,
-        100px 50px,
-        50px 200px,
-        150px 300px,
-        0 0,
-        0 0;
-
-    pointer-events: none;
-    opacity: 1;
-    z-index: 0;
-}
-
-/* Subtle accent shapes at top and bottom */
-.sidebar::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    background:
-        /* Semi-circle at bottom - Transition, connection */
-        radial-gradient(ellipse at 50% 100%, rgba(196, 90, 42, 0.12) 0%, transparent 60%),
-        /* Triangle accent - Direction, energy */
-        linear-gradient(135deg, transparent 40%, rgba(185, 201, 138, 0.08) 40%, rgba(185, 201, 138, 0.08) 60%, transparent 60%);
+    background-image: url("data:image/svg+xml,%3Csvg width='280' height='800' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3C/defs%3E%3C!-- Circles: Community, wholeness --%3E%3Ccircle cx='30' cy='120' r='40' fill='%23B9C98A' opacity='0.08'/%3E%3Ccircle cx='240' cy='200' r='35' fill='%23C45A2A' opacity='0.06'/%3E%3Ccircle cx='40' cy='480' r='45' fill='%23F5B82E' opacity='0.07'/%3E%3Ccircle cx='250' cy='600' r='50' fill='%233F5F7A' opacity='0.05'/%3E%3C!-- Diamonds: Intersection of ideas --%3E%3Cpolygon points='150,50 170,70 150,90 130,70' fill='%23B9C98A' opacity='0.08'/%3E%3Cpolygon points='220,350 245,375 220,400 195,375' fill='%23B9C98A' opacity='0.06'/%3E%3C!-- Rectangles: Structure, stability --%3E%3Crect x='200' y='450' width='60' height='40' fill='%233F5F7A' opacity='0.05'/%3E%3Crect x='20' y='300' width='50' height='50' fill='%23C45A2A' opacity='0.04'/%3E%3C!-- Triangles: Direction, energy --%3E%3Cpolygon points='100,700 130,750 70,750' fill='%23B9C98A' opacity='0.08'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 280px 100%;
     pointer-events: none;
     z-index: 0;
 }
@@ -223,32 +175,7 @@
     transition: opacity 0.3s, visibility 0.3s;
 }
 
-/* Sidebar animated background */
-.sidebar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-        135deg,
-        rgba(185, 201, 138, 0.1) 0%,
-        rgba(196, 90, 42, 0.1) 25%,
-        rgba(47, 74, 44, 0.1) 50%,
-        rgba(245, 184, 46, 0.1) 75%,
-        rgba(63, 95, 122, 0.1) 100%
-    );
-    background-size: 200% 200%;
-    animation: gradient-shift 15s ease infinite;
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-@keyframes gradient-shift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
+/* Sidebar background pattern defined above at line 51-64 */
 
 /* Sidebar Header */
 .sidebar-header {
@@ -262,10 +189,7 @@
     margin: 0;
     font-size: 1.75rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #FFFFFF 0%, #B9C98A 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #FAF6E8; /* Warm Cream - Flat color only */
     letter-spacing: -0.02em;
 }
 
@@ -307,7 +231,7 @@
     transform: translateY(-50%);
     width: 3px;
     height: 0;
-    background: var(--gradient-warm);
+    background: #B9C98A; /* Olive Green - Flat color only */
     border-radius: 0 3px 3px 0;
     transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -382,14 +306,11 @@
 /* Main Content */
 .main-content {
     position: relative;
-    background: linear-gradient(135deg,
-        rgba(249, 250, 251, 1) 0%,
-        rgba(243, 244, 246, 1) 100%
-    );
+    background: #F9FAFB; /* Light Gray - Flat color only */
     overflow: hidden;
 }
 
-/* Glass card effect on iframe container */
+/* Subtle overlay on iframe container - No gradients allowed */
 .main-content::before {
     content: '';
     position: absolute;
@@ -397,9 +318,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background:
-        radial-gradient(circle at 20% 20%, rgba(185, 201, 138, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(196, 90, 42, 0.08) 0%, transparent 50%);
+    background: rgba(185, 201, 138, 0.03); /* Olive Green tint - Flat color only */
     pointer-events: none;
     z-index: 0;
 }
