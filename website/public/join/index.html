@@ -6,6 +6,7 @@
     <title>Join NOTF - Communities & Solution Providers | NOTF</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
         .join-hero {
             background: linear-gradient(135deg, #F5B82E 0%, #C45A2A 30%, #2F4A2C 70%, #253B23 100%);
@@ -297,12 +298,12 @@
             </button>
 
             <div class="nav-menu" id="navMenu">
-                <a href="/">Home</a>
-                <a href="/solution-providers/">Solution Providers</a>
-                <a href="/communities/">Communities</a>
-                <a href="/map/">Map</a>
-                <a href="/join/" class="join-link">Join</a>
-                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
+                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
@@ -310,8 +311,8 @@
     </header>
 
     <section class="join-hero">
-        <h1>Join NOTF</h1>
-        <p>Connect your community or solution with the Neighbourhood of the Future network</p>
+        <h1 data-i18n="joinpage.hero.title">Join NOTF</h1>
+        <p data-i18n="joinpage.hero.subtitle">Connect your community or solution with the Neighbourhood of the Future network</p>
     </section>
 
     <div class="join-container">
@@ -325,15 +326,15 @@
                     <div class="icon">
                         <i class="fa-solid fa-house" style="font-size: 2rem;"></i>
                     </div>
-                    <h3>Community</h3>
-                    <p>Neighborhood organization or resident group</p>
+                    <h3 data-i18n="joinpage.typeSelector.community.title">Community</h3>
+                    <p data-i18n="joinpage.typeSelector.community.description">Neighborhood organization or resident group</p>
                 </div>
                 <div class="type-option" onclick="selectType('solution-provider')">
                     <div class="icon">
                         <i class="fa-solid fa-wrench" style="font-size: 2rem;"></i>
                     </div>
-                    <h3>Solution Provider</h3>
-                    <p>Organization offering services or solutions</p>
+                    <h3 data-i18n="joinpage.typeSelector.provider.title">Solution Provider</h3>
+                    <p data-i18n="joinpage.typeSelector.provider.description">Organization offering services or solutions</p>
                 </div>
             </div>
 
@@ -342,7 +343,7 @@
 
                 <!-- Basic Information -->
                 <div class="form-section">
-                    <h2>Basic Information</h2>
+                    <h2 data-i18n="joinpage.form.basicInfo">Basic Information</h2>
                     <div class="form-grid">
                         <div class="form-group full-width">
                             <label>Organization/Community Name<span class="required">*</span></label>
@@ -394,7 +395,7 @@
 
                 <!-- Contact Information -->
                 <div class="form-section">
-                    <h2>Contact Information</h2>
+                    <h2 data-i18n="joinpage.form.contactInfo">Contact Information</h2>
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Contact Person Name<span class="required">*</span></label>
@@ -465,8 +466,8 @@
                 </div>
 
                 <button type="submit" class="btn-submit" id="submitBtn">
-                    <span id="submitText">Submit Application</span>
-                    <span id="submitLoader" style="display: none;">Submitting...</span>
+                    <span id="submitText" data-i18n="joinpage.form.submit">Submit Application</span>
+                    <span id="submitLoader" style="display: none;" data-i18n="joinpage.form.submitting">Submitting...</span>
                 </button>
             </form>
         </div>
@@ -509,7 +510,7 @@
 
             <!-- Chatbot Widget -->
             <!-- Floating Action Button (shows when minimized) -->
-            <button id="chat-fab" class="chat-fab hidden" aria-label="Open NOTF Assistant">
+            <button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">
                 <i class="fa-solid fa-comments"></i>
             </button>
 
@@ -518,10 +519,10 @@
                 <div class="chat-header">
                     <div class="chat-header-title">
                         <i class="fa-solid fa-robot"></i>
-                        <span>NOTF Assistant</span>
+                        <span data-i18n="chatbot.title">NOTF Assistant</span>
                     </div>
                     <div class="chat-header-actions">
-                        <button class="chat-close-button" aria-label="Close chat">
+                        <button class="chat-close-button" data-i18n-aria="common.close" aria-label="Close chat">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
@@ -534,6 +535,7 @@
                 <div class="chat-input">
                     <textarea
                         class="chat-input-field"
+                        data-i18n-placeholder="chatbot.inputPlaceholder"
                         placeholder="Type your message..."
                         rows="1"
                         aria-label="Chat message input"
@@ -545,6 +547,9 @@
             </div>
 
 
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+
     <!-- Chatbot Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
@@ -554,6 +559,9 @@
 
     <script src="/assets/chat/boundary-validator.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>
+
+    <!-- Language Selector -->
+    <script src="/assets/i18n/language-selector.js"></script>
 
 </body>
 </html>

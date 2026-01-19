@@ -143,5 +143,31 @@
   "map": {
     "title": "NOTF Network Map",
     "lead": "Explore communities across India with ward boundaries"
+  },
+  "joinpage": {
+    "hero": {
+      "title": "Join NOTF",
+      "subtitle": "Connect your community or solution with the Neighbourhood of the Future network"
+    },
+    "typeSelector": {
+      "community": {
+        "title": "Community",
+        "description": "Neighborhood organization or resident group"
+      },
+      "provider": {
+        "title": "Solution Provider",
+        "description": "Organization offering services or solutions"
+      }
+    },
+    "form": {
+      "basicInfo": "Basic Information",
+      "contactInfo": "Contact Information",
+      "submit": "Submit Application",
+      "submitting": "Submitting..."
+    },
+    "messages": {
+      "success": "Thank you! Your application has been submitted successfully. We'll review it within 3-5 days.",
+      "error": "An error occurred while submitting your application. Please try again."
+    }
   }
 }
