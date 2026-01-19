@@ -202,25 +202,25 @@
             </div>
 
             <div class="entity-filter">
-                <label><i class="fa-solid fa-house"></i> Filter by Community:</label>
+                <label><i class="fa-solid fa-user"></i> Filter by Name:</label>
                 <div class="autocomplete-wrapper">
-                    <input type="text" id="communityFilter" list="communityList" placeholder="Type to search communities..." class="autocomplete-input">
-                    <button id="clearCommunity" class="clear-btn" style="display:none" title="Clear filter">
+                    <input type="text" id="nameFilter" list="nameList" placeholder="Type community or provider name..." class="autocomplete-input">
+                    <button id="clearName" class="clear-btn" style="display:none" title="Clear filter">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-                <datalist id="communityList"></datalist>
+                <datalist id="nameList"></datalist>
             </div>
 
             <div class="entity-filter">
-                <label><i class="fa-solid fa-wrench"></i> Filter by Solution Provider:</label>
+                <label><i class="fa-solid fa-location-dot"></i> Filter by Location:</label>
                 <div class="autocomplete-wrapper">
-                    <input type="text" id="providerFilter" list="providerList" placeholder="Type to search providers..." class="autocomplete-input">
-                    <button id="clearProvider" class="clear-btn" style="display:none" title="Clear filter">
+                    <input type="text" id="locationFilter" list="locationList" placeholder="Type city or location..." class="autocomplete-input">
+                    <button id="clearLocation" class="clear-btn" style="display:none" title="Clear filter">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
-                <datalist id="providerList"></datalist>
+                <datalist id="locationList"></datalist>
             </div>
         </div>
 
@@ -1047,50 +1047,56 @@ async function initMatcher(members) {
     document.getElementById('highConfidence').textContent = allMatches.filter(m => m.score >= 0.85).length;
 
     // Populate autocomplete datalists
-    const communityNames = [...new Set(allAsks.map(a => a.from).concat(allOffers.filter(o => o.type === 'community').map(o => o.from)))].sort();
-    const providerNames = [...new Set(allOffers.filter(o => o.type === 'solution-provider').map(o => o.from))].sort();
+    // All unique names (communities + providers)
+    const allNames = [...new Set(allAsks.map(a => a.from).concat(allOffers.map(o => o.from)))].sort();
 
-    const communityList = document.getElementById('communityList');
-    const providerList = document.getElementById('providerList');
+    // All unique cities/locations
+    const allCities = [...new Set(
+        allAsks.map(a => a.city).concat(allOffers.map(o => o.city))
+        .filter(c => c && c.trim())
+    )].sort();
 
-    communityNames.forEach(name => {
+    const nameList = document.getElementById('nameList');
+    const locationList = document.getElementById('locationList');
+
+    allNames.forEach(name => {
         const option = document.createElement('option');
         option.value = name;
-        communityList.appendChild(option);
+        nameList.appendChild(option);
     });
 
-    providerNames.forEach(name => {
+    allCities.forEach(city => {
         const option = document.createElement('option');
-        option.value = name;
-        providerList.appendChild(option);
+        option.value = city;
+        locationList.appendChild(option);
     });
 
     // Autocomplete filter inputs
-    const communityFilter = document.getElementById('communityFilter');
-    const providerFilter = document.getElementById('providerFilter');
-    const clearCommunity = document.getElementById('clearCommunity');
-    const clearProvider = document.getElementById('clearProvider');
+    const nameFilter = document.getElementById('nameFilter');
+    const locationFilter = document.getElementById('locationFilter');
+    const clearName = document.getElementById('clearName');
+    const clearLocation = document.getElementById('clearLocation');
 
     // Show/hide clear buttons
-    communityFilter.addEventListener('input', function() {
-        clearCommunity.style.display = this.value ? 'block' : 'none';
+    nameFilter.addEventListener('input', function() {
+        clearName.style.display = this.value ? 'block' : 'none';
         applyFilters();
     });
 
-    providerFilter.addEventListener('input', function() {
-        clearProvider.style.display = this.value ? 'block' : 'none';
+    locationFilter.addEventListener('input', function() {
+        clearLocation.style.display = this.value ? 'block' : 'none';
         applyFilters();
     });
 
     // Clear button handlers
-    clearCommunity.addEventListener('click', function() {
-        communityFilter.value = '';
+    clearName.addEventListener('click', function() {
+        nameFilter.value = '';
         this.style.display = 'none';
         applyFilters();
     });
 
-    clearProvider.addEventListener('click', function() {
-        providerFilter.value = '';
+    clearLocation.addEventListener('click', function() {
+        locationFilter.value = '';
         this.style.display = 'none';
         applyFilters();
     });
@@ -1180,22 +1186,22 @@ async function initMatcher(members) {
 
     function applyFilters() {
         const minConfidence = parseInt(document.getElementById('confidenceSelect').value) / 100;
-        const selectedCommunity = communityFilter.value.trim();
-        const selectedProvider = providerFilter.value.trim();
+        const selectedName = nameFilter.value.trim();
+        const selectedLocation = locationFilter.value.trim();
 
         let filtered = filteredMatches.filter(m => m.score >= minConfidence);
 
-        // Filter by community if selected
-        if (selectedCommunity) {
+        // Filter by name if selected
+        if (selectedName) {
             filtered = filtered.filter(m =>
-                m.ask.from === selectedCommunity || m.offer.from === selectedCommunity
+                m.ask.from === selectedName || m.offer.from === selectedName
             );
         }
 
-        // Filter by provider if selected
-        if (selectedProvider) {
+        // Filter by location if selected
+        if (selectedLocation) {
             filtered = filtered.filter(m =>
-                m.ask.from === selectedProvider || m.offer.from === selectedProvider
+                m.ask.city === selectedLocation || m.offer.city === selectedLocation
             );
         }
 
