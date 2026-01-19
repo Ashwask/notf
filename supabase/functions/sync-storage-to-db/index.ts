@@ -60,12 +60,13 @@ serve(async (req) => {
         throw new Error(`Failed to list city folders: ${cityListError.message}`)
       }
 
-      // Filter for folders only (they don't have file extensions)
+      // Filter for folders only (they don't have file extensions and no metadata)
       const cities = (cityFolders || []).filter(item =>
         !item.name.endsWith('.md') &&
         !item.name.endsWith('.yaml') &&
         !item.name.endsWith('.yml') &&
-        item.id // folders have an id
+        !item.name.endsWith('.json') &&
+        !item.name.includes('.') // folders don't have extensions
       )
 
       console.log(`Found ${cities.length} city folders: ${cities.map(c => c.name).join(', ')}`)
