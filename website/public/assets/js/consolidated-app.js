@@ -375,12 +375,12 @@ function createPopupContent(item, type) {
     `;
 
     if (type === 'community') {
-        html += `<div style="margin: 0.5rem 0; font-size: 0.9rem;">📍 ${item.city}${item.state ? ', ' + item.state : ''}</div>`;
+        html += `<div style="margin: 0.5rem 0; font-size: 0.9rem; display: flex; align-items: center; gap: 0.25rem;"><i class="fa-solid fa-location-dot" style="color: var(--notf-teal);"></i> ${item.city}${item.state ? ', ' + item.state : ''}</div>`;
         if (item.themes && item.themes.length > 0) {
             html += `<div style="margin: 0.5rem 0; font-size: 0.9rem;"><strong>Focus:</strong> ${item.themes.slice(0, 3).join(', ')}</div>`;
         }
     } else {
-        html += `<div style="margin: 0.5rem 0; font-size: 0.9rem;">📍 ${item.location || 'Location not specified'}</div>`;
+        html += `<div style="margin: 0.5rem 0; font-size: 0.9rem; display: flex; align-items: center; gap: 0.25rem;"><i class="fa-solid fa-location-dot" style="color: var(--notf-teal);"></i> ${item.location || 'Location not specified'}</div>`;
         if (item.theme) {
             html += `<div style="margin: 0.5rem 0; font-size: 0.9rem;"><strong>Focus:</strong> ${item.theme}</div>`;
         }

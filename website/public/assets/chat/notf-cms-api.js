@@ -79,7 +79,7 @@ class NotfCmsApi {
                     errorData = { error: 'Non-JSON response', details: textError };
                 }
 
-                console.error('[API] ❌ Error response:', {
+                console.error('[API] ✗ Error response:', {
                     status: response.status,
                     statusText: response.statusText,
                     error: errorData.error,

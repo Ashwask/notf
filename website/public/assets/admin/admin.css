@@ -47,9 +47,9 @@ button {
 }
 
 .icon-btn.primary {
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
     box-shadow: 0 2px 8px rgba(35, 162, 165, 0.2) !important;
 }
 
@@ -102,13 +102,13 @@ button {
 }
 
 .btn-primary {
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
 }
 
 .btn-primary:hover {
-    background: #0D7576;
+    background: var(--notf-green);
     box-shadow: 0 6px 16px rgba(35, 162, 165, 0.4) !important;
     transform: translateY(-2px) !important;
 }
@@ -121,8 +121,8 @@ button {
 
 .btn-secondary:hover {
     background: #f8f8f8;
-    border-color: #23A2A5;
-    color: #23A2A5;
+    border-color: var(--notf-teal);
+    color: var(--notf-teal);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     transform: translateY(-2px) !important;
 }
@@ -139,15 +139,15 @@ button {
     font-size: 1rem;
     font-weight: 600;
     border-radius: 10px;
-    background: #FBC831;
+    background: var(--notf-yellow);
     color: #1f2937;
-    border: 2px solid #FBC831;
+    border: 2px solid var(--notf-yellow);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .btn-yellow:hover {
-    background: #E5B629;
-    border-color: #E5B629;
+    background: var(--notf-yellow-dark);
+    border-color: var(--notf-yellow-dark);
     box-shadow: 0 6px 16px rgba(251, 200, 49, 0.4) !important;
     transform: translateY(-2px) !important;
 }
@@ -158,15 +158,15 @@ button {
     font-size: 1rem;
     font-weight: 600;
     border-radius: 10px;
-    background: #F7A782;
+    background: var(--notf-pink);
     color: white;
-    border: 2px solid #F7A782;
+    border: 2px solid var(--notf-pink);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .btn-pink:hover {
-    background: #F5956C;
-    border-color: #F5956C;
+    background: var(--notf-pink-dark);
+    border-color: var(--notf-pink-dark);
     box-shadow: 0 6px 16px rgba(247, 167, 130, 0.4) !important;
     transform: translateY(-2px) !important;
 }
@@ -177,9 +177,9 @@ button {
     font-size: 1rem;
     font-weight: 600;
     border-radius: 10px;
-    background: #0D7576;
+    background: var(--notf-green);
     color: white;
-    border: 2px solid #0D7576;
+    border: 2px solid var(--notf-green);
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -202,7 +202,7 @@ table {
 }
 
 thead {
-    background: #FBC831;
+    background: var(--notf-yellow);
     color: #1f2937;
 }
 
@@ -231,7 +231,7 @@ tbody td {
 
 /* Table variants for admin */
 table.table-teal thead {
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
 }
 
@@ -240,7 +240,7 @@ table.table-teal tbody tr:hover {
 }
 
 table.table-pink thead {
-    background: #F7A782;
+    background: var(--notf-pink);
     color: white;
 }
 
@@ -249,7 +249,7 @@ table.table-pink tbody tr:hover {
 }
 
 table.table-green thead {
-    background: #0D7576;
+    background: var(--notf-green);
     color: white;
 }
 
@@ -287,19 +287,19 @@ table.table-striped tbody tr:nth-child(even) {
 }
 
 .mini-icon-btn.view {
-    border-color: #23A2A5;
-    color: #23A2A5;
+    border-color: var(--notf-teal);
+    color: var(--notf-teal);
 }
 
 .mini-icon-btn.view:hover {
     background: #f0fafb;
-    border-color: #0D7576;
-    color: #0D7576;
+    border-color: var(--notf-green);
+    color: var(--notf-green);
 }
 
 .mini-icon-btn.edit {
-    border-color: #23A2A5;
-    color: #23A2A5;
+    border-color: var(--notf-teal);
+    color: var(--notf-teal);
 }
 
 .mini-icon-btn.edit:hover {
@@ -394,16 +394,16 @@ table.table-striped tbody tr:nth-child(even) {
 }
 
 .chip:hover {
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
     background: #f0fafb;
     box-shadow: 0 3px 8px rgba(35, 162, 165, 0.15);
     transform: translateY(-1px);
 }
 
 .chip.active {
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
     box-shadow: 0 3px 10px rgba(35, 162, 165, 0.3);
 }
 
@@ -413,7 +413,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 /* Fix navigation for admin pages */
 header {
-    background: #23A2A5 !important;
+    background: var(--notf-teal) !important;
 }
 
 .nav-menu a {
@@ -563,7 +563,7 @@ header {
 }
 
 .org-theme {
-    color: #23A2A5;
+    color: var(--notf-teal);
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
@@ -742,7 +742,7 @@ header {
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
 }
 
 .form-actions {
@@ -863,13 +863,13 @@ header {
     left: 0;
     width: 3px;
     height: 100%;
-    background: #23A2A5;
+    background: var(--notf-teal);
     transform: scaleY(0);
     transition: transform 0.3s ease;
 }
 
 .org-card.minimal:hover {
-    border-color: #23A2A5;
+    border-color: var(--notf-teal);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -1052,7 +1052,7 @@ header {
 
 .stat-item .stat-icon.primary {
     background: rgba(35, 162, 165, 0.05);
-    color: #23A2A5;
+    color: var(--notf-teal);
 }
 
 .stat-item .stat-icon.success {
@@ -1062,7 +1062,7 @@ header {
 
 .stat-item .stat-icon.warning {
     background: rgba(251, 200, 49, 0.05);
-    color: #FBC831;
+    color: var(--notf-yellow);
 }
 
 .stat-item .stat-content {
@@ -1095,7 +1095,7 @@ header {
     align-items: center;
     gap: 1rem;
     padding: 2rem;
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
     border-radius: 12px 12px 0 0;
 }
@@ -1196,7 +1196,7 @@ header {
 }
 
 .view-modal .markdown-content a {
-    color: #23A2A5;
+    color: var(--notf-teal);
     text-decoration: none;
 }
 
@@ -1212,7 +1212,7 @@ header {
 
 .view-modal .tag {
     background: #e8f4f5;
-    color: #0D7576;
+    color: var(--notf-green);
     padding: 0.375rem 0.75rem;
     border-radius: 6px;
     font-size: 0.875rem;
@@ -1230,7 +1230,7 @@ header {
     left: 0;
     right: 0;
     background: white;
-    border: 2px solid #23A2A5;
+    border: 2px solid var(--notf-teal);
     border-top: none;
     border-radius: 0 0 8px 8px;
     max-height: 200px;
@@ -1284,7 +1284,7 @@ header {
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.75rem;
-    background: #23A2A5;
+    background: var(--notf-teal);
     color: white;
     border-radius: 20px;
     font-size: 0.9rem;

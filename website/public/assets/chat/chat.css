@@ -63,8 +63,8 @@
 
 /* Chat Header */
 .chat-header {
-    background: #FBC831;
-    color: #1f2937;
+    background: var(--gradient-primary);
+    color: white;
     padding: 16px 20px;
     border-radius: 12px 12px 0 0;
     display: flex;
@@ -382,15 +382,24 @@
 }
 
 .community-details .location::before {
-    content: '📍 ';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    content: '\f3c5 '; /* fa-location-dot */
+    color: var(--notf-teal);
 }
 
 .community-details .tags::before {
-    content: '🏷️ ';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    content: '\f02c '; /* fa-tags */
+    color: var(--notf-teal);
 }
 
 .community-details .members::before {
-    content: '👥 ';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    content: '\f0c0 '; /* fa-users */
+    color: var(--notf-teal);
 }
 
 .community-actions {
@@ -771,7 +780,10 @@ button.btn-green:hover {
 }
 
 .city-list li:before {
-    content: '📍 ';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    content: '\f3c5 '; /* fa-location-dot */
+    color: var(--notf-teal);
     margin-right: 8px;
 }
 

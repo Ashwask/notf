@@ -34,17 +34,17 @@ class ComplaintEngine {
                 this.categories = apiCategoriesWithKeywords;
                 this.categoriesLoaded = true;
 
-                console.log('[ComplaintEngine] ✅ Loaded', apiCategoriesWithKeywords.length, 'categories from database');
-                console.log('[ComplaintEngine] 🔧 All categories loaded from API (no hardcoded fallback)');
+                console.log('[ComplaintEngine] ✓ Loaded', apiCategoriesWithKeywords.length, 'categories from database');
+                console.log('[ComplaintEngine] ✓ All categories loaded from API (no hardcoded fallback)');
 
                 // Initialize semantic matcher with categories
                 await this.initializeSemanticMatcher();
             } else {
-                console.error('[ComplaintEngine] ❌ No categories returned from API');
+                console.error('[ComplaintEngine] ✗ No categories returned from API');
                 throw new Error('No categories available from API');
             }
         } catch (error) {
-            console.error('[ComplaintEngine] ❌ Failed to load categories from API:', error.message);
+            console.error('[ComplaintEngine] ✗ Failed to load categories from API:', error.message);
             console.error('[ComplaintEngine] Chatbot cannot function without categories - please check API');
             // Don't initialize semantic matcher if we have no categories
         }

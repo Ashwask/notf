@@ -13,6 +13,12 @@
 
 :root {
     /* NOTF Brand Colors */
+    --notf-yellow: #FBC831;
+    --notf-pink: #F7A782;
+    --notf-teal: #23A2A5;
+    --notf-green: #0D7576;
+
+    /* Brand Color Variants */
     --color-teal: #23A2A5;
     --color-teal-light: #5BC0C3;
     --color-teal-lighter: #8DD4D6;
@@ -25,17 +31,17 @@
     --color-pink-light: #FAC1A7;
     --color-pink-lighter: #FDDACD;
 
-    /* Solid Color Replacements (no gradients) */
-    --gradient-primary: #23A2A5;
-    --gradient-secondary: #F7A782;
-    --gradient-accent: #5BC0C3;
-    --gradient-success: #3F9799;
-    --gradient-warm: #FBC831;
-    --gradient-cool: #23A2A5;
-    --gradient-sunset: #FBC831;
-    --gradient-ocean: #0D7576;
+    /* Hover States */
+    --notf-yellow-dark: #E5B629;
+    --notf-pink-dark: #F5956C;
+    --notf-green-dark: #0A5D5E;
 
-    /* Solid Colors from Gradients */
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #23A2A5 0%, #0D7576 100%);
+    --gradient-warm: linear-gradient(135deg, #FBC831 0%, #F7A782 100%);
+    --gradient-full: linear-gradient(135deg, #23A2A5 0%, #0D7576 50%, #FBC831 100%);
+
+    /* Legacy Solid Color Support (for backward compatibility) */
     --color-primary: #23A2A5;
     --color-primary-dark: #0D7576;
     --color-secondary: #F7A782;
@@ -57,40 +63,59 @@
     --color-bg: #ffffff;
     --color-bg-light: #f9fafb;
     --color-bg-dark: #f3f4f6;
+    --color-bg-gray: #f5f5f5;
+    --color-bg-gray-light: #f8f8f8;
     --color-border: #e5e7eb;
+
+    /* Semantic Colors */
+    --color-success: #059669;
+    --color-success-light: #22c55e;
+    --color-success-bg: #d1fae5;
+    --color-success-text: #065f46;
+    --color-error: #dc2626;
+    --color-error-light: #e74c3c;
+    --color-warning: #f59e0b;
+    --color-warning-light: #f39c12;
+    --color-warning-bg: #fef3c7;
+    --color-warning-text: #92400e;
+    --color-info: #3b82f6;
+    --color-info-light: #3498db;
+    --color-teal-bg: #f0fafa;
 
     /* Glass Morphism */
     --glass-white: rgba(255, 255, 255, 0.1);
     --glass-dark: rgba(0, 0, 0, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
 
-    /* Spacing Scale (8px base) */
+    /* Spacing Scale (8px base unit) */
     --space-xs: 0.5rem;   /* 8px */
     --space-sm: 1rem;     /* 16px */
     --space-md: 1.5rem;   /* 24px */
-    --space-lg: 2rem;     /* 32px */
-    --space-xl: 3rem;     /* 48px */
+    --space-lg: 2.5rem;   /* 40px */
+    --space-xl: 3.75rem;  /* 60px */
     --space-2xl: 4rem;    /* 64px */
     --space-3xl: 6rem;    /* 96px */
 
-    /* Shadows - Enhanced */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    /* Shadows (Simplified) */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.15);
+
+    /* Legacy shadows for backward compatibility */
+    --shadow-xl: 0 4px 24px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 4px 24px rgba(0, 0, 0, 0.15);
     --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --shadow-glow-primary: 0 0 20px rgba(35, 162, 165, 0.4);
     --shadow-glow-secondary: 0 0 20px rgba(247, 167, 130, 0.4);
     --shadow-glow-accent: 0 0 20px rgba(91, 192, 195, 0.4);
     --shadow-glow-warm: 0 0 20px rgba(251, 200, 49, 0.4);
 
-    /* Border Radius */
-    --radius-sm: 0.375rem;  /* 6px */
-    --radius-md: 0.5rem;    /* 8px */
-    --radius-lg: 0.75rem;   /* 12px */
-    --radius-xl: 1rem;      /* 16px */
-    --radius-2xl: 1.25rem;  /* 20px */
+    /* Border Radius (Brand Guidelines) */
+    --radius-sm: 0.25rem;   /* 4px - badges, tags */
+    --radius-md: 0.5rem;    /* 8px - cards, inputs */
+    --radius-lg: 0.75rem;   /* 12px - modals, sections */
+    --radius-xl: 1.25rem;   /* 20px - pills, rounded buttons */
+    --radius-2xl: 1.25rem;  /* 20px - legacy support */
     --radius-full: 9999px;
 }
 
@@ -104,54 +129,60 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Typography Scale */
+/* Typography Scale (Brand Guidelines) */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.02em;
 }
 
 h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-size: 3rem;     /* 48px */
+    font-weight: 700;
 }
 
 h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 2rem;     /* 32px */
+    font-weight: 600;
 }
 
 h3 {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.5rem;   /* 24px */
+    font-weight: 600;
 }
 
 h4 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;  /* 20px */
     font-weight: 600;
 }
 
 h5 {
-    font-size: 1.25rem;
+    font-size: 1.125rem; /* 18px */
     font-weight: 600;
 }
 
 h6 {
-    font-size: 1rem;
+    font-size: 1rem;     /* 16px */
     font-weight: 600;
 }
 
+body {
+    font-size: 1rem;     /* 16px */
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* Mobile Responsive Typography */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.5rem;
+        font-size: 2rem;    /* 32px */
     }
 
     h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;  /* 24px */
     }
 
     h3 {
-        font-size: 1.5rem;
+        font-size: 1.25rem; /* 20px */
     }
 }
 
@@ -485,7 +516,7 @@ nav {
 
 /* Hero Section - Pink */
 .hero {
-    background: #F7A782;
+    background: var(--notf-pink);
     color: white;
     padding: 8rem 2rem;
     text-align: center;
@@ -592,6 +623,16 @@ nav {
     box-shadow: var(--shadow-glow-primary);
 }
 
+/* Gradient Modifier for Primary Button */
+.btn-primary.gradient {
+    background: var(--gradient-primary);
+}
+
+.btn-primary.gradient:hover {
+    background: var(--gradient-primary);
+    opacity: 0.9;
+}
+
 .btn-secondary {
     background: var(--color-yellow);
     color: var(--color-text);
@@ -600,8 +641,8 @@ nav {
 }
 
 .btn-secondary:hover {
-    background: #E5B629;
-    border-color: #E5B629;
+    background: var(--notf-yellow-dark);
+    border-color: var(--notf-yellow-dark);
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
 }
@@ -613,7 +654,7 @@ nav {
 }
 
 .btn-accent:hover {
-    background: #F5956C;
+    background: var(--notf-pink-dark);
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
 }
@@ -625,7 +666,7 @@ nav {
 }
 
 .btn-success:hover {
-    background: #0A5D5E;
+    background: var(--notf-green-dark);
     transform: translateY(-3px);
     box-shadow: var(--shadow-lg);
 }
@@ -659,18 +700,19 @@ nav {
 }
 
 .btn-primary-large {
-    padding: 1.25rem 3rem;
+    padding: 1.5rem 3rem;  /* 24px × 48px */
     font-size: 1.125rem;
-    background: var(--color-teal);
+    background: var(--gradient-primary);
     color: white;
     box-shadow: var(--shadow-lg);
     font-weight: 700;
 }
 
 .btn-primary-large:hover {
-    background: var(--color-green);
+    background: var(--gradient-primary);
     transform: translateY(-3px);
     box-shadow: var(--shadow-glow-primary);
+    opacity: 0.9;
 }
 
 /* Tables */
@@ -760,7 +802,7 @@ table.table-striped tbody tr:nth-child(even) {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 2.5rem;
+    padding: var(--space-lg);  /* 40px */
     border-radius: var(--radius-2xl);
     text-align: center;
     box-shadow: var(--shadow-xl);
@@ -854,7 +896,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 /* Features Section */
 .features {
-    padding: 5rem 0;
+    padding: var(--space-xl) 0  /* 60px */;
     background: var(--color-bg-light);
 }
 
@@ -870,7 +912,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 .feature-card {
     background: white;
-    padding: 2.5rem;
+    padding: var(--space-lg);  /* 40px */
     border-radius: var(--radius-2xl);
     box-shadow: var(--shadow-lg);
     transition: all 0.3s ease;
@@ -940,7 +982,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 /* Cities Section */
 .cities {
-    padding: 5rem 0;
+    padding: var(--space-xl) 0  /* 60px */;
 }
 
 .cities-grid {
@@ -952,7 +994,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 .city-card {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 1rem;
     border: 2px solid var(--color-border);
     transition: all 0.3s;
@@ -995,7 +1037,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 /* Resources Preview */
 .resources-preview {
-    padding: 5rem 0;
+    padding: var(--space-xl) 0  /* 60px */;
     background: var(--color-bg-light);
 }
 
@@ -1008,7 +1050,7 @@ table.table-striped tbody tr:nth-child(even) {
 
 .resource-card {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
     border-left: 4px solid var(--color-teal);
     box-shadow: var(--shadow-sm);
@@ -1042,7 +1084,7 @@ table.table-striped tbody tr:nth-child(even) {
 /* CTA Section - Pink */
 .cta-section {
     padding: 6rem 0;
-    background: #F7A782;
+    background: var(--notf-pink);
     color: white;
     text-align: center;
     position: relative;
@@ -1094,7 +1136,7 @@ footer {
     background: var(--color-green);
     color: white;
     text-align: center;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     margin-top: 0;
 }
 
@@ -1221,7 +1263,7 @@ main a:hover {
 .community-card,
 .resource-card.ask {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 1rem;
     border: 1px solid var(--color-border);
     margin-bottom: 2rem;
@@ -1343,7 +1385,7 @@ article h4 {
 
 .community-card {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 1rem;
     border: 2px solid var(--color-border);
     transition: all 0.3s;
@@ -1442,7 +1484,7 @@ article h4 {
 /* CTA Box */
 .cta-box {
     background: var(--color-bg-light);
-    padding: 2.5rem;
+    padding: var(--space-lg);  /* 40px */
     border-radius: 1rem;
     text-align: center;
     margin-top: 3rem;
@@ -1541,7 +1583,7 @@ main {
 .search-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
 }
 
 .search-page h1 {
@@ -1796,7 +1838,7 @@ main {
 /* Map Page */
 .map-page {
     max-width: 100%;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
 }
 
 .map-page h1 {
@@ -2032,7 +2074,7 @@ main {
 
 .community-list-card {
     background: white;
-    padding: 1.25rem;
+    padding: var(--space-md);  /* 24px */
     border-radius: 0.5rem;
     border-left: 3px solid var(--color-teal);
     box-shadow: var(--shadow-sm);
@@ -2098,7 +2140,7 @@ main {
 .matcher-page {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
 }
 
 .matcher-page h1 {
@@ -2286,7 +2328,7 @@ main {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     gap: 2rem;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
 }
 
 .match-side {
@@ -2478,7 +2520,7 @@ main {
 .join-page {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
 }
 
 .join-page h1 {
@@ -2495,7 +2537,7 @@ main {
 
 .join-intro {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
     box-shadow: var(--shadow-sm);
     margin-bottom: 2rem;
@@ -2521,7 +2563,7 @@ main {
 
 .submission-card {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
     box-shadow: var(--shadow-md);
     text-align: center;
@@ -2547,7 +2589,7 @@ main {
 
 .approval-process {
     background: rgba(35, 162, 165, 0.05);
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
     margin-bottom: 3rem;
 }
@@ -2609,7 +2651,7 @@ main {
 
 .form-section {
     background: white;
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
     box-shadow: var(--shadow-sm);
     margin-bottom: 3rem;
@@ -2678,14 +2720,14 @@ main {
 
 .success-message {
     background: rgba(35, 162, 165, 0.05);
-    padding: 2rem;
+    padding: 2rem;  /* 32px */
     border-radius: 0.75rem;
-    border-left: 4px solid #22c55e;
+    border-left: 4px solid var(--color-success-light);
     text-align: center;
 }
 
 .success-message h3 {
-    color: #22c55e;
+    color: var(--color-success-light);
     margin-bottom: 1rem;
 }
 
@@ -2723,7 +2765,7 @@ main {
     height: 44px;
     border-radius: 50%;
     border: none;
-    background: #f5f5f5;
+    background: var(--color-bg-gray);
     color: #555;
     cursor: pointer;
     display: inline-flex;
@@ -2793,7 +2835,7 @@ main {
     height: 32px;
     border-radius: 8px;
     border: none;
-    background: #f8f8f8;
+    background: var(--color-bg-gray-light);
     color: #666;
     cursor: pointer;
     display: inline-flex;
@@ -2810,23 +2852,23 @@ main {
 }
 
 .mini-icon-btn.edit:hover {
-    background: #3498db;
+    background: var(--color-info-light);
 }
 
 .mini-icon-btn.delete:hover {
-    background: #e74c3c;
+    background: var(--color-error-light);
 }
 
 .mini-icon-btn.view:hover {
-    background: #2ecc71;
+    background: var(--color-success-light);
 }
 
 .mini-icon-btn.activate:hover {
-    background: #27ae60;
+    background: var(--color-success);
 }
 
 .mini-icon-btn.deactivate:hover {
-    background: #f39c12;
+    background: var(--color-warning-light);
 }
 
 /* Icon Action Groups */
@@ -2841,7 +2883,7 @@ main {
     background: white;
     border: 1px solid #f0f0f0;
     border-radius: 10px;
-    padding: 1.25rem;
+    padding: var(--space-md);  /* 24px */
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -2878,7 +2920,7 @@ main {
 .minimal-card h3 {
     font-size: 1.125rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--color-text);
     margin: 0 0 0.5rem 0;
 }
 
@@ -2931,7 +2973,7 @@ main {
 
 .chip:hover {
     border-color: var(--color-primary);
-    background: #f0fafa;
+    background: var(--color-teal-bg);
 }
 
 .chip.active {
@@ -2957,7 +2999,7 @@ main {
     border-radius: 12px;
     font-size: 0.9375rem;
     transition: all 0.2s;
-    background: #fafafa;
+    background: var(--color-bg-light);
 }
 
 .minimal-search input:focus {
@@ -2990,7 +3032,7 @@ main {
 .minimal-page-header h1 {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #1a1a1a;
+    color: var(--color-text);
     margin: 0;
 }
 
@@ -3008,18 +3050,18 @@ main {
 }
 
 .status-badge.active {
-    background: #d1fae5;
-    color: #065f46;
+    background: var(--color-success-bg);
+    color: var(--color-success-text);
 }
 
 .status-badge.pending {
-    background: #fef3c7;
-    color: #92400e;
+    background: var(--color-warning-bg);
+    color: var(--color-warning-text);
 }
 
 .status-badge.inactive {
-    background: #f3f4f6;
-    color: #6b7280;
+    background: var(--color-bg-dark);
+    color: var(--color-text-light);
 }
 
 /* Smooth Transitions */

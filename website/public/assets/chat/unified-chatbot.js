@@ -402,13 +402,13 @@ class NotfChatbot {
 
     async processMessage(message) {
         if (this.mode === 'discovery') {
-            this.processDiscoveryMessage(message);
+            await this.processDiscoveryMessage(message);
         } else if (this.mode === 'complaint') {
             await this.processComplaintMessage(message);
         }
     }
 
-    processDiscoveryMessage(message) {
+    async processDiscoveryMessage(message) {
         // Re-initialize discovery engine if it's null (data loaded after initialization)
         if (!this.discoveryEngine) {
             console.log('[Chatbot] Re-initializing discovery engine with loaded data');
@@ -419,7 +419,7 @@ class NotfChatbot {
         }
 
         // Use discovery engine to process query
-        const results = this.discoveryEngine.search(message);
+        const results = await this.discoveryEngine.search(message);
 
         if (results.length === 0) {
             this.addBotMessage(`
@@ -1150,7 +1150,7 @@ class NotfChatbot {
 
         if (!validation.valid) {
             this.addBotMessage(`
-                <p class="error">❌ ${validation.error}</p>
+                <p class="error">✗ ${validation.error}</p>
                 <p>Please try again with a different photo.</p>
             `);
             // Reset file input
@@ -1169,7 +1169,10 @@ class NotfChatbot {
         const reader = new FileReader();
         reader.onload = (e) => {
             this.addBotMessage(`
-                <p>✅ Photo uploaded successfully!</p>
+                <p style="display: flex; align-items: center; gap: 0.5rem; color: #059669;">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Photo uploaded successfully!</span>
+                </p>
                 <div class="photo-preview">
                     <img src="${e.target.result}" alt="Complaint photo" style="max-width: 300px; max-height: 300px; border-radius: 8px; margin-top: 0.5rem;">
                     <p class="file-info">${sanitizedFile.name} (${(sanitizedFile.size / 1024).toFixed(1)} KB)</p>
