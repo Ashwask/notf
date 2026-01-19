@@ -139,5 +139,9 @@
       "contactUs": "Partner With Us",
       "note": "Use the button above to become a solution provider, update your organization's profile, or explore partnership opportunities"
     }
+  },
+  "map": {
+    "title": "NOTF Network Map",
+    "lead": "Explore communities across India with ward boundaries"
   }
 }
