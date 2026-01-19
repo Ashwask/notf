@@ -19,18 +19,20 @@ button {
 
 /* Icon buttons in header/toolbar */
 .icon-btn {
-    width: 42px;
     height: 42px;
-    padding: 0;
+    padding: 0 16px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     border: 1px solid #e0e0e0;
     background: white;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    position: relative; /* For tooltip positioning */
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
 }
 
 .icon-btn i {
@@ -47,51 +49,16 @@ button {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
 }
 
-/* Tooltips for icon buttons */
-.icon-btn[data-tooltip]::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: calc(100% + 12px); /* Space for tooltip + arrow */
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 12px;
-    background: #2B2B2B;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 500;
-    white-space: nowrap;
-    border-radius: 4px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.15s ease, visibility 0.15s ease;
-    z-index: 10000;
-}
+/* Hide text on mobile, show icon only */
+@media (max-width: 768px) {
+    .icon-btn span {
+        display: none;
+    }
 
-/* Tooltip arrow - small triangle pointing down */
-.icon-btn[data-tooltip]::after {
-    content: '';
-    position: absolute;
-    bottom: calc(100% + 6px); /* Position arrow between button and tooltip */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #2B2B2B; /* Triangle pointing down */
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.15s ease, visibility 0.15s ease;
-    z-index: 10000;
-}
-
-/* Show tooltips on hover - no transform animations to avoid conflicts */
-.icon-btn[data-tooltip]:hover::before,
-.icon-btn[data-tooltip]:hover::after {
-    opacity: 1;
-    visibility: visible;
+    .icon-btn {
+        width: 42px;
+        padding: 0;
+    }
 }
 
 .icon-btn.primary {
@@ -104,36 +71,6 @@ button {
 .icon-btn.primary:hover {
     box-shadow: 0 6px 20px rgba(35, 162, 165, 0.35) !important;
     transform: translateY(-2px) scale(1.02) !important;
-}
-
-/* Enhanced tooltips */
-.icon-btn[data-tooltip]::after {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-    font-size: 0.8125rem !important;
-    padding: 0.5rem 0.875rem !important;
-    background: rgba(0, 0, 0, 0.9) !important;
-    border-radius: 8px !important;
-}
-
-.icon-btn[data-tooltip]::before {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid rgba(0, 0, 0, 0.9);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    z-index: 999;
-}
-
-.icon-btn[data-tooltip]:hover::before {
-    opacity: 1;
 }
 
 /* Primary/Secondary button enhancements */
@@ -403,8 +340,7 @@ table.table-striped tbody tr:nth-child(even) {
     display: flex;
     gap: 8px;
     align-items: center;
-    position: relative; /* For tooltip positioning context */
-    overflow: visible; /* Ensure tooltips can overflow */
+    position: relative;
 }
 
 .icon-actions .icon-btn {
@@ -878,7 +814,6 @@ header {
     padding: 0 0 1rem 0;
     border-bottom: 1px solid #e8e8e8;
     background: transparent;
-    overflow: visible; /* Allow tooltips to show */
 }
 
 .page-header.minimal h1 {

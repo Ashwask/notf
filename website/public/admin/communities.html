@@ -18,17 +18,21 @@
         <div class="page-header minimal">
             <h1>Communities <span id="adminCommunityCount" style="font-size: 0.7em; color: #B9C98A; font-weight: 500;">(0)</span></h1>
             <div class="icon-actions">
-                <button class="icon-btn primary" data-tooltip="Add Community" onclick="showCreateForm()">
+                <button class="icon-btn primary" onclick="showCreateForm()">
                     <i class="fa-solid fa-plus"></i>
+                    <span>Add New</span>
                 </button>
-                <button class="icon-btn success" data-tooltip="Export to Excel" onclick="exportToExcel()">
+                <button class="icon-btn success" onclick="exportToExcel()">
                     <i class="fa-solid fa-file-excel"></i>
+                    <span>Export</span>
                 </button>
-                <button class="icon-btn warning" data-tooltip="Import from Excel" onclick="showImportModal()">
+                <button class="icon-btn warning" onclick="showImportModal()">
                     <i class="fa-solid fa-file-import"></i>
+                    <span>Import</span>
                 </button>
-                <button class="icon-btn" data-tooltip="Refresh" onclick="loadCommunities()">
+                <button class="icon-btn" onclick="loadCommunities()">
                     <i class="fa-solid fa-arrows-rotate"></i>
+                    <span>Refresh</span>
                 </button>
             </div>
         </div>
