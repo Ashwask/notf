@@ -183,7 +183,6 @@ serve(async (req) => {
 
     // Extract metadata for database
     const slug = file_path.split('/').pop()?.replace(/\.(md|yaml|yml)$/, '') || ''
-    const city = file_path.includes('communities/') ? file_path.split('/')[1] : null
 
     // Build database update
     const dbUpdate: Record<string, any> = {
@@ -204,11 +203,38 @@ serve(async (req) => {
       }
     }
 
-    // Add indexed fields
-    if (city) dbUpdate.city = city
-    // Note: neighborhood and ward are now stored as arrays in metadata.neighborhoods and metadata.wards
-    if (mergedData.location?.latitude) dbUpdate.latitude = mergedData.location.latitude
-    if (mergedData.location?.longitude) dbUpdate.longitude = mergedData.location.longitude
+    // Sync important metadata fields to top-level database columns for indexing/filtering
+    // Pull from metadata (source of truth), not from file path
+    if (mergedData.city) {
+      dbUpdate.city = mergedData.city
+    }
+
+    // Handle neighborhoods - store first one in singular 'neighborhood' column for backward compatibility
+    if (mergedData.neighborhoods && Array.isArray(mergedData.neighborhoods) && mergedData.neighborhoods.length > 0) {
+      dbUpdate.neighborhood = mergedData.neighborhoods[0]
+    } else if (mergedData.neighborhood) {
+      dbUpdate.neighborhood = mergedData.neighborhood
+    }
+
+    // Handle wards - store first one in singular 'ward' column for backward compatibility
+    if (mergedData.wards && Array.isArray(mergedData.wards) && mergedData.wards.length > 0) {
+      dbUpdate.ward = mergedData.wards[0]
+    } else if (mergedData.ward) {
+      dbUpdate.ward = mergedData.ward
+    }
+
+    // Sync location coordinates
+    if (mergedData.location?.latitude) {
+      dbUpdate.latitude = mergedData.location.latitude
+    }
+    if (mergedData.location?.longitude) {
+      dbUpdate.longitude = mergedData.location.longitude
+    }
+
+    // Sync name for easier querying
+    if (mergedData.name) {
+      dbUpdate.name = mergedData.name
+    }
 
     // Upsert to database
     const { error: dbError } = await supabaseAdmin
