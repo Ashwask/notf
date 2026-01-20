@@ -154,7 +154,7 @@ async function fetchAllProviders() {
         const { data, error } = await supabase
             .from('file_metadata')
             .select('*')
-            .eq('file_type', 'solution_provider')
+            .eq('file_type', 'solution-provider')  // Fixed: hyphen, not underscore
             .order('slug', { ascending: true });
 
         if (error) throw error;
@@ -505,28 +505,41 @@ const _exportToExcelOriginal = exportToExcel;
  * Show export options dialog and execute export
  */
 async function promptExportOptions() {
-    // Check if there are filters active
-    const searchInput = document.getElementById('searchInput');
-    const hasSearch = searchInput && searchInput.value.trim().length > 0;
+    // Detect current page
+    const currentPage = detectCurrentPage();
 
-    // Check status filter
-    const hasStatusFilter = (typeof window.currentStatusFilter !== 'undefined' && window.currentStatusFilter !== 'all');
+    // Check if we're on a page with data
+    const hasPageData = (currentPage === 'communities' && typeof window.communities !== 'undefined') ||
+                        (currentPage === 'organizations' && typeof window.organizations !== 'undefined');
 
-    const hasFilters = hasSearch || hasStatusFilter;
-
-    // If no filters, just export all
-    if (!hasFilters) {
-        await _exportToExcelOriginal(true); // Call original function, not reassigned
+    if (!hasPageData) {
+        // No data loaded yet, export all from database
+        console.log('No page data loaded, exporting all from database');
+        await _exportToExcelOriginal(true);
         return;
     }
 
-    // Show confirmation dialog
-    const message = hasSearch
-        ? `Export filtered results?\n\n✓ Filtered: Export only visible search results\n✗ All: Export all records (ignore filters)`
-        : `Export filtered results?\n\n✓ Filtered: Export only "${window.currentStatusFilter}" records\n✗ All: Export all records`;
+    // Check if there are active filters
+    const searchInput = document.getElementById('searchInput');
+    const hasSearch = searchInput && searchInput.value.trim().length > 0;
+    const hasStatusFilter = (typeof window.currentStatusFilter !== 'undefined' && window.currentStatusFilter !== 'all');
 
-    const exportFiltered = confirm(message);
-    await _exportToExcelOriginal(!exportFiltered); // Call original function, not reassigned
+    // Always ask user if they want filtered or all data
+    let message;
+    if (hasSearch || hasStatusFilter) {
+        // Filters are active
+        const filterDesc = hasSearch ? `search results` : `"${window.currentStatusFilter}" records`;
+        message = `Export Options:\n\n✓ Visible Records - Export only ${filterDesc} currently shown\n✗ All Records - Export everything from database`;
+    } else {
+        // No filters, but still ask
+        message = `Export Options:\n\n✓ Visible Records - Export what's currently displayed on screen\n✗ All Records - Export everything from database`;
+    }
+
+    const exportVisible = confirm(message);
+
+    // exportVisible=true → exportAll=false (export filtered)
+    // exportVisible=false → exportAll=true (export all)
+    await _exportToExcelOriginal(!exportVisible);
 }
 
 // ==================== EXPORTS ====================
