@@ -15,6 +15,20 @@ class DiscoveryEngine {
         // Initialize smart matcher with optimized weights for discovery
         this.initializeSmartMatcher();
 
+        // Listen for configuration changes from admin matcher
+        window.addEventListener('matchingSettingsChanged', (e) => {
+            console.log('[Discovery] Detected config change from admin:', e.detail);
+            this.refreshMatcherConfig();
+        });
+
+        // Listen for storage changes (cross-tab/window)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'matchingSettings') {
+                console.log('[Discovery] Detected config change via storage event');
+                this.refreshMatcherConfig();
+            }
+        });
+
         // Initialize both semantic matcher and Fuse.js (fallback)
         this.initializeSemanticMatcher();
         this.initializeFuse();
@@ -27,24 +41,43 @@ class DiscoveryEngine {
             return;
         }
 
-        // Discovery-optimized weights (favor name and location matching)
-        this.smartMatcher = new SmartMatcher({
-            weights: {
-                tags: 30,          // Tag matching (important for theme-based searches)
-                keywords: 20,      // Keyword matching (important for text searches)
-                city: 15,          // City matching (important for location-based searches)
-                theme: 10,         // Theme matching
-                semantic: 25,      // Semantic text similarity (important for natural queries)
-                proximity: 35      // Geographical proximity (NEW - highest priority for local searches)
-            },
-            cityMatchMode: 'fuse',         // Use Fuse.js for typo-tolerant city matching
-            semanticThreshold: 0.35,       // Slightly lower threshold for discovery (more inclusive)
-            minMatchScore: 0.25,           // Lower minimum for discovery (show more results)
-            proximityEnabled: true,        // Enable geographical proximity scoring
-            maxDistanceKm: 50              // Consider resources within 50km
-        });
+        // Load settings from localStorage (admin matcher's config)
+        const savedSettings = JSON.parse(localStorage.getItem('matchingSettings') || '{}');
 
-        console.log('[Discovery] SmartMatcher initialized with discovery-optimized weights');
+        // Discovery-optimized defaults (used if no admin settings)
+        const defaultWeights = {
+            tags: 30,          // Tag matching (important for theme-based searches)
+            keywords: 20,      // Keyword matching (important for text searches)
+            city: 15,          // City matching (important for location-based searches)
+            theme: 10,         // Theme matching
+            semantic: 25,      // Semantic text similarity (important for natural queries)
+            proximity: 35      // Geographical proximity (highest priority for local searches)
+        };
+
+        // Use admin settings if available, otherwise use discovery-optimized defaults
+        const config = {
+            weights: savedSettings.weights || defaultWeights,
+            cityMatchMode: savedSettings.cityMatchMode || 'fuse',
+            semanticThreshold: savedSettings.semanticThreshold || 0.35,
+            minMatchScore: savedSettings.minMatchScore || 0.25,
+            proximityEnabled: savedSettings.proximityEnabled !== false, // Respect admin's proximity toggle
+            maxDistanceKm: savedSettings.maxDistanceKm || 50
+        };
+
+        this.smartMatcher = new SmartMatcher(config);
+
+        console.log('[Discovery] SmartMatcher initialized with config:', config);
+        console.log('[Discovery] Using admin settings:', savedSettings.weights ? 'YES' : 'NO (defaults)');
+    }
+
+    /**
+     * Refresh matcher configuration from localStorage
+     * Called when admin settings change
+     */
+    refreshMatcherConfig() {
+        console.log('[Discovery] Refreshing matcher config from localStorage...');
+        this.initializeSmartMatcher();
+        console.log('[Discovery] Matcher config refreshed');
     }
 
     async initializeSemanticMatcher() {

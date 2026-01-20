@@ -106,12 +106,31 @@ async function getFilteredProviders() {
 }
 
 /**
+ * Get Supabase client (supports both window.supabaseClient and authUtils.supabase)
+ * @returns {Object} Supabase client
+ */
+function getSupabaseClient() {
+    // Check for authUtils.supabase first (used in newer admin pages)
+    if (typeof authUtils !== 'undefined' && authUtils.supabase) {
+        return authUtils.supabase;
+    }
+
+    // Fallback to window.supabaseClient (legacy)
+    if (typeof window.supabaseClient !== 'undefined') {
+        return window.supabaseClient;
+    }
+
+    throw new Error('Supabase client not found. Please ensure auth.js is loaded.');
+}
+
+/**
  * Fetch all communities from Supabase (from file_metadata table)
  * @returns {Promise<Array>} Array of community objects
  */
 async function fetchAllCommunities() {
     try {
-        const { data, error } = await window.supabaseClient
+        const supabase = getSupabaseClient();
+        const { data, error } = await supabase
             .from('file_metadata')
             .select('*')
             .eq('file_type', 'community')
@@ -131,7 +150,8 @@ async function fetchAllCommunities() {
  */
 async function fetchAllProviders() {
     try {
-        const { data, error } = await window.supabaseClient
+        const supabase = getSupabaseClient();
+        const { data, error } = await supabase
             .from('file_metadata')
             .select('*')
             .eq('file_type', 'solution_provider')
@@ -431,6 +451,9 @@ async function exportToExcel(exportAll = false) {
 
 // ==================== EXPORT PROMPT ====================
 
+// Save reference to original export function BEFORE reassigning
+const _exportToExcelOriginal = exportToExcel;
+
 /**
  * Show export options dialog and execute export
  */
@@ -446,7 +469,7 @@ async function promptExportOptions() {
 
     // If no filters, just export all
     if (!hasFilters) {
-        await exportToExcel(true);
+        await _exportToExcelOriginal(true); // Call original function, not reassigned
         return;
     }
 
@@ -456,13 +479,21 @@ async function promptExportOptions() {
         : `Export filtered results?\n\n✓ Filtered: Export only "${window.currentStatusFilter}" records\n✗ All: Export all records`;
 
     const exportFiltered = confirm(message);
-    await exportToExcel(!exportFiltered); // If user clicks OK, export filtered (exportAll=false)
+    await _exportToExcelOriginal(!exportFiltered); // Call original function, not reassigned
 }
 
 // ==================== EXPORTS ====================
 
 // Export to global scope
 window.exportToExcel = promptExportOptions; // Use the prompt wrapper as the main export function
-window.exportToExcelDirect = exportToExcel;  // Keep direct access for advanced use
+window.exportToExcelDirect = _exportToExcelOriginal;  // Keep direct access for advanced use
+
+// Enable export button once module is loaded
+const exportBtn = document.getElementById('exportBtn');
+if (exportBtn) {
+    exportBtn.disabled = false;
+    exportBtn.title = 'Export to Excel';
+    console.log('✅ Excel Export button enabled');
+}
 
 console.log('✅ Excel Export module loaded');

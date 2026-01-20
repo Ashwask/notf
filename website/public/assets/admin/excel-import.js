@@ -488,6 +488,41 @@ async function executeImport() {
 // ==================== UPDATE FUNCTIONS ====================
 
 /**
+ * Get Supabase client (supports both window.supabaseClient and authUtils.supabase)
+ * @returns {Object} Supabase client
+ */
+function getSupabaseClient() {
+    // Check for authUtils.supabase first (used in newer admin pages)
+    if (typeof authUtils !== 'undefined' && authUtils.supabase) {
+        return authUtils.supabase;
+    }
+
+    // Fallback to window.supabaseClient (legacy)
+    if (typeof window.supabaseClient !== 'undefined') {
+        return window.supabaseClient;
+    }
+
+    throw new Error('Supabase client not found. Please ensure auth.js is loaded.');
+}
+
+/**
+ * Get auth token for API requests
+ * @returns {Promise<string>} Access token
+ */
+async function getAuthToken() {
+    const supabase = getSupabaseClient();
+
+    // Try newer getSession() method first
+    if (supabase.auth.getSession) {
+        const { data: { session } } = await supabase.auth.getSession();
+        return session?.access_token || '';
+    }
+
+    // Fallback to older session() method
+    return supabase.auth.session()?.access_token || '';
+}
+
+/**
  * Update community via Edge Function
  * @param {Object} row - Excel row data
  */
@@ -503,12 +538,15 @@ async function updateCommunity(row) {
     // Unflatten data
     const updatedData = unflattenCommunity(row);
 
+    // Get auth token
+    const token = await getAuthToken();
+
     // Call update-file Edge Function
     const response = await fetch('https://kfiwceytvbwibsjdshuz.supabase.co/functions/v1/update-file', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${window.supabaseClient.auth.session()?.access_token || ''}`
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             type: 'community',
@@ -541,12 +579,15 @@ async function updateProvider(row) {
     // Unflatten data
     const updatedData = unflattenProvider(row);
 
+    // Get auth token
+    const token = await getAuthToken();
+
     // Call update-file Edge Function
     const response = await fetch('https://kfiwceytvbwibsjdshuz.supabase.co/functions/v1/update-file', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${window.supabaseClient.auth.session()?.access_token || ''}`
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
             type: 'provider',

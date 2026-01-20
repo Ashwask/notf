@@ -103,6 +103,15 @@
                         <input type="range" id="weight-semantic" min="0" max="100" step="5" value="25" class="slider">
                     </div>
 
+                    <div class="weight-control">
+                        <label>
+                            <i class="fa-solid fa-map-location-dot"></i> Geographical Proximity
+                            <span class="weight-value" id="weight-proximity-display">30%</span>
+                        </label>
+                        <input type="range" id="weight-proximity" min="0" max="50" step="5" value="30" class="slider">
+                        <p class="help-text" style="font-size: 0.75rem; margin-top: 0.25rem;">Score based on distance: 0km = full score, 50km+ = no score</p>
+                    </div>
+
                     <div class="weight-total">
                         <strong>Total Weight:</strong>
                         <span id="total-weight">125%</span>
@@ -130,6 +139,32 @@
                         <strong>Semantic:</strong> Understands variations via embeddings<br>
                         <strong>Normalized:</strong> Uses hardcoded city name map
                     </p>
+                </section>
+
+                <!-- Proximity Settings -->
+                <section class="setting-group">
+                    <h4><i class="fa-solid fa-map-location-dot"></i> Proximity Scoring</h4>
+
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="proximity-enabled" checked style="width: auto; margin: 0;">
+                            <span style="font-weight: 500;">Enable Proximity Scoring</span>
+                        </label>
+                        <p class="help-text">Order results by geographical distance when location is mentioned</p>
+                    </div>
+
+                    <div id="proximity-distance-settings">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">
+                            Max Distance: <strong id="max-distance-value">50</strong> km
+                        </label>
+                        <input type="range" id="max-distance" min="10" max="100" step="10" value="50" class="slider">
+                        <div class="slider-labels">
+                            <span>10km<br><small>Local</small></span>
+                            <span>50km<br><small>Regional</small></span>
+                            <span>100km<br><small>Wide</small></span>
+                        </div>
+                        <p class="help-text">Maximum distance to consider for proximity scoring (beyond this = 0 score)</p>
+                    </div>
                 </section>
 
                 <!-- Action Buttons -->
@@ -259,6 +294,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
 <script type="module" src="/assets/chat/semantic-matcher.js"></script>
+<script src="/assets/chat/smart-matcher.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/admin/auth.js"></script>
 <script>
@@ -282,9 +318,12 @@ const DEFAULT_SETTINGS = {
         keywords: 30,
         city: 15,
         theme: 15,
-        semantic: 25
+        semantic: 25,
+        proximity: 30  // NEW: Geographical proximity
     },
-    cityMatchMode: 'fuse'  // Default to Fuse.js for city matching (typo-tolerant)
+    cityMatchMode: 'fuse',        // Default to Fuse.js for city matching (typo-tolerant)
+    proximityEnabled: true,       // NEW: Enable proximity scoring
+    maxDistanceKm: 50             // NEW: Max distance for proximity scoring
 };
 
 let currentSettings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); // Deep copy
@@ -325,8 +364,14 @@ function applySettingsToUI(settings) {
     document.getElementById('weight-city').value = settings.weights.city;
     document.getElementById('weight-theme').value = settings.weights.theme;
     document.getElementById('weight-semantic').value = settings.weights.semantic;
+    document.getElementById('weight-proximity').value = settings.weights.proximity || 30;
 
     document.getElementById('city-match-mode').value = settings.cityMatchMode;
+
+    // Proximity settings
+    document.getElementById('proximity-enabled').checked = settings.proximityEnabled !== false;
+    document.getElementById('max-distance').value = settings.maxDistanceKm || 50;
+    document.getElementById('max-distance-value').textContent = settings.maxDistanceKm || 50;
 
     updateWeightDisplays();
     updateTotalWeight();
@@ -334,7 +379,7 @@ function applySettingsToUI(settings) {
 
 // Update weight displays in real-time
 function updateWeightDisplays() {
-    const weights = ['tags', 'keywords', 'city', 'theme', 'semantic'];
+    const weights = ['tags', 'keywords', 'city', 'theme', 'semantic', 'proximity'];
     weights.forEach(w => {
         const value = document.getElementById(`weight-${w}`).value;
         document.getElementById(`weight-${w}-display`).textContent = `${value}%`;
@@ -343,7 +388,7 @@ function updateWeightDisplays() {
 
 // Calculate and display total weight
 function updateTotalWeight() {
-    const weights = ['tags', 'keywords', 'city', 'theme', 'semantic'];
+    const weights = ['tags', 'keywords', 'city', 'theme', 'semantic', 'proximity'];
     const total = weights.reduce((sum, w) => {
         return sum + parseInt(document.getElementById(`weight-${w}`).value);
     }, 0);
@@ -404,11 +449,23 @@ function initializeSettingsListeners() {
     });
 
     // Weight sliders
-    ['tags', 'keywords', 'city', 'theme', 'semantic'].forEach(w => {
+    ['tags', 'keywords', 'city', 'theme', 'semantic', 'proximity'].forEach(w => {
         document.getElementById(`weight-${w}`)?.addEventListener('input', () => {
             updateWeightDisplays();
             updateTotalWeight();
         });
+    });
+
+    // Proximity enabled toggle
+    document.getElementById('proximity-enabled')?.addEventListener('change', (e) => {
+        const distanceSettings = document.getElementById('proximity-distance-settings');
+        distanceSettings.style.opacity = e.target.checked ? '1' : '0.5';
+        document.getElementById('max-distance').disabled = !e.target.checked;
+    });
+
+    // Max distance slider
+    document.getElementById('max-distance')?.addEventListener('input', (e) => {
+        document.getElementById('max-distance-value').textContent = e.target.value;
     });
 
     // Action buttons (will be wired up later when matching context is available)
@@ -696,85 +753,36 @@ async function initMatcher(members) {
         return 0;
     }
 
-    // Calculate match score with configurable weights and detailed scoring
+    // Initialize SmartMatcher with current settings
+    let smartMatcher = null;
+
+    function initializeSmartMatcher() {
+        if (typeof SmartMatcher === 'undefined') {
+            console.warn('[Matcher] SmartMatcher not loaded. Using fallback.');
+            return null;
+        }
+
+        smartMatcher = new SmartMatcher({
+            weights: currentSettings.weights,
+            cityMatchMode: currentSettings.cityMatchMode,
+            semanticThreshold: currentSettings.semanticThreshold,
+            minMatchScore: 0.5,
+            proximityEnabled: currentSettings.proximityEnabled,
+            maxDistanceKm: currentSettings.maxDistanceKm
+        });
+
+        console.log('[Matcher] SmartMatcher initialized with settings:', currentSettings);
+        return smartMatcher;
+    }
+
+    // Calculate match score using SmartMatcher
     async function calculateMatchScore(ask, offer) {
-        const details = {
-            tags: 0,
-            keywords: 0,
-            city: 0,
-            theme: 0,
-            semantic: 0,
-            rawSemantic: 0  // Store raw semantic similarity before threshold
-        };
-
-        // Get current weights (normalized to 0-1)
-        const weights = {
-            tags: currentSettings.weights.tags / 100,
-            keywords: currentSettings.weights.keywords / 100,
-            city: currentSettings.weights.city / 100,
-            theme: currentSettings.weights.theme / 100,
-            semantic: currentSettings.weights.semantic / 100
-        };
-
-        // Track matched items for display
-        const matchedTags = ask.tags.filter(t => offer.tags.includes(t));
-        const matchedKeywords = ask.keywords.filter(k => offer.keywords.includes(k));
-
-        // 1. TAG MATCHING (exact)
-        if (matchedTags.length > 0) {
-            details.tags = weights.tags;
+        if (!smartMatcher) {
+            console.error('[Matcher] SmartMatcher not initialized');
+            return { score: 0, details: {}, matchedTags: [], matchedKeywords: [] };
         }
 
-        // 2. KEYWORD MATCHING (exact, filtered)
-        const keywordScore = Math.min(matchedKeywords.length * 0.1, weights.keywords);
-        details.keywords = keywordScore;
-
-        // 3. CITY MATCHING (configurable mode)
-        const cityScore = await calculateCityScore(ask.city, offer.city);
-        details.city = cityScore * weights.city;
-
-        // 4. THEME MATCHING (exact)
-        if (ask.theme && offer.theme && ask.theme === offer.theme) {
-            details.theme = weights.theme;
-        }
-
-        // 5. SEMANTIC TEXT SIMILARITY (Transformers.js only)
-        if (semanticReady && ask.embedding && offer.embedding) {
-            const similarity = window.semanticMatcher.cosineSimilarity(ask.embedding, offer.embedding);
-            details.rawSemantic = similarity;
-
-            // Apply threshold filter
-            if (similarity >= currentSettings.semanticThreshold) {
-                details.semantic = similarity * weights.semantic;
-            } else {
-                details.semantic = 0; // Below threshold
-            }
-        } else if (!semanticReady) {
-            // No semantic matching available - skip this component
-            details.semantic = 0;
-        }
-
-        // Calculate total score
-        let score = details.tags + details.keywords + details.city + details.theme + details.semantic;
-
-        // Normalize score to 0-1 range (if weights exceed 100%)
-        const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
-        if (totalWeight > 1) {
-            score = score / totalWeight;
-            // Normalize details too
-            Object.keys(details).forEach(key => {
-                if (key !== 'rawSemantic') {
-                    details[key] = details[key] / totalWeight;
-                }
-            });
-        }
-
-        return {
-            score: Math.min(score, 1), // Cap at 100%
-            details,
-            matchedTags,
-            matchedKeywords
-        };
+        return await smartMatcher.calculateMatchScore(ask, offer);
     }
 
     // Find all matches
@@ -848,6 +856,10 @@ async function initMatcher(members) {
             <div class="match-card ${confidenceClass}">
                 <div class="match-header">
                     <span class="match-score">${confidenceIcon} ${scorePercent}% Match</span>
+                    ${match.details && match.details.distance !== null && match.details.distance !== undefined ?
+                        `<span class="match-distance-badge">
+                            <i class="fa-solid fa-location-dot"></i> ${match.details.distance.toFixed(1)} km
+                        </span>` : ''}
                     <span class="match-level">${match.confidenceLevel.toUpperCase()}</span>
                     <button class="btn-link" data-match-id="${match.id}" onclick="toggleBreakdown('${match.id}')">
                         <i class="fa-solid fa-chart-bar"></i> Show Details
@@ -889,6 +901,11 @@ async function initMatcher(members) {
                                 <td><i class="fa-solid fa-brain"></i> Semantic</td>
                                 <td>${match.details.rawSemantic ? `Cosine: ${match.details.rawSemantic.toFixed(3)} ${match.details.rawSemantic < currentSettings.semanticThreshold ? '(below threshold)' : ''}` : 'N/A'}</td>
                                 <td class="score-value">+${(match.details.semantic * 100).toFixed(0)}%</td>
+                            </tr>
+                            <tr>
+                                <td><i class="fa-solid fa-map-location-dot"></i> Proximity</td>
+                                <td>${match.details.distance !== null && match.details.distance !== undefined ? `${match.details.distance.toFixed(1)} km away` : 'No location data'}</td>
+                                <td class="score-value">+${(match.details.proximity * 100).toFixed(0)}%</td>
                             </tr>
                         </tbody>
                         <tfoot>
@@ -952,6 +969,9 @@ async function initMatcher(members) {
         `;
     }
 
+    // Initialize SmartMatcher
+    initializeSmartMatcher();
+
     // Initialize
     const allAsks = extractAsks();
     const allOffers = extractOffers();
@@ -986,12 +1006,27 @@ async function initMatcher(members) {
             keywords: parseInt(document.getElementById('weight-keywords').value),
             city: parseInt(document.getElementById('weight-city').value),
             theme: parseInt(document.getElementById('weight-theme').value),
-            semantic: parseInt(document.getElementById('weight-semantic').value)
+            semantic: parseInt(document.getElementById('weight-semantic').value),
+            proximity: parseInt(document.getElementById('weight-proximity').value)
         };
         currentSettings.cityMatchMode = document.getElementById('city-match-mode').value;
+        currentSettings.proximityEnabled = document.getElementById('proximity-enabled').checked;
+        currentSettings.maxDistanceKm = parseInt(document.getElementById('max-distance').value);
 
-        // Save to localStorage
+        // Save to localStorage with unified key
+        localStorage.setItem('matchingSettings', JSON.stringify(currentSettings));
+
+        // Also save to old key for backwards compatibility
         saveSettings();
+
+        // Broadcast change to other windows/tabs (for chatbot)
+        window.dispatchEvent(new CustomEvent('matchingSettingsChanged', {
+            detail: currentSettings
+        }));
+
+        // Reinitialize SmartMatcher with new settings
+        initializeSmartMatcher();
+        console.log('[Matcher] SmartMatcher reinitialized with new settings');
 
         // Check if model changed
         if (currentSettings.model !== window.semanticMatcher?.modelName) {
@@ -1390,6 +1425,22 @@ async function initMatcher(members) {
 .match-score {
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+.match-distance-badge {
+    background: #C45A2A;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.match-distance-badge i {
+    font-size: 0.75rem;
 }
 
 .match-level {

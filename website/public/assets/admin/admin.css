@@ -49,6 +49,12 @@ button {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
 }
 
+.icon-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 /* Hide text on mobile, show icon only */
 @media (max-width: 768px) {
     .icon-btn span {
