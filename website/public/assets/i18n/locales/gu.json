@@ -123,7 +123,9 @@
       "type": "પ્રકાર",
       "themes": "ફોકસ વિસ્તારો",
       "location": "સ્થાન",
-      "contact": "સંપર્ક"
+      "contact": "સંપર્ક",
+      "offers": "ઓફર",
+      "asks": "વિનંતીઓ"
     },
     "loadingProviders": "પ્રદાતાઓ લોડ થઈ રહ્યા છે...",
     "cta": {

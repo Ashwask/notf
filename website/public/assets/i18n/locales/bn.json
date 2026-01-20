@@ -123,7 +123,9 @@
       "type": "ধরন",
       "themes": "ফোকাস এরিয়া",
       "location": "অবস্থান",
-      "contact": "যোগাযোগ"
+      "contact": "যোগাযোগ",
+      "offers": "অফার",
+      "asks": "অনুরোধ"
     },
     "loadingProviders": "প্রদানকারী লোড হচ্ছে...",
     "cta": {

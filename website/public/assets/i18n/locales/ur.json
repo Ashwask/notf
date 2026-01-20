@@ -123,7 +123,9 @@
       "type": "قسم",
       "themes": "فوکس ایریاز",
       "location": "مقام",
-      "contact": "رابطہ"
+      "contact": "رابطہ",
+      "offers": "پیشکش",
+      "asks": "درخواستیں"
     },
     "loadingProviders": "فراہم کنندگان لوڈ ہو رہے ہیں...",
     "cta": {

@@ -123,7 +123,9 @@
       "type": "Type",
       "themes": "Focus Areas",
       "location": "Location",
-      "contact": "Contact"
+      "contact": "Contact",
+      "offers": "Offers",
+      "asks": "Asks"
     },
     "loadingProviders": "Loading providers...",
     "cta": {

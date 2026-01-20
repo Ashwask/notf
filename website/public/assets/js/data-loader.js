@@ -160,6 +160,41 @@ async function waitForSupabase(maxAttempts = 50) {
     return false;
 }
 
+// Initialize and populate global data cache for chatbot and other components
+async function initializeGlobalData() {
+    try {
+        await waitForSupabase();
+
+        console.log('[DataLoader] Loading communities and providers...');
+
+        // Load both communities and providers in parallel
+        const [communities, providers] = await Promise.all([
+            loadCommunities(),
+            loadSolutionProviders()
+        ]);
+
+        // Populate global data object
+        window.notfData = {
+            communities: communities,
+            members: providers, // Alias for backward compatibility
+            providers: providers,
+            lastUpdated: new Date().toISOString()
+        };
+
+        console.log(`[DataLoader] Loaded ${communities.length} communities and ${providers.length} providers`);
+        return true;
+    } catch (error) {
+        console.error('[DataLoader] Failed to initialize global data:', error);
+        return false;
+    }
+}
+
+// Auto-initialize on pages that need it (those with chatbot)
+if (document.querySelector('#notf-chatbot, #chat-fab')) {
+    console.log('[DataLoader] Chatbot detected, initializing global data...');
+    initializeGlobalData();
+}
+
 // Export for use in pages
 window.dataLoader = {
     loadSolutionProviders,
@@ -168,5 +203,6 @@ window.dataLoader = {
     formatDate,
     formatDomains,
     extractCity,
-    waitForSupabase
+    waitForSupabase,
+    initializeGlobalData
 };

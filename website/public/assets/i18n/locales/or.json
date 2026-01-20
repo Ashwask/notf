@@ -123,7 +123,9 @@
       "type": "ପ୍ରକାର",
       "themes": "ଫୋକସ୍ ଏରିଆ",
       "location": "ସ୍ଥାନ",
-      "contact": "ସଂପର୍କ"
+      "contact": "ସଂପର୍କ",
+      "offers": "ଅଫର",
+      "asks": "ଅନୁରୋଧ"
     },
     "loadingProviders": "ପ୍ରଦାନକାରୀ ଲୋଡ୍ ହେଉଛି...",
     "cta": {
