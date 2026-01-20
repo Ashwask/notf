@@ -613,6 +613,315 @@ The chatbot uses a **Floating Action Button (FAB)** pattern:
 
 ---
 
+## Internationalization (i18n) Guidelines
+
+### Overview
+
+The NOTF website supports **11 languages** across all public pages. When making ANY changes to user-facing content, translations MUST be updated simultaneously.
+
+**Supported Languages:**
+- English (en)
+- Hindi (hi) - हिंदी
+- Kannada (kn) - ಕನ್ನಡ
+- Marathi (mr) - मराठी
+- Tamil (ta) - தமிழ்
+- Telugu (te) - తెలుగు
+- Gujarati (gu) - ગુજરાતી
+- Bengali (bn) - বাংলা
+- Malayalam (ml) - മലയാളം
+- Odia (or) - ଓଡ଼ିଆ
+- Urdu (ur) - اردو
+
+### Critical Rule: Always Update All Languages
+
+**⚠️ MANDATORY: When adding or changing ANY user-facing text, you MUST update translations in ALL 11 locale files.**
+
+**Files to Update:**
+```
+website/public/assets/i18n/locales/
+├── en.json    (English - always update first)
+├── hi.json    (Hindi)
+├── kn.json    (Kannada)
+├── mr.json    (Marathi)
+├── ta.json    (Tamil)
+├── te.json    (Telugu)
+├── gu.json    (Gujarati)
+├── bn.json    (Bengali)
+├── ml.json    (Malayalam)
+├── or.json    (Odia)
+└── ur.json    (Urdu)
+```
+
+### When to Update Translations
+
+Update translations whenever you:
+1. ✅ Add new text to HTML (headings, paragraphs, buttons, labels)
+2. ✅ Change existing text content
+3. ✅ Add new form fields with labels
+4. ✅ Add new navigation items
+5. ✅ Add new page sections
+6. ✅ Add error messages or status messages
+7. ✅ Add tooltips or help text
+8. ✅ Add placeholder text in inputs
+9. ✅ Add ARIA labels for accessibility
+
+### Workflow for Content Changes
+
+#### Step 1: Update English Translation First
+
+Always start with `en.json`:
+
+```json
+{
+  "newSection": {
+    "title": "New Feature Title",
+    "description": "Description text here",
+    "button": "Click Me"
+  }
+}
+```
+
+#### Step 2: Add data-i18n Attributes to HTML
+
+```html
+<!-- Good: Translatable -->
+<h2 data-i18n="newSection.title">New Feature Title</h2>
+<p data-i18n="newSection.description">Description text here</p>
+<button data-i18n="newSection.button">Click Me</button>
+
+<!-- Bad: Hardcoded text -->
+<h2>New Feature Title</h2>
+<p>Description text here</p>
+<button>Click Me</button>
+```
+
+#### Step 3: Update All 10 Other Languages
+
+Use Python script for bulk updates:
+
+```python
+import json
+import os
+
+# Define translations for all languages
+translations = {
+    'en': {"title": "New Feature Title", "description": "...", "button": "Click Me"},
+    'hi': {"title": "नई सुविधा शीर्षक", "description": "...", "button": "क्लिक करें"},
+    'kn': {"title": "ಹೊಸ ವೈಶಿಷ್ಟ್ಯ ಶೀರ್ಷಿಕೆ", "description": "...", "button": "ಕ್ಲಿಕ್ ಮಾಡಿ"},
+    # ... all 11 languages
+}
+
+locale_dir = 'website/public/assets/i18n/locales'
+
+for lang_code, translation in translations.items():
+    filename = os.path.join(locale_dir, f'{lang_code}.json')
+
+    with open(filename, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    data['newSection'] = translation
+
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+```
+
+#### Step 4: Test in Multiple Languages
+
+1. Open the page in a browser
+2. Click the globe icon (🌐) in the navigation
+3. Switch between languages
+4. Verify all text translates correctly
+5. Check RTL layout for Urdu
+
+### Common Translation Patterns
+
+#### Text Content
+
+```html
+<h1 data-i18n="page.title">Title</h1>
+<p data-i18n="page.description">Description</p>
+```
+
+#### Dynamic Content with Parameters
+
+```html
+<p data-i18n="stats.communities"
+   data-i18n-params='{"count":"<span id=\"count\">50</span>"}'>
+   We have <span id="count">50</span> communities
+</p>
+```
+
+```json
+{
+  "stats": {
+    "communities": "We have {{count}} communities"
+  }
+}
+```
+
+#### Buttons and Links
+
+```html
+<button data-i18n="common.submit">Submit</button>
+<a href="/join" data-i18n="nav.join">Join</a>
+```
+
+#### Form Fields
+
+```html
+<label data-i18n="form.name">Name</label>
+<input type="text"
+       data-i18n-placeholder="form.namePlaceholder"
+       placeholder="Enter your name">
+```
+
+#### ARIA Labels (Accessibility)
+
+```html
+<button data-i18n-aria="common.close" aria-label="Close">
+    <i class="fa-solid fa-xmark"></i>
+</button>
+```
+
+#### Tooltips and Titles
+
+```html
+<a href="/admin"
+   data-i18n-title="nav.admin"
+   title="Admin Login">
+    <i class="fa-solid fa-user-lock"></i>
+</a>
+```
+
+### Translation Key Naming Convention
+
+Use clear, hierarchical keys:
+
+```json
+{
+  "nav": {                    // Navigation section
+    "home": "Home",
+    "communities": "Communities"
+  },
+  "homepage": {               // Page-specific
+    "hero": {                 // Section
+      "title": "Title",       // Element
+      "subtitle": "Subtitle"
+    }
+  },
+  "common": {                 // Shared across pages
+    "loading": "Loading...",
+    "error": "Error",
+    "submit": "Submit"
+  },
+  "providers": {              // Feature/page
+    "title": "Title",
+    "tableHeaders": {         // Sub-section
+      "name": "Name",
+      "location": "Location"
+    }
+  }
+}
+```
+
+### What NOT to Translate
+
+Do NOT translate:
+- ❌ File paths
+- ❌ API endpoints
+- ❌ Class names / IDs
+- ❌ CSS properties
+- ❌ JavaScript variable names
+- ❌ Email addresses
+- ❌ URLs (except display text)
+- ❌ Brand name "NOTF"
+- ❌ Proper nouns (city names in data)
+- ❌ Font Awesome icon classes
+
+### Translation Quality Guidelines
+
+1. **Accuracy:** Translations must convey the same meaning as English
+2. **Cultural Sensitivity:** Use appropriate terms for each region
+3. **Consistency:** Use the same translation for repeated terms
+4. **Length:** Keep translations roughly similar length to avoid layout issues
+5. **Formality:** Match the tone (informal/friendly for NOTF)
+6. **RTL Support:** Urdu translations must work with right-to-left layout
+
+### Testing Translations
+
+Before committing:
+
+```bash
+# 1. Verify JSON syntax is valid
+python3 -m json.tool website/public/assets/i18n/locales/en.json
+
+# 2. Check all files have same keys (no missing translations)
+# 3. Test on actual page in browser
+# 4. Switch languages using globe icon
+# 5. Check for layout breaking (text overflow, etc.)
+# 6. Test RTL for Urdu
+```
+
+### Quick Reference: HTML Attributes
+
+| Attribute | Purpose | Example |
+|-----------|---------|---------|
+| `data-i18n` | Translate text content | `data-i18n="nav.home"` |
+| `data-i18n-params` | Dynamic parameters | `data-i18n-params='{"count":"50"}'` |
+| `data-i18n-placeholder` | Input placeholder | `data-i18n-placeholder="form.name"` |
+| `data-i18n-aria` | ARIA label | `data-i18n-aria="common.close"` |
+| `data-i18n-title` | Title attribute | `data-i18n-title="nav.admin"` |
+
+### Commit Message Format
+
+When updating translations:
+
+```
+feat: Add [feature] with i18n support in 11 languages
+
+or
+
+fix: Update translations for [section] across all languages
+
+Changes:
+- Added translation keys: [list keys]
+- Updated [page].html with data-i18n attributes
+- Translations for: en, hi, kn, mr, ta, te, gu, bn, ml, or, ur
+```
+
+### Emergency: Fixing Missing Translations
+
+If you forgot translations, fix immediately:
+
+```python
+# Script to add missing key to all languages
+import json, os
+
+missing_key = 'section.newKey'
+translations = {
+    'en': 'English text',
+    'hi': 'हिंदी पाठ',
+    # ... add all 11
+}
+
+for lang, text in translations.items():
+    with open(f'website/public/assets/i18n/locales/{lang}.json', 'r+') as f:
+        data = json.load(f)
+        # Navigate to correct section and add key
+        # ...
+        f.seek(0)
+        json.dump(data, f, ensure_ascii=False, indent=2)
+```
+
+### Resources
+
+- **Translator.js:** `/website/public/assets/i18n/translator.js`
+- **Language Selector:** `/website/public/assets/i18n/language-selector.js`
+- **Fonts:** Noto Sans family loaded via language-selector.css
+- **RTL Support:** Automatic for Urdu (ur)
+
+---
+
 ## Architecture Notes
 
 ### Static HTML (No Build System)
