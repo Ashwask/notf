@@ -14,6 +14,11 @@
         <!-- Mobile Backdrop -->
         <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
+        <!-- Mobile Hamburger Button (visible only on mobile, outside sidebar) -->
+        <button class="mobile-hamburger" id="mobileHamburger" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -84,6 +89,7 @@
         // Sidebar toggle functionality
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
+        const mobileHamburger = document.getElementById('mobileHamburger');
         const sidebarBackdrop = document.getElementById('sidebarBackdrop');
         const dashboardContainer = document.querySelector('.dashboard-container');
 
@@ -155,11 +161,31 @@
 
         sidebarToggle.addEventListener('click', toggleSidebar);
 
+        // Mobile hamburger button click handler
+        mobileHamburger.addEventListener('click', function() {
+            sidebar.classList.toggle('mobile-open');
+            sidebarBackdrop.classList.toggle('active');
+
+            // Update hamburger icon
+            const icon = mobileHamburger.querySelector('i');
+            if (sidebar.classList.contains('mobile-open')) {
+                icon.className = 'fa-solid fa-times';
+            } else {
+                icon.className = 'fa-solid fa-bars';
+            }
+        });
+
         // Close sidebar when clicking backdrop on mobile
         sidebarBackdrop.addEventListener('click', function() {
             if (window.innerWidth <= 768 && sidebar.classList.contains('mobile-open')) {
                 sidebar.classList.remove('mobile-open');
                 sidebarBackdrop.classList.remove('active');
+
+                // Reset hamburger icon
+                const icon = mobileHamburger.querySelector('i');
+                icon.className = 'fa-solid fa-bars';
+
+                // Also reset desktop toggle if needed
                 const toggleIcon = document.getElementById('toggleIcon');
                 const toggleLabel = sidebarToggle.querySelector('.label');
                 toggleIcon.className = 'fa-solid fa-bars';
@@ -172,6 +198,7 @@
             const isMobile = window.innerWidth <= 768;
             const toggleIcon = document.getElementById('toggleIcon');
             const toggleLabel = sidebarToggle.querySelector('.label');
+            const hamburgerIcon = mobileHamburger.querySelector('i');
 
             if (!isMobile) {
                 // Desktop mode: remove mobile classes and backdrop
@@ -183,6 +210,9 @@
                     : 'fa-solid fa-angles-left';
                 toggleLabel.textContent = isCollapsed ? 'Expand' : 'Collapse';
                 sidebarToggle.setAttribute('data-label', isCollapsed ? 'Expand' : 'Collapse');
+
+                // Reset hamburger icon for when we resize back to mobile
+                hamburgerIcon.className = 'fa-solid fa-bars';
             } else {
                 // Mobile mode: reset to hamburger
                 dashboardContainer.classList.remove('sidebar-collapsed');
@@ -190,6 +220,11 @@
                     ? 'fa-solid fa-times'
                     : 'fa-solid fa-bars';
                 toggleLabel.textContent = sidebar.classList.contains('mobile-open') ? 'Close' : 'Menu';
+
+                // Update mobile hamburger icon
+                hamburgerIcon.className = sidebar.classList.contains('mobile-open')
+                    ? 'fa-solid fa-times'
+                    : 'fa-solid fa-bars';
             }
         });
 

@@ -350,6 +350,41 @@
     background: rgba(255, 255, 255, 0.3);
 }
 
+/* Mobile Hamburger Button */
+.mobile-hamburger {
+    display: none; /* Hidden by default on desktop */
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    height: 48px;
+    background: #2F4A2C; /* Forest Green */
+    border: 2px solid #B9C98A; /* Olive Green border */
+    border-radius: 12px;
+    color: #FAF6E8; /* Warm Cream */
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001; /* Above sidebar and backdrop */
+    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.3);
+    transition: all 0.3s ease;
+}
+
+.mobile-hamburger:hover {
+    background: #3d5e38;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(47, 74, 44, 0.4);
+}
+
+.mobile-hamburger:active {
+    transform: scale(0.95);
+}
+
+.mobile-hamburger i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Mobile Backdrop */
 .sidebar-backdrop {
     display: none;
@@ -378,6 +413,18 @@
 }
 
 @media (max-width: 768px) {
+    /* Show mobile hamburger button */
+    .mobile-hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hide desktop sidebar toggle when in mobile mode */
+    .nav-item-toggle {
+        display: none;
+    }
+
     .dashboard-container {
         grid-template-columns: 1fr;
     }
