@@ -11,6 +11,9 @@
 </head>
 <body>
     <div class="dashboard-container">
+        <!-- Mobile Backdrop -->
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
@@ -81,6 +84,7 @@
         // Sidebar toggle functionality
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
         const dashboardContainer = document.querySelector('.dashboard-container');
 
         // Restore sidebar state from localStorage on page load
@@ -90,12 +94,24 @@
             const toggleIcon = document.getElementById('toggleIcon');
             const toggleLabel = sidebarToggle.querySelector('.label');
 
-            // Only apply saved state on desktop
-            if (!isMobile && savedState === 'true') {
-                dashboardContainer.classList.add('sidebar-collapsed');
-                toggleIcon.className = 'fa-solid fa-angles-right';
-                toggleLabel.textContent = 'Expand';
-                sidebarToggle.setAttribute('data-label', 'Expand');
+            if (isMobile) {
+                // Mobile: Always start with hamburger menu (sidebar closed)
+                sidebar.classList.remove('mobile-open');
+                toggleIcon.className = 'fa-solid fa-bars';
+                toggleLabel.textContent = 'Menu';
+                sidebarToggle.setAttribute('data-label', 'Menu');
+            } else {
+                // Desktop: Apply saved state
+                if (savedState === 'true') {
+                    dashboardContainer.classList.add('sidebar-collapsed');
+                    toggleIcon.className = 'fa-solid fa-angles-right';
+                    toggleLabel.textContent = 'Expand';
+                    sidebarToggle.setAttribute('data-label', 'Expand');
+                } else {
+                    toggleIcon.className = 'fa-solid fa-angles-left';
+                    toggleLabel.textContent = 'Collapse';
+                    sidebarToggle.setAttribute('data-label', 'Collapse');
+                }
             }
         }
 
@@ -112,6 +128,7 @@
             if (isMobile) {
                 // Mobile: Toggle between overlay and hidden
                 sidebar.classList.toggle('mobile-open');
+                sidebarBackdrop.classList.toggle('active');
                 toggleIcon.className = sidebar.classList.contains('mobile-open')
                     ? 'fa-solid fa-times'
                     : 'fa-solid fa-bars';
@@ -138,6 +155,18 @@
 
         sidebarToggle.addEventListener('click', toggleSidebar);
 
+        // Close sidebar when clicking backdrop on mobile
+        sidebarBackdrop.addEventListener('click', function() {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('mobile-open')) {
+                sidebar.classList.remove('mobile-open');
+                sidebarBackdrop.classList.remove('active');
+                const toggleIcon = document.getElementById('toggleIcon');
+                const toggleLabel = sidebarToggle.querySelector('.label');
+                toggleIcon.className = 'fa-solid fa-bars';
+                toggleLabel.textContent = 'Menu';
+            }
+        });
+
         // Handle window resize to adjust behavior
         window.addEventListener('resize', function() {
             const isMobile = window.innerWidth <= 768;
@@ -145,8 +174,9 @@
             const toggleLabel = sidebarToggle.querySelector('.label');
 
             if (!isMobile) {
-                // Desktop mode: remove mobile classes
+                // Desktop mode: remove mobile classes and backdrop
                 sidebar.classList.remove('mobile-open');
+                sidebarBackdrop.classList.remove('active');
                 const isCollapsed = dashboardContainer.classList.contains('sidebar-collapsed');
                 toggleIcon.className = isCollapsed
                     ? 'fa-solid fa-angles-right'
