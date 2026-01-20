@@ -12,9 +12,39 @@ class DiscoveryEngine {
             ...this.members.map(m => ({...m, resourceType: 'provider'}))
         ];
 
-        // Initialize both semantic matcher and Fuse.js
+        // Initialize smart matcher with optimized weights for discovery
+        this.initializeSmartMatcher();
+
+        // Initialize both semantic matcher and Fuse.js (fallback)
         this.initializeSemanticMatcher();
         this.initializeFuse();
+    }
+
+    initializeSmartMatcher() {
+        if (typeof SmartMatcher === 'undefined') {
+            console.warn('[Discovery] SmartMatcher not loaded. Using fallback Fuse.js.');
+            this.smartMatcher = null;
+            return;
+        }
+
+        // Discovery-optimized weights (favor name and location matching)
+        this.smartMatcher = new SmartMatcher({
+            weights: {
+                tags: 30,          // Tag matching (important for theme-based searches)
+                keywords: 20,      // Keyword matching (important for text searches)
+                city: 15,          // City matching (important for location-based searches)
+                theme: 10,         // Theme matching
+                semantic: 25,      // Semantic text similarity (important for natural queries)
+                proximity: 35      // Geographical proximity (NEW - highest priority for local searches)
+            },
+            cityMatchMode: 'fuse',         // Use Fuse.js for typo-tolerant city matching
+            semanticThreshold: 0.35,       // Slightly lower threshold for discovery (more inclusive)
+            minMatchScore: 0.25,           // Lower minimum for discovery (show more results)
+            proximityEnabled: true,        // Enable geographical proximity scoring
+            maxDistanceKm: 50              // Consider resources within 50km
+        });
+
+        console.log('[Discovery] SmartMatcher initialized with discovery-optimized weights');
     }
 
     async initializeSemanticMatcher() {
@@ -125,9 +155,38 @@ class DiscoveryEngine {
         const cleanQuery = this.cleanQuery(queryLower);
         console.log('[Discovery] Clean query:', cleanQuery);
 
-        // Try semantic matching first
+        // Try SmartMatcher first (multi-component scoring)
+        if (this.smartMatcher) {
+            console.log('[Discovery] Using SmartMatcher (multi-component scoring)...');
+            try {
+                // Filter by resource type if requested
+                let resourcesToSearch = this.allResources;
+                if (requestedType === 'community') {
+                    resourcesToSearch = resourcesToSearch.filter(r => r.resourceType === 'community');
+                } else if (requestedType === 'provider') {
+                    resourcesToSearch = resourcesToSearch.filter(r => r.resourceType === 'provider');
+                }
+
+                // Use SmartMatcher's search method
+                const smartResults = await this.smartMatcher.search(cleanQuery, resourcesToSearch, {
+                    limit: 10,
+                    minScore: 0.25  // Lower threshold for discovery (more results)
+                });
+
+                if (smartResults.length > 0) {
+                    console.log('[Discovery] SmartMatcher found', smartResults.length, 'matches');
+                    console.log('[Discovery] Top match:', smartResults[0].name, 'Score:', smartResults[0].matchScore.toFixed(3));
+                    return smartResults;
+                }
+            } catch (error) {
+                console.error('[Discovery] SmartMatcher search error:', error);
+                // Fall through to other methods
+            }
+        }
+
+        // Fall back to semantic matching (legacy)
         if (this.resourceEmbeddings && this.resourceEmbeddings.length > 0) {
-            console.log('[Discovery] Using semantic matching...');
+            console.log('[Discovery] Using semantic matching (fallback)...');
             try {
                 const semanticResults = await this.semanticSearch(cleanQuery, requestedType);
                 if (semanticResults.length > 0) {
@@ -139,13 +198,13 @@ class DiscoveryEngine {
             }
         }
 
-        // Fall back to Fuse.js
+        // Fall back to Fuse.js (final fallback)
         if (!this.fuse) {
             console.warn('[Discovery] Fuse.js not available, using basic search');
             return this.basicSearch(cleanQuery, requestedType);
         }
 
-        console.log('[Discovery] Using Fuse.js fuzzy matching...');
+        console.log('[Discovery] Using Fuse.js fuzzy matching (final fallback)...');
         // Use Fuse.js for fuzzy search
         let results = this.fuse.search(cleanQuery).map(result => ({
             ...result.item,
