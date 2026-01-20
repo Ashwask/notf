@@ -5,6 +5,17 @@ let isEditing = false;
 let editingId = null;
 let currentStatusFilter = 'all';
 
+// SECURITY: HTML escaping function to prevent XSS attacks
+function escapeHtml(unsafe) {
+    if (unsafe === null || unsafe === undefined) return '';
+    return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // Require authentication and load data
 (async function() {
     const session = await authUtils.requireAuth();
@@ -69,24 +80,26 @@ function renderOrganizations(orgs) {
     }
 
     container.innerHTML = orgs.map(org => {
-        const name = org.metadata?.name || org.slug;
-        const theme = org.metadata?.theme || '';
+        // SECURITY: Escape all user-supplied data to prevent XSS
+        const name = escapeHtml(org.metadata?.name || org.slug);
+        const theme = escapeHtml(org.metadata?.theme || '');
         const focusAreas = org.metadata?.focus_areas || [];
-        const focusText = Array.isArray(focusAreas) ? focusAreas.slice(0, 3).join(', ') : theme;
-        const location = org.metadata?.location || '';
+        const focusText = Array.isArray(focusAreas) ? focusAreas.slice(0, 3).map(f => escapeHtml(f)).join(', ') : theme;
+        const location = escapeHtml(org.metadata?.location || '');
         const description = org.metadata?.description || '';
-        const truncatedDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
+        const truncatedDesc = escapeHtml(description.length > 100 ? description.substring(0, 100) + '...' : description);
 
         const statusIcon = org.status === 'active' ? 'fa-circle-check' : org.status === 'pending' ? 'fa-clock' : 'fa-circle';
+        const statusEscaped = escapeHtml(org.status);
 
         return `
             <div class="org-card minimal ${org.status === 'pending' ? 'pending-highlight' : ''}">
                 <div class="org-info">
                     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                         <h3>${name}</h3>
-                        <span class="status-indicator ${org.status}">
+                        <span class="status-indicator ${statusEscaped}">
                             <i class="fa-solid ${statusIcon}"></i>
-                            ${org.status}
+                            ${statusEscaped}
                         </span>
                     </div>
                     ${focusText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${focusText}</p>` : ''}
@@ -96,13 +109,13 @@ function renderOrganizations(orgs) {
                     </div>
                 </div>
                 <div class="card-actions">
-                    <button class="mini-icon-btn view" title="View Details" onclick="viewOrganization('${org.id}')">
+                    <button class="mini-icon-btn view" title="View Details" onclick="viewOrganization('${escapeHtml(org.id)}')">
                         <i class="fa-solid fa-eye"></i>
                     </button>
-                    <button class="mini-icon-btn edit" title="Edit" onclick="editOrganization('${org.id}')">
+                    <button class="mini-icon-btn edit" title="Edit" onclick="editOrganization('${escapeHtml(org.id)}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteOrganization('${org.id}', '${name.replace(/'/g, "\\'")}')">
+                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteOrganization('${escapeHtml(org.id)}', '${escapeHtml(org.metadata?.name || org.slug)}')">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                     ${org.status === 'pending' ?

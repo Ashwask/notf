@@ -2,7 +2,30 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { parse as parseYAML, stringify as stringifyYAML } from 'https://deno.land/std@0.168.0/encoding/yaml.ts'
 
-const corsHeaders = {
+// CORS: Whitelist specific origins for security
+const ALLOWED_ORIGINS = [
+  'https://notf.vercel.app',
+  'https://www.notf.org',
+  'http://localhost:3000', // Development only
+  'http://localhost:5173'  // Vite dev server
+]
+
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get('Origin')
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    return {
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Credentials': 'true'
+    }
+  }
+  // Fallback for non-CORS requests (direct API calls)
+  return {
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  }
+}
+
+const defaultCorsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
@@ -16,6 +39,8 @@ interface UpdateFileRequest {
 }
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req)
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
@@ -26,7 +51,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({
         status: 'ok',
-        version: '3.0-auth-optional',
+        version: '4.0-auth-required',
         timestamp: new Date().toISOString()
       }),
       {
@@ -66,28 +91,52 @@ serve(async (req) => {
       }
     )
 
-    // Get the authorization header for user tracking
+    // SECURITY: Authentication is REQUIRED
     const authHeader = req.headers.get('Authorization')
-    console.log('Authorization header:', authHeader ? 'present' : 'missing')
 
-    // Try to get authenticated user (optional for now)
-    let user = null
-    if (authHeader) {
-      try {
-        const { data: { user: authUser }, error: authError } = await supabaseAnon.auth.getUser()
-        if (!authError && authUser) {
-          user = authUser
-          console.log(`Authenticated user: ${user.email}`)
-        } else {
-          console.log('Auth verification failed:', authError?.message)
+    if (!authHeader) {
+      console.log('Missing authorization header')
+      return new Response(
+        JSON.stringify({ error: 'Authentication required' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
         }
-      } catch (authErr) {
-        console.log('Auth check error:', authErr)
-      }
+      )
     }
 
-    // Continue without auth for now (TODO: make auth required after testing)
-    console.log('Processing request', user ? `for user ${user.email}` : 'without auth')
+    // Verify user authentication
+    const { data: { user }, error: authError } = await supabaseAnon.auth.getUser()
+
+    if (authError || !user) {
+      console.log('Authentication failed:', authError?.message || 'No user')
+      return new Response(
+        JSON.stringify({ error: 'Invalid or expired authentication token' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // SECURITY: Check for admin role
+    const userRole = user.user_metadata?.role
+
+    if (userRole !== 'admin') {
+      console.log(`Access denied for user ${user.email}: role=${userRole}`)
+      return new Response(
+        JSON.stringify({
+          error: 'Forbidden',
+          message: 'Admin privileges required to modify data'
+        }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    console.log(`Authenticated admin user: ${user.email}`)
 
     // Parse request body
     const { file_path, file_type, updates, markdown_body, version }: UpdateFileRequest = await req.json()

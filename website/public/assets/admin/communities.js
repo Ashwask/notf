@@ -7,6 +7,17 @@ let wardMapping = null;
 let locationMap = null;
 let locationMarker = null;
 
+// SECURITY: HTML escaping function to prevent XSS attacks
+function escapeHtml(unsafe) {
+    if (unsafe === null || unsafe === undefined) return '';
+    return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 // Require authentication and load data
 (async function() {
     const session = await authUtils.requireAuth();
@@ -83,27 +94,28 @@ function renderCommunities(comms) {
     }
 
     container.innerHTML = comms.map(comm => {
-        const name = comm.metadata?.name || comm.slug;
-        const city = comm.metadata?.city || comm.city || 'City not specified';
-        const state = comm.metadata?.state || '';
+        // SECURITY: Escape all user-supplied data to prevent XSS
+        const name = escapeHtml(comm.metadata?.name || comm.slug);
+        const city = escapeHtml(comm.metadata?.city || comm.city || 'City not specified');
+        const state = escapeHtml(comm.metadata?.state || '');
 
         // Display neighborhoods with "First +N" format
         const neighborhoods = comm.metadata?.neighborhoods ||
                              (comm.neighborhood ? [comm.neighborhood] : []);
         const neighborhoodDisplay = neighborhoods.length > 0
-            ? neighborhoods[0] + (neighborhoods.length > 1 ? ` +${neighborhoods.length - 1}` : '')
+            ? escapeHtml(neighborhoods[0]) + (neighborhoods.length > 1 ? ` +${neighborhoods.length - 1}` : '')
             : '';
 
         // Display wards with "First +N" format
         const wards = comm.metadata?.wards || (comm.ward ? [comm.ward] : []);
         const wardDisplay = wards.length > 0
-            ? wards[0] + (wards.length > 1 ? ` +${wards.length - 1}` : '')
+            ? escapeHtml(wards[0]) + (wards.length > 1 ? ` +${wards.length - 1}` : '')
             : '';
 
         const themes = comm.metadata?.themes || [];
-        const themesText = Array.isArray(themes) ? themes.slice(0, 3).join(', ') : themes || '';
+        const themesText = Array.isArray(themes) ? themes.slice(0, 3).map(t => escapeHtml(t)).join(', ') : escapeHtml(themes || '');
         const description = comm.metadata?.description || '';
-        const truncatedDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
+        const truncatedDesc = escapeHtml(description.length > 100 ? description.substring(0, 100) + '...' : description);
 
         // Check for missing data
         const missing = [];
@@ -122,15 +134,16 @@ function renderCommunities(comms) {
             </div>` : '';
 
         const statusIcon = comm.status === 'active' ? 'fa-circle-check' : comm.status === 'pending' ? 'fa-clock' : 'fa-circle';
+        const statusEscaped = escapeHtml(comm.status);
 
         return `
             <div class="org-card minimal ${comm.status === 'pending' ? 'pending-highlight' : ''}">
                 <div class="org-info">
                     <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
                         <h3>${name}</h3>
-                        <span class="status-indicator ${comm.status}">
+                        <span class="status-indicator ${statusEscaped}">
                             <i class="fa-solid ${statusIcon}"></i>
-                            ${comm.status}
+                            ${statusEscaped}
                         </span>
                     </div>
                     ${themesText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${themesText}</p>` : ''}
@@ -143,13 +156,13 @@ function renderCommunities(comms) {
                     ${missingBadge}
                 </div>
                 <div class="card-actions">
-                    <button class="mini-icon-btn view" title="View Details" onclick="viewCommunity('${comm.id}')">
+                    <button class="mini-icon-btn view" title="View Details" onclick="viewCommunity('${escapeHtml(comm.id)}')">
                         <i class="fa-solid fa-eye"></i>
                     </button>
-                    <button class="mini-icon-btn edit" title="Edit" onclick="editCommunity('${comm.id}')">
+                    <button class="mini-icon-btn edit" title="Edit" onclick="editCommunity('${escapeHtml(comm.id)}')">
                         <i class="fa-solid fa-pen"></i>
                     </button>
-                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteCommunity('${comm.id}', '${name.replace(/'/g, "\\'")}')">
+                    <button class="mini-icon-btn delete" title="Delete" onclick="deleteCommunity('${escapeHtml(comm.id)}', '${escapeHtml(comm.metadata?.name || comm.slug)}')">
                         <i class="fa-solid fa-trash"></i>
                     </button>
                     ${comm.status === 'pending' ?
