@@ -323,6 +323,32 @@ function applyColumnFormatting(worksheet, readOnlyColumns = []) {
 }
 
 /**
+ * Detect which page we're on
+ * @returns {string} 'communities' | 'organizations' | 'both'
+ */
+function detectCurrentPage() {
+    // Check for page-specific global variables
+    if (typeof window.communities !== 'undefined') {
+        return 'communities';
+    }
+    if (typeof window.organizations !== 'undefined') {
+        return 'organizations';
+    }
+
+    // Fallback: check URL
+    const path = window.location.pathname;
+    if (path.includes('communities.html')) {
+        return 'communities';
+    }
+    if (path.includes('organizations.html')) {
+        return 'organizations';
+    }
+
+    // Default: export both (for future combined pages)
+    return 'both';
+}
+
+/**
  * Main export function
  * Exports filtered/searched data to Excel file
  * @param {boolean} exportAll - If true, export all records. If false, export only filtered/visible records.
@@ -341,74 +367,79 @@ async function exportToExcel(exportAll = false) {
             throw new Error('SheetJS library not loaded. Please refresh the page.');
         }
 
-        // Fetch data (either all or filtered)
+        // Detect which page we're on
+        const currentPage = detectCurrentPage();
+        console.log(`Detected page: ${currentPage}`);
+
+        // Fetch data based on current page
         let communities = [];
         let providers = [];
 
-        if (exportAll) {
-            // Export all records
-            console.log('Fetching all communities...');
-            communities = await fetchAllCommunities();
-            console.log(`Fetched ${communities.length} communities`);
+        if (currentPage === 'communities' || currentPage === 'both') {
+            if (exportAll) {
+                console.log('Fetching all communities...');
+                communities = await fetchAllCommunities();
+                console.log(`Fetched ${communities.length} communities`);
+            } else {
+                console.log('Exporting filtered communities...');
+                communities = await getFilteredCommunities();
+                console.log(`Exporting ${communities.length} filtered communities`);
+            }
+        }
 
-            console.log('Fetching all solution providers...');
-            providers = await fetchAllProviders();
-            console.log(`Fetched ${providers.length} solution providers`);
-        } else {
-            // Export only filtered/visible records
-            console.log('Exporting filtered records...');
-
-            // Get currently filtered data from the page
-            communities = await getFilteredCommunities();
-            providers = await getFilteredProviders();
-
-            console.log(`Exporting ${communities.length} filtered communities`);
-            console.log(`Exporting ${providers.length} filtered solution providers`);
+        if (currentPage === 'organizations' || currentPage === 'both') {
+            if (exportAll) {
+                console.log('Fetching all solution providers...');
+                providers = await fetchAllProviders();
+                console.log(`Fetched ${providers.length} solution providers`);
+            } else {
+                console.log('Exporting filtered solution providers...');
+                providers = await getFilteredProviders();
+                console.log(`Exporting ${providers.length} filtered solution providers`);
+            }
         }
 
         // Create workbook
         const wb = XLSX.utils.book_new();
 
-        // ========== COMMUNITIES SHEET ==========
-        console.log('Creating Communities sheet...');
-        const communitiesData = communities.map(flattenCommunity);
+        // ========== COMMUNITIES SHEET (only if on communities page or both) ==========
+        if (currentPage === 'communities' || currentPage === 'both') {
+            console.log('Creating Communities sheet...');
+            const communitiesData = communities.map(flattenCommunity);
 
-        if (communitiesData.length > 0) {
-            const communitiesSheet = XLSX.utils.json_to_sheet(communitiesData);
-
-            // Format columns (ID/Slug and File Path are read-only = columns 0 and 1)
-            applyColumnFormatting(communitiesSheet, [0, 1]);
-
-            XLSX.utils.book_append_sheet(wb, communitiesSheet, 'Communities');
-            console.log('✅ Communities sheet created');
-        } else {
-            // Create empty sheet with headers
-            const headers = [Object.keys(flattenCommunity({ contact: {}, location: {}, elected_representatives: { mla: {}, mp: {}, corporator: {} } }))];
-            const emptySheet = XLSX.utils.aoa_to_sheet(headers);
-            applyColumnFormatting(emptySheet, [0, 1]);
-            XLSX.utils.book_append_sheet(wb, emptySheet, 'Communities');
-            console.log('⚠️ No communities to export (empty sheet created)');
+            if (communitiesData.length > 0) {
+                const communitiesSheet = XLSX.utils.json_to_sheet(communitiesData);
+                applyColumnFormatting(communitiesSheet, [0, 1]);
+                XLSX.utils.book_append_sheet(wb, communitiesSheet, 'Communities');
+                console.log('✅ Communities sheet created');
+            } else {
+                // Create empty sheet with headers
+                const headers = [Object.keys(flattenCommunity({ contact: {}, location: {}, elected_representatives: { mla: {}, mp: {}, corporator: {} } }))];
+                const emptySheet = XLSX.utils.aoa_to_sheet(headers);
+                applyColumnFormatting(emptySheet, [0, 1]);
+                XLSX.utils.book_append_sheet(wb, emptySheet, 'Communities');
+                console.log('⚠️ No communities to export (empty sheet created)');
+            }
         }
 
-        // ========== SOLUTION PROVIDERS SHEET ==========
-        console.log('Creating Solution Providers sheet...');
-        const providersData = providers.map(flattenProvider);
+        // ========== SOLUTION PROVIDERS SHEET (only if on organizations page or both) ==========
+        if (currentPage === 'organizations' || currentPage === 'both') {
+            console.log('Creating Solution Providers sheet...');
+            const providersData = providers.map(flattenProvider);
 
-        if (providersData.length > 0) {
-            const providersSheet = XLSX.utils.json_to_sheet(providersData);
-
-            // Format columns (ID/Slug and File Path are read-only = columns 0 and 1)
-            applyColumnFormatting(providersSheet, [0, 1]);
-
-            XLSX.utils.book_append_sheet(wb, providersSheet, 'Solution Providers');
-            console.log('✅ Solution Providers sheet created');
-        } else {
-            // Create empty sheet with headers
-            const headers = [Object.keys(flattenProvider({ contact: {} }))];
-            const emptySheet = XLSX.utils.aoa_to_sheet(headers);
-            applyColumnFormatting(emptySheet, [0, 1]);
-            XLSX.utils.book_append_sheet(wb, emptySheet, 'Solution Providers');
-            console.log('⚠️ No solution providers to export (empty sheet created)');
+            if (providersData.length > 0) {
+                const providersSheet = XLSX.utils.json_to_sheet(providersData);
+                applyColumnFormatting(providersSheet, [0, 1]);
+                XLSX.utils.book_append_sheet(wb, providersSheet, 'Solution Providers');
+                console.log('✅ Solution Providers sheet created');
+            } else {
+                // Create empty sheet with headers
+                const headers = [Object.keys(flattenProvider({ contact: {} }))];
+                const emptySheet = XLSX.utils.aoa_to_sheet(headers);
+                applyColumnFormatting(emptySheet, [0, 1]);
+                XLSX.utils.book_append_sheet(wb, emptySheet, 'Solution Providers');
+                console.log('⚠️ No solution providers to export (empty sheet created)');
+            }
         }
 
         // ========== REFERENCE DATA SHEET ==========
@@ -421,7 +452,16 @@ async function exportToExcel(exportAll = false) {
 
         // ========== GENERATE FILE ==========
         const { formatDate } = window.ExcelCommon;
-        const filename = `NOTF_Data_Export_${formatDate()}.xlsx`;
+
+        // Generate page-specific filename
+        let filename;
+        if (currentPage === 'communities') {
+            filename = `NOTF_Communities_${formatDate()}.xlsx`;
+        } else if (currentPage === 'organizations') {
+            filename = `NOTF_Solution_Providers_${formatDate()}.xlsx`;
+        } else {
+            filename = `NOTF_Data_Export_${formatDate()}.xlsx`;
+        }
 
         console.log(`Writing file: ${filename}`);
         XLSX.writeFile(wb, filename);
@@ -430,11 +470,18 @@ async function exportToExcel(exportAll = false) {
 
         // Show success message
         const exportType = exportAll ? 'all' : 'filtered';
+        let successMessage;
+
+        if (currentPage === 'communities') {
+            successMessage = `Successfully exported ${communities.length} communities (${exportType})`;
+        } else if (currentPage === 'organizations') {
+            successMessage = `Successfully exported ${providers.length} solution providers (${exportType})`;
+        } else {
+            successMessage = `Successfully exported ${communities.length} communities and ${providers.length} solution providers (${exportType})`;
+        }
+
         if (window.showNotification) {
-            window.showNotification(
-                `Successfully exported ${communities.length} communities and ${providers.length} solution providers (${exportType})`,
-                'success'
-            );
+            window.showNotification(successMessage, 'success');
         }
 
     } catch (err) {
