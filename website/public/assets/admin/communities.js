@@ -40,6 +40,7 @@ function escapeHtml(unsafe) {
 })();
 
 let currentStatusFilter = 'all';
+window.currentStatusFilter = 'all'; // Expose to window for Excel export
 
 async function loadCommunities() {
     const supabase = authUtils.supabase;
@@ -63,11 +64,13 @@ async function loadCommunities() {
     }
 
     communities = data || [];
+    window.communities = communities; // Expose to window for Excel export
     renderCommunities(communities);
 }
 
 function setStatusFilter(status, chipElement) {
     currentStatusFilter = status;
+    window.currentStatusFilter = status; // Expose to window for Excel export
 
     // Update active chip
     document.querySelectorAll('.filter-chips .chip').forEach(chip => {

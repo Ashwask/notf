@@ -4,6 +4,7 @@ let organizations = [];
 let isEditing = false;
 let editingId = null;
 let currentStatusFilter = 'all';
+window.currentStatusFilter = 'all'; // Expose to window for Excel export
 
 // SECURITY: HTML escaping function to prevent XSS attacks
 function escapeHtml(unsafe) {
@@ -49,11 +50,13 @@ async function loadOrganizations() {
     }
 
     organizations = data || [];
+    window.organizations = organizations; // Expose to window for Excel export
     renderOrganizations(organizations);
 }
 
 function setStatusFilter(status, chipElement) {
     currentStatusFilter = status;
+    window.currentStatusFilter = status; // Expose to window for Excel export
 
     // Update active chip
     document.querySelectorAll('.filter-chips .chip').forEach(chip => {
