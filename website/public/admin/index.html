@@ -83,6 +83,25 @@
         const sidebarToggle = document.getElementById('sidebarToggle');
         const dashboardContainer = document.querySelector('.dashboard-container');
 
+        // Restore sidebar state from localStorage on page load
+        function restoreSidebarState() {
+            const isMobile = window.innerWidth <= 768;
+            const savedState = localStorage.getItem('admin-sidebar-collapsed');
+            const toggleIcon = document.getElementById('toggleIcon');
+            const toggleLabel = sidebarToggle.querySelector('.label');
+
+            // Only apply saved state on desktop
+            if (!isMobile && savedState === 'true') {
+                dashboardContainer.classList.add('sidebar-collapsed');
+                toggleIcon.className = 'fa-solid fa-angles-right';
+                toggleLabel.textContent = 'Expand';
+                sidebarToggle.setAttribute('data-label', 'Expand');
+            }
+        }
+
+        // Call on page load
+        restoreSidebarState();
+
         function toggleSidebar(e) {
             e.preventDefault();
             const isMobile = window.innerWidth <= 768;
@@ -104,11 +123,15 @@
                     toggleIcon.className = 'fa-solid fa-angles-left';
                     toggleLabel.textContent = 'Collapse';
                     sidebarToggle.setAttribute('data-label', 'Collapse');
+                    // Save expanded state
+                    localStorage.setItem('admin-sidebar-collapsed', 'false');
                 } else {
                     dashboardContainer.classList.add('sidebar-collapsed');
                     toggleIcon.className = 'fa-solid fa-angles-right';
                     toggleLabel.textContent = 'Expand';
                     sidebarToggle.setAttribute('data-label', 'Expand');
+                    // Save collapsed state
+                    localStorage.setItem('admin-sidebar-collapsed', 'true');
                 }
             }
         }
