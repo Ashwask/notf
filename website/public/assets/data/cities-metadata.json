@@ -1,0 +1,399 @@
+{
+  "cities": [
+    {
+      "slug": "ahmedabad",
+      "name": "Ahmedabad",
+      "state": "Gujarat",
+      "population": 7700000,
+      "wardCount": 64,
+      "center": [23.0225, 72.5714],
+      "zoom": 11,
+      "primaryLanguage": "gu",
+      "languageName": "Gujarati",
+      "color": "#C45A2A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/ahmedabad-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "bengaluru",
+      "name": "Bengaluru",
+      "state": "Karnataka",
+      "population": 8400000,
+      "wardCount": 369,
+      "center": [12.9716, 77.5946],
+      "zoom": 11,
+      "primaryLanguage": "kn",
+      "languageName": "Kannada",
+      "color": "#2F4A2C",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/bengaluru-wards.geojson"
+        },
+        "communities": {
+          "available": true,
+          "count": 12
+        },
+        "providers": {
+          "available": true,
+          "count": 25
+        },
+        "climate": {
+          "available": true,
+          "sectorCount": 7
+        }
+      }
+    },
+    {
+      "slug": "bhubaneswar",
+      "name": "Bhubaneswar",
+      "state": "Odisha",
+      "population": 850000,
+      "wardCount": 67,
+      "center": [20.2961, 85.8245],
+      "zoom": 12,
+      "primaryLanguage": "or",
+      "languageName": "Odia",
+      "color": "#F5B82E",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/bhubaneswar-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "chennai",
+      "name": "Chennai",
+      "state": "Tamil Nadu",
+      "population": 7100000,
+      "wardCount": 200,
+      "center": [13.0827, 80.2707],
+      "zoom": 11,
+      "primaryLanguage": "ta",
+      "languageName": "Tamil",
+      "color": "#3F5F7A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/chennai-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "gurugram",
+      "name": "Gurugram",
+      "state": "Haryana",
+      "population": 1200000,
+      "wardCount": 56,
+      "center": [28.4595, 77.0266],
+      "zoom": 12,
+      "primaryLanguage": "hi",
+      "languageName": "Hindi",
+      "color": "#B9C98A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/gurugram-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "hyderabad",
+      "name": "Hyderabad",
+      "state": "Telangana",
+      "population": 7700000,
+      "wardCount": 150,
+      "center": [17.3850, 78.4867],
+      "zoom": 11,
+      "primaryLanguage": "te",
+      "languageName": "Telugu",
+      "color": "#2F4A2C",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/hyderabad-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "jaipur",
+      "name": "Jaipur",
+      "state": "Rajasthan",
+      "population": 3100000,
+      "wardCount": 150,
+      "center": [26.9124, 75.7873],
+      "zoom": 11,
+      "primaryLanguage": "hi",
+      "languageName": "Hindi",
+      "color": "#3F5F7A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/jaipur-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "kochi",
+      "name": "Kochi",
+      "state": "Kerala",
+      "population": 2100000,
+      "wardCount": 74,
+      "center": [9.9312, 76.2673],
+      "zoom": 12,
+      "primaryLanguage": "ml",
+      "languageName": "Malayalam",
+      "color": "#C45A2A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/kochi-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "kolkata",
+      "name": "Kolkata",
+      "state": "West Bengal",
+      "population": 4500000,
+      "wardCount": 144,
+      "center": [22.5726, 88.3639],
+      "zoom": 11,
+      "primaryLanguage": "bn",
+      "languageName": "Bengali",
+      "color": "#F5B82E",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/kolkata-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "mumbai",
+      "name": "Mumbai",
+      "state": "Maharashtra",
+      "population": 12400000,
+      "wardCount": 227,
+      "center": [19.0760, 72.8777],
+      "zoom": 11,
+      "primaryLanguage": "mr",
+      "languageName": "Marathi",
+      "color": "#B9C98A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/mumbai-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "pune",
+      "name": "Pune",
+      "state": "Maharashtra",
+      "population": 3100000,
+      "wardCount": 158,
+      "center": [18.5204, 73.8567],
+      "zoom": 11,
+      "primaryLanguage": "mr",
+      "languageName": "Marathi",
+      "color": "#3F5F7A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/pune-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "thane",
+      "name": "Thane",
+      "state": "Maharashtra",
+      "population": 1800000,
+      "wardCount": 135,
+      "center": [19.2183, 72.9781],
+      "zoom": 12,
+      "primaryLanguage": "mr",
+      "languageName": "Marathi",
+      "color": "#2F4A2C",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/thane-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    },
+    {
+      "slug": "visakhapatnam",
+      "name": "Visakhapatnam",
+      "state": "Andhra Pradesh",
+      "population": 2000000,
+      "wardCount": 98,
+      "center": [17.6869, 83.2185],
+      "zoom": 11,
+      "primaryLanguage": "te",
+      "languageName": "Telugu",
+      "color": "#C45A2A",
+      "features": {
+        "map": {
+          "available": true,
+          "boundaryFile": "/assets/data/boundaries/visakhapatnam-wards.geojson"
+        },
+        "communities": {
+          "available": false,
+          "count": 0
+        },
+        "providers": {
+          "available": false,
+          "count": 0
+        },
+        "climate": {
+          "available": false,
+          "expectedLaunch": "TBD"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "totalCities": 13,
+    "lastUpdated": "2026-01-20",
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bengaluru Climate Action Dashboard | NOTF</title>
+    <meta name="description" content="Track climate action progress across 7 sectors and 369 wards in Bengaluru based on the Bengaluru Climate Action Plan (BCAP).">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/i18n/language-selector.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* === CLIMATE DASHBOARD STYLES === */
+        .climate-hero {
+            background: var(--olive-green);
+            padding: var(--space-2xl) var(--space-md);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .climate-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: var(--forest-green);
+            opacity: 0.2;
+            border-radius: 50%;
+        }
+
+        .climate-hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .climate-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .climate-subtitle {
+            font-size: 18px;
+            color: var(--charcoal);
+            opacity: 0.9;
+            margin-bottom: var(--space-md);
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: var(--charcoal);
+            opacity: 0.8;
+            margin-bottom: var(--space-md);
+        }
+
+        .breadcrumb a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* === SECTOR CARDS === */
+        .sectors-section {
+            padding: var(--space-2xl) var(--space-md);
+            background: var(--color-bg);
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--space-xl);
+        }
+
+        .section-intro h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-intro p {
+            font-size: 16px;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+
+        .sector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sector-card {
+            background: var(--color-bg-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sector-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .sector-card.energy { border-color: var(--mustard-yellow); }
+        .sector-card.transport { border-color: var(--slate-blue); }
+        .sector-card.waste { border-color: var(--olive-green); }
+        .sector-card.air { border-color: var(--terracotta); }
+        .sector-card.water { border-color: var(--slate-blue); }
+        .sector-card.green { border-color: var(--forest-green); }
+        .sector-card.disaster { border-color: var(--charcoal); }
+
+        .sector-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .sector-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sector-card.energy .sector-icon { background: rgba(245, 184, 46, 0.15); }
+        .sector-card.transport .sector-icon { background: rgba(63, 95, 122, 0.15); }
+        .sector-card.waste .sector-icon { background: rgba(185, 201, 138, 0.15); }
+        .sector-card.air .sector-icon { background: rgba(196, 90, 42, 0.15); }
+        .sector-card.water .sector-icon { background: rgba(63, 95, 122, 0.15); }
+        .sector-card.green .sector-icon { background: rgba(47, 74, 44, 0.15); }
+        .sector-card.disaster .sector-icon { background: rgba(43, 43, 43, 0.15); }
+
+        .sector-icon i {
+            font-size: 28px;
+        }
+
+        .sector-card.energy .sector-icon i { color: var(--mustard-yellow); }
+        .sector-card.transport .sector-icon i { color: var(--slate-blue); }
+        .sector-card.waste .sector-icon i { color: var(--olive-green); }
+        .sector-card.air .sector-icon i { color: var(--terracotta); }
+        .sector-card.water .sector-icon i { color: var(--slate-blue); }
+        .sector-card.green .sector-icon i { color: var(--forest-green); }
+        .sector-card.disaster .sector-icon i { color: var(--charcoal); }
+
+        .sector-info h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .sector-info .sector-count {
+            font-size: 14px;
+            color: var(--color-text-light);
+        }
+
+        .sector-description {
+            font-size: 14px;
+            color: var(--color-text-light);
+            line-height: 1.5;
+            margin-bottom: var(--space-md);
+            flex: 1;
+        }
+
+        .sector-stats {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: var(--space-sm);
+            background: rgba(185, 201, 138, 0.08);
+            border-radius: var(--radius-sm);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--forest-green);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sector-action {
+            margin-top: auto;
+        }
+
+        .sector-action .btn {
+            width: 100%;
+            justify-content: center;
+            font-size: 14px;
+            padding: 10px 16px;
+        }
+
+        /* === DATA SOURCES === */
+        .data-sources {
+            background: var(--color-bg-white);
+            padding: var(--space-xl) var(--space-md);
+            margin-top: var(--space-2xl);
+        }
+
+        .data-sources-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .data-sources h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: var(--space-md);
+        }
+
+        .source-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .source-list li {
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid rgba(43, 43, 43, 0.1);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .source-list li:last-child {
+            border-bottom: none;
+        }
+
+        .source-list i {
+            color: var(--olive-green);
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--slate-blue);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(63, 95, 122, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">Neighbourhoods of the Future</span>
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/cities/bengaluru/" class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i> Bengaluru Hub
+                </a>
+                <a href="/cities/bengaluru/communities/">Communities</a>
+                <a href="/cities/bengaluru/solution-providers/">Providers</a>
+                <a href="/cities/bengaluru/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <i class="fa-solid fa-user-lock"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Climate Hero -->
+        <section class="climate-hero">
+            <div class="climate-hero-content">
+                <div class="breadcrumb">
+                    <a href="/">Home</a> / <a href="/cities/bengaluru/">Bengaluru</a> / Climate Dashboard
+                </div>
+                <h1>Bengaluru Climate Action Dashboard</h1>
+                <p class="climate-subtitle">Tracking progress across 7 sectors and 369 wards based on the Bengaluru Climate Action Plan (BCAP)</p>
+            </div>
+        </section>
+
+        <!-- Sector Cards -->
+        <section class="sectors-section">
+            <div class="section-intro">
+                <h2>Climate Action by Sector</h2>
+                <p>Explore targets, baselines, and ward-level progress across 7 key climate sectors in Bengaluru.</p>
+            </div>
+
+            <div class="sector-grid">
+                <!-- Energy & Buildings -->
+                <div class="sector-card energy">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Energy & Buildings</h3>
+                            <span class="sector-count">6 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Clean cooking fuel transition, energy-efficient appliances, green buildings, and renewable energy integration.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Clean Cooking by 2030</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">40%</div>
+                            <div class="stat-label">EE Appliances by 2030</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/energy/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Transportation -->
+                <div class="sector-card transport">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-bus"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Transportation</h3>
+                            <span class="sector-count">7 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Transit-oriented development, public transport, non-motorized transport, and electric vehicle transition.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">75%</div>
+                            <div class="stat-label">PT+NMT Share by 2030</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">TOD Households by 2050</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/transportation/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Solid Waste -->
+                <div class="sector-card waste">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-recycle"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Solid Waste</h3>
+                            <span class="sector-count">6 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Waste segregation, landfill diversion, recycling rates, and waste-to-energy systems.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Segregation by 2025</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">90%</div>
+                            <div class="stat-label">Diversion by 2050</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/waste/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Air Quality -->
+                <div class="sector-card air">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-wind"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Air Quality</h3>
+                            <span class="sector-count">4 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        PM10 and PM2.5 reduction, indoor air quality standards, and continuous air quality monitoring.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">40%</div>
+                            <div class="stat-label">PM10 Reduction by 2026</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">30%</div>
+                            <div class="stat-label">PM2.5 Reduction by 2026</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/air-quality/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Water -->
+                <div class="sector-card water">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Water & Wastewater</h3>
+                            <span class="sector-count">8 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Universal water access, non-revenue water reduction, wastewater reuse, and permeable surfaces.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">50%</div>
+                            <div class="stat-label">WW Reuse by 2030</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">15%</div>
+                            <div class="stat-label">NRW by 2050</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/water/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Greening & Biodiversity -->
+                <div class="sector-card green">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-tree"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Greening & Biodiversity</h3>
+                            <span class="sector-count">5 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Urban planning with climate lens, blue-green network conservation, and affordable housing with transit access.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Blue-Green Network Conservation</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/greening/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Disaster Management -->
+                <div class="sector-card disaster">
+                    <div class="sector-header">
+                        <div class="sector-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="sector-info">
+                            <h3>Disaster Management</h3>
+                            <span class="sector-count">4 Targets</span>
+                        </div>
+                    </div>
+                    <p class="sector-description">
+                        Hazard database, comprehensive disaster management plans, empowered ward committees, and risk reduction.
+                    </p>
+                    <div class="sector-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">Ongoing</div>
+                            <div class="stat-label">Ward Committee Empowerment</div>
+                        </div>
+                    </div>
+                    <div class="sector-action">
+                        <a href="/cities/bengaluru/climate/disaster/" class="btn btn-primary">
+                            View Details <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Sources -->
+        <section class="data-sources">
+            <div class="data-sources-content">
+                <h3>Data Sources & Methodology</h3>
+                <ul class="source-list">
+                    <li>
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span><strong>BCAP Sector Actions (April 2024)</strong> - BBMP / WRI India</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-map"></i>
+                        <span><strong>Ward Boundaries (December 2025)</strong> - Greater Bengaluru Authority</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-users"></i>
+                        <span><strong>Census 2011</strong> - Government of India (projected to 2026)</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-bolt"></i>
+                        <span><strong>BESCOM Annual Reports</strong> - Bangalore Electricity Supply Company</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-book"></i>
+                        <span><strong>India Residential Energy Survey (IRES) 2020</strong> - CEEW</span>
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-calendar"></i>
+                        <span><strong>Last Updated:</strong> January 20, 2026</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+
+    <!-- Language Selector (English + Kannada only) -->
+    <script src="/assets/i18n/language-selector.js"></script>
+</body>
+</html>

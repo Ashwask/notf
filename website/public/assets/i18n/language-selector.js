@@ -1,13 +1,86 @@
 /**
  * Language Selector Component
  * Creates and manages the language dropdown UI
+ * Supports city-specific language filtering
  */
 
-function createLanguageSelector() {
+let citiesMetadata = null;
+
+/**
+ * Load cities metadata to get language mappings
+ */
+async function loadCitiesMetadata() {
+    if (citiesMetadata) return citiesMetadata;
+
+    try {
+        const response = await fetch('/assets/data/cities-metadata.json');
+        citiesMetadata = await response.json();
+        return citiesMetadata;
+    } catch (error) {
+        console.error('Error loading cities metadata:', error);
+        return null;
+    }
+}
+
+/**
+ * Detect current city from URL path
+ * @returns {string|null} - City slug or null if not on city page
+ */
+function getCurrentCity() {
+    const path = window.location.pathname;
+    const match = path.match(/^\/cities\/([^\/]+)/);
+    return match ? match[1] : null;
+}
+
+/**
+ * Get filtered languages based on current context
+ * - Homepage (/): Show all 11 languages
+ * - City pages (/cities/[city]/): Show only English + city's primary language
+ * @returns {Array} - Filtered array of language objects
+ */
+async function getAvailableLanguages() {
+    const allLanguages = window.translator.getLanguages();
+    const currentCity = getCurrentCity();
+
+    // Homepage: show all languages
+    if (!currentCity) {
+        return allLanguages;
+    }
+
+    // City pages: show English + city's primary language
+    const metadata = await loadCitiesMetadata();
+    if (!metadata) {
+        // Fallback to all languages if metadata fails to load
+        return allLanguages;
+    }
+
+    const cityData = metadata.cities.find(c => c.slug === currentCity);
+    if (!cityData || !cityData.primaryLanguage) {
+        // Fallback to English only if city not found
+        return allLanguages.filter(lang => lang.code === 'en');
+    }
+
+    // Return English + city's primary language
+    const primaryLangCode = cityData.primaryLanguage;
+    return allLanguages.filter(lang =>
+        lang.code === 'en' || lang.code === primaryLangCode
+    );
+}
+
+/**
+ * Create language selector UI
+ */
+async function createLanguageSelector() {
     const container = document.createElement('div');
     container.className = 'language-selector';
 
     const currentLang = window.translator.getCurrentLanguage();
+    const availableLanguages = await getAvailableLanguages();
+
+    // If current language is not in available languages, switch to English
+    if (!availableLanguages.find(lang => lang.code === currentLang.code)) {
+        await window.translator.setLanguage('en');
+    }
 
     container.innerHTML = `
         <button class="language-selector-button" aria-label="Select language" aria-expanded="false">
@@ -18,7 +91,7 @@ function createLanguageSelector() {
         <div class="language-dropdown">
             <div class="language-dropdown-header">Choose Language</div>
             <div class="language-options">
-                ${window.translator.getLanguages().map(lang => `
+                ${availableLanguages.map(lang => `
                     <button
                         class="language-option ${lang.code === currentLang.code ? 'active' : ''}"
                         data-lang="${lang.code}"
@@ -82,7 +155,7 @@ async function switchLanguage(langCode) {
 /**
  * Add language selector to navigation
  */
-function initLanguageSelector() {
+async function initLanguageSelector() {
     // Find navigation menu
     const navMenu = document.querySelector('.nav-menu');
     if (!navMenu) {
@@ -91,7 +164,7 @@ function initLanguageSelector() {
     }
 
     // Create and add language selector before admin link
-    const languageSelector = createLanguageSelector();
+    const languageSelector = await createLanguageSelector();
     const adminLink = navMenu.querySelector('.admin-link');
 
     if (adminLink) {
@@ -100,7 +173,12 @@ function initLanguageSelector() {
         navMenu.appendChild(languageSelector);
     }
 
-    console.log('✅ Language selector added to navigation');
+    const currentCity = getCurrentCity();
+    if (currentCity) {
+        console.log(`✅ Language selector added (city mode: ${currentCity})`);
+    } else {
+        console.log('✅ Language selector added (all languages mode)');
+    }
 }
 
 // Initialize when DOM is ready

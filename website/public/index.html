@@ -4,11 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighbourhoods of the Future | NOTF</title>
+    <meta name="description" content="Building connected, resilient neighbourhoods across India. Explore 13 cities with ward-level data, community networks, and climate action tracking.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/chat/chat.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
+    <style>
+        /* === CITY SELECTOR CARDS === */
+        .city-selector-section {
+            padding: var(--space-2xl) var(--space-md);
+            background: var(--color-bg);
+        }
+
+        .city-selector-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--space-xl);
+        }
+
+        .city-selector-intro h2 {
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .city-selector-intro p {
+            font-size: 18px;
+            color: var(--color-text-light);
+            line-height: 1.6;
+        }
+
+        .city-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-lg);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .city-selector-card {
+            background: var(--color-bg-white);
+            border: 2px solid var(--slate-blue);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            min-height: 360px;
+        }
+
+        .city-selector-card:hover {
+            border-color: var(--terracotta);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .city-card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .city-icon {
+            width: 60px;
+            height: 60px;
+            background: #FAF6E8;  /* Warm cream like city pages */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .city-icon i {
+            font-size: 28px;
+            /* Color set dynamically per city */
+        }
+
+        .city-info {
+            flex: 1;
+        }
+
+        .city-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 4px;
+        }
+
+        .city-state {
+            font-size: 14px;
+            color: var(--color-text-light);
+        }
+
+        .city-meta {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: rgba(185, 201, 138, 0.15);
+            color: var(--forest-green);
+            padding: 4px 12px;
+            border-radius: var(--radius-xl);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .city-features {
+            flex: 1;
+            margin-bottom: var(--space-md);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .feature-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .feature-item.available {
+            color: var(--forest-green);
+        }
+
+        .feature-item.available i {
+            color: var(--olive-green);
+        }
+
+        .feature-item.coming-soon {
+            color: var(--color-text-lighter);
+            font-style: italic;
+        }
+
+        .feature-item.coming-soon i {
+            color: var(--mustard-yellow);
+        }
+
+        .city-cta {
+            margin-top: auto;
+        }
+
+        .city-cta .btn {
+            width: 100%;
+            justify-content: center;
+            background: var(--forest-green);
+            color: var(--warm-cream);
+        }
+
+        .city-cta .btn:hover {
+            background: var(--forest-green-dark);
+        }
+
+        /* === NETWORK STATS (Updated) === */
+        .network-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            max-width: 1000px;
+            margin: var(--space-xl) auto;
+            padding: 0 var(--space-md);
+        }
+
+        .network-stat {
+            text-align: center;
+            padding: var(--space-md);
+        }
+
+        .network-stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--slate-blue);
+            margin-bottom: 8px;
+        }
+
+        .network-stat-label {
+            font-size: 14px;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -27,10 +215,6 @@
             </button>
 
             <div class="nav-menu" id="navMenu">
-                <a href="/" data-i18n="nav.home">Home</a>
-                <a href="/communities/" data-i18n="nav.communities">Communities</a>
-                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
-                <a href="/map/" data-i18n="nav.map">Map</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -40,144 +224,164 @@
     </header>
 
     <main>
-            <!-- Hero Section -->
-            <section class="hero">
-                <div class="hero-content">
-                    <h1 data-i18n="hero.title">Building Connected, Resilient Neighbourhoods</h1>
-                    <p class="hero-subtitle" data-i18n="hero.subtitle">Join a network of communities and organizations transforming neighbourhoods through collaboration and shared resources.</p>
-                    <div class="hero-cta">
-                        <a href="/admin/login.html" class="btn btn-primary-large"><i class="fa-solid fa-user-lock"></i> <span data-i18n="hero.adminLogin">Admin Login</span></a>
-                        <a href="/join/" class="btn btn-secondary" data-i18n="hero.joinNetwork">Join the Network</a>
+        <!-- Hero Section (PRESERVED COLORS) -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 data-i18n="hero.title">Building Connected, Resilient Neighbourhoods Across India</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Explore community networks, ward-level data, and climate action tracking across 13 Indian cities.</p>
+                <div class="hero-cta">
+                    <a href="#cities" class="btn btn-primary-large">
+                        <i class="fa-solid fa-city"></i>
+                        <span data-i18n="hero.exploreButton">Explore Cities</span>
+                    </a>
+                    <a href="/join/" class="btn btn-secondary" data-i18n="hero.joinNetwork">Join the Network</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats (Updated with network-wide stats) -->
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="cityCount">13</div>
+                <div class="stat-label" data-i18n="stats.cities">Cities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="wardCount">-</div>
+                <div class="stat-label" data-i18n="stats.wards">Wards Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="commCount">-</div>
+                <div class="stat-label" data-i18n="stats.communities">Communities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="providerCount">-</div>
+                <div class="stat-label" data-i18n="stats.providers">Solution Providers</div>
+            </div>
+        </section>
+
+        <!-- City Selector Section -->
+        <section class="city-selector-section" id="cities">
+            <div class="city-selector-intro">
+                <h2 data-i18n="citySelector.title">Select Your City</h2>
+                <p data-i18n="citySelector.subtitle">Choose a city to explore community networks, ward-level maps, and local initiatives.</p>
+            </div>
+
+            <div class="city-grid" id="cityGrid">
+                <!-- City cards will be dynamically loaded here -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 48px; color: var(--olive-green);"></i>
+                    <p style="margin-top: var(--space-md); color: var(--color-text-light);" data-i18n="common.loading">Loading cities...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How NOTF Works -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title" data-i18n="features.title">How NOTF Works</h2>
+                <p class="section-subtitle" data-i18n="features.subtitle">Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-house-user"></i></div>
+                        <h3 data-i18n="features.community.title">Community Directory</h3>
+                        <p data-i18n="features.community.description" data-i18n-params='{"count":"<span id=\"dirCommCount\">-</span>"}'>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
+                        <a href="#cities" class="feature-link" data-i18n="features.community.link">Browse Communities →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-building"></i></div>
+                        <h3 data-i18n="features.providers.title">Providers Directory</h3>
+                        <p data-i18n="features.providers.description" data-i18n-params='{"count":"<span id=\"orgNetCount\">-</span>"}'>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
+                        <a href="#cities" class="feature-link" data-i18n="features.providers.link">View Providers →</a>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                        <h3 data-i18n="features.map.title">Interactive Map</h3>
+                        <p data-i18n="features.map.description" data-i18n-params='{"count":"<span id=\"mapCommCount\">-</span>"}'>Visualize all <span id="mapCommCount">-</span> communities and wards across Indian cities. Discover neighbours and find local initiatives.</p>
+                        <a href="#cities" class="feature-link" data-i18n="features.map.link">View Map →</a>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Stats -->
-            <section class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="orgCount">-</div>
-                    <div class="stat-label" data-i18n="stats.organizations">Organizations</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="commCount">-</div>
-                    <div class="stat-label" data-i18n="stats.communities">Communities</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100+</div>
-                    <div class="stat-label" data-i18n="stats.collaborations">Active Collaborations</div>
-                </div>
-            </section>
+        <!-- Join the Movement -->
+        <section class="cities">
+            <div class="container">
+                <h2 class="section-title" data-i18n="join.title">Join the Movement</h2>
+                <p class="section-subtitle" data-i18n="join.subtitle">Three simple steps to start transforming your neighbourhood</p>
 
-            <!-- Features -->
-            <section class="features">
-                <div class="container">
-                    <h2 class="section-title" data-i18n="features.title">How NOTF Works</h2>
-                    <p class="section-subtitle" data-i18n="features.subtitle">Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources</p>
+                <div class="cities-grid">
+                    <div class="city-card">
+                        <h3 data-i18n="join.step1.title">1. Register</h3>
+                        <p data-i18n="join.step1.description">Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
+                        <a href="/join/" class="feature-link" data-i18n="join.step1.link">Get Started →</a>
+                    </div>
 
-                    <div class="feature-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-house-user"></i></div>
-                            <h3 data-i18n="features.community.title">Community Directory</h3>
-                            <p data-i18n="features.community.description" data-i18n-params='{"count":"<span id=\"dirCommCount\">-</span>"}'>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
-                            <a href="/communities/" class="feature-link" data-i18n="features.community.link">Browse Communities →</a>
-                        </div>
+                    <div class="city-card">
+                        <h3 data-i18n="join.step2.title">2. Connect</h3>
+                        <p data-i18n="join.step2.description">Get matched with communities and organizations that align with your needs and offers.</p>
+                    </div>
 
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-building"></i></div>
-                            <h3 data-i18n="features.providers.title">Providers Directory</h3>
-                            <p data-i18n="features.providers.description" data-i18n-params='{"count":"<span id=\"orgNetCount\">-</span>"}'>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
-                            <a href="/solution-providers/" class="feature-link" data-i18n="features.providers.link">View Providers →</a>
-                        </div>
-
-                        <div class="feature-card">
-                            <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                            <h3 data-i18n="features.map.title">Interactive Map</h3>
-                            <p data-i18n="features.map.description" data-i18n-params='{"count":"<span id=\"mapCommCount\">-</span>"}'>Visualize all <span id="mapCommCount">-</span> communities across Bengaluru. Discover neighbours and find local initiatives.</p>
-                            <a href="/map/" class="feature-link" data-i18n="features.map.link">View Map →</a>
-                        </div>
+                    <div class="city-card">
+                        <h3 data-i18n="join.step3.title">3. Collaborate</h3>
+                        <p data-i18n="join.step3.description">Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
+                        <a href="/join/" class="feature-link" data-i18n="join.step3.link">Join Network →</a>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Cities -->
-            <section class="cities">
-                <div class="container">
-                    <h2 class="section-title" data-i18n="join.title">Join the Movement</h2>
-                    <p class="section-subtitle" data-i18n="join.subtitle">Three simple steps to start transforming your neighbourhood</p>
-
-                    <div class="cities-grid">
-                        <div class="city-card">
-                            <h3 data-i18n="join.step1.title">1. Register</h3>
-                            <p data-i18n="join.step1.description">Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
-                            <a href="/join/" class="feature-link" data-i18n="join.step1.link">Get Started →</a>
-                        </div>
-
-                        <div class="city-card">
-                            <h3 data-i18n="join.step2.title">2. Connect</h3>
-                            <p data-i18n="join.step2.description">Get matched with communities and organizations that align with your needs and offers.</p>
-                        </div>
-
-                        <div class="city-card">
-                            <h3 data-i18n="join.step3.title">3. Collaborate</h3>
-                            <p data-i18n="join.step3.description">Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
-                            <a href="/join/" class="feature-link" data-i18n="join.step3.link">Join Network →</a>
-                        </div>
-                    </div>
+        <!-- CTA Section (PRESERVED COLORS) -->
+        <section class="cta-section">
+            <div class="container">
+                <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
+                <p data-i18n="cta.subtitle" data-i18n-html="true">Join communities and organizations building a better future together.</p>
+                <div class="cta-center">
+                    <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- CTA Section -->
-            <section class="cta-section">
-                <div class="container">
-                    <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
-                    <p data-i18n="cta.subtitle" data-i18n-params='{"orgCount":"<span id=\"ctaOrgCount\">-</span>","commCount":"<span id=\"ctaCommCount\">-</span>"}'>Join <span id="ctaOrgCount">-</span>+ organizations and <span id="ctaCommCount">-</span> communities building a better future together.</p>
-                    <div class="cta-center">
-                        <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
-                    </div>
+        <!-- Chatbot Widget -->
+        <button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <div id="notf-chatbot" class="chat-widget">
+            <div class="chat-header">
+                <div class="chat-header-title">
+                    <i class="fa-solid fa-robot"></i>
+                    <span class="chat-mode-title" data-i18n="chatbot.title">NOTF Assistant</span>
                 </div>
-            </section>
-
-            <!-- Chatbot Widget -->
-            <!-- Floating Action Button (shows when minimized) -->
-            <button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">
-                <i class="fa-solid fa-comments"></i>
-            </button>
-
-            <!-- Chat Window -->
-            <div id="notf-chatbot" class="chat-widget">
-                <div class="chat-header">
-                    <div class="chat-header-title">
-                        <i class="fa-solid fa-robot"></i>
-                        <span class="chat-mode-title" data-i18n="chatbot.title">NOTF Assistant</span>
-                    </div>
-                    <div class="chat-header-actions">
-                        <button class="chat-switch-mode-button hidden" aria-label="Switch mode" title="Switch between Discovery and Complaint modes">
-                            <i class="fa-solid fa-repeat"></i>
-                        </button>
-                        <button class="chat-close-button" data-i18n-aria="common.close" aria-label="Close chat">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="chat-messages">
-
-                </div>
-
-                <div class="chat-input">
-                    <textarea
-                        class="chat-input-field"
-                        placeholder="Type your message..."
-                        rows="1"
-                        aria-label="Chat message input"
-                    ></textarea>
-                    <button class="chat-send-button" aria-label="Send message">
-                        <i class="fa-solid fa-paper-plane"></i>
+                <div class="chat-header-actions">
+                    <button class="chat-switch-mode-button hidden" aria-label="Switch mode">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                    <button class="chat-close-button" data-i18n-aria="common.close" aria-label="Close chat">
+                        <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
             </div>
+
+            <div class="chat-messages"></div>
+
+            <div class="chat-input">
+                <textarea
+                    class="chat-input-field"
+                    placeholder="Type your message..."
+                    rows="1"
+                    aria-label="Chat message input"
+                ></textarea>
+                <button class="chat-send-button" aria-label="Send message">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
     </main>
 
+    <!-- Footer (PRESERVED COLORS) -->
     <footer>
         <p>
             <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
@@ -219,49 +423,163 @@
     <!-- i18n Translation System -->
     <script src="/assets/i18n/translator.js"></script>
 
-    <!-- Load Supabase and data -->
+    <!-- Load Cities Data -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
     <script>
-        // Load counts for stats and populate chatbot data
+        // Load cities and render cards
+        let citiesData = [];
+
+        async function loadCities() {
+            try {
+                const response = await fetch('/assets/data/cities-metadata.json');
+                citiesData = await response.json();
+                renderCityCards(citiesData.cities);
+                calculateNetworkStats(citiesData.cities);
+            } catch (error) {
+                console.error('Error loading cities:', error);
+                document.getElementById('cityGrid').innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
+                        <p style="color: var(--terracotta);">Error loading cities. Please refresh the page.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCityCards(cities) {
+            const grid = document.getElementById('cityGrid');
+            grid.innerHTML = cities.map(city => `
+                <div class="city-selector-card" data-city="${city.slug}">
+                    <div class="city-card-header">
+                        <div class="city-icon">
+                            <i class="fa-solid fa-city" style="color: ${city.color || '#2F4A2C'}"></i>
+                        </div>
+                        <div class="city-info">
+                            <div class="city-name">${city.name}</div>
+                            <div class="city-state">${city.state}</div>
+                        </div>
+                    </div>
+
+                    <div class="city-meta">
+                        <span class="meta-badge">
+                            <i class="fa-solid fa-map-pin"></i> <span class="ward-count">${city.wardCount}</span> <span data-i18n="stats.wards">Wards</span>
+                        </span>
+                        <span class="meta-badge">
+                            <i class="fa-solid fa-users"></i> ${(city.population / 1000000).toFixed(1)}M
+                        </span>
+                    </div>
+
+                    <div class="city-features">
+                        <div class="feature-item ${city.features.map.available ? 'available' : 'coming-soon'}">
+                            <i class="fa-solid fa-map"></i>
+                            <span data-i18n="${city.features.map.available ? 'citySelector.wardMap' : 'citySelector.mapComingSoon'}">${city.features.map.available ? 'Ward Map' : 'Map (Coming Soon)'}</span>
+                        </div>
+                        <div class="feature-item ${city.features.communities.available ? 'available' : 'coming-soon'}">
+                            <i class="fa-solid fa-house-user"></i>
+                            <span>${city.features.communities.available ? `${city.features.communities.count} ` : ''}<span data-i18n="${city.features.communities.available ? 'stats.communities' : 'citySelector.communitiesComingSoon'}">${city.features.communities.available ? 'Communities' : 'Communities (Coming Soon)'}</span></span>
+                        </div>
+                        <div class="feature-item ${city.features.providers.available ? 'available' : 'coming-soon'}">
+                            <i class="fa-solid fa-building"></i>
+                            <span>${city.features.providers.available ? `${city.features.providers.count} ` : ''}<span data-i18n="${city.features.providers.available ? 'stats.providers' : 'citySelector.providersComingSoon'}">${city.features.providers.available ? 'Providers' : 'Providers (Coming Soon)'}</span></span>
+                        </div>
+                        <div class="feature-item ${city.features.climate.available ? 'available' : 'coming-soon'}">
+                            <i class="fa-solid fa-leaf"></i>
+                            <span data-i18n="${city.features.climate.available ? 'citySelector.climateDashboard' : 'citySelector.climateComingSoon'}">${city.features.climate.available ? 'Climate Dashboard' : 'Climate (Coming Soon)'}</span>
+                        </div>
+                    </div>
+
+                    <div class="city-cta">
+                        <a href="/cities/${city.slug}/" class="btn" style="background-color: ${city.color || '#2F4A2C'}; color: #FAF6E8; border: none;">
+                            <span data-i18n="citySelector.explore">Explore</span> ${city.name} <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-translate the newly added content
+            if (window.translator) {
+                window.translator.translatePage();
+            }
+        }
+
+        function calculateNetworkStats(cities) {
+            const totalWards = cities.reduce((sum, city) => sum + city.wardCount, 0);
+            const totalCommunities = cities.reduce((sum, city) => sum + (city.features.communities.count || 0), 0);
+            const totalProviders = cities.reduce((sum, city) => sum + (city.features.providers.count || 0), 0);
+
+            // Update stat cards with safety checks
+            const wardCountEl = document.getElementById('wardCount');
+            const commCountEl = document.getElementById('commCount');
+            const providerCountEl = document.getElementById('providerCount');
+
+            if (wardCountEl) wardCountEl.textContent = totalWards.toLocaleString();
+            if (commCountEl) commCountEl.textContent = totalCommunities;
+            if (providerCountEl) providerCountEl.textContent = totalProviders;
+
+            // Also update feature cards with safety checks
+            const dirCommCountEl = document.getElementById('dirCommCount');
+            const orgNetCountEl = document.getElementById('orgNetCount');
+            const mapCommCountEl = document.getElementById('mapCommCount');
+
+            if (dirCommCountEl) dirCommCountEl.textContent = totalCommunities;
+            if (orgNetCountEl) orgNetCountEl.textContent = totalProviders;
+            if (mapCommCountEl) mapCommCountEl.textContent = totalCommunities;
+
+            // Update CTA subtitle with dynamic values after translator is ready
+            // Set the params attribute and retranslate the element
+            function updateCTASubtitle() {
+                const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
+                if (ctaElement && window.translator && window.translator.currentLanguage) {
+                    try {
+                        // Update the params attribute
+                        ctaElement.setAttribute('data-i18n-params', JSON.stringify({
+                            orgCount: totalProviders,
+                            commCount: totalCommunities
+                        }));
+
+                        // Re-translate this specific element with the new params
+                        const translatedText = window.translator.t('cta.subtitle', {
+                            orgCount: totalProviders,
+                            commCount: totalCommunities
+                        });
+                        ctaElement.innerHTML = translatedText;
+                    } catch (error) {
+                        console.warn('Failed to update CTA subtitle:', error);
+                        // Retry after a delay
+                        setTimeout(updateCTASubtitle, 200);
+                    }
+                } else {
+                    // Retry if translator not ready yet
+                    setTimeout(updateCTASubtitle, 200);
+                }
+            }
+
+            // Delay the update to ensure translator is initialized
+            setTimeout(updateCTASubtitle, 500);
+        }
+
+        // Load cities on page load
+        loadCities();
+
+        // Make data available to chatbot (cross-city queries)
         (async function() {
             try {
-                console.log('[Data Loader] Starting data load...');
                 await dataLoader.waitForSupabase();
-                console.log('[Data Loader] Supabase ready, loading communities...');
-
                 const [communities, providers] = await Promise.all([
                     dataLoader.loadCommunities(),
                     dataLoader.loadSolutionProviders()
                 ]);
 
-                console.log('[Data Loader] Loaded', communities.length, 'communities and', providers.length, 'providers');
-
-                const orgCount = providers.length;
-                const commCount = communities.length;
-
-                document.getElementById('orgCount').textContent = orgCount;
-                document.getElementById('commCount').textContent = commCount;
-                document.getElementById('mapCommCount').textContent = commCount;
-                document.getElementById('dirCommCount').textContent = commCount;
-                document.getElementById('orgNetCount').textContent = orgCount;
-                document.getElementById('ctaOrgCount').textContent = orgCount;
-                document.getElementById('ctaCommCount').textContent = commCount;
-
-                // Make data available to chatbot
                 window.notfData = {
                     communities: communities,
-                    members: providers
+                    members: providers,
+                    cities: citiesData.cities || []
                 };
 
-                console.log('[Data Loader] window.notfData populated successfully');
+                console.log('[Data Loader] Cross-city data loaded for chatbot');
             } catch (error) {
                 console.error('[Data Loader] Error loading data:', error);
-                // Still set window.notfData to empty arrays so chatbot doesn't hang
-                window.notfData = {
-                    communities: [],
-                    members: []
-                };
+                window.notfData = { communities: [], members: [], cities: [] };
             }
         })();
     </script>
@@ -279,7 +597,7 @@
     <script src="/assets/chat/notf-cms-api.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>
 
-    <!-- Language Selector -->
+    <!-- Language Selector (All 11 languages on homepage) -->
     <script src="/assets/i18n/language-selector.js"></script>
 </body>
 </html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bengaluru Communities | NOTF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/i18n/language-selector.css">
+    <style>
+        /* Breadcrumb styles */
+        .breadcrumb {
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: #2F4A2C;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #253B23;
+            text-decoration: underline;
+        }
+
+        .breadcrumb .separator {
+            margin: 0 0.5rem;
+            color: #999;
+        }
+
+        .breadcrumb .current {
+            color: #666;
+        }
+
+        /* Hero section with city header */
+        .city-hero {
+            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 1.25rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .city-hero h1 {
+            margin: 0 0 0.5rem 0;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .city-hero p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+
+        /* City navigation bar */
+        .city-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .city-nav a {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #2F4A2C;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .city-nav a:hover {
+            background: rgba(47, 74, 44, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .city-nav a.active {
+            background: #2F4A2C;
+            color: white;
+        }
+
+        .communities-table {
+            background: white;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #2F4A2C;
+            border-bottom: none;
+        }
+
+        th {
+            padding: 1.25rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        th.sortable::after {
+            content: ' ⇅';
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
+        th.sorted-asc::after {
+            content: ' ↑';
+            color: #F5B82E;
+        }
+
+        th.sorted-desc::after {
+            content: ' ↓';
+            color: #F5B82E;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .themes-cell {
+            max-width: 300px;
+        }
+
+        .theme-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(91, 192, 195, 0.15) 0%, rgba(185, 201, 138, 0.25) 100%);
+            color: #253B23;
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            margin: 0.15rem;
+            font-weight: 500;
+            border: 1px solid rgba(185, 201, 138, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .theme-tag:hover {
+            background: linear-gradient(135deg, rgba(91, 192, 195, 0.25) 0%, rgba(35, 162, 165, 0.25) 100%);
+            transform: translateY(-1px);
+        }
+
+        .count-badge {
+            display: inline-block;
+            background: #2F4A2C;
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(35, 162, 165, 0.3);
+        }
+
+        .count-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(35, 162, 165, 0.4);
+        }
+
+        .view-details-btn {
+            color: #2F4A2C;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-details-btn:hover {
+            color: #253B23;
+            gap: 0.5rem;
+        }
+
+        .name-link {
+            color: #2F4A2C;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .name-link:hover {
+            color: #253B23;
+            text-decoration: underline;
+        }
+
+        .name-link strong {
+            font-weight: 600;
+        }
+
+        .empty-state {
+            padding: 3rem;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 1.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .modal-header {
+            padding: 2rem;
+            background: #2F4A2C;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: white;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section h3 {
+            margin: 0 0 0.75rem 0;
+            background: #2F4A2C;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .modal-section p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .modal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.5rem 0;
+        }
+
+        .modal-list li {
+            padding: 0.5rem;
+            background: #f8f9fa;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            border-left: 3px solid #B9C98A;
+        }
+
+        /* CTA Card Styles */
+        .community-cta-card {
+            background: rgba(185, 201, 138, 0.08);
+            border: 2px solid rgba(185, 201, 138, 0.2);
+            border-radius: 1.5rem;
+            margin-top: 3rem;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(185, 201, 138, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .community-cta-card:hover {
+            box-shadow: 0 12px 48px rgba(35, 162, 165, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .cta-card-header {
+            text-align: center;
+            padding: 3rem 2rem 2rem 2rem;
+            background: #2F4A2C;
+            color: white;
+            position: relative;
+        }
+
+        .cta-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .cta-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .cta-card-header h2 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .cta-subtitle {
+            margin: 0;
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-card-body {
+            padding: 2.5rem 2rem;
+            background: white;
+        }
+
+        .cta-card-body h3 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2F4A2C;
+            text-align: center;
+        }
+
+        .community-benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .community-benefit {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: rgba(185, 201, 138, 0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(185, 201, 138, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .community-benefit:hover {
+            background: rgba(185, 201, 138, 0.25);
+            transform: translateX(4px);
+            border-color: rgba(35, 162, 165, 0.4);
+        }
+
+        .community-benefit i {
+            font-size: 1.75rem;
+            color: #2F4A2C;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .community-benefit span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .cta-card-footer {
+            padding: 2.5rem 2rem;
+            background: rgba(185, 201, 138, 0.08);
+            text-align: center;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            background: #2F4A2C;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(35, 162, 165, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: #253B23;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px rgba(35, 162, 165, 0.5);
+        }
+
+        .cta-btn i {
+            font-size: 1.2rem;
+        }
+
+        .cta-email {
+            margin-top: 1.25rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .cta-note {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .cta-note a {
+            color: #2F4A2C;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .cta-note a:hover {
+            color: #253B23;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .city-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .city-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .city-nav a {
+                justify-content: center;
+            }
+
+            .communities-table {
+                overflow-x: scroll;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .themes-cell {
+                max-width: 150px;
+            }
+
+            .cta-card-header {
+                padding: 2rem 1.5rem 1.5rem 1.5rem;
+            }
+
+            .cta-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cta-icon i {
+                font-size: 2rem;
+            }
+
+            .cta-card-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-subtitle {
+                font-size: 1rem;
+            }
+
+            .community-benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-btn {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/chat/chat.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
+                    <span class="nav-title">Neighbourhoods of the Future</span>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
+                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin">
+                    <i class="fa-solid fa-user-lock"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-container">
+            <section class="content">
+                <!-- Breadcrumb Navigation -->
+                <nav class="breadcrumb">
+                    <a href="/">Home</a>
+                    <span class="separator">›</span>
+                    <a href="/cities/bengaluru/">Bengaluru</a>
+                    <span class="separator">›</span>
+                    <span class="current">Communities</span>
+                </nav>
+
+                <!-- City Hero Section -->
+                <div class="city-hero">
+                    <h1><i class="fa-solid fa-house-user"></i> Bengaluru Communities</h1>
+                    <p>Discover community-led initiatives transforming Bengaluru's neighbourhoods</p>
+                </div>
+
+                <!-- City Navigation -->
+                <nav class="city-nav">
+                    <a href="/cities/bengaluru/">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Bengaluru
+                    </a>
+                    <a href="/cities/bengaluru/communities/" class="active">
+                        <i class="fa-solid fa-house-user"></i> Communities
+                    </a>
+                    <a href="/cities/bengaluru/solution-providers/">
+                        <i class="fa-solid fa-briefcase"></i> Solution Providers
+                    </a>
+                    <a href="/cities/bengaluru/map/">
+                        <i class="fa-solid fa-map-marked-alt"></i> Map
+                    </a>
+                    <a href="/cities/bengaluru/climate/">
+                        <i class="fa-solid fa-leaf"></i> Climate
+                    </a>
+                </nav>
+
+                <h2><span data-i18n="communities.title">Active Communities</span> <span id="communityCount" style="font-size: 0.6em; color: #B9C98A; font-weight: 600;">(0)</span></h2>
+                <p class="lead" data-i18n="communities.lead">NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.</p>
+
+                <div class="communities-table">
+                    <table id="communitiesTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="name" data-i18n="communities.tableHeaders.name">Name</th>
+                                <th class="sortable" data-sort="neighborhood" data-i18n="communities.tableHeaders.neighborhood">Neighborhood</th>
+                                <th class="sortable" data-sort="themes" data-i18n="communities.tableHeaders.themes">Themes</th>
+                                <th class="sortable" data-sort="offers" data-i18n="communities.tableHeaders.offers">Offers</th>
+                                <th class="sortable" data-sort="asks" data-i18n="communities.tableHeaders.asks">Asks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="5" class="empty-state" data-i18n="communities.loadingCommunities">Loading communities...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <section class="community-cta-card">
+                    <div class="cta-card-header">
+                        <div class="cta-icon">
+                            <i class="fa-solid fa-house-user"></i>
+                        </div>
+                        <h2 data-i18n="communities.cta.title">Start in Your Neighborhood</h2>
+                        <p class="cta-subtitle" data-i18n="communities.cta.subtitle">Bring NOTF to your community and join a network of neighbourhoods transforming their futures together</p>
+                    </div>
+
+                    <div class="cta-card-body">
+                        <h3 data-i18n="communities.cta.whyJoin">Why Join NOTF?</h3>
+                        <div class="community-benefits-grid">
+                            <div class="community-benefit">
+                                <i class="fa-solid fa-network-wired"></i>
+                                <span data-i18n="communities.cta.benefits.network">Connect with other neighbourhoods</span>
+                            </div>
+                            <div class="community-benefit">
+                                <i class="fa-solid fa-hands-helping"></i>
+                                <span data-i18n="communities.cta.benefits.resources">Access resources & expertise</span>
+                            </div>
+                            <div class="community-benefit">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span data-i18n="communities.cta.benefits.growth">Track your community's growth</span>
+                            </div>
+                            <div class="community-benefit">
+                                <i class="fa-solid fa-users"></i>
+                                <span data-i18n="communities.cta.benefits.partnerships">Build lasting partnerships</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cta-card-footer">
+                        <a href="mailto:contact@notf.in" class="cta-btn">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span data-i18n="communities.cta.contactUs">Contact Us</span>
+                        </a>
+                        <p class="cta-email">contact@notf.in</p>
+                        <p class="cta-note" data-i18n="communities.cta.note">Use the button above to join NOTF, update your community's details, or share your success stories</p>
+                    </div>
+                </section>
+            </section>
+        </div>
+
+        <!-- Modal for viewing details -->
+        <div id="detailsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle"></h2>
+                    <button class="modal-close" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Chatbot Widget -->
+        <!-- Floating Action Button (shows when minimized) -->
+        <button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <!-- Chat Window -->
+        <div id="notf-chatbot" class="chat-widget">
+            <div class="chat-header">
+                <div class="chat-header-title">
+                    <i class="fa-solid fa-robot"></i>
+                    <span data-i18n="chatbot.title">NOTF Assistant</span>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="chat-close-button" data-i18n-aria="common.close" aria-label="Close chat">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-messages">
+
+            </div>
+
+            <div class="chat-input">
+                <textarea
+                    class="chat-input-field"
+                    placeholder="Type your message..."
+                    rows="1"
+                    aria-label="Chat message input"
+                ></textarea>
+                <button class="chat-send-button" aria-label="Send message">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Load Supabase and data -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        let allCommunities = [];
+        let filteredCommunities = [];
+        let currentSort = { column: 'name', direction: 'asc' };
+
+        (async function() {
+            await dataLoader.waitForSupabase();
+            allCommunities = await dataLoader.loadCommunities();
+
+            // Filter to Bengaluru communities only
+            allCommunities = allCommunities.filter(c =>
+                c.city && c.city.toLowerCase().includes('bengaluru')
+            );
+
+            filteredCommunities = [...allCommunities];
+
+            // Render initial table
+            renderTable();
+            setupSorting();
+
+            // Make data available to chatbot with city context
+            window.notfData = {
+                communities: allCommunities,
+                members: [],
+                city: 'bengaluru'
+            };
+        })();
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+
+            // Update count display
+            document.getElementById('communityCount').textContent = `(${filteredCommunities.length})`;
+
+            if (filteredCommunities.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No communities found in Bengaluru.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filteredCommunities.map((comm, idx) => {
+                const themes = comm.themes && comm.themes.length > 0
+                    ? comm.themes.slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
+                    : '<span style="color: var(--color-text-lighter);">—</span>';
+
+                const offersCount = (comm.offers || []).length;
+                const asksCount = (comm.asks || []).length;
+                const neighborhood = comm.neighborhood || '—';
+
+                return `
+                    <tr>
+                        <td><a href="#" class="name-link" onclick="showDetails(${idx}); return false;"><strong>${comm.name}</strong></a></td>
+                        <td>${neighborhood}</td>
+                        <td class="themes-cell">${themes}</td>
+                        <td><span class="count-badge" onclick="showOffers(${idx})">${offersCount}</span></td>
+                        <td><span class="count-badge" onclick="showAsks(${idx})">${asksCount}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function setupSorting() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.addEventListener('click', function() {
+                    const sortColumn = this.dataset.sort;
+
+                    // Toggle sort direction
+                    if (currentSort.column === sortColumn) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = sortColumn;
+                        currentSort.direction = 'asc';
+                    }
+
+                    // Update UI
+                    document.querySelectorAll('th').forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+                    this.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+                    // Sort data
+                    sortCommunities();
+                    renderTable();
+                });
+            });
+        }
+
+        function sortCommunities() {
+            filteredCommunities.sort((a, b) => {
+                let aVal, bVal;
+
+                switch(currentSort.column) {
+                    case 'name':
+                        aVal = a.name || '';
+                        bVal = b.name || '';
+                        break;
+                    case 'neighborhood':
+                        aVal = a.neighborhood || '';
+                        bVal = b.neighborhood || '';
+                        break;
+                    case 'themes':
+                        aVal = (a.themes || []).length;
+                        bVal = (b.themes || []).length;
+                        break;
+                    case 'offers':
+                        aVal = (a.offers || []).length;
+                        bVal = (b.offers || []).length;
+                        break;
+                    case 'asks':
+                        aVal = (a.asks || []).length;
+                        bVal = (b.asks || []).length;
+                        break;
+                    default:
+                        return 0;
+                }
+
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+
+                if (currentSort.direction === 'asc') {
+                    return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+                } else {
+                    return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+                }
+            });
+        }
+
+        // Modal functions
+        function showOffers(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = `${comm.name} - Offers`;
+
+            if (comm.offers && comm.offers.length > 0) {
+                modalBody.innerHTML = `
+                    <div class="modal-section">
+                        <h3>What They Offer</h3>
+                        <ul class="modal-list">
+                            ${comm.offers.map(offer => `<li>${offer}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No offers listed yet.</p>';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function showAsks(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = `${comm.name} - Asks`;
+
+            if (comm.asks && comm.asks.length > 0) {
+                modalBody.innerHTML = `
+                    <div class="modal-section">
+                        <h3>What They Need</h3>
+                        <ul class="modal-list">
+                            ${comm.asks.map(ask => `<li>${ask}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = '<p style="color: var(--color-text-lighter);">No asks listed yet.</p>';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function showDetails(idx) {
+            const comm = filteredCommunities[idx];
+            const modal = document.getElementById('detailsModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+
+            modalTitle.textContent = comm.name;
+
+            const themes = comm.themes && comm.themes.length > 0
+                ? comm.themes.map(t => `<span class="theme-tag">${t}</span>`).join(' ')
+                : '<span style="color: var(--color-text-lighter);">—</span>';
+
+            const description = comm.description || 'No description available.';
+            const stories = comm.stories || 'No stories shared yet.';
+
+            let sections = `
+                <div class="modal-section">
+                    <h3>Location</h3>
+                    <p>${comm.neighborhood ? `${comm.neighborhood}, ` : ''}Bengaluru</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Themes</h3>
+                    <p>${themes}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Description</h3>
+                    <p>${description}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Stories</h3>
+                    <p>${stories}</p>
+                </div>
+            `;
+
+            if (comm.offers && comm.offers.length > 0) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>What They Offer</h3>
+                        <ul class="modal-list">
+                            ${comm.offers.map(offer => `<li>${offer}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (comm.asks && comm.asks.length > 0) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>What They Need</h3>
+                        <ul class="modal-list">
+                            ${comm.asks.map(ask => `<li>${ask}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (comm.contact && comm.contact.email) {
+                sections += `
+                    <div class="modal-section">
+                        <h3>Contact</h3>
+                        <p>
+                            ${comm.contact.person ? `<strong>${comm.contact.person}</strong><br>` : ''}
+                            <a href="mailto:${comm.contact.email}">${comm.contact.email}</a>
+                        </p>
+                    </div>
+                `;
+            }
+
+            modalBody.innerHTML = sections;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailsModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('detailsModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+
+    <!-- Chatbot Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <script type="module" src="/assets/chat/semantic-matcher.js"></script>
+    <script src="/assets/chat/smart-matcher.js"></script>
+    <script src="/assets/chat/discovery-engine.js"></script>
+    <script src="/assets/chat/complaint-engine.js"></script>
+    <script src="/assets/chat/boundary-loader.js"></script>
+    <script src="/assets/chat/boundary-validator.js"></script>
+    <script src="/assets/chat/unified-chatbot.js"></script>
+
+    <!-- Language Selector -->
+    <script src="/assets/i18n/language-selector.js"></script>
+
+</body>
+</html>
