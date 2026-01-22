@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Participation Icon</title>
+  <desc>Hands joined in circle - community participation</desc>
+
+  <!-- Circle of hands (represented by connected shapes) -->
+  <circle cx="64" cy="64" r="48" stroke="#3F5F7A" stroke-width="4" fill="none"/>
+
+  <!-- Hand/person shapes around circle (simplified) -->
+  <circle cx="64" cy="16" r="8" fill="#3F5F7A"/>
+  <circle cx="100" cy="36" r="8" fill="#3F5F7A"/>
+  <circle cx="112" cy="64" r="8" fill="#3F5F7A"/>
+  <circle cx="100" cy="92" r="8" fill="#3F5F7A"/>
+  <circle cx="64" cy="112" r="8" fill="#3F5F7A"/>
+  <circle cx="28" cy="92" r="8" fill="#3F5F7A"/>
+  <circle cx="16" cy="64" r="8" fill="#3F5F7A"/>
+  <circle cx="28" cy="36" r="8" fill="#3F5F7A"/>
+
+  <!-- Inner connection circle -->
+  <circle cx="64" cy="64" r="20" fill="#3F5F7A" opacity="0.3"/>
+  <circle cx="64" cy="64" r="12" fill="#FAF6E8"/>
+</svg>

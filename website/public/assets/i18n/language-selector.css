@@ -3,6 +3,9 @@
  * Globe icon + dropdown for language selection
  */
 
+/* Font loading for Indic scripts - MUST be at top of stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Oriya:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap');
+
 .language-selector {
     position: relative;
     display: inline-block;
@@ -174,77 +177,4 @@
 
 [dir="rtl"] .language-option {
     flex-direction: row-reverse;
-}
-
-/* Font loading for Indic scripts */
-@font-face {
-    font-family: 'Noto Sans Devanagari';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosansdevanagari/v25/TuGoUUFzXI5FBtUq5a8bjKYTZjtRU6Sgv1V6e-GJzcA.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Kannada';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosanskannada/v26/8vIs7xs32H97qzQKnzfeXycxXZyUmySvZWItmf1f.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Tamil';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosanstamil/v27/ieVc2YdFI3GCY6SyQy1KfStzYKZgzN1z4LKDbeZce-0429tBManUktuex7vGor0RqKDt_EvT.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Telugu';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosanstelugu/v25/0FlxVOGZlE2Rrtr-HmgkMWJNjJ5_RyT8o8c7fHkeg-esVC5dzHkHIJQqrEntezfqQfC_kKU.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Gujarati';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosansgujarati/v23/wlpWgx_HC1ti5ViekvcxnhMlCVo3f5pv17ivlzsUB14gg1TMR2Gw4VceEl7MA5mJ.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Bengali';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosansbengali/v20/Cn-SJsCGWQxOjaGwMQ6fIiMywrNJIky6nvd8BjzVMvJx2mcSPVFpVEqE-6KmsolKudCk8izI0lc.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Malayalam';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosansmalayalam/v26/sJoi3K5XjsSdcnzn071rL37lpAOsUThnDZIfPdbeSNzVakglNM-Qw8EaeB8Nss-_RuH9BFzEr6HxEA.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Sans Oriya';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notosansoriya/v27/AYCppXfzfccDCstK_hrjDyADv5e9748vhj3CJBLHIARtgD6TJQS0dJT5Ivj0fq_c6LhHBRe-.woff2') format('woff2');
-}
-
-@font-face {
-    font-family: 'Noto Nastaliq Urdu';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url('https://fonts.gstatic.com/s/notonastaliqurdu/v19/LhWNMWJJZQIjeQfF72m8CiNiQfY2x0ubBcxv77TKJBt8j7S4rA.woff2') format('woff2');
 }

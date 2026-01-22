@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Financial Infrastructure Icon</title>
+  <desc>Grants and pooled funds - financial resources</desc>
+
+  <!-- Coin stack -->
+  <ellipse cx="45" cy="75" rx="25" ry="8" fill="#C45A2A"/>
+  <ellipse cx="45" cy="68" rx="25" ry="8" fill="#C45A2A" opacity="0.8"/>
+  <ellipse cx="45" cy="61" rx="25" ry="8" fill="#C45A2A" opacity="0.6"/>
+
+  <!-- Coin with currency symbol -->
+  <circle cx="80" cy="40" r="22" fill="#F5B82E"/>
+  <circle cx="80" cy="40" r="18" fill="none" stroke="#2F4A2C" stroke-width="2"/>
+  <text x="80" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#2F4A2C" text-anchor="middle">₹</text>
+
+  <!-- Growth arrow -->
+  <path d="M 50,95 L 75,70 L 100,70" stroke="#2F4A2C" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 100,70 L 92,66 L 96,78 Z" fill="#2F4A2C"/>
+</svg>

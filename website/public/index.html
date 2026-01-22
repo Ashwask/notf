@@ -203,8 +203,7 @@
         <nav>
             <div class="nav-brand">
                 <a href="/" class="logo-link">
-                    <img src="/assets/images/notf-logo.png" alt="NOTF Logo" class="nav-logo">
-                    <span class="nav-title">Neighbourhoods of the Future</span>
+                    <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
 
@@ -215,6 +214,7 @@
             </button>
 
             <div class="nav-menu" id="navMenu">
+                <a href="/about/" data-i18n="nav.about">About</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -224,17 +224,32 @@
     </header>
 
     <main>
-        <!-- Hero Section (PRESERVED COLORS) -->
+        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
-                <h1 data-i18n="hero.title">Building Connected, Resilient Neighbourhoods Across India</h1>
-                <p class="hero-subtitle" data-i18n="hero.subtitle">Explore community networks, ward-level data, and climate action tracking across 13 Indian cities.</p>
+                <h1 data-i18n="hero.title">Bringing Our Neighbourhoods to Life</h1>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Connecting local action and expertise to build thriving communities</p>
+                <p class="hero-intro" data-i18n="hero.intro">Urban challenges today - from climate stress to fragmented services - require a different approach. NoTF brings together communities, organizations, and local actors to create lasting change at the neighbourhood level.</p>
                 <div class="hero-cta">
                     <a href="#cities" class="btn btn-primary-large">
                         <i class="fa-solid fa-city"></i>
                         <span data-i18n="hero.exploreButton">Explore Cities</span>
                     </a>
                     <a href="/join/" class="btn btn-secondary" data-i18n="hero.joinNetwork">Join the Network</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brief What is NoTF Teaser -->
+        <section class="what-is-notf-section">
+            <div class="container">
+                <div class="section-intro" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                    <h2 data-i18n="homepage.teaser.title">An Alliance for Local Action</h2>
+                    <p style="font-size: 18px; line-height: 1.8; margin-bottom: var(--space-lg);" data-i18n="homepage.teaser.description">NoTF is an informal alliance that treats neighbourhoods as sites of knowhow and action. The Nudge Unit brings communities, organizations, and local actors together through shared infrastructure, enabling collaboration that creates lasting change at the neighbourhood level.</p>
+                    <a href="/about/" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">
+                        <span data-i18n="homepage.teaser.cta">Learn More About NoTF</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -283,33 +298,42 @@
             </div>
         </section>
 
-        <!-- How NOTF Works -->
-        <section class="features">
+        <!-- For Community Organizations Section -->
+        <section class="for-communities-section">
             <div class="container">
-                <h2 class="section-title" data-i18n="features.title">How NOTF Works</h2>
-                <p class="section-subtitle" data-i18n="features.subtitle">Explore our network through three powerful directories, powered by our innovative ask/offer matching algorithm that connects community needs with available resources</p>
+                <div class="section-intro">
+                    <h2 data-i18n="homepage.forCommunities.title">For Community Organizations</h2>
+                    <p class="subtitle" data-i18n="homepage.forCommunities.subtitle">Multiply your impact at the local level</p>
+                </div>
 
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fa-solid fa-house-user"></i></div>
-                        <h3 data-i18n="features.community.title">Community Directory</h3>
-                        <p data-i18n="features.community.description" data-i18n-params='{"count":"<span id=\"dirCommCount\">-</span>"}'>Browse <span id="dirCommCount">-</span> active neighbourhoods. Learn about their work and discover collaboration opportunities.</p>
-                        <a href="#cities" class="feature-link" data-i18n="features.community.link">Browse Communities →</a>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h4 data-i18n="homepage.forCommunities.momentum.title">Build Momentum</h4>
+                        <p data-i18n="homepage.forCommunities.momentum.desc">Your participation helps generate momentum that spreads beyond a single project, creating ripple effects across the neighbourhood.</p>
                     </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fa-solid fa-building"></i></div>
-                        <h3 data-i18n="features.providers.title">Providers Directory</h3>
-                        <p data-i18n="features.providers.description" data-i18n-params='{"count":"<span id=\"orgNetCount\">-</span>"}'>Connect with <span id="orgNetCount">-</span> organizations supporting community work. CBOs, solution providers, and more.</p>
-                        <a href="#cities" class="feature-link" data-i18n="features.providers.link">View Providers →</a>
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <h4 data-i18n="homepage.forCommunities.amplify.title">Amplify Local Impact</h4>
+                        <p data-i18n="homepage.forCommunities.amplify.desc">When multiple projects come together in the same neighbourhood, they reinforce one another, making your impact deeper and more visible.</p>
                     </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-                        <h3 data-i18n="features.map.title">Interactive Map</h3>
-                        <p data-i18n="features.map.description" data-i18n-params='{"count":"<span id=\"mapCommCount\">-</span>"}'>Visualize all <span id="mapCommCount">-</span> communities and wards across Indian cities. Discover neighbours and find local initiatives.</p>
-                        <a href="#cities" class="feature-link" data-i18n="features.map.link">View Map →</a>
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-users"></i>
+                        <h4 data-i18n="homepage.forCommunities.community.title">Join a Community of Practice</h4>
+                        <p data-i18n="homepage.forCommunities.community.desc">Become part of a vibrant learning circle where implementers share experiences, troubleshoot challenges, and improve together.</p>
                     </div>
+
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-certificate"></i>
+                        <h4 data-i18n="homepage.forCommunities.validation.title">Gain Grounded Validation</h4>
+                        <p data-i18n="homepage.forCommunities.validation.desc">Your work is seen, tested, and validated directly by residents and fellow practitioners, not just funders.</p>
+                    </div>
+                </div>
+
+                <div class="section-cta">
+                    <a href="/join/" class="btn btn-primary-large" data-i18n="homepage.forCommunities.cta">Join as a Community</a>
                 </div>
             </div>
         </section>
@@ -341,11 +365,27 @@
             </div>
         </section>
 
+        <!-- Executing Partners -->
+        <section class="executing-partners-section">
+            <div class="container">
+                <h2 class="section-title" data-i18n="homepage.executingPartners.title">Executing Partners</h2>
+                <p class="section-subtitle" data-i18n="homepage.executingPartners.subtitle">Organizations implementing NoTF initiatives on the ground</p>
+                <div class="partners-grid">
+                    <a href="https://socratus.org/" target="_blank" rel="noopener noreferrer" class="partner-logo-link">
+                        <img src="/assets/images/socratus-logo.png" alt="Socratus Foundation" class="partner-logo">
+                    </a>
+                    <a href="https://www.bengaluruplanning.org/" target="_blank" rel="noopener noreferrer" class="partner-logo-link">
+                        <img src="/assets/images/bpac-logo.png" alt="Bangalore Political Action Committee" class="partner-logo">
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Section (PRESERVED COLORS) -->
         <section class="cta-section">
             <div class="container">
                 <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
-                <p data-i18n="cta.subtitle" data-i18n-html="true">Join communities and organizations building a better future together.</p>
+                <p data-i18n="cta.subtitle" data-i18n-html="true">Join {{orgCount}}+ organizations and {{commCount}} communities building a better future together.</p>
                 <div class="cta-center">
                     <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
                 </div>
@@ -378,6 +418,7 @@
             <div class="chat-input">
                 <textarea
                     class="chat-input-field"
+                    data-i18n-placeholder="chatbot.inputPlaceholder"
                     placeholder="Type your message..."
                     rows="1"
                     aria-label="Chat message input"
@@ -389,17 +430,22 @@
         </div>
     </main>
 
-    <!-- Footer (PRESERVED COLORS) -->
+    <!-- Footer -->
     <footer>
-        <p>
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+        <div class="footer-powered-by">
+            <span data-i18n="footer.poweredBy">NOTF platform powered by</span>
+            <a href="https://rainmatter.org/" target="_blank" rel="noopener noreferrer" class="rainmatter-link">
+                <img src="/assets/images/rainmatter-logo.png" alt="Rainmatter Foundation" class="rainmatter-logo">
+            </a>
+        </div>
+        <div class="footer-license">
+            <span class="cc-text"><span data-i18n="footer.licensedUnder">Licensed under</span> <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
                 <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
                 <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
                 <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
                 <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
-            </a>
-            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
-        </p>
+                CC BY-NC-SA 4.0</a></span>
+        </div>
     </footer>
 
     <script>
@@ -426,10 +472,59 @@
                 navMenu.classList.remove('active');
             }
         });
+
+        // Accordion functionality for FAQs
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = item.querySelector('.accordion-content');
+                const icon = header.querySelector('i');
+                const isActive = item.classList.contains('active');
+
+                // Close all other accordions
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        const otherContent = otherItem.querySelector('.accordion-content');
+                        const otherIcon = otherItem.querySelector('.accordion-header i');
+                        otherContent.style.maxHeight = '0';
+                        otherIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                    }
+                });
+
+                // Toggle current accordion
+                if (isActive) {
+                    item.classList.remove('active');
+                    content.style.maxHeight = '0';
+                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+                } else {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
     </script>
 
     <!-- i18n Translation System -->
-    <script src="/assets/i18n/translator.js"></script>
+    <script src="/assets/i18n/translator.js?v=5"></script>
 
     <!-- Load Cities Data -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -74,11 +74,9 @@
    ======================================== */
 
 /* Hide text labels and adjust layout in collapsed state */
-.dashboard-container.sidebar-collapsed .sidebar-header h1,
-.dashboard-container.sidebar-collapsed .sidebar-header p {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, visibility 0.2s;
+.dashboard-container.sidebar-collapsed .sidebar-logo {
+    height: 40px;
+    transition: height 0.2s;
 }
 
 .dashboard-container.sidebar-collapsed .nav-item .label {
@@ -102,7 +100,6 @@
 /* Adjust sidebar header for collapsed state */
 .dashboard-container.sidebar-collapsed .sidebar-header {
     padding: 1.5rem 0.5rem;
-    text-align: center;
 }
 
 /* Logout button in collapsed state - show only icon */
@@ -168,8 +165,7 @@
 }
 
 /* Smooth transitions for all collapsible elements */
-.sidebar-header h1,
-.sidebar-header p,
+.sidebar-logo,
 .nav-item .label,
 .btn-logout {
     transition: opacity 0.3s, visibility 0.3s;
@@ -183,22 +179,16 @@
     padding: 2rem 1.75rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.sidebar-header h1 {
-    margin: 0;
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: #FAF6E8; /* Warm Cream - Flat color only */
-    letter-spacing: -0.02em;
-}
-
-.sidebar-header p {
-    margin: 0.5rem 0 0 0;
-    font-size: 0.875rem;
-    opacity: 0.85;
-    font-weight: 400;
-    letter-spacing: 0.01em;
+.sidebar-logo {
+    width: auto;
+    height: 60px;
+    max-width: 100%;
+    transition: opacity 0.2s, visibility 0.2s, height 0.2s;
 }
 
 /* Navigation */
@@ -458,8 +448,7 @@
     }
 
     /* Show full labels on mobile */
-    .sidebar.mobile-open .sidebar-header h1,
-    .sidebar.mobile-open .sidebar-header p,
+    .sidebar.mobile-open .sidebar-logo,
     .sidebar.mobile-open .nav-item .label {
         opacity: 1;
         visibility: visible;

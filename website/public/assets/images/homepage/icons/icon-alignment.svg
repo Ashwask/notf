@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Alignment Icon</title>
+  <desc>Multiple paths converging - alignment without uniformity</desc>
+
+  <!-- Three paths converging to a common point -->
+  <path d="M 10,30 Q 40,50 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 30,10 Q 50,40 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 10,80 Q 40,70 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <path d="M 118,30 Q 90,50 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 98,10 Q 80,40 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M 118,80 Q 90,70 64,64" stroke="#B9C98A" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+  <!-- Central convergence point -->
+  <circle cx="64" cy="64" r="12" fill="#2F4A2C"/>
+  <circle cx="64" cy="64" r="8" fill="#B9C98A"/>
+</svg>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <title>Communities Benefits Illustration</title>
+  <desc>Community members collaborating locally with ripple effects</desc>
+
+  <!-- Background -->
+  <rect width="500" height="400" fill="#FAF6E8"/>
+
+  <!-- Neighbourhood scene (simplified buildings) -->
+  <rect x="50" y="250" width="70" height="120" rx="3" fill="#B9C98A" opacity="0.5"/>
+  <rect x="140" y="270" width="60" height="100" rx="3" fill="#B9C98A" opacity="0.6"/>
+  <rect x="320" y="260" width="65" height="110" rx="3" fill="#B9C98A" opacity="0.5"/>
+  <rect x="400" y="280" width="55" height="90" rx="3" fill="#B9C98A" opacity="0.6"/>
+
+  <!-- Ground -->
+  <rect x="0" y="370" width="500" height="30" fill="#2F4A2C" opacity="0.2"/>
+
+  <!-- Community members working together (center focus) -->
+  <circle cx="250" cy="200" r="35" fill="#B9C98A"/>
+  <circle cx="250" cy="190" r="12" fill="#FAF6E8"/>
+  <path d="M 240,210 Q 250,205 260,210" fill="#FAF6E8"/>
+
+  <!-- Multiple small projects around -->
+  <circle cx="150" cy="180" r="25" fill="#B9C98A" opacity="0.8"/>
+  <circle cx="150" cy="173" r="8" fill="#FAF6E8"/>
+
+  <circle cx="350" cy="180" r="25" fill="#B9C98A" opacity="0.8"/>
+  <circle cx="350" cy="173" r="8" fill="#FAF6E8"/>
+
+  <circle cx="200" cy="260" r="25" fill="#B9C98A" opacity="0.7"/>
+  <circle cx="200" cy="253" r="8" fill="#FAF6E8"/>
+
+  <circle cx="300" cy="260" r="25" fill="#B9C98A" opacity="0.7"/>
+  <circle cx="300" cy="253" r="8" fill="#FAF6E8"/>
+
+  <!-- Ripple effect circles (momentum spreading) -->
+  <circle cx="250" cy="200" r="80" fill="none" stroke="#B9C98A" stroke-width="3" opacity="0.3"/>
+  <circle cx="250" cy="200" r="110" fill="none" stroke="#B9C98A" stroke-width="2" opacity="0.2"/>
+  <circle cx="250" cy="200" r="140" fill="none" stroke="#B9C98A" stroke-width="1" opacity="0.1"/>
+
+  <!-- Connection lines showing collaboration -->
+  <line x1="175" y1="185" x2="225" y2="195" stroke="#2F4A2C" stroke-width="2" opacity="0.4"/>
+  <line x1="325" y1="185" x2="275" y2="195" stroke="#2F4A2C" stroke-width="2" opacity="0.4"/>
+  <line x1="220" y1="250" x2="240" y2="225" stroke="#2F4A2C" stroke-width="2" opacity="0.4"/>
+  <line x1="280" y1="250" x2="260" y2="225" stroke="#2F4A2C" stroke-width="2" opacity="0.4"/>
+
+  <!-- Impact indicators (small stars/sparkles) -->
+  <path d="M 140,120 L 144,130 L 136,130 Z" fill="#F5B82E"/>
+  <path d="M 360,130 L 364,140 L 356,140 Z" fill="#F5B82E"/>
+  <path d="M 250,100 L 254,110 L 246,110 Z" fill="#F5B82E"/>
+
+  <!-- Title -->
+  <text x="250" y="50" font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#2F4A2C" text-anchor="middle">Multiply Your Impact at the Local Level</text>
+</svg>

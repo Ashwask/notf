@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <title>Providers Benefits Illustration</title>
+  <desc>Knowledge spreading across neighbourhoods - systems view</desc>
+
+  <!-- Background -->
+  <rect width="500" height="400" fill="#FAF6E8"/>
+
+  <!-- Map-like view with connection points -->
+  <!-- Central knowledge hub -->
+  <circle cx="250" cy="200" r="50" fill="#C45A2A"/>
+  <path d="M 235,195 L 235,215 L 250,210 L 265,215 L 265,195 L 250,200 Z" fill="#FAF6E8"/>
+  <circle cx="250" cy="200" r="55" fill="none" stroke="#C45A2A" stroke-width="2" stroke-dasharray="5,5"/>
+
+  <!-- Neighbourhood locations (distributed) -->
+  <circle cx="120" cy="100" r="30" fill="#3F5F7A"/>
+  <rect x="110" y="92" width="20" height="16" rx="2" fill="#FAF6E8"/>
+
+  <circle cx="380" cy="120" r="30" fill="#3F5F7A"/>
+  <rect x="370" y="112" width="20" height="16" rx="2" fill="#FAF6E8"/>
+
+  <circle cx="100" cy="280" r="30" fill="#3F5F7A"/>
+  <rect x="90" y="272" width="20" height="16" rx="2" fill="#FAF6E8"/>
+
+  <circle cx="400" cy="300" r="30" fill="#3F5F7A"/>
+  <rect x="390" y="292" width="20" height="16" rx="2" fill="#FAF6E8"/>
+
+  <!-- Connection lines showing knowledge flow -->
+  <line x1="210" y1="170" x2="145" y2="120" stroke="#F5B82E" stroke-width="4" opacity="0.6"/>
+  <line x1="290" y1="170" x2="360" y2="135" stroke="#F5B82E" stroke-width="4" opacity="0.6"/>
+  <line x1="210" y1="230" x2="125" y2="270" stroke="#F5B82E" stroke-width="4" opacity="0.6"/>
+  <line x1="290" y1="235" x2="380" y2="285" stroke="#F5B82E" stroke-width="4" opacity="0.6"/>
+
+  <!-- Arrows showing directionality -->
+  <path d="M 155,125 L 150,120 L 150,130 Z" fill="#F5B82E"/>
+  <path d="M 350,140 L 355,135 L 345,135 Z" fill="#F5B82E"/>
+  <path d="M 135,265 L 130,270 L 140,270 Z" fill="#F5B82E"/>
+  <path d="M 370,290 L 375,285 L 365,285 Z" fill="#F5B82E"/>
+
+  <!-- Growth indicators (sprouting) -->
+  <path d="M 120,130 Q 115,145 110,160" stroke="#2F4A2C" stroke-width="2" fill="none"/>
+  <circle cx="110" cy="160" r="4" fill="#B9C98A"/>
+
+  <path d="M 380,150 Q 390,165 395,180" stroke="#2F4A2C" stroke-width="2" fill="none"/>
+  <circle cx="395" cy="180" r="4" fill="#B9C98A"/>
+
+  <path d="M 100,250 Q 90,235 85,220" stroke="#2F4A2C" stroke-width="2" fill="none"/>
+  <circle cx="85" cy="220" r="4" fill="#B9C98A"/>
+
+  <path d="M 400,270 Q 410,255 415,240" stroke="#2F4A2C" stroke-width="2" fill="none"/>
+  <circle cx="415" cy="240" r="4" fill="#B9C98A"/>
+
+  <!-- Decorative elements -->
+  <circle cx="250" cy="50" r="20" fill="#F5B82E" opacity="0.3"/>
+  <circle cx="450" cy="350" r="25" fill="#C45A2A" opacity="0.2"/>
+  <circle cx="50" cy="350" r="20" fill="#3F5F7A" opacity="0.2"/>
+
+  <!-- Title -->
+  <text x="250" y="375" font-family="Arial, sans-serif" font-size="20" font-weight="600" fill="#2F4A2C" text-anchor="middle">Ideas Adapt & Scale Across Neighbourhoods</text>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <title>Alliance Illustration</title>
+  <desc>Network of interconnected actors in a neighbourhood setting</desc>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#FAF6E8"/>
+
+  <!-- Neighbourhood buildings (simplified) -->
+  <rect x="50" y="350" width="100" height="180" rx="4" fill="#B9C98A" opacity="0.6"/>
+  <rect x="50" y="340" width="100" height="10" fill="#2F4A2C" opacity="0.6"/>
+
+  <rect x="180" y="380" width="90" height="150" rx="4" fill="#C45A2A" opacity="0.6"/>
+  <rect x="180" y="370" width="90" height="10" fill="#2F4A2C" opacity="0.6"/>
+
+  <rect x="600" y="360" width="110" height="170" rx="4" fill="#3F5F7A" opacity="0.6"/>
+  <rect x="600" y="350" width="110" height="10" fill="#2F4A2C" opacity="0.6"/>
+
+  <!-- Ground line -->
+  <line x1="0" y1="530" x2="800" y2="530" stroke="#2F4A2C" stroke-width="2"/>
+
+  <!-- Network nodes (community actors) -->
+  <circle cx="150" cy="180" r="45" fill="#B9C98A"/>
+  <circle cx="400" cy="150" r="55" fill="#2F4A2C"/>
+  <circle cx="650" cy="200" r="45" fill="#C45A2A"/>
+  <circle cx="280" cy="280" r="40" fill="#3F5F7A"/>
+  <circle cx="520" cy="300" r="40" fill="#F5B82E"/>
+
+  <!-- Connection lines -->
+  <line x1="150" y1="180" x2="400" y2="150" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="400" y1="150" x2="650" y2="200" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="150" y1="180" x2="280" y2="280" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="400" y1="150" x2="280" y2="280" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="400" y1="150" x2="520" y2="300" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="650" y1="200" x2="520" y2="300" stroke="#3F5F7A" stroke-width="4" opacity="0.5"/>
+  <line x1="280" y1="280" x2="520" y2="300" stroke="#3F5F7A" stroke-width="3" opacity="0.4"/>
+
+  <!-- Person silhouettes in nodes -->
+  <circle cx="150" cy="170" r="12" fill="#FAF6E8"/>
+  <path d="M 140,190 Q 150,185 160,190" fill="#FAF6E8"/>
+
+  <circle cx="400" cy="140" r="15" fill="#FAF6E8"/>
+  <path d="M 388,162 Q 400,156 412,162" fill="#FAF6E8"/>
+
+  <circle cx="650" cy="190" r="12" fill="#FAF6E8"/>
+  <path d="M 640,210 Q 650,205 660,210" fill="#FAF6E8"/>
+
+  <circle cx="280" cy="272" r="10" fill="#FAF6E8"/>
+  <path d="M 272,288 Q 280,284 288,288" fill="#FAF6E8"/>
+
+  <circle cx="520" cy="292" r="10" fill="#FAF6E8"/>
+  <path d="M 512,308 Q 520,304 528,308" fill="#FAF6E8"/>
+
+  <!-- Decorative organic shapes -->
+  <ellipse cx="100" cy="100" rx="60" ry="40" fill="#B9C98A" opacity="0.2" transform="rotate(-20 100 100)"/>
+  <ellipse cx="700" cy="450" rx="50" ry="70" fill="#C45A2A" opacity="0.2" transform="rotate(15 700 450)"/>
+
+  <!-- Text labels -->
+  <text x="400" y="480" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#2F4A2C" text-anchor="middle">Alliance for Local Action</text>
+  <text x="400" y="515" font-family="Arial, sans-serif" font-size="18" fill="#2B2B2B" text-anchor="middle" opacity="0.8">Connecting actors, reducing friction, enabling collaboration</text>
+</svg>

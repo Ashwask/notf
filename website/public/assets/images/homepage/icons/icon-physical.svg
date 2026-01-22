@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Physical Infrastructure Icon</title>
+  <desc>Building and tools - physical spaces and resources</desc>
+
+  <!-- Building outline -->
+  <rect x="35" y="45" width="58" height="65" rx="4" fill="#B9C98A"/>
+  <rect x="35" y="35" width="58" height="10" fill="#2F4A2C"/>
+
+  <!-- Windows -->
+  <rect x="45" y="55" width="12" height="12" rx="2" fill="#FAF6E8"/>
+  <rect x="71" y="55" width="12" height="12" rx="2" fill="#FAF6E8"/>
+  <rect x="45" y="75" width="12" height="12" rx="2" fill="#FAF6E8"/>
+  <rect x="71" y="75" width="12" height="12" rx="2" fill="#FAF6E8"/>
+
+  <!-- Door -->
+  <rect x="58" y="92" width="12" height="18" rx="2" fill="#2F4A2C"/>
+
+  <!-- Tool icon (wrench) overlay -->
+  <circle cx="25" cy="25" r="18" fill="#C45A2A"/>
+  <path d="M 20,30 L 28,22 M 22,32 L 30,24" stroke="#FAF6E8" stroke-width="3" stroke-linecap="round"/>
+</svg>

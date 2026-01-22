@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Knowledge Infrastructure Icon</title>
+  <desc>Books and resources - knowledge sharing</desc>
+
+  <!-- Open book -->
+  <path d="M 25,45 L 25,95 L 64,85 L 103,95 L 103,45 L 64,55 Z" fill="#3F5F7A"/>
+  <path d="M 64,55 L 64,85" stroke="#FAF6E8" stroke-width="2"/>
+
+  <!-- Book pages detail -->
+  <line x1="35" y1="55" x2="55" y2="50" stroke="#FAF6E8" stroke-width="1.5"/>
+  <line x1="35" y1="65" x2="55" y2="60" stroke="#FAF6E8" stroke-width="1.5"/>
+  <line x1="35" y1="75" x2="55" y2="70" stroke="#FAF6E8" stroke-width="1.5"/>
+
+  <line x1="73" y1="50" x2="93" y2="55" stroke="#FAF6E8" stroke-width="1.5"/>
+  <line x1="73" y1="60" x2="93" y2="65" stroke="#FAF6E8" stroke-width="1.5"/>
+  <line x1="73" y1="70" x2="93" y2="75" stroke="#FAF6E8" stroke-width="1.5"/>
+
+  <!-- Lightbulb (idea) -->
+  <circle cx="64" cy="25" r="12" fill="#F5B82E"/>
+  <rect x="60" y="35" width="8" height="4" rx="1" fill="#F5B82E"/>
+  <line x1="64" y1="12" x2="64" y2="8" stroke="#F5B82E" stroke-width="2" stroke-linecap="round"/>
+  <line x1="52" y1="17" x2="49" y2="14" stroke="#F5B82E" stroke-width="2" stroke-linecap="round"/>
+  <line x1="76" y1="17" x2="79" y2="14" stroke="#F5B82E" stroke-width="2" stroke-linecap="round"/>
+</svg>

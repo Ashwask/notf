@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <title>Nudge Unit Illustration</title>
+  <desc>Librarian concept - central facilitator connecting resources and people</desc>
+
+  <!-- Background -->
+  <rect width="600" height="500" fill="#FAF6E8"/>
+
+  <!-- Central figure (librarian/facilitator) -->
+  <circle cx="300" cy="220" r="60" fill="#2F4A2C"/>
+  <circle cx="300" cy="205" r="25" fill="#FAF6E8"/>
+  <path d="M 270,240 Q 300,230 330,240" fill="#FAF6E8"/>
+
+  <!-- Book/resource symbol in center -->
+  <rect x="285" y="260" width="30" height="5" rx="2" fill="#F5B82E"/>
+  <rect x="280" y="267" width="40" height="20" rx="2" fill="#3F5F7A"/>
+  <line x1="300" y1="267" x2="300" y2="287" stroke="#FAF6E8" stroke-width="2"/>
+
+  <!-- Surrounding resource elements -->
+  <!-- Directory (top-left) -->
+  <rect x="80" y="80" width="80" height="60" rx="4" fill="#B9C98A"/>
+  <line x1="95" y1="100" x2="145" y2="100" stroke="#FAF6E8" stroke-width="2"/>
+  <line x1="95" y1="115" x2="145" y2="115" stroke="#FAF6E8" stroke-width="2"/>
+  <text x="120" y="145" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Directory</text>
+
+  <!-- Knowledge base (top-right) -->
+  <circle cx="480" cy="110" r="40" fill="#3F5F7A"/>
+  <path d="M 465,105 L 465,125 L 480,120 L 495,125 L 495,105 Z" fill="#FAF6E8"/>
+  <text x="480" y="170" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Knowledge</text>
+
+  <!-- Community (bottom-left) -->
+  <circle cx="120" cy="360" r="18" fill="#C45A2A"/>
+  <circle cx="160" cy="360" r="18" fill="#C45A2A"/>
+  <circle cx="140" cy="390" r="18" fill="#C45A2A"/>
+  <text x="140" y="430" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Community</text>
+
+  <!-- Resources (bottom-right) -->
+  <rect x="440" y="350" width="70" height="50" rx="4" fill="#F5B82E"/>
+  <circle cx="455" cy="365" r="6" fill="#FAF6E8"/>
+  <circle cx="475" cy="365" r="6" fill="#FAF6E8"/>
+  <circle cx="495" cy="365" r="6" fill="#FAF6E8"/>
+  <text x="475" y="425" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Resources</text>
+
+  <!-- Connection lines (hub and spokes) -->
+  <line x1="160" y1="140" x2="260" y2="190" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
+  <line x1="440" y1="150" x2="340" y2="195" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
+  <line x1="160" y1="360" x2="250" y2="260" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
+  <line x1="440" y1="375" x2="350" y2="260" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
+
+  <!-- Arrow indicators showing flow -->
+  <path d="M 250,185 L 245,180 L 245,190 Z" fill="#3F5F7A"/>
+  <path d="M 350,200 L 345,195 L 345,205 Z" fill="#3F5F7A"/>
+  <path d="M 255,265 L 250,260 L 250,270 Z" fill="#3F5F7A"/>
+  <path d="M 345,255 L 340,250 L 340,260 Z" fill="#3F5F7A"/>
+
+  <!-- Title text -->
+  <text x="300" y="470" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#2F4A2C" text-anchor="middle">The Nudge Unit: Your First Point of Contact</text>
+</svg>
