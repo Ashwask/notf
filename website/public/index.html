@@ -268,9 +268,17 @@
 
             <div class="city-grid" id="cityGrid">
                 <!-- City cards will be dynamically loaded here -->
-                <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 48px; color: var(--olive-green);"></i>
-                    <p style="margin-top: var(--space-md); color: var(--color-text-light);" data-i18n="common.loading">Loading cities...</p>
+                <div id="loadingState" style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl); max-width: 600px; margin: 0 auto;">
+                    <div style="font-size: 48px; margin-bottom: var(--space-lg);">
+                        <i class="fa-solid fa-city" style="color: var(--olive-green); opacity: 0.3;"></i>
+                    </div>
+                    <blockquote style="font-size: 1.25rem; font-style: italic; color: var(--color-text); line-height: 1.8; margin-bottom: var(--space-md); border-left: 4px solid var(--olive-green); padding-left: var(--space-md);">
+                        <p data-i18n="common.loadingCitiesQuote" style="margin: 0;">Great cities are not built by governments alone, but by communities working together.</p>
+                    </blockquote>
+                    <p style="font-size: 0.9rem; color: var(--color-text-light); font-style: italic;" data-i18n="common.loadingCitiesAuthor">— Jane Jacobs</p>
+                    <div style="margin-top: var(--space-lg);">
+                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: var(--olive-green);"></i>
+                    </div>
                 </div>
             </div>
         </section>
@@ -432,10 +440,90 @@
 
         async function loadCities() {
             try {
+                // Load static metadata for city structure
                 const response = await fetch('/assets/data/cities-metadata.json');
                 citiesData = await response.json();
+
+                // Wait for Supabase to be ready
+                if (window.dataLoader) {
+                    await dataLoader.waitForSupabase();
+
+                    // Query Supabase for real-time counts
+                    const [communities, providers] = await Promise.all([
+                        dataLoader.loadCommunities().catch(err => {
+                            console.warn('Failed to load communities:', err);
+                            return [];
+                        }),
+                        dataLoader.loadSolutionProviders().catch(err => {
+                            console.warn('Failed to load providers:', err);
+                            return [];
+                        })
+                    ]);
+
+                    // Debug: Log unique cities in database
+                    const uniqueCommCities = [...new Set(communities.map(c => c.city).filter(Boolean))];
+                    const uniqueProvLocations = [...new Set(providers.map(p => p.location).filter(Boolean))];
+                    console.log('Communities in database cities:', uniqueCommCities);
+                    console.log('Providers in database locations:', uniqueProvLocations);
+
+                    // City name variations (e.g., Bengaluru/Bangalore)
+                    const cityVariations = {
+                        'bengaluru': ['bengaluru', 'bangalore'],
+                        'bangalore': ['bengaluru', 'bangalore']
+                    };
+
+                    // Update counts for each city based on live data
+                    for (const city of citiesData.cities) {
+                        const cityName = city.name.toLowerCase();
+                        const citySlug = city.slug.toLowerCase();
+
+                        // Get all valid variations for this city
+                        const variations = cityVariations[citySlug] || [cityName, citySlug];
+
+                        // Match communities by exact city match (with variations)
+                        const cityComms = communities.filter(c => {
+                            const commCity = (c.city || '').toLowerCase().trim();
+                            if (!commCity) return false; // Skip empty cities
+
+                            // Check if community city matches any variation
+                            return variations.some(variant =>
+                                commCity === variant ||
+                                commCity.startsWith(variant + ',') ||
+                                commCity.endsWith(', ' + variant)
+                            );
+                        });
+
+                        // Match providers by location containing city name
+                        const cityProvs = providers.filter(p => {
+                            const provLocation = (p.location || '').toLowerCase().trim();
+                            if (!provLocation) return false; // Skip empty locations
+
+                            // Check if location contains any city variation
+                            return variations.some(variant =>
+                                provLocation === variant ||
+                                provLocation.includes(', ' + variant) ||
+                                provLocation.startsWith(variant + ',')
+                            );
+                        });
+
+                        // Update metadata with live counts
+                        city.features.communities.count = cityComms.length;
+                        city.features.communities.available = cityComms.length > 0;
+                        city.features.providers.count = cityProvs.length;
+                        city.features.providers.available = cityProvs.length > 0;
+
+                        console.log(`${city.name}: ${cityComms.length} communities, ${cityProvs.length} providers`);
+                    }
+
+                    console.log('✓ Loaded live counts from Supabase');
+                } else {
+                    console.warn('dataLoader not available, using static counts');
+                }
+
+                // Render cards with live data
                 renderCityCards(citiesData.cities);
                 calculateNetworkStats(citiesData.cities);
+
             } catch (error) {
                 console.error('Error loading cities:', error);
                 document.getElementById('cityGrid').innerHTML = `

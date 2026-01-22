@@ -87,6 +87,8 @@
   },
   "common": {
     "loading": "Loading...",
+    "loadingCitiesQuote": "Great cities are not built by governments alone, but by communities working together.",
+    "loadingCitiesAuthor": "— Jane Jacobs",
     "error": "An error occurred",
     "close": "Close",
     "cancel": "Cancel",
