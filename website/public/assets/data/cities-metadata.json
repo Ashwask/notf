@@ -6,7 +6,10 @@
       "state": "Gujarat",
       "population": 7700000,
       "wardCount": 64,
-      "center": [23.0225, 72.5714],
+      "center": [
+        23.0225,
+        72.5714
+      ],
       "zoom": 11,
       "primaryLanguage": "gu",
       "languageName": "Gujarati",
@@ -36,7 +39,10 @@
       "state": "Karnataka",
       "population": 8400000,
       "wardCount": 369,
-      "center": [12.9716, 77.5946],
+      "center": [
+        12.9716,
+        77.5946
+      ],
       "zoom": 11,
       "primaryLanguage": "kn",
       "languageName": "Kannada",
@@ -48,11 +54,11 @@
         },
         "communities": {
           "available": true,
-          "count": 12
+          "count": 30
         },
         "providers": {
           "available": true,
-          "count": 25
+          "count": 34
         },
         "climate": {
           "available": true,
@@ -66,7 +72,10 @@
       "state": "Odisha",
       "population": 850000,
       "wardCount": 67,
-      "center": [20.2961, 85.8245],
+      "center": [
+        20.2961,
+        85.8245
+      ],
       "zoom": 12,
       "primaryLanguage": "or",
       "languageName": "Odia",
@@ -96,7 +105,10 @@
       "state": "Tamil Nadu",
       "population": 7100000,
       "wardCount": 200,
-      "center": [13.0827, 80.2707],
+      "center": [
+        13.0827,
+        80.2707
+      ],
       "zoom": 11,
       "primaryLanguage": "ta",
       "languageName": "Tamil",
@@ -126,7 +138,10 @@
       "state": "Haryana",
       "population": 1200000,
       "wardCount": 56,
-      "center": [28.4595, 77.0266],
+      "center": [
+        28.4595,
+        77.0266
+      ],
       "zoom": 12,
       "primaryLanguage": "hi",
       "languageName": "Hindi",
@@ -156,7 +171,10 @@
       "state": "Telangana",
       "population": 7700000,
       "wardCount": 150,
-      "center": [17.3850, 78.4867],
+      "center": [
+        17.385,
+        78.4867
+      ],
       "zoom": 11,
       "primaryLanguage": "te",
       "languageName": "Telugu",
@@ -186,7 +204,10 @@
       "state": "Rajasthan",
       "population": 3100000,
       "wardCount": 150,
-      "center": [26.9124, 75.7873],
+      "center": [
+        26.9124,
+        75.7873
+      ],
       "zoom": 11,
       "primaryLanguage": "hi",
       "languageName": "Hindi",
@@ -216,7 +237,10 @@
       "state": "Kerala",
       "population": 2100000,
       "wardCount": 74,
-      "center": [9.9312, 76.2673],
+      "center": [
+        9.9312,
+        76.2673
+      ],
       "zoom": 12,
       "primaryLanguage": "ml",
       "languageName": "Malayalam",
@@ -246,7 +270,10 @@
       "state": "West Bengal",
       "population": 4500000,
       "wardCount": 144,
-      "center": [22.5726, 88.3639],
+      "center": [
+        22.5726,
+        88.3639
+      ],
       "zoom": 11,
       "primaryLanguage": "bn",
       "languageName": "Bengali",
@@ -276,7 +303,10 @@
       "state": "Maharashtra",
       "population": 12400000,
       "wardCount": 227,
-      "center": [19.0760, 72.8777],
+      "center": [
+        19.076,
+        72.8777
+      ],
       "zoom": 11,
       "primaryLanguage": "mr",
       "languageName": "Marathi",
@@ -306,7 +336,10 @@
       "state": "Maharashtra",
       "population": 3100000,
       "wardCount": 158,
-      "center": [18.5204, 73.8567],
+      "center": [
+        18.5204,
+        73.8567
+      ],
       "zoom": 11,
       "primaryLanguage": "mr",
       "languageName": "Marathi",
@@ -336,7 +369,10 @@
       "state": "Maharashtra",
       "population": 1800000,
       "wardCount": 135,
-      "center": [19.2183, 72.9781],
+      "center": [
+        19.2183,
+        72.9781
+      ],
       "zoom": 12,
       "primaryLanguage": "mr",
       "languageName": "Marathi",
@@ -366,7 +402,10 @@
       "state": "Andhra Pradesh",
       "population": 2000000,
       "wardCount": 98,
-      "center": [17.6869, 83.2185],
+      "center": [
+        17.6869,
+        83.2185
+      ],
       "zoom": 11,
       "primaryLanguage": "te",
       "languageName": "Telugu",
