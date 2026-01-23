@@ -21,34 +21,34 @@
 
 /* Sidebar Toggle Menu Item */
 .nav-item-toggle {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid #E5DFC8;
     margin-bottom: 0.5rem !important;
     padding-bottom: 1rem !important;
 }
 
 .nav-item-toggle:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(47, 74, 44, 0.08) !important;
 }
 
 .nav-item-toggle::before {
     display: none !important;
 }
 
-/* Sidebar - Flat color with Geometric Pattern (Brand Compliant) */
+/* Sidebar - Cream background with subtle geometric pattern */
 .sidebar {
     position: relative;
-    background: #2F4A2C; /* Forest Green - Flat color only, no gradients */
-    color: #FAF6E8; /* Warm Cream text */
+    background: #FAF6E8; /* Warm Cream - Flat color only, no gradients */
+    color: #2B2B2B; /* Charcoal text */
     display: flex;
     flex-direction: column;
-    box-shadow: 4px 0 24px rgba(47, 74, 44, 0.3);
+    box-shadow: 4px 0 24px rgba(47, 74, 44, 0.15);
     z-index: 100;
     border-right: 2px solid #B9C98A; /* Olive Green border */
     overflow: hidden;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Geometric Pattern Overlay - SVG shapes, no gradients */
+/* Geometric Pattern Overlay - Subtle shapes on cream background */
 .sidebar::before {
     content: '';
     position: absolute;
@@ -56,7 +56,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("data:image/svg+xml,%3Csvg width='280' height='800' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3C/defs%3E%3C!-- Circles: Community, wholeness --%3E%3Ccircle cx='30' cy='120' r='40' fill='%23B9C98A' opacity='0.08'/%3E%3Ccircle cx='240' cy='200' r='35' fill='%23C45A2A' opacity='0.06'/%3E%3Ccircle cx='40' cy='480' r='45' fill='%23F5B82E' opacity='0.07'/%3E%3Ccircle cx='250' cy='600' r='50' fill='%233F5F7A' opacity='0.05'/%3E%3C!-- Diamonds: Intersection of ideas --%3E%3Cpolygon points='150,50 170,70 150,90 130,70' fill='%23B9C98A' opacity='0.08'/%3E%3Cpolygon points='220,350 245,375 220,400 195,375' fill='%23B9C98A' opacity='0.06'/%3E%3C!-- Rectangles: Structure, stability --%3E%3Crect x='200' y='450' width='60' height='40' fill='%233F5F7A' opacity='0.05'/%3E%3Crect x='20' y='300' width='50' height='50' fill='%23C45A2A' opacity='0.04'/%3E%3C!-- Triangles: Direction, energy --%3E%3Cpolygon points='100,700 130,750 70,750' fill='%23B9C98A' opacity='0.08'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='280' height='800' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Circles: Community, wholeness --%3E%3Ccircle cx='30' cy='120' r='40' fill='%23B9C98A' opacity='0.06'/%3E%3Ccircle cx='240' cy='200' r='35' fill='%23C45A2A' opacity='0.04'/%3E%3Ccircle cx='40' cy='480' r='45' fill='%23F5B82E' opacity='0.05'/%3E%3Ccircle cx='250' cy='600' r='50' fill='%232F4A2C' opacity='0.04'/%3E%3C!-- Diamonds: Intersection of ideas --%3E%3Cpolygon points='150,50 170,70 150,90 130,70' fill='%23B9C98A' opacity='0.06'/%3E%3Cpolygon points='220,350 245,375 220,400 195,375' fill='%23B9C98A' opacity='0.04'/%3E%3C!-- Rectangles: Structure, stability --%3E%3Crect x='200' y='450' width='60' height='40' fill='%232F4A2C' opacity='0.03'/%3E%3Crect x='20' y='300' width='50' height='50' fill='%23C45A2A' opacity='0.03'/%3E%3C!-- Triangles: Direction, energy --%3E%3Cpolygon points='100,700 130,750 70,750' fill='%23B9C98A' opacity='0.06'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-size: 280px 100%;
     pointer-events: none;
@@ -205,7 +205,7 @@
     align-items: center;
     padding: 1rem 1.75rem;
     margin: 0.25rem 0.75rem;
-    color: white;
+    color: #2F4A2C; /* Forest Green text */
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 12px;
@@ -221,15 +221,15 @@
     transform: translateY(-50%);
     width: 3px;
     height: 0;
-    background: #B9C98A; /* Olive Green - Flat color only */
+    background: #C45A2A; /* Terracotta accent */
     border-radius: 0 3px 3px 0;
     transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-item:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(47, 74, 44, 0.08); /* Forest green tint */
     transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.15);
 }
 
 .nav-item:hover::before {
@@ -237,13 +237,15 @@
 }
 
 .nav-item.active {
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(47, 74, 44, 0.12); /* Darker forest green */
+    color: #2F4A2C;
     font-weight: 600;
-    box-shadow: 0 4px 16px rgba(185, 201, 138, 0.3);
+    box-shadow: 0 4px 16px rgba(47, 74, 44, 0.2);
 }
 
 .nav-item.active::before {
     height: 80%;
+    background: #2F4A2C; /* Forest green for active */
 }
 
 .nav-item .icon {
@@ -251,7 +253,7 @@
     margin-right: 1rem;
     width: 1.75rem;
     text-align: center;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    color: #2F4A2C; /* Forest Green icons */
 }
 
 .nav-item .label {
@@ -263,30 +265,30 @@
 .sidebar-footer {
     position: relative;
     padding: 1.5rem 1.25rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #E5DFC8;
+    background: #FAF6E8; /* Warm Cream - same as sidebar */
 }
 
 .btn-logout {
     width: 100%;
     padding: 0.875rem;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: white;
+    background: #C45A2A; /* Terracotta background */
+    border: 2px solid #C45A2A;
+    color: #FAF6E8; /* Warm Cream text */
     border-radius: 12px;
     cursor: pointer;
     font-weight: 600;
     font-size: 0.9375rem;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     letter-spacing: 0.01em;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(196, 90, 42, 0.2);
 }
 
 .btn-logout:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: #2F4A2C; /* Forest Green on hover */
+    border-color: #2F4A2C;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.3);
 }
 
 .btn-logout:active {
@@ -327,17 +329,17 @@
 }
 
 .sidebar-nav::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(47, 74, 44, 0.05);
     border-radius: 3px;
 }
 
 .sidebar-nav::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(47, 74, 44, 0.2);
     border-radius: 3px;
 }
 
 .sidebar-nav::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(47, 74, 44, 0.35);
 }
 
 /* Mobile Hamburger Button */
@@ -348,19 +350,21 @@
     left: 1rem;
     width: 48px;
     height: 48px;
-    background: #2F4A2C; /* Forest Green */
+    background: #FAF6E8; /* Warm Cream */
     border: 2px solid #B9C98A; /* Olive Green border */
     border-radius: 12px;
-    color: #FAF6E8; /* Warm Cream */
+    color: #2F4A2C; /* Forest Green icon */
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 1001; /* Above sidebar and backdrop */
-    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.3);
+    box-shadow: 0 4px 12px rgba(47, 74, 44, 0.2);
     transition: all 0.3s ease;
 }
 
 .mobile-hamburger:hover {
-    background: #3d5e38;
+    background: #2F4A2C; /* Forest Green on hover */
+    color: #FAF6E8; /* Cream icon on hover */
+    border-color: #2F4A2C;
     transform: scale(1.05);
     box-shadow: 0 6px 16px rgba(47, 74, 44, 0.4);
 }
@@ -489,7 +493,7 @@
     margin-right: 1rem;
     width: 1.75rem;
     text-align: center;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    color: #2F4A2C; /* Forest Green icons */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -509,6 +513,7 @@
 
 .btn-logout i {
     font-size: 1rem;
+    color: #FAF6E8; /* Cream icon color */
 }
 
 /* Sidebar toggle menu item icon */
