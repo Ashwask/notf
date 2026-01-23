@@ -75,7 +75,7 @@
 
 /* Hide text labels and adjust layout in collapsed state */
 .dashboard-container.sidebar-collapsed .sidebar-logo {
-    height: 40px;
+    height: 50px;
     transition: height 0.2s;
 }
 
@@ -99,7 +99,7 @@
 
 /* Adjust sidebar header for collapsed state */
 .dashboard-container.sidebar-collapsed .sidebar-header {
-    padding: 1.5rem 0.5rem;
+    padding: 1rem 0.5rem;
 }
 
 /* Logout button in collapsed state - show only icon */
@@ -176,9 +176,9 @@
 /* Sidebar Header */
 .sidebar-header {
     position: relative;
-    padding: 2rem 1.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid #E5DFC8;
+    background: #FAF6E8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,7 +186,7 @@
 
 .sidebar-logo {
     width: auto;
-    height: 60px;
+    height: 80px;
     max-width: 100%;
     transition: opacity 0.2s, visibility 0.2s, height 0.2s;
 }
