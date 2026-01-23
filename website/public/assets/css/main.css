@@ -290,7 +290,7 @@ nav {
     padding: 12px 24px;
     font-size: 14px;
     font-weight: 600;
-    border-radius: var(--radius-md);
+    border-radius: 20px;
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
@@ -591,7 +591,7 @@ nav {
     padding: 16px 40px;
     font-size: 18px;
     font-weight: 600;
-    border-radius: var(--radius-md);
+    border-radius: 20px;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
