@@ -22,6 +22,9 @@ website/_site/
 # Supporting documents (Excel, PDFs - will be managed in Supabase)
 supporting documents/
 
+# Scripts archive (utility scripts for reference)
+scripts/archive/
+
 # Supabase CLI temp files
 supabase/.temp/
 
