@@ -54,12 +54,12 @@
             background: var(--color-bg-white);
             border: 2px solid var(--slate-blue);
             border-radius: var(--radius-lg);
-            padding: var(--space-md);
+            padding: 16px;
             transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
             display: flex;
             flex-direction: column;
-            min-height: 300px;
+            min-height: 220px;
         }
 
         .city-selector-card:hover {
@@ -70,14 +70,14 @@
 
         .city-card-header {
             display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            margin-bottom: var(--space-md);
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
         .city-icon {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -85,7 +85,7 @@
         }
 
         .city-icon i {
-            font-size: 48px;
+            font-size: 36px;
             /* Color set dynamically per city */
         }
 
@@ -108,7 +108,7 @@
         .city-meta {
             display: flex;
             gap: var(--space-sm);
-            margin-bottom: var(--space-md);
+            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
@@ -123,15 +123,18 @@
 
         .city-features {
             flex: 1;
-            margin-bottom: var(--space-md);
+            margin-bottom: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 12px;
         }
 
         .feature-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 0;
-            font-size: 14px;
+            padding: 4px 0;
+            font-size: 13px;
         }
 
         .feature-item i {
@@ -198,6 +201,22 @@
             color: var(--color-text-light);
             text-transform: uppercase;
             letter-spacing: 0.05em;
+        }
+
+        /* === RESPONSIVE: CITY CARDS === */
+        @media (max-width: 768px) {
+            .city-features {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .city-selector-card {
+                min-height: auto;
+            }
+
+            .feature-item {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
