@@ -314,7 +314,7 @@
       "features": {
         "map": {
           "available": true,
-          "boundaryFile": "/assets/data/boundaries/mumbai-wards.geojson"
+          "boundaryFile": "/assets/data/boundaries/mumbai-electoral-wards.geojson"
         },
         "communities": {
           "available": false,
@@ -325,8 +325,8 @@
           "count": 0
         },
         "climate": {
-          "available": false,
-          "expectedLaunch": "TBD"
+          "available": true,
+          "sectorCount": 2
         }
       }
     },
@@ -432,7 +432,7 @@
   ],
   "metadata": {
     "totalCities": 13,
-    "lastUpdated": "2026-01-20",
-    "version": "1.0"
+    "lastUpdated": "2026-01-23",
+    "version": "1.1"
   }
 }
