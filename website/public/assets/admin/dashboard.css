@@ -191,6 +191,24 @@
     transition: opacity 0.2s, visibility 0.2s, height 0.2s;
 }
 
+/* Show/hide logos based on sidebar state */
+.sidebar-logo-collapsed {
+    display: none;
+}
+
+.sidebar-logo-expanded {
+    display: block;
+}
+
+.dashboard-container.sidebar-collapsed .sidebar-logo-collapsed {
+    display: block;
+    height: 60px;
+}
+
+.dashboard-container.sidebar-collapsed .sidebar-logo-expanded {
+    display: none;
+}
+
 /* Navigation */
 .sidebar-nav {
     position: relative;
