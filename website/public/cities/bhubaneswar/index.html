@@ -560,30 +560,7 @@
     <!-- Language Selector (English + Tamil only) -->
     <script src="/assets/i18n/language-selector.js"></script>
 
-    <!-- Force English on city pages until all translations are added -->
-    <script>
-        // City pages default to English until cityHub translations are added to all languages
-        window.addEventListener('DOMContentLoaded', () => {
-            if (window.translator) {
-                // Check if current language has cityHub translations
-                const checkTranslations = () => {
-                    if (window.translator.translations[window.translator.currentLanguage]) {
-                        const hasCityHub = window.translator.translations[window.translator.currentLanguage].cityHub;
-                        if (!hasCityHub && window.translator.currentLanguage !== 'en') {
-                            console.log('City page translations not available in current language, switching to English');
-                            window.translator.setLanguage('en');
-                        }
-                    }
-                };
-
-                // Try immediately
-                checkTranslations();
-
-                // Also retry after a short delay if needed
-                setTimeout(checkTranslations, 100);
-            }
-        });
-    </script>    <script src="/assets/js/nav-highlight.js"></script>
+    <script src="/assets/js/nav-highlight.js"></script>
 
 </body>
 </html>
