@@ -9,8 +9,9 @@
  */
 
 class ClimateDataLoader {
-    constructor() {
-        this.baseUrl = '/assets/data/climate/bengaluru';
+    constructor(city = 'bengaluru') {
+        this.city = city;
+        this.baseUrl = `/assets/data/climate/${city}`;
         this.cache = new Map();
         this.loading = new Map();
     }
@@ -20,7 +21,7 @@ class ClimateDataLoader {
      * @returns {Promise<Object>} City summary with aggregates and rankings
      */
     async loadCitySummary() {
-        const cacheKey = 'city_summary';
+        const cacheKey = `${this.city}_city_summary`;
 
         // Check cache
         if (this.cache.has(cacheKey)) {
@@ -64,7 +65,7 @@ class ClimateDataLoader {
      * @returns {Promise<Object>} Ward index with basic metadata
      */
     async loadWardIndex() {
-        const cacheKey = 'ward_index';
+        const cacheKey = `${this.city}_ward_index`;
 
         // Check cache
         if (this.cache.has(cacheKey)) {
@@ -104,13 +105,13 @@ class ClimateDataLoader {
     }
 
     /**
-     * Load corporation data (lazy loaded)
-     * @param {string} corporation - Corporation name (Central, East, West, North, South)
-     * @returns {Promise<Object>} Corporation data with full ward details
+     * Load corporation/zone data (lazy loaded)
+     * @param {string} corporation - Corporation/zone name (e.g., Central, East, northern, eastern)
+     * @returns {Promise<Object>} Corporation/zone data with full ward details
      */
     async loadCorporationData(corporation) {
         const corpLower = corporation.toLowerCase();
-        const cacheKey = `corp_${corpLower}`;
+        const cacheKey = `${this.city}_corp_${corpLower}`;
 
         // Check cache
         if (this.cache.has(cacheKey)) {
@@ -250,13 +251,16 @@ class ClimateDataLoader {
      */
     clearCache() {
         this.cache.clear();
-        sessionStorage.removeItem('city_summary');
-        sessionStorage.removeItem('ward_index');
-        sessionStorage.removeItem('corp_central');
-        sessionStorage.removeItem('corp_east');
-        sessionStorage.removeItem('corp_west');
-        sessionStorage.removeItem('corp_north');
-        sessionStorage.removeItem('corp_south');
+        // Clear city-specific session storage
+        const prefix = `${this.city}_`;
+        const keysToRemove = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            if (key.startsWith(prefix) || key === 'city_summary' || key === 'ward_index' || key.startsWith('corp_')) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(key => sessionStorage.removeItem(key));
     }
 }
 

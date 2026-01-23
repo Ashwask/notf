@@ -274,7 +274,8 @@
     "all": "ସମସ୍ତ",
     "active": "ସକ୍ରିୟ |",
     "pending": "ବିଚାରାଧୀନ ଅଛି",
-    "archived": "ସଂଗୃହିତ"
+    "archived": "ସଂଗୃହିତ",
+    "view_details": "View Details [or]"
   },
   "footer": {
     "poweredBy": "ଦ୍ୱାରା ପରିଚାଳିତ NOTF ପ୍ଲାଟଫର୍ମ |",
@@ -484,8 +485,8 @@
       },
       "climate": {
         "title": "ଜଳବାୟୁ ଡାଟା",
-        "description": "{{wardCount}} ୱାର୍ଡରେ ୱାର୍ଡ-ସ୍ତରୀୟ ଜଳବାୟୁ ବେସଲାଇନ ଡାଟା | ଖୋଲା ଡାଟା ଡାଉନଲୋଡ୍ ସହିତ ଶକ୍ତି ଏବଂ ଭବନ ଏବଂ ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା କ୍ଷେତ୍ରଗୁଡିକ ଅନ୍ୱେଷଣ କରନ୍ତୁ |",
-        "button": "ଡାଟା ଡାଉନଲୋଡ୍ କରନ୍ତୁ",
+        "description": "{{wardCount}} ୱାର୍ଡରେ ୱାର୍ଡ-ସ୍ତରୀୟ ଜଳବାୟୁ ବେସଲାଇନ ଡାଟା। ଇଣ୍ଟରାକ୍ଟିଭ୍ ଡ୍ୟାସବୋର୍ଡ ସହିତ ଶକ୍ତି ଏବଂ କୋଠା ଏବଂ ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା କ୍ଷେତ୍ର ଅନୁସନ୍ଧାନ କରନ୍ତୁ।",
+        "button": "ଡ୍ୟାସବୋର୍ଡ ଦେଖନ୍ତୁ",
         "sectors": {
           "energy": "ଶକ୍ତି ଏବଂ ବିଲ୍ଡିଂ",
           "transportation": "ପରିବହନ",
@@ -516,6 +517,53 @@
       "joinProvider": "ପ୍ରଦାନକାରୀ ଭାବରେ ଯୋଗ ଦିଅନ୍ତୁ |",
       "comingSoonButton": "ଶୀଘ୍ର ଆସୁଛି |",
       "additionalSectors": "ଅତିରିକ୍ତ ଜଳବାୟୁ କ୍ଷେତ୍ର (5 ଅଧିକ)"
+    }
+  },
+  "mumbai_climate": {
+    "title": "Mumbai Climate Action Dashboard [or]",
+    "subtitle": "Tracking climate data across 227 wards [or]",
+    "intro_title": "Climate Action by Sector [or]",
+    "intro_description": "Explore ward-level metrics across 2 climate sectors [or]",
+    "sectors": {
+      "energy_title": "Energy & Buildings [or]",
+      "energy_count": "227 Wards",
+      "energy_description": "Energy and buildings metrics [or]",
+      "waste_title": "Waste Management [or]",
+      "waste_count": "227 Wards",
+      "waste_description": "Waste management metrics [or]"
+    },
+    "stats": {
+      "clean_cooking": "Clean Cooking [or]",
+      "segregation": "Segregation [or]",
+      "wards_tracked": "Wards Tracked [or]"
+    },
+    "data_sources_title": "Data Sources [or]",
+    "sources": {
+      "census": "Census 2011",
+      "census_desc": "Government of India",
+      "opencity": "OpenCity.in",
+      "opencity_desc": "Ward-level data",
+      "boundaries": "Ward Boundaries",
+      "boundaries_desc": "BMC (227 Prabhags)",
+      "ires": "IRES 2020",
+      "ires_desc": "CEEW estimates",
+      "confidence": "Data Confidence:",
+      "confidence_desc": "~60%",
+      "updated": "Last Updated:"
+    },
+    "zones": {
+      "all": "All Zones [or]",
+      "northern": "Northern Suburbs [or]",
+      "eastern": "Eastern Suburbs [or]",
+      "western": "Western Suburbs [or]",
+      "central": "Central [or]",
+      "south": "South Mumbai [or]"
+    }
+  },
+  "climate": {
+    "sectors": {
+      "energy": "Energy & Buildings [or]",
+      "waste": "Waste Management [or]"
     }
   }
 }
