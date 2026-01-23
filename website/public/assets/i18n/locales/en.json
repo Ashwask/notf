@@ -436,7 +436,7 @@
       "wards": "Wards",
       "population": "Population",
       "exploreTitle": "Explore Mumbai",
-      "exploreSubtitle": "Ward-level map available now. Community and provider directories coming soon."
+      "exploreSubtitle": "Ward-level map and climate data now available. Community and provider directories coming soon."
     },
     "pune": {
       "subtitle": "Maharashtra, India",
@@ -483,9 +483,15 @@
         "button": "View Providers"
       },
       "climate": {
-        "title": "Climate Action Dashboard",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "View Climate Dashboard",
+        "title": "Climate Data",
+        "description": "Ward-level climate baseline data across {{wardCount}} wards. Explore Energy & Buildings and Waste Management sectors with open data downloads.",
+        "button": "Download Data",
+        "statusLive": "Live",
+        "dashboard": {
+          "title": "Climate Action Dashboard",
+          "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
+          "button": "View Climate Dashboard"
+        },
         "sectors": {
           "energy": "Energy & Buildings",
           "transportation": "Transportation",
@@ -511,6 +517,7 @@
       "communityDirectory": "Community Directory",
       "providerNetwork": "Solution Provider Network",
       "climateAction": "Climate Action Dashboard",
+      "additionalSectors": "Additional Climate Sectors (5 more)",
       "joinCommunity": "Join as Community",
       "joinProvider": "Join as Provider",
       "comingSoonButton": "Coming Soon"

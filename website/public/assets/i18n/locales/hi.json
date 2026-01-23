@@ -436,7 +436,7 @@
       "wards": "वार्ड",
       "population": "जनसंख्या",
       "exploreTitle": "मुंबई का अन्वेषण करें",
-      "exploreSubtitle": "वार्ड-स्तरीय मानचित्र अभी उपलब्ध है।समुदाय और प्रदाता निर्देशिकाएँ जल्द ही आ रही हैं।"
+      "exploreSubtitle": "वार्ड-स्तरीय नक्शा और जलवायु डेटा अब उपलब्ध है। सामुदायिक और प्रदाता निर्देशिका जल्द आ रही है।"
     },
     "pune": {
       "subtitle": "महाराष्ट्र, भारत",
@@ -483,9 +483,9 @@
         "button": "प्रदाता देखें"
       },
       "climate": {
-        "title": "क्लाइमेट एक्शन डैशबोर्ड",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "जलवायु डैशबोर्ड देखें",
+        "title": "जलवायु डेटा",
+        "description": "{{wardCount}} वार्डों में वार्ड-स्तरीय जलवायु आधारभूत डेटा। ऊर्जा और भवन तथा अपशिष्ट प्रबंधन क्षेत्रों को खुले डेटा डाउनलोड के साथ देखें।",
+        "button": "डेटा डाउनलोड करें",
         "sectors": {
           "energy": "ऊर्जा एवं भवन",
           "transportation": "परिवहन",
@@ -494,7 +494,8 @@
           "water": "पानी",
           "greening": "हरित",
           "disaster": "आपदा प्रबंधन"
-        }
+        },
+        "statusLive": "लाइव"
       },
       "statusComingSoon": "जल्द आ रहा है"
     },
@@ -513,7 +514,8 @@
       "climateAction": "क्लाइमेट एक्शन डैशबोर्ड",
       "joinCommunity": "समुदाय के रूप में शामिल हों",
       "joinProvider": "प्रदाता के रूप में शामिल हों",
-      "comingSoonButton": "जल्द आ रहा है"
+      "comingSoonButton": "जल्द आ रहा है",
+      "additionalSectors": "अतिरिक्त जलवायु क्षेत्र (5 और)"
     }
   }
 }

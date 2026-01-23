@@ -436,7 +436,7 @@
       "wards": "వార్డులు",
       "population": "జనాభా",
       "exploreTitle": "ముంబైని అన్వేషించండి",
-      "exploreSubtitle": "వార్డు స్థాయి మ్యాప్ ఇప్పుడు అందుబాటులో ఉంది.కమ్యూనిటీ మరియు ప్రొవైడర్ డైరెక్టరీలు త్వరలో రానున్నాయి."
+      "exploreSubtitle": "వార్డు స్థాయి మ్యాప్ మరియు వాతావరణ డేటా ఇప్పుడు అందుబాటులో ఉంది. కమ్యూనిటీ మరియు ప్రొవైడర్ డైరెక్టరీ త్వరలో వస్తుంది."
     },
     "pune": {
       "subtitle": "మహారాష్ట్ర, భారతదేశం",
@@ -483,9 +483,9 @@
         "button": "ప్రొవైడర్లను వీక్షించండి"
       },
       "climate": {
-        "title": "క్లైమేట్ యాక్షన్ డాష్‌బోర్డ్",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "వాతావరణ డ్యాష్‌బోర్డ్‌ని వీక్షించండి",
+        "title": "వాతావరణ డేటా",
+        "description": "{{wardCount}} వార్డులలో వార్డు స్థాయి వాతావరణ బేస్‌లైన్ డేటా. ఓపెన్ డేటా డౌన్‌లోడ్‌లతో శక్తి మరియు భవనాలు మరియు వ్యర్థాల నిర్వహణ రంగాలను అన్వేషించండి.",
+        "button": "డేటాను డౌన్‌లోడ్ చేయండి",
         "sectors": {
           "energy": "శక్తి & భవనాలు",
           "transportation": "రవాణా",
@@ -494,7 +494,8 @@
           "water": "నీరు",
           "greening": "పచ్చదనం",
           "disaster": "విపత్తు నిర్వహణ"
-        }
+        },
+        "statusLive": "ప్రత్యక్ష"
       },
       "statusComingSoon": "త్వరలో వస్తుంది"
     },
@@ -513,7 +514,8 @@
       "climateAction": "క్లైమేట్ యాక్షన్ డాష్‌బోర్డ్",
       "joinCommunity": "సంఘంగా చేరండి",
       "joinProvider": "ప్రొవైడర్‌గా చేరండి",
-      "comingSoonButton": "త్వరలో వస్తుంది"
+      "comingSoonButton": "త్వరలో వస్తుంది",
+      "additionalSectors": "అదనపు వాతావరణ రంగాలు (మరో 5)"
     }
   }
 }

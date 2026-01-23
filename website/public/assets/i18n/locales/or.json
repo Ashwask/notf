@@ -436,7 +436,7 @@
       "wards": "ୱାର୍ଡଗୁଡିକ",
       "population": "ଜନସଂଖ୍ୟା",
       "exploreTitle": "ମୁମ୍ବାଇ ଏକ୍ସପ୍ଲୋର୍ କରନ୍ତୁ |",
-      "exploreSubtitle": "ୱାର୍ଡ ସ୍ତରୀୟ ମାନଚିତ୍ର ବର୍ତ୍ତମାନ ଉପଲବ୍ଧ |ସମ୍ପ୍ରଦାୟ ଏବଂ ପ୍ରଦାନକାରୀ ଡିରେକ୍ଟୋରୀଗୁଡିକ ଶୀଘ୍ର ଆସିବ |"
+      "exploreSubtitle": "ୱାର୍ଡ-ସ୍ତରୀୟ ମାନଚିତ୍ର ଏବଂ ଜଳବାୟୁ ଡାଟା ବର୍ତ୍ତମାନ ଉପଲବ୍ଧ | ସମ୍ପ୍ରଦାୟ ଏବଂ ପ୍ରଦାନକାରୀ ଡିରେକ୍ଟୋରୀ ଶୀଘ୍ର ଆସୁଛି |"
     },
     "pune": {
       "subtitle": "ମହାରାଷ୍ଟ୍ର, ଭାରତ",
@@ -483,9 +483,9 @@
         "button": "ପ୍ରଦାନକାରୀଙ୍କୁ ଦର୍ଶନ କରନ୍ତୁ |"
       },
       "climate": {
-        "title": "ଜଳବାୟୁ କାର୍ଯ୍ୟ ଡ୍ୟାସବୋର୍ଡ |",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "ଜଳବାୟୁ ଡ୍ୟାସବୋର୍ଡ ଦେଖନ୍ତୁ |",
+        "title": "ଜଳବାୟୁ ଡାଟା",
+        "description": "{{wardCount}} ୱାର୍ଡରେ ୱାର୍ଡ-ସ୍ତରୀୟ ଜଳବାୟୁ ବେସଲାଇନ ଡାଟା | ଖୋଲା ଡାଟା ଡାଉନଲୋଡ୍ ସହିତ ଶକ୍ତି ଏବଂ ଭବନ ଏବଂ ବର୍ଜ୍ୟବସ୍ତୁ ପରିଚାଳନା କ୍ଷେତ୍ରଗୁଡିକ ଅନ୍ୱେଷଣ କରନ୍ତୁ |",
+        "button": "ଡାଟା ଡାଉନଲୋଡ୍ କରନ୍ତୁ",
         "sectors": {
           "energy": "ଶକ୍ତି ଏବଂ ବିଲ୍ଡିଂ",
           "transportation": "ପରିବହନ",
@@ -494,7 +494,8 @@
           "water": "ଜଳ",
           "greening": "ସବୁଜ କରିବା",
           "disaster": "ବିପର୍ଯ୍ୟୟ ପରିଚାଳନା"
-        }
+        },
+        "statusLive": "ଲାଇଭ୍"
       },
       "statusComingSoon": "ଶୀଘ୍ର ଆସୁଛି |"
     },
@@ -513,7 +514,8 @@
       "climateAction": "ଜଳବାୟୁ କାର୍ଯ୍ୟ ଡ୍ୟାସବୋର୍ଡ |",
       "joinCommunity": "ସମ୍ପ୍ରଦାୟ ଭାବରେ ଯୋଗ ଦିଅନ୍ତୁ |",
       "joinProvider": "ପ୍ରଦାନକାରୀ ଭାବରେ ଯୋଗ ଦିଅନ୍ତୁ |",
-      "comingSoonButton": "ଶୀଘ୍ର ଆସୁଛି |"
+      "comingSoonButton": "ଶୀଘ୍ର ଆସୁଛି |",
+      "additionalSectors": "ଅତିରିକ୍ତ ଜଳବାୟୁ କ୍ଷେତ୍ର (5 ଅଧିକ)"
     }
   }
 }

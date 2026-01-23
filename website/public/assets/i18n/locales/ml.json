@@ -436,7 +436,7 @@
       "wards": "വാർഡുകൾ",
       "population": "ജനസംഖ്യ",
       "exploreTitle": "മുംബൈ പര്യവേക്ഷണം ചെയ്യുക",
-      "exploreSubtitle": "വാർഡുതല മാപ്പ് ഇപ്പോൾ ലഭ്യമാണ്.കമ്മ്യൂണിറ്റി, പ്രൊവൈഡർ ഡയറക്‌ടറികൾ ഉടൻ വരുന്നു."
+      "exploreSubtitle": "വാർഡ് തല ഭൂപടവും കാലാവസ്ഥാ ഡാറ്റയും ഇപ്പോൾ ലഭ്യമാണ്. കമ്മ്യൂണിറ്റി, പ്രൊവൈഡർ ഡയറക്ടറി ഉടൻ വരുന്നു."
     },
     "pune": {
       "subtitle": "മഹാരാഷ്ട്ര, ഇന്ത്യ",
@@ -483,9 +483,9 @@
         "button": "ദാതാക്കളെ കാണുക"
       },
       "climate": {
-        "title": "കാലാവസ്ഥാ പ്രവർത്തന ഡാഷ്‌ബോർഡ്",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "കാലാവസ്ഥ ഡാഷ്‌ബോർഡ് കാണുക",
+        "title": "കാലാവസ്ഥാ ഡാറ്റ",
+        "description": "{{wardCount}} വാർഡുകളിൽ വാർഡ് തല കാലാവസ്ഥാ അടിസ്ഥാന ഡാറ്റ. തുറന്ന ഡാറ്റ ഡൗൺലോഡുകളോടെ ഊർജ്ജവും കെട്ടിടങ്ങളും മാലിന്യ നിർവ്വഹണ മേഖലകളും പര്യവേക്ഷണം ചെയ്യുക.",
+        "button": "ഡാറ്റ ഡൗൺലോഡ് ചെയ്യുക",
         "sectors": {
           "energy": "ഊർജ്ജവും കെട്ടിടങ്ങളും",
           "transportation": "ഗതാഗതം",
@@ -494,7 +494,8 @@
           "water": "വെള്ളം",
           "greening": "ഹരിതവൽക്കരണം",
           "disaster": "ഡിസാസ്റ്റർ മാനേജ്മെൻ്റ്"
-        }
+        },
+        "statusLive": "തത്സമയം"
       },
       "statusComingSoon": "ഉടൻ വരുന്നു"
     },
@@ -513,7 +514,8 @@
       "climateAction": "കാലാവസ്ഥാ പ്രവർത്തന ഡാഷ്‌ബോർഡ്",
       "joinCommunity": "കമ്മ്യൂണിറ്റിയായി ചേരുക",
       "joinProvider": "ദാതാവായി ചേരുക",
-      "comingSoonButton": "ഉടൻ വരുന്നു"
+      "comingSoonButton": "ഉടൻ വരുന്നു",
+      "additionalSectors": "അധിക കാലാവസ്ഥാ മേഖലകൾ (5 കൂടി)"
     }
   }
 }

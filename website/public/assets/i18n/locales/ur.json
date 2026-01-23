@@ -436,7 +436,7 @@
       "wards": "وارڈز",
       "population": "آبادی",
       "exploreTitle": "ممبئی دریافت کریں",
-      "exploreSubtitle": "وارڈ لیول کا نقشہ اب دستیاب ہے۔کمیونٹی اور فراہم کنندہ ڈائریکٹری جلد ہی آرہی ہیں۔"
+      "exploreSubtitle": "وارڈ کی سطح کا نقشہ اور آب و ہوا کا ڈیٹا اب دستیاب ہے۔ کمیونٹی اور فراہم کنندہ ڈائرکٹری جلد آرہی ہے۔"
     },
     "pune": {
       "subtitle": "مہاراشٹر ، ہندوستان",
@@ -483,9 +483,9 @@
         "button": "فراہم کنندگان دیکھیں"
       },
       "climate": {
-        "title": "آب و ہوا ایکشن ڈیش بورڈ",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "آب و ہوا کا ڈیش بورڈ دیکھیں",
+        "title": "آب و ہوا کا ڈیٹا",
+        "description": "{{wardCount}} وارڈوں میں وارڈ کی سطح کا آب و ہوا کی بنیادی ڈیٹا۔ کھلے ڈیٹا ڈاؤن لوڈ کے ساتھ توانائی اور عمارات اور فضلہ کے انتظام کے شعبوں کو دریافت کریں۔",
+        "button": "ڈیٹا ڈاؤن لوڈ کریں",
         "sectors": {
           "energy": "توانائی اور عمارتیں",
           "transportation": "نقل و حمل",
@@ -494,7 +494,8 @@
           "water": "پانی",
           "greening": "گریننگ",
           "disaster": "ڈیزاسٹر مینجمنٹ"
-        }
+        },
+        "statusLive": "براہ راست"
       },
       "statusComingSoon": "جلد آرہا ہے"
     },
@@ -513,7 +514,8 @@
       "climateAction": "آب و ہوا ایکشن ڈیش بورڈ",
       "joinCommunity": "برادری کے طور پر شامل ہوں",
       "joinProvider": "فراہم کنندہ کے طور پر شامل ہوں",
-      "comingSoonButton": "جلد آرہا ہے"
+      "comingSoonButton": "جلد آرہا ہے",
+      "additionalSectors": "اضافی آب و ہوا کے شعبے (مزید 5)"
     }
   }
 }

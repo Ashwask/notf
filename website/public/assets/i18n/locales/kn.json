@@ -436,7 +436,7 @@
       "wards": "ವಾರ್ಡ್‌ಗಳು",
       "population": "ಜನಸಂಖ್ಯೆ",
       "exploreTitle": "ಮುಂಬೈ ಅನ್ವೇಷಿಸಿ",
-      "exploreSubtitle": "ವಾರ್ಡ್ ಮಟ್ಟದ ನಕ್ಷೆ ಈಗ ಲಭ್ಯವಿದೆ.ಸಮುದಾಯ ಮತ್ತು ಪೂರೈಕೆದಾರರ ಡೈರೆಕ್ಟರಿಗಳು ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿವೆ."
+      "exploreSubtitle": "ವಾರ್ಡ್-ಮಟ್ಟದ ನಕ್ಷೆ ಮತ್ತು ಹವಾಮಾನ ಡೇಟಾ ಈಗ ಲಭ್ಯವಿದೆ। ಸಮುದಾಯ ಮತ್ತು ಪೂರೈಕೆದಾರರ ಡೈರೆಕ್ಟರಿ ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ."
     },
     "pune": {
       "subtitle": "ಮಹಾರಾಷ್ಟ್ರ, ಭಾರತ",
@@ -483,9 +483,9 @@
         "button": "ಪೂರೈಕೆದಾರರನ್ನು ವೀಕ್ಷಿಸಿ"
       },
       "climate": {
-        "title": "ಹವಾಮಾನ ಕ್ರಿಯೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "ಹವಾಮಾನ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ವೀಕ್ಷಿಸಿ",
+        "title": "ಹವಾಮಾನ ಡೇಟಾ",
+        "description": "{{wardCount}} ವಾರ್ಡ್‌ಗಳಾದ್ಯಂತ ವಾರ್ಡ್-ಮಟ್ಟದ ಹವಾಮಾನ ಮೂಲ ಡೇಟಾ. ಮುಕ್ತ ಡೇಟಾ ಡೌನ್‌ಲೋಡ್‌ಗಳೊಂದಿಗೆ ಶಕ್ತಿ ಮತ್ತು ಕಟ್ಟಡಗಳು ಮತ್ತು ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣಾ ವಲಯಗಳನ್ನು ಅನ್ವೇಷಿಸಿ.",
+        "button": "ಡೇಟಾ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ",
         "sectors": {
           "energy": "ಶಕ್ತಿ ಮತ್ತು ಕಟ್ಟಡಗಳು",
           "transportation": "ಸಾರಿಗೆ",
@@ -494,7 +494,8 @@
           "water": "ನೀರು",
           "greening": "Greening",
           "disaster": "ವಿಪತ್ತು ನಿರ್ವಹಣೆ"
-        }
+        },
+        "statusLive": "ಲೈವ್"
       },
       "statusComingSoon": "ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ"
     },
@@ -513,7 +514,8 @@
       "climateAction": "ಹವಾಮಾನ ಕ್ರಿಯೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
       "joinCommunity": "ಸಮುದಾಯವಾಗಿ ಸೇರಿ",
       "joinProvider": "ಪೂರೈಕೆದಾರರಾಗಿ ಸೇರಿರಿ",
-      "comingSoonButton": "ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ"
+      "comingSoonButton": "ಶೀಘ್ರದಲ್ಲೇ ಬರಲಿದೆ",
+      "additionalSectors": "ಹೆಚ್ಚುವರಿ ಹವಾಮಾನ ವಲಯಗಳು (5 ಹೆಚ್ಚು)"
     }
   }
 }

@@ -436,7 +436,7 @@
       "wards": "வார்டுகள்",
       "population": "மக்கள் தொகை",
       "exploreTitle": "மும்பையை ஆராயுங்கள்",
-      "exploreSubtitle": "வார்டு அளவிலான வரைபடம் இப்போது கிடைக்கிறது.சமூகம் மற்றும் வழங்குநர் கோப்பகங்கள் விரைவில்."
+      "exploreSubtitle": "வார்டு அளவிலான வரைபடம் மற்றும் காலநிலை தரவு இப்போது கிடைக்கிறது. சமூக மற்றும் வழங்குநர் அடைவு விரைவில் வரும்."
     },
     "pune": {
       "subtitle": "மகாராஷ்டிரா, இந்தியா",
@@ -483,9 +483,9 @@
         "button": "வழங்குநர்களைக் காண்க"
       },
       "climate": {
-        "title": "காலநிலை நடவடிக்கை டாஷ்போர்டு",
-        "description": "Track climate action progress across {{sectorCount}} sectors and {{wardCount}} wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).",
-        "button": "காலநிலை டாஷ்போர்டைப் பார்க்கவும்",
+        "title": "காலநிலை தரவு",
+        "description": "{{wardCount}} வார்டுகளில் வார்டு அளவிலான காலநிலை அடிப்படை தரவு. திறந்த தரவு பதிவிறக்கங்களுடன் ஆற்றல் மற்றும் கட்டிடங்கள் மற்றும் கழிவு மேலாண்மை துறைகளை ஆராயுங்கள்.",
+        "button": "தரவை பதிவிறக்கவும்",
         "sectors": {
           "energy": "ஆற்றல் & கட்டிடங்கள்",
           "transportation": "போக்குவரத்து",
@@ -494,7 +494,8 @@
           "water": "தண்ணீர்",
           "greening": "பசுமையாக்குதல்",
           "disaster": "பேரிடர் மேலாண்மை"
-        }
+        },
+        "statusLive": "நேரடி"
       },
       "statusComingSoon": "விரைவில்"
     },
@@ -513,7 +514,8 @@
       "climateAction": "காலநிலை நடவடிக்கை டாஷ்போர்டு",
       "joinCommunity": "சமூகமாக சேரவும்",
       "joinProvider": "வழங்குநராக சேரவும்",
-      "comingSoonButton": "விரைவில்"
+      "comingSoonButton": "விரைவில்",
+      "additionalSectors": "கூடுதல் காலநிலை துறைகள் (மேலும் 5)"
     }
   }
 }
