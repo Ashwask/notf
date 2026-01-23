@@ -61,16 +61,28 @@ python3 scripts/weekly_digest.py
 
 NOTF provides open ward-level climate baseline data for Indian cities, starting with **Bengaluru (369 wards)** and **Mumbai (227 wards)**. This granular data enables communities, policymakers, and researchers to track climate action progress at the neighbourhood level.
 
-**Coverage:** 7 climate sectors × 369 wards = 2,583 data points
-- ✅ Energy & Buildings (100% coverage)
-- ✅ Waste Management (100% coverage)
-- ⚠️ Transportation (partial data)
-- ⚠️ Air Quality (16 monitoring stations)
-- ⚠️ Water Resources (zone-level)
-- ✅ Urban Greening (100% coverage)
-- ⚠️ Disaster Resilience (flood risk 100%, heat partial)
+**Coverage:**
+- **Bengaluru:** 7 climate sectors × 369 wards = 2,583 data points
+  - ✅ Energy & Buildings (100% coverage)
+  - ✅ Waste Management (100% coverage)
+  - ⚠️ Transportation (partial data)
+  - ⚠️ Air Quality (16 monitoring stations)
+  - ⚠️ Water Resources (zone-level)
+  - ✅ Urban Greening (100% coverage)
+  - ⚠️ Disaster Resilience (flood risk 100%, heat partial)
 
-**Data Quality:** Overall confidence ★★★☆☆ (63%) - See [`DATA_SOURCES_AND_CREDITS.md`](supporting%20documents/DATA_SOURCES_AND_CREDITS.md) for detailed methodology.
+- **Mumbai:** 2 climate sectors × 227 wards = 454 data points
+  - ✅ Energy & Buildings (100% coverage)
+  - ✅ Waste Management (100% coverage)
+  - ⏳ Transportation (pending)
+  - ⏳ Air Quality (pending)
+  - ⏳ Water Resources (pending)
+  - ⏳ Urban Greening (pending)
+  - ⏳ Disaster Resilience (pending)
+
+**Data Quality:**
+- Bengaluru: ★★★☆☆ (63%) - See [`DATA_SOURCES_AND_CREDITS.md`](supporting%20documents/DATA_SOURCES_AND_CREDITS.md)
+- Mumbai: ★★★☆☆ (60%) - See [`MUMBAI_DATA_SOURCES_AND_CREDITS.md`](supporting%20documents/MUMBAI_DATA_SOURCES_AND_CREDITS.md)
 
 ---
 
@@ -134,9 +146,63 @@ for ward in central_wards['wards']:
 
 #### Mumbai (227 Wards)
 
-**Documentation Available:**
+**Option 1: Full Dataset (2.4 MB)**
+```bash
+# Clone repository
+git clone https://github.com/urbanmorph/notf.git
+cd notf/website/public/assets/data/climate/mumbai/
+
+# All files:
+# - city_climate.json (10 KB) - City-level aggregates
+# - ward_index.json (60 KB) - Ward metadata
+# - climate_south.json (221 KB) - 21 wards
+# - climate_central.json (369 KB) - 35 wards
+# - climate_western.json (463 KB) - 44 wards
+# - climate_eastern.json (515 KB) - 49 wards
+# - climate_northern.json (820 KB) - 78 wards
+```
+
+**Option 2: Direct Download Links**
+```bash
+# City summary (10 KB)
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/city_climate.json
+
+# Ward index (60 KB)
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/ward_index.json
+
+# Zone data (download specific zone or all 5)
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_south.json
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_central.json
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_western.json
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_eastern.json
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_northern.json
+```
+
+**Option 3: Python Script**
+```python
+import json
+import requests
+
+# Load city summary
+city_data = requests.get(
+    'https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/city_climate.json'
+).json()
+
+print(f"Total wards: {city_data['total_wards']}")
+print(f"Total population: {city_data['total_population']:,}")
+
+# Load specific zone
+south_wards = requests.get(
+    'https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/climate/mumbai/climate_south.json'
+).json()
+
+for ward in south_wards['wards']:
+    print(f"{ward['ward_name']}: {ward['population']:,} people")
+```
+
+**Documentation:**
 - [`MUMBAI_DATA_SOURCES_AND_CREDITS.md`](supporting%20documents/MUMBAI_DATA_SOURCES_AND_CREDITS.md) - Comprehensive data source documentation
-- Dataset generation pending - available Q2 2026
+- [`MUMBAI_227_WARDS_DATA_RESEARCH.md`](supporting%20documents/MUMBAI_227_WARDS_DATA_RESEARCH.md) - Ward data research findings
 
 ---
 
@@ -261,13 +327,18 @@ python3 generate_ward_pages.py
 # Bengaluru ward boundaries
 wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/boundaries/bengaluru-wards.geojson
 
-# Mumbai ward boundaries
+# Mumbai ward boundaries (227 electoral wards)
+wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/boundaries/mumbai-electoral-wards.geojson
+
+# Mumbai administrative wards (24 wards - legacy)
 wget https://raw.githubusercontent.com/urbanmorph/notf/main/website/public/assets/data/boundaries/mumbai-wards.geojson
 ```
 
 **Format:** GeoJSON (RFC 7946)
 **Projection:** WGS84 (EPSG:4326)
-**Source:** OpenCity.in + BBMP/MCGM official boundaries
+**Sources:**
+- Bengaluru: OpenCity.in + BBMP official boundaries
+- Mumbai: DataMeet Municipal Spatial Data (CC BY-SA 2.5 India) + MCGM
 
 ---
 
