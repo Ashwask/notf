@@ -351,7 +351,7 @@
                 <div class="quick-stat-label" data-i18n="cityHub.stats.wardsTracked">Wards Tracked</div>
             </div>
             <div class="quick-stat-card">
-                <div class="quick-stat-number zero">0</div>
+                <div class="quick-stat-number">2</div>
                 <div class="quick-stat-label" data-i18n="cityHub.stats.climateSectors">Climate Sectors</div>
             </div>
         </section>
@@ -360,7 +360,7 @@
         <section class="explore-section">
             <div class="section-header">
                 <h2 data-i18n="cityHub.mumbai.exploreTitle">Explore Mumbai</h2>
-                <p data-i18n="cityHub.mumbai.exploreSubtitle">Ward-level map available now. Community and provider directories coming soon.</p>
+                <p data-i18n="cityHub.mumbai.exploreSubtitle">Ward-level map and climate data now available. Community and provider directories coming soon.</p>
             </div>
 
             <div class="feature-grid">
@@ -383,6 +383,29 @@
                     <div class="feature-action">
                         <a href="/cities/mumbai/map/" class="btn btn-primary">
                             <span data-i18n="cityHub.features.map.button">View Map</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Climate Dashboard (Available) -->
+                <div class="feature-card-large">
+                    <div class="feature-header">
+                        <div class="feature-icon-large">
+                            <i class="fa-solid fa-leaf" style="color: #2F4A2C !important;"></i>
+                        </div>
+                        <div class="feature-info">
+                            <h3 data-i18n="cityHub.features.climate.title">Climate Data</h3>
+                            <span class="feature-status-badge live">
+                                <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.climate.statusLive">Live</span>
+                            </span>
+                        </div>
+                    </div>
+                    <p class="feature-description" data-i18n="cityHub.features.climate.description" data-i18n-params='{"wardCount":"227","sectors":"2"}'>
+                        Ward-level climate baseline data across 227 wards. Explore Energy & Buildings and Waste Management sectors with open data downloads.
+                    </p>
+                    <div class="feature-action">
+                        <a href="https://github.com/urbanmorph/notf/tree/main/website/public/assets/data/climate/mumbai" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                            <span data-i18n="cityHub.features.climate.button">Download Data</span> <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -437,14 +460,14 @@
             <!-- Coming Soon Callout -->
             <div class="coming-soon-callout">
                 <i class="fa-solid fa-seedling" style="font-size: 48px; color: var(--terracotta); margin-bottom: var(--space-md);"></i>
-                <h3 data-i18n="cityHub.comingSoonCallout.title">Mumbai Data Coming Soon</h3>
+                <h3 data-i18n="cityHub.comingSoonCallout.title">More Mumbai Data Coming Soon</h3>
                 <p data-i18n="cityHub.comingSoonCallout.description">
                     We're currently building the Mumbai directory. Help us grow the network by registering your community or organization.
                 </p>
                 <p style="font-weight: 600;">
                     <i class="fa-solid fa-house-user"></i> <span data-i18n="cityHub.comingSoonCallout.communityDirectory">Community Directory</span><br>
                     <i class="fa-solid fa-building"></i> <span data-i18n="cityHub.comingSoonCallout.providerNetwork">Solution Provider Network</span><br>
-                    <i class="fa-solid fa-leaf"></i> <span data-i18n="cityHub.comingSoonCallout.climateAction">Climate Action Dashboard</span>
+                    <i class="fa-solid fa-chart-line"></i> <span data-i18n="cityHub.comingSoonCallout.additionalSectors">Additional Climate Sectors (5 more)</span>
                 </p>
                 <div class="cta-buttons">
                     <a href="/join/" class="btn btn-primary">
