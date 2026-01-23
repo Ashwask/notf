@@ -1123,6 +1123,96 @@
           },
           "backButton": "Back to Solid Waste Management"
         }
+      },
+      "title": "Bengaluru Climate Action Dashboard",
+      "subtitle": "Tracking progress across 7 sectors and 369 wards based on the Bengaluru Climate Action Plan (BCAP)",
+      "breadcrumb": {
+        "home": "Home",
+        "bengaluru": "Bengaluru",
+        "climate": "Climate Dashboard",
+        "current": "Climate Dashboard"
+      },
+      "intro": {
+        "title": "Climate Action by Sector",
+        "description": "Explore targets, baselines, and ward-level progress across 7 key climate sectors in Bengaluru."
+      },
+      "sectors": {
+        "energy": {
+          "name": "Energy & Buildings",
+          "count": "6 Targets",
+          "description": "Clean cooking fuel transition, energy-efficient appliances, green buildings, and renewable energy integration.",
+          "stat1Value": "100%",
+          "stat1Label": "Clean Cooking by 2030",
+          "stat2Value": "40%",
+          "stat2Label": "EE Appliances by 2030",
+          "button": "View Details"
+        },
+        "transport": {
+          "name": "Transportation",
+          "count": "7 Targets",
+          "description": "Transit-oriented development, public transport, non-motorized transport, and electric vehicle transition.",
+          "stat1Value": "75%",
+          "stat1Label": "PT+NMT Share by 2030",
+          "stat2Value": "92%",
+          "stat2Label": "TOD Households by 2050",
+          "button": "View Details"
+        },
+        "waste": {
+          "name": "Solid Waste",
+          "count": "6 Targets",
+          "description": "Waste segregation, landfill diversion, recycling rates, and waste-to-energy systems.",
+          "stat1Value": "100%",
+          "stat1Label": "Segregation by 2025",
+          "stat2Value": "90%",
+          "stat2Label": "Diversion by 2050",
+          "button": "View Details"
+        },
+        "air": {
+          "name": "Air Quality",
+          "count": "4 Targets",
+          "description": "PM10 and PM2.5 reduction, indoor air quality standards, and continuous air quality monitoring.",
+          "stat1Value": "40%",
+          "stat1Label": "PM10 Reduction by 2026",
+          "stat2Value": "30%",
+          "stat2Label": "PM2.5 Reduction by 2026",
+          "button": "View Details"
+        },
+        "water": {
+          "name": "Water & Wastewater",
+          "count": "8 Targets",
+          "description": "Universal water access, non-revenue water reduction, wastewater reuse, and permeable surfaces.",
+          "stat1Value": "50%",
+          "stat1Label": "WW Reuse by 2030",
+          "stat2Value": "15%",
+          "stat2Label": "NRW by 2050",
+          "button": "View Details"
+        },
+        "greening": {
+          "name": "Greening & Biodiversity",
+          "count": "5 Targets",
+          "description": "Urban planning with climate lens, blue-green network conservation, and affordable housing with transit access.",
+          "stat1Value": "100%",
+          "stat1Label": "Blue-Green Network Conservation",
+          "button": "View Details"
+        },
+        "disaster": {
+          "name": "Disaster Management",
+          "count": "4 Targets",
+          "description": "Hazard database, comprehensive disaster management plans, empowered ward committees, and risk reduction.",
+          "stat1Value": "Ongoing",
+          "stat1Label": "Ward Committee Empowerment",
+          "button": "View Details"
+        }
+      },
+      "dataSources": {
+        "title": "Data Sources & Methodology",
+        "bcapActions": "BCAP Sector Actions (April 2024) - BBMP / WRI India",
+        "wardBoundaries": "Ward Boundaries (December 2025) - Greater Bengaluru Authority",
+        "census": "Census 2011 - Government of India (projected to 2026)",
+        "bescom": "BESCOM Annual Reports - Bangalore Electricity Supply Company",
+        "ires": "India Residential Energy Survey (IRES) 2020 - CEEW",
+        "lastUpdated": "Last Updated:",
+        "lastUpdatedDate": "January 20, 2026"
       }
     }
   }
