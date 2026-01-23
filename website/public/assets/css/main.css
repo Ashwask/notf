@@ -160,11 +160,22 @@ nav {
     padding: 8px 16px;
     border-radius: var(--radius-md);
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
 }
 
 .nav-menu a:hover {
     background: rgba(185, 201, 138, 0.15);
     color: var(--forest-green);
+}
+
+/* Active page highlight */
+.nav-menu a.nav-active,
+.nav-menu a.active {
+    background: rgba(47, 74, 44, 0.12);
+    color: var(--forest-green);
+    font-weight: 600;
 }
 
 .join-link {
@@ -179,7 +190,8 @@ nav {
 
 .admin-link {
     color: var(--slate-blue) !important;
-    padding: 0 !important;
+    padding: 8px 16px !important;
+    justify-content: center;
 }
 
 .admin-link:hover {
