@@ -84,7 +84,7 @@ async function createLanguageSelector() {
 
     container.innerHTML = `
         <button class="language-selector-button" aria-label="Select language" aria-expanded="false">
-            <span class="icon"><i class="fa-solid fa-globe"></i></span>
+            <span class="icon"><i class="fa-solid fa-language"></i></span>
             <span class="language-selector-current">${currentLang.nativeName}</span>
             <span class="chevron"><i class="fa-solid fa-chevron-down"></i></span>
         </button>
