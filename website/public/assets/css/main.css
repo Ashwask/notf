@@ -221,13 +221,13 @@ nav {
 /* === HERO SECTION === */
 .hero {
     background: var(--forest-green) url('/assets/images/hero-neighbourhood.png') center center / cover no-repeat;
-    padding: var(--space-3xl) var(--space-md);
+    padding: var(--space-lg) var(--space-md) var(--space-3xl);
     text-align: center;
     position: relative;
     overflow: hidden;
     min-height: 520px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
