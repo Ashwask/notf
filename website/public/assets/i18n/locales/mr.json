@@ -813,7 +813,13 @@
     "browseCatalog": "कॅटलॉग पहा",
     "readStories": "कथा वाचा",
     "catalogHint": "अंमलबजावणीसाठी तयार शेजारी प्रकल्प",
-    "storiesLoading": "कथा लोड होत आहेत..."
+    "storiesLoading": "कथा लोड होत आहेत...",
+    "catalogTitle": "प्रकल्प",
+    "storiesTitle": "कथा",
+    "citiesTitle": "शहरे",
+    "communitiesTitle": "समुदाय",
+    "storiesHint": "शेजारच्या परिवर्तनाच्या खऱ्या कथा",
+    "communitiesHint": "भारतभरातील सक्रिय शेजार गट"
   },
   "catalogPage": {
     "breadcrumb": "कॅटलॉग",

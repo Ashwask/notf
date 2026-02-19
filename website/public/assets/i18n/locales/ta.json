@@ -606,7 +606,13 @@
     "browseCatalog": "பட்டியலை உலாவுங்கள்",
     "readStories": "கதைகளைப் படியுங்கள்",
     "catalogHint": "செயல்படுத்தத் தயாரான அக்கம்பக்கம் திட்டங்கள்",
-    "storiesLoading": "கதைகள் ஏற்றப்படுகின்றன..."
+    "storiesLoading": "கதைகள் ஏற்றப்படுகின்றன...",
+    "catalogTitle": "திட்டங்கள்",
+    "storiesTitle": "கதைகள்",
+    "citiesTitle": "நகரங்கள்",
+    "communitiesTitle": "சமூகங்கள்",
+    "storiesHint": "அக்கம்பக்க மாற்றத்தின் உண்மைக் கதைகள்",
+    "communitiesHint": "இந்தியா முழுவதும் செயலில் உள்ள அக்கம்பக்க குழுக்கள்"
   },
   "catalogPage": {
     "breadcrumb": "காட்டலாக்",

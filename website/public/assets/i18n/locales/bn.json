@@ -606,7 +606,13 @@
     "browseCatalog": "ক্যাটালগ দেখুন",
     "readStories": "গল্প পড়ুন",
     "catalogHint": "বাস্তবায়নের জন্য প্রস্তুত প্রতিবেশী প্রকল্প",
-    "storiesLoading": "গল্প লোড হচ্ছে..."
+    "storiesLoading": "গল্প লোড হচ্ছে...",
+    "catalogTitle": "প্রকল্প",
+    "storiesTitle": "গল্প",
+    "citiesTitle": "শহর",
+    "communitiesTitle": "সম্প্রদায়",
+    "storiesHint": "প্রতিবেশ রূপান্তরের সত্য গল্প",
+    "communitiesHint": "ভারত জুড়ে সক্রিয় প্রতিবেশ গোষ্ঠী"
   },
   "catalogPage": {
     "breadcrumb": "ক্যাটালগ",

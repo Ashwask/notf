@@ -606,7 +606,13 @@
     "browseCatalog": "कैटलॉग देखें",
     "readStories": "कहानियाँ पढ़ें",
     "catalogHint": "तुरंत लागू करने योग्य पड़ोस परियोजनाएँ",
-    "storiesLoading": "कहानियाँ लोड हो रही हैं..."
+    "storiesLoading": "कहानियाँ लोड हो रही हैं...",
+    "catalogTitle": "परियोजनाएं",
+    "storiesTitle": "कहानियां",
+    "citiesTitle": "शहर",
+    "communitiesTitle": "समुदाय",
+    "storiesHint": "पड़ोस के बदलाव की सच्ची कहानियां",
+    "communitiesHint": "भारत भर में सक्रिय पड़ोस समूह"
   },
   "catalogPage": {
     "breadcrumb": "कैटलॉग",

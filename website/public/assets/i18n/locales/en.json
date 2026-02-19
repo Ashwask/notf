@@ -1256,7 +1256,13 @@
     "browseCatalog": "Browse catalogue",
     "readStories": "Read stories",
     "catalogHint": "Ready-to-implement neighbourhood projects",
-    "storiesLoading": "Loading stories..."
+    "storiesLoading": "Loading stories...",
+    "catalogTitle": "Projects",
+    "storiesTitle": "Stories",
+    "citiesTitle": "Cities",
+    "communitiesTitle": "Communities",
+    "storiesHint": "Real stories of neighbourhood transformation",
+    "communitiesHint": "Active neighbourhood groups across India"
   },
   "catalogPage": {
     "breadcrumb": "Catalogue",

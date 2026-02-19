@@ -606,7 +606,13 @@
     "browseCatalog": "କ୍ୟାଟାଲଗ୍ ଦେଖନ୍ତୁ",
     "readStories": "କାହାଣୀ ପଢ଼ନ୍ତୁ",
     "catalogHint": "କାର୍ଯ୍ୟକାରୀ ପାଇଁ ପ୍ରସ୍ତୁତ ପଡ଼ିଶା ପ୍ରକଳ୍ପ",
-    "storiesLoading": "କାହାଣୀ ଲୋଡ୍ ହେଉଛି..."
+    "storiesLoading": "କାହାଣୀ ଲୋଡ୍ ହେଉଛି...",
+    "catalogTitle": "ପ୍ରକଳ୍ପ",
+    "storiesTitle": "କାହାଣୀ",
+    "citiesTitle": "ସହରଗୁଡ଼ିକ",
+    "communitiesTitle": "ସମୁଦାୟ",
+    "storiesHint": "ପଡ଼ୋଶୀ ପରିବର୍ତ୍ତନର ପ୍ରକୃତ କାହାଣୀ",
+    "communitiesHint": "ଭାରତ ଜୁଡ଼ି ସକ୍ରିୟ ପଡ଼ୋଶୀ ଗୋଷ୍ଠୀ"
   },
   "catalogPage": {
     "breadcrumb": "କ୍ୟାଟାଲଗ୍",

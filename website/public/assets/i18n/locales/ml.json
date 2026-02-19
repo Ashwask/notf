@@ -606,7 +606,13 @@
     "browseCatalog": "കാറ്റലോഗ് ബ്രൗസ് ചെയ്യുക",
     "readStories": "കഥകള്‍ വായിക്കുക",
     "catalogHint": "നടപ്പാക്കാന്‍ തയ്യാറുള്ള അയല്‍പക്ക പദ്ധതികള്‍",
-    "storiesLoading": "കഥകള്‍ ലോഡ് ചെയ്യുന്നു..."
+    "storiesLoading": "കഥകള്‍ ലോഡ് ചെയ്യുന്നു...",
+    "catalogTitle": "പ്രോജക്ടുകൾ",
+    "storiesTitle": "കഥകൾ",
+    "citiesTitle": "നഗരങ്ങൾ",
+    "communitiesTitle": "സമൂഹങ്ങൾ",
+    "storiesHint": "അയൽക്കൂട്ട പരിവർത്തനത്തിന്റെ യഥാർത്ഥ കഥകൾ",
+    "communitiesHint": "ഇന്ത്യയിലുടനീളം സജീവ അയൽക്കൂട്ട ഗ്രൂപ്പുകൾ"
   },
   "catalogPage": {
     "breadcrumb": "കാറ്റലോഗ്",

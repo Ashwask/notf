@@ -606,7 +606,13 @@
     "browseCatalog": "కేటలాగ్ బ్రౌజ్ చేయండి",
     "readStories": "కథలు చదవండి",
     "catalogHint": "అమలుకు సిద్ధంగా ఉన్న పరిసర ప్రాజెక్టులు",
-    "storiesLoading": "కథలు లోడ్ అవుతున్నాయి..."
+    "storiesLoading": "కథలు లోడ్ అవుతున్నాయి...",
+    "catalogTitle": "ప్రాజెక్టులు",
+    "storiesTitle": "కథలు",
+    "citiesTitle": "నగరాలు",
+    "communitiesTitle": "సమూహాలు",
+    "storiesHint": "పొరుగు మార్పు యొక్క నిజమైన కథలు",
+    "communitiesHint": "భారతదేశం అంతటా చురుకైన పొరుగు సమూహాలు"
   },
   "catalogPage": {
     "breadcrumb": "క్యాటలాగ్",

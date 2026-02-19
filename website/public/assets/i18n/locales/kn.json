@@ -1044,7 +1044,13 @@
     "browseCatalog": "ಕ್ಯಾಟಲಾಗ್ ಬ್ರೌಸ್ ಮಾಡಿ",
     "readStories": "ಕಥೆಗಳನ್ನು ಓದಿ",
     "catalogHint": "ಅನುಷ್ಠಾನಕ್ಕೆ ಸಿದ್ಧ ನೆರೆಹೊರೆ ಯೋಜನೆಗಳು",
-    "storiesLoading": "ಕಥೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ..."
+    "storiesLoading": "ಕಥೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...",
+    "catalogTitle": "ಯೋಜನೆಗಳು",
+    "storiesTitle": "ಕಥೆಗಳು",
+    "citiesTitle": "ನಗರಗಳು",
+    "communitiesTitle": "ಸಮುದಾಯಗಳು",
+    "storiesHint": "ನೆರೆಹೊರೆ ಪರಿವರ್ತನೆಯ ನಿಜ ಕಥೆಗಳು",
+    "communitiesHint": "ಭಾರತಾದ್ಯಂತ ಸಕ್ರಿಯ ನೆರೆಹೊರೆ ಗುಂಪುಗಳು"
   },
   "catalogPage": {
     "breadcrumb": "ಕ್ಯಾಟಲಾಗ್",

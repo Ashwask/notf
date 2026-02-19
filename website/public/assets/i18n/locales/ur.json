@@ -606,7 +606,13 @@
     "browseCatalog": "کیٹلاگ دیکھیں",
     "readStories": "کہانیاں پڑھیں",
     "catalogHint": "عمل درآمد کے لیے تیار محلے کے منصوبے",
-    "storiesLoading": "کہانیاں لوڈ ہو رہی ہیں..."
+    "storiesLoading": "کہانیاں لوڈ ہو رہی ہیں...",
+    "catalogTitle": "منصوبے",
+    "storiesTitle": "کہانیاں",
+    "citiesTitle": "شہر",
+    "communitiesTitle": "برادریاں",
+    "storiesHint": "محلے کی تبدیلی کی حقیقی کہانیاں",
+    "communitiesHint": "پورے بھارت میں فعال محلہ گروپس"
   },
   "catalogPage": {
     "breadcrumb": "کیٹلاگ",

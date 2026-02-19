@@ -606,7 +606,13 @@
     "browseCatalog": "કેટલોગ જુઓ",
     "readStories": "વાર્તાઓ વાંચો",
     "catalogHint": "અમલ માટે તૈયાર પડોશ પ્રોજેક્ટ્સ",
-    "storiesLoading": "વાર્તાઓ લોડ થઈ રહી છે..."
+    "storiesLoading": "વાર્તાઓ લોડ થઈ રહી છે...",
+    "catalogTitle": "પ્રોજેક્ટ્સ",
+    "storiesTitle": "વાર્તાઓ",
+    "citiesTitle": "શહેરો",
+    "communitiesTitle": "સમુદાયો",
+    "storiesHint": "પડોશના પરિવર્તનની સાચી વાર્તાઓ",
+    "communitiesHint": "ભારતભરમાં સક્રિય પડોશ જૂથો"
   },
   "catalogPage": {
     "breadcrumb": "કેટલોગ",
