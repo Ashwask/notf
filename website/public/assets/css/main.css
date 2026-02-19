@@ -220,36 +220,27 @@ nav {
 
 /* === HERO SECTION === */
 .hero {
-    background: var(--forest-green);
+    background: var(--forest-green) url('/assets/images/hero-neighbourhood.png') center center / cover no-repeat;
     padding: var(--space-3xl) var(--space-md);
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Geometric Shape Accents */
 .hero::before {
     content: '';
     position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    background: var(--olive-green);
-    opacity: 0.15;
-    border-radius: 50%;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(47, 74, 44, 0.7) 0%, rgba(47, 74, 44, 0.55) 50%, rgba(47, 74, 44, 0.75) 100%);
+    z-index: 0;
 }
 
 .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -80px;
-    left: -80px;
-    width: 250px;
-    height: 250px;
-    background: var(--terracotta);
-    opacity: 0.1;
-    transform: rotate(45deg);
+    content: none;
 }
 
 .hero-content {
