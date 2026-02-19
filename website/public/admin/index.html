@@ -53,6 +53,12 @@
                     </span>
                     <span class="label">Solution Providers</span>
                 </a>
+                <a href="#" class="nav-item" data-page="stories" data-label="Stories">
+                    <span class="icon">
+                        <i class="fa-solid fa-book-open"></i>
+                    </span>
+                    <span class="label">Stories</span>
+                </a>
                 <a href="#" class="nav-item" data-page="matcher" data-label="Matcher">
                     <span class="icon">
                         <i class="fa-solid fa-link"></i>
@@ -274,6 +280,9 @@
                     break;
                 case 'matcher':
                     iframe.src = '/admin/matcher.html';
+                    break;
+                case 'stories':
+                    iframe.src = '/admin/stories.html';
                     break;
                 case 'geocode':
                     iframe.src = '/admin/geocode-tool.html';

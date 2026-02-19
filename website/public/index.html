@@ -17,205 +17,267 @@
     <link rel="stylesheet" href="/assets/chat/chat.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
-        /* === CITY SELECTOR CARDS === */
-        .city-selector-section {
-            padding: var(--space-2xl) var(--space-md);
-            background: var(--color-bg);
+        /* === RICH PREVIEW CARDS === */
+        .preview-section {
+            padding: var(--space-xl) var(--space-md);
         }
 
-        .city-selector-intro {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto var(--space-xl);
-        }
-
-        .city-selector-intro h2 {
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin-bottom: var(--space-sm);
-        }
-
-        .city-selector-intro p {
-            font-size: 18px;
-            color: var(--color-text-light);
-            line-height: 1.6;
-        }
-
-        .city-grid {
+        .preview-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: var(--space-lg);
-            max-width: 1400px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
-        .city-selector-card {
+        .preview-card {
             background: var(--color-bg-white);
-            border: 2px solid var(--slate-blue);
             border-radius: var(--radius-lg);
-            padding: 16px;
-            transition: all 0.3s ease;
             box-shadow: var(--shadow-md);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            min-height: 220px;
+            border: 2px solid transparent;
         }
 
-        .city-selector-card:hover {
-            border-color: var(--terracotta);
+        .preview-card:hover {
             box-shadow: var(--shadow-lg);
             transform: translateY(-4px);
+            border-color: var(--terracotta);
         }
 
-        .city-card-header {
+        .preview-card-header {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .city-icon {
-            width: 48px;
-            height: 48px;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+            padding: var(--space-md) var(--space-md) 0;
         }
 
-        .city-icon i {
-            font-size: 36px;
-            /* Color set dynamically per city */
+        .preview-card-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
 
-        .city-info {
+        .preview-card-count {
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .preview-card-body {
+            padding: var(--space-sm) var(--space-md);
             flex: 1;
         }
 
-        .city-name {
-            font-size: 24px;
+        /* City mini-cards */
+        .city-mini-row {
+            display: flex;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .city-mini {
+            flex: 1;
+            background: #f5f5f0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            min-width: 0;
+        }
+
+        .city-mini-name {
+            font-size: 13px;
             font-weight: 700;
+            color: var(--charcoal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .city-mini-stat {
+            font-size: 11px;
+            color: var(--color-text-light);
+            margin-top: 2px;
+        }
+
+        .city-mini-more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            max-width: 44px;
+            background: #f5f5f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-light);
+        }
+
+        .preview-card-hint {
+            font-size: 12px;
+            color: var(--color-text-light);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .preview-card-hint strong {
+            color: var(--charcoal);
+        }
+
+        /* Focus area bars */
+        .focus-area-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .focus-area-item {
+            background: #f5f5f0;
+            border-radius: 6px;
+            padding: 8px 10px;
+        }
+
+        .focus-area-name {
+            font-size: 11px;
+            font-weight: 600;
             color: var(--charcoal);
             margin-bottom: 4px;
         }
 
-        .city-state {
-            font-size: 14px;
-            color: var(--color-text-light);
+        .focus-area-bar {
+            height: 5px;
+            border-radius: 3px;
+            background: #e0e0e0;
         }
 
-        .city-meta {
+        .focus-area-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* Catalog preview items */
+        .catalog-preview-item {
             display: flex;
-            gap: var(--space-sm);
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px;
+            background: #f5f5f0;
+            border-radius: 8px;
+            margin-bottom: 6px;
         }
 
-        .meta-badge {
-            background: rgba(185, 201, 138, 0.15);
-            color: var(--forest-green);
-            padding: 4px 12px;
-            border-radius: var(--radius-xl);
-            font-size: 12px;
-            font-weight: 600;
+        .catalog-preview-item:last-child {
+            margin-bottom: 0;
         }
 
-        .city-features {
-            flex: 1;
-            margin-bottom: 12px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px 12px;
+        .catalog-preview-icon {
+            font-size: 16px;
+            margin-top: 2px;
+            flex-shrink: 0;
         }
 
-        .feature-item {
+        .catalog-preview-info {
+            min-width: 0;
+        }
+
+        .catalog-preview-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--charcoal);
+        }
+
+        .catalog-preview-meta {
+            font-size: 11px;
+            color: var(--color-text-light);
+            margin-top: 2px;
+        }
+
+        /* Story preview items */
+        .story-preview-item {
+            padding: 10px;
+            background: #f5f5f0;
+            border-radius: 8px;
+            border-left: 3px solid var(--terracotta);
+            margin-bottom: 6px;
+        }
+
+        .story-preview-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-preview-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--charcoal);
+            line-height: 1.3;
+        }
+
+        .story-preview-meta {
+            font-size: 11px;
+            color: var(--color-text-light);
+            margin-top: 3px;
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 4px 0;
-            font-size: 13px;
         }
 
-        .feature-item i {
-            width: 20px;
-            text-align: center;
+        .story-preview-video {
+            color: var(--terracotta);
+            font-weight: 600;
         }
 
-        .feature-item.available {
-            color: var(--forest-green);
+        /* Card footer / CTA */
+        .preview-card-footer {
+            padding: 12px var(--space-md);
+            border-top: 1px solid #f0ede0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .feature-item.available i {
-            color: var(--olive-green);
-        }
-
-        .feature-item.coming-soon {
-            color: var(--color-text-lighter);
-            font-style: italic;
-        }
-
-        .feature-item.coming-soon i {
-            color: var(--mustard-yellow);
-        }
-
-        .city-cta {
-            margin-top: auto;
-        }
-
-        .city-cta .btn {
-            width: 100%;
-            justify-content: center;
-            background: var(--forest-green);
-            color: var(--warm-cream);
-        }
-
-        .city-cta .btn:hover {
-            background: var(--forest-green-dark);
-        }
-
-        /* === NETWORK STATS (Updated) === */
-        .network-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--space-md);
-            max-width: 1000px;
-            margin: var(--space-xl) auto;
-            padding: 0 var(--space-md);
-        }
-
-        .network-stat {
-            text-align: center;
-            padding: var(--space-md);
-        }
-
-        .network-stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--slate-blue);
-            margin-bottom: 8px;
-        }
-
-        .network-stat-label {
+        .preview-card-cta {
             font-size: 14px;
-            color: var(--color-text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* === RESPONSIVE: CITY CARDS === */
+        .preview-card-cta i {
+            transition: transform 0.2s ease;
+        }
+
+        .preview-card:hover .preview-card-cta i {
+            transform: translateX(4px);
+        }
+
         @media (max-width: 768px) {
-            .city-features {
+            .preview-grid {
                 grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .city-mini-row {
                 gap: 6px;
             }
 
-            .city-selector-card {
-                min-height: auto;
+            .city-mini {
+                padding: 8px 6px;
             }
 
-            .feature-item {
-                font-size: 14px;
+            .city-mini-name {
+                font-size: 12px;
+            }
+
+            .focus-area-grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
     </style>
@@ -254,7 +316,7 @@
                 <p class="hero-subtitle" data-i18n="hero.subtitle">Connecting local action and expertise to build thriving communities</p>
                 <p class="hero-intro" data-i18n="hero.intro">Urban challenges today - from climate stress to fragmented services - require a different approach. NoTF brings together communities, organizations, and local actors to create lasting change at the neighbourhood level.</p>
                 <div class="hero-cta">
-                    <a href="#cities" class="btn btn-primary-large">
+                    <a href="#explore" class="btn btn-primary-large">
                         <i class="fa-solid fa-city"></i>
                         <span data-i18n="hero.exploreButton">Explore Cities</span>
                     </a>
@@ -277,47 +339,112 @@
             </div>
         </section>
 
-        <!-- Stats (Updated with network-wide stats) -->
-        <section class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="cityCount">13</div>
-                <div class="stat-label" data-i18n="stats.cities">Cities</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="wardCount">-</div>
-                <div class="stat-label" data-i18n="stats.wards">Wards Tracked</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="commCount">-</div>
-                <div class="stat-label" data-i18n="stats.communities">Communities</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="providerCount">-</div>
-                <div class="stat-label" data-i18n="stats.providers">Solution Providers</div>
-            </div>
-        </section>
-
-        <!-- City Selector Section -->
-        <section class="city-selector-section" id="cities">
-            <div class="city-selector-intro">
-                <h2 data-i18n="citySelector.title">Select Your City</h2>
-                <p data-i18n="citySelector.subtitle">Choose a city to explore community networks, ward-level maps, and local initiatives.</p>
-            </div>
-
-            <div class="city-grid" id="cityGrid">
-                <!-- City cards will be dynamically loaded here -->
-                <div id="loadingState" style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl); max-width: 600px; margin: 0 auto;">
-                    <div style="font-size: 48px; margin-bottom: var(--space-lg);">
-                        <i class="fa-solid fa-city" style="color: var(--olive-green); opacity: 0.3;"></i>
+        <!-- Rich Preview Cards -->
+        <section class="preview-section" id="explore">
+            <div class="preview-grid">
+                <!-- Catalogue Preview Card -->
+                <a href="/catalog/" class="preview-card">
+                    <div class="preview-card-header">
+                        <span class="preview-card-label" style="color: var(--terracotta);" data-i18n="stats.catalogItems">Catalogue</span>
+                        <span class="preview-card-count" style="color: var(--terracotta);" id="catalogCount">11</span>
                     </div>
-                    <blockquote style="font-size: 1.25rem; font-style: italic; color: var(--color-text); line-height: 1.8; margin-bottom: var(--space-md); border-left: 4px solid var(--olive-green); padding-left: var(--space-md);">
-                        <p data-i18n="common.loadingCitiesQuote" style="margin: 0;">Great cities are not built by governments alone, but by communities working together.</p>
-                    </blockquote>
-                    <p style="font-size: 0.9rem; color: var(--color-text-light); font-style: italic;" data-i18n="common.loadingCitiesAuthor">— Jane Jacobs</p>
-                    <div style="margin-top: var(--space-lg);">
-                        <i class="fa-solid fa-spinner fa-spin" style="font-size: 24px; color: var(--olive-green);"></i>
+                    <div class="preview-card-body">
+                        <div id="catalogPreview">
+                            <div class="catalog-preview-item">
+                                <span class="catalog-preview-icon" style="color: var(--terracotta);"><i class="fa-solid fa-star"></i></span>
+                                <div class="catalog-preview-info">
+                                    <div class="catalog-preview-title">RRR Maadi</div>
+                                    <div class="catalog-preview-meta">Low effort &middot; Waste Management</div>
+                                </div>
+                            </div>
+                            <div class="catalog-preview-item">
+                                <span class="catalog-preview-icon" style="color: var(--terracotta);"><i class="fa-solid fa-star"></i></span>
+                                <div class="catalog-preview-info">
+                                    <div class="catalog-preview-title">Cutlery Bank</div>
+                                    <div class="catalog-preview-meta">Low effort &middot; Community Service</div>
+                                </div>
+                            </div>
+                            <div class="catalog-preview-item">
+                                <span class="catalog-preview-icon" style="color: var(--terracotta);"><i class="fa-solid fa-star"></i></span>
+                                <div class="catalog-preview-info">
+                                    <div class="catalog-preview-title">Smart Refill</div>
+                                    <div class="catalog-preview-meta">Low effort &middot; Sustainable Living</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="preview-card-hint" data-i18n="statsNav.catalogHint">Ready-to-implement neighbourhood projects</div>
                     </div>
-                </div>
+                    <div class="preview-card-footer">
+                        <span class="preview-card-cta" style="color: var(--terracotta);" ><span data-i18n="statsNav.browseCatalog">Browse catalogue</span> <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <!-- Stories Preview Card -->
+                <a href="/stories/" class="preview-card">
+                    <div class="preview-card-header">
+                        <span class="preview-card-label" style="color: var(--mustard-yellow);" data-i18n="stats.stories">Stories</span>
+                        <span class="preview-card-count" style="color: var(--mustard-yellow);" id="storyCount">-</span>
+                    </div>
+                    <div class="preview-card-body">
+                        <div id="storiesPreview">
+                            <div class="story-preview-item">
+                                <div class="story-preview-title" data-i18n="statsNav.storiesLoading">Loading stories...</div>
+                            </div>
+                        </div>
+                        <div class="preview-card-hint" id="storiesHint"></div>
+                    </div>
+                    <div class="preview-card-footer">
+                        <span class="preview-card-cta" style="color: var(--mustard-yellow);" ><span data-i18n="statsNav.readStories">Read stories</span> <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <!-- Cities Preview Card -->
+                <a href="/cities/" class="preview-card">
+                    <div class="preview-card-header">
+                        <span class="preview-card-label" style="color: var(--slate-blue);" data-i18n="stats.cities">Cities</span>
+                        <span class="preview-card-count" style="color: var(--slate-blue);" id="cityCount">13</span>
+                    </div>
+                    <div class="preview-card-body">
+                        <div class="city-mini-row" id="cityMiniRow">
+                            <div class="city-mini">
+                                <div class="city-mini-name">Bengaluru</div>
+                                <div class="city-mini-stat" id="cityMini0">loading...</div>
+                            </div>
+                            <div class="city-mini">
+                                <div class="city-mini-name">Mumbai</div>
+                                <div class="city-mini-stat" id="cityMini1">loading...</div>
+                            </div>
+                            <div class="city-mini">
+                                <div class="city-mini-name">Chennai</div>
+                                <div class="city-mini-stat" id="cityMini2">loading...</div>
+                            </div>
+                            <div class="city-mini-more" id="cityMiniMore">+10</div>
+                        </div>
+                        <div class="preview-card-hint" id="cityHint" data-i18n="statsNav.citiesHint">Bengaluru leads with the most active communities</div>
+                    </div>
+                    <div class="preview-card-footer">
+                        <span class="preview-card-cta" style="color: var(--slate-blue);" ><span data-i18n="statsNav.exploreAll">Explore all cities</span> <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
+
+                <!-- Communities Preview Card -->
+                <a href="/communities/" class="preview-card">
+                    <div class="preview-card-header">
+                        <span class="preview-card-label" style="color: var(--forest-green);" data-i18n="stats.communities">Communities</span>
+                        <span class="preview-card-count" style="color: var(--forest-green);" id="commCount">-</span>
+                    </div>
+                    <div class="preview-card-body">
+                        <div class="focus-area-grid" id="focusAreaGrid">
+                            <div class="focus-area-item">
+                                <div class="focus-area-name">Loading...</div>
+                                <div class="focus-area-bar"><div class="focus-area-fill" style="width:0; background: var(--forest-green);"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="preview-card-footer">
+                        <span class="preview-card-cta" style="color: var(--forest-green);" ><span data-i18n="statsNav.browseAll">Browse communities</span> <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
             </div>
         </section>
 
@@ -552,245 +679,166 @@
     <!-- i18n Translation System -->
     <script src="/assets/i18n/translator.js?v=5"></script>
 
-    <!-- Load Cities Data -->
+    <!-- Load Data for Stats -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
     <script>
-        // Load cities and render cards
+        // Load live data for rich preview cards
         let citiesData = [];
 
-        async function loadCities() {
+        async function loadPreviewCards() {
             try {
-                // Load static metadata for city structure
                 const response = await fetch('/assets/data/cities-metadata.json');
                 citiesData = await response.json();
+                const cities = citiesData.cities || [];
 
-                // Wait for Supabase to be ready
                 if (window.dataLoader) {
                     await dataLoader.waitForSupabase();
 
-                    // Query Supabase for real-time counts
-                    const [communities, providers] = await Promise.all([
-                        dataLoader.loadCommunities().catch(err => {
-                            console.warn('Failed to load communities:', err);
-                            return [];
-                        }),
-                        dataLoader.loadSolutionProviders().catch(err => {
-                            console.warn('Failed to load providers:', err);
-                            return [];
-                        })
+                    const [communities, providers, stories] = await Promise.all([
+                        dataLoader.loadCommunities().catch(() => []),
+                        dataLoader.loadSolutionProviders().catch(() => []),
+                        dataLoader.loadStories().catch(() => [])
                     ]);
 
-                    // Debug: Log unique cities in database
-                    const uniqueCommCities = [...new Set(communities.map(c => c.city).filter(Boolean))];
-                    const uniqueProvLocations = [...new Set(providers.map(p => p.location).filter(Boolean))];
-                    console.log('Communities in database cities:', uniqueCommCities);
-                    console.log('Providers in database locations:', uniqueProvLocations);
+                    const totalCommunities = communities.length;
+                    const totalProviders = providers.length;
+                    const totalStories = stories.length;
 
-                    // City name variations (e.g., Bengaluru/Bangalore)
-                    const cityVariations = {
-                        'bengaluru': ['bengaluru', 'bangalore'],
-                        'bangalore': ['bengaluru', 'bangalore']
+                    // Update counts
+                    const commCountEl = document.getElementById('commCount');
+                    const storyCountEl = document.getElementById('storyCount');
+                    if (commCountEl) commCountEl.textContent = totalCommunities;
+                    if (storyCountEl) storyCountEl.textContent = totalStories;
+
+                    // === CITIES CARD: top 3 cities by community count ===
+                    const cityCounts = {};
+                    communities.forEach(c => {
+                        const city = c.city || '';
+                        if (city) cityCounts[city] = (cityCounts[city] || 0) + 1;
+                    });
+                    const sortedCities = Object.entries(cityCounts).sort((a, b) => b[1] - a[1]);
+                    const topCities = [
+                        { name: 'Bengaluru', count: cityCounts['Bengaluru'] || 0 },
+                        { name: 'Mumbai', count: cityCounts['Mumbai'] || 0 },
+                        { name: 'Chennai', count: cityCounts['Chennai'] || 0 }
+                    ];
+                    // If data has other top cities, use them
+                    if (sortedCities.length >= 3) {
+                        for (let i = 0; i < 3; i++) {
+                            topCities[i] = { name: sortedCities[i][0], count: sortedCities[i][1] };
+                        }
+                    }
+
+                    const miniRow = document.getElementById('cityMiniRow');
+                    if (miniRow) {
+                        const remaining = cities.length - 3;
+                        miniRow.innerHTML = topCities.map((c, i) =>
+                            `<div class="city-mini">
+                                <div class="city-mini-name">${c.name}</div>
+                                <div class="city-mini-stat">${c.count} communit${c.count === 1 ? 'y' : 'ies'}</div>
+                            </div>`
+                        ).join('') + `<div class="city-mini-more">+${remaining}</div>`;
+                    }
+
+                    const topCity = topCities[0];
+                    const hintEl = document.getElementById('cityHint');
+                    if (hintEl && topCity.count > 0) {
+                        hintEl.innerHTML = `<strong>${topCity.name}</strong> leads with ${topCity.count} active communities`;
+                    }
+
+                    // === COMMUNITIES CARD: top focus areas (from domains) ===
+                    const themeCounts = {};
+                    communities.forEach(c => {
+                        const tags = (c.domains && c.domains.length > 0) ? c.domains : (c.themes || []);
+                        tags.forEach(t => {
+                            if (t) themeCounts[t] = (themeCounts[t] || 0) + 1;
+                        });
+                    });
+                    const topThemes = Object.entries(themeCounts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 4);
+                    const maxThemeCount = topThemes.length > 0 ? topThemes[0][1] : 1;
+
+                    const focusGrid = document.getElementById('focusAreaGrid');
+                    if (focusGrid && topThemes.length > 0) {
+                        const colors = ['var(--forest-green)', 'var(--slate-blue)', 'var(--terracotta)', 'var(--mustard-yellow)'];
+                        focusGrid.innerHTML = topThemes.map((t, i) => {
+                            const pct = Math.round((t[1] / maxThemeCount) * 100);
+                            const label = t[0].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                            return `<div class="focus-area-item">
+                                <div class="focus-area-name">${label}</div>
+                                <div class="focus-area-bar"><div class="focus-area-fill" style="width:${pct}%; background:${colors[i % colors.length]};"></div></div>
+                            </div>`;
+                        }).join('');
+                    }
+
+                    // === STORIES CARD: latest stories ===
+                    const storiesPreview = document.getElementById('storiesPreview');
+                    const storiesHint = document.getElementById('storiesHint');
+                    if (storiesPreview) {
+                        if (stories.length > 0) {
+                            storiesPreview.innerHTML = stories.slice(0, 2).map(s => {
+                                const hasVideo = !!s.youtube_url;
+                                return `<div class="story-preview-item">
+                                    <div class="story-preview-title">"${s.title}"</div>
+                                    <div class="story-preview-meta">
+                                        <span><i class="fa-solid fa-location-dot"></i> ${s.location || s.city}</span>
+                                        ${hasVideo ? '<span class="story-preview-video"><i class="fa-solid fa-play"></i> Video</span>' : ''}
+                                    </div>
+                                </div>`;
+                            }).join('');
+
+                            // Hint: which cities have stories
+                            const storyCities = [...new Set(stories.map(s => s.city).filter(Boolean))];
+                            if (storiesHint) {
+                                storiesHint.innerHTML = `From <strong>${storyCities.join(', ')}</strong>`;
+                            }
+                        } else {
+                            storiesPreview.innerHTML = `<div class="story-preview-item">
+                                <div class="story-preview-title" style="color: var(--color-text-light);">Stories coming soon</div>
+                            </div>`;
+                        }
+                    }
+
+                    // Update CTA subtitle
+                    function updateCTASubtitle() {
+                        const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
+                        if (ctaElement && window.translator && window.translator.currentLanguage) {
+                            try {
+                                ctaElement.setAttribute('data-i18n-params', JSON.stringify({
+                                    orgCount: totalProviders,
+                                    commCount: totalCommunities
+                                }));
+                                const translatedText = window.translator.t('cta.subtitle', {
+                                    orgCount: totalProviders,
+                                    commCount: totalCommunities
+                                });
+                                ctaElement.innerHTML = translatedText;
+                            } catch (error) {
+                                setTimeout(updateCTASubtitle, 200);
+                            }
+                        } else {
+                            setTimeout(updateCTASubtitle, 200);
+                        }
+                    }
+                    setTimeout(updateCTASubtitle, 500);
+
+                    // Make data available to chatbot
+                    window.notfData = {
+                        communities: communities,
+                        members: providers,
+                        cities: cities
                     };
-
-                    // Update counts for each city based on live data
-                    for (const city of citiesData.cities) {
-                        const cityName = city.name.toLowerCase();
-                        const citySlug = city.slug.toLowerCase();
-
-                        // Get all valid variations for this city
-                        const variations = cityVariations[citySlug] || [cityName, citySlug];
-
-                        // Match communities by exact city match (with variations)
-                        const cityComms = communities.filter(c => {
-                            const commCity = (c.city || '').toLowerCase().trim();
-                            if (!commCity) return false; // Skip empty cities
-
-                            // Check if community city matches any variation
-                            return variations.some(variant =>
-                                commCity === variant ||
-                                commCity.startsWith(variant + ',') ||
-                                commCity.endsWith(', ' + variant)
-                            );
-                        });
-
-                        // Match providers by location containing city name
-                        const cityProvs = providers.filter(p => {
-                            const provLocation = (p.location || '').toLowerCase().trim();
-                            if (!provLocation) return false; // Skip empty locations
-
-                            // Check if location contains any city variation
-                            return variations.some(variant =>
-                                provLocation === variant ||
-                                provLocation.includes(', ' + variant) ||
-                                provLocation.startsWith(variant + ',')
-                            );
-                        });
-
-                        // Update metadata with live counts
-                        city.features.communities.count = cityComms.length;
-                        city.features.communities.available = cityComms.length > 0;
-                        city.features.providers.count = cityProvs.length;
-                        city.features.providers.available = cityProvs.length > 0;
-
-                        console.log(`${city.name}: ${cityComms.length} communities, ${cityProvs.length} providers`);
-                    }
-
-                    console.log('✓ Loaded live counts from Supabase');
-                } else {
-                    console.warn('dataLoader not available, using static counts');
+                    console.log('[Home] Preview cards loaded from Supabase');
                 }
-
-                // Render cards with live data
-                renderCityCards(citiesData.cities);
-                calculateNetworkStats(citiesData.cities);
-
             } catch (error) {
-                console.error('Error loading cities:', error);
-                document.getElementById('cityGrid').innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: var(--space-xl);">
-                        <p style="color: var(--terracotta);">Error loading cities. Please refresh the page.</p>
-                    </div>
-                `;
-            }
-        }
-
-        function renderCityCards(cities) {
-            const grid = document.getElementById('cityGrid');
-            grid.innerHTML = cities.map(city => `
-                <div class="city-selector-card" data-city="${city.slug}">
-                    <div class="city-card-header">
-                        <div class="city-icon">
-                            <i class="fa-solid fa-city" style="color: ${city.color || '#2F4A2C'}"></i>
-                        </div>
-                        <div class="city-info">
-                            <div class="city-name">${city.name}</div>
-                            <div class="city-state">${city.state}</div>
-                        </div>
-                    </div>
-
-                    <div class="city-meta">
-                        <span class="meta-badge">
-                            <i class="fa-solid fa-map-pin"></i> <span class="ward-count">${city.wardCount}</span> <span data-i18n="stats.wards">Wards</span>
-                        </span>
-                        <span class="meta-badge">
-                            <i class="fa-solid fa-users"></i> ${(city.population / 1000000).toFixed(1)}M
-                        </span>
-                    </div>
-
-                    <div class="city-features">
-                        <div class="feature-item ${city.features.map.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-map"></i>
-                            <span data-i18n="${city.features.map.available ? 'citySelector.wardMap' : 'citySelector.mapComingSoon'}">${city.features.map.available ? 'Ward Map' : 'Map (Coming Soon)'}</span>
-                        </div>
-                        <div class="feature-item ${city.features.communities.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-house-user"></i>
-                            <span>${city.features.communities.available ? `${city.features.communities.count} ` : ''}<span data-i18n="${city.features.communities.available ? 'stats.communities' : 'citySelector.communitiesComingSoon'}">${city.features.communities.available ? 'Communities' : 'Communities (Coming Soon)'}</span></span>
-                        </div>
-                        <div class="feature-item ${city.features.providers.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-building"></i>
-                            <span>${city.features.providers.available ? `${city.features.providers.count} ` : ''}<span data-i18n="${city.features.providers.available ? 'stats.providers' : 'citySelector.providersComingSoon'}">${city.features.providers.available ? 'Providers' : 'Providers (Coming Soon)'}</span></span>
-                        </div>
-                        <div class="feature-item ${city.features.climate.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-leaf"></i>
-                            <span data-i18n="${city.features.climate.available ? 'citySelector.climateDashboard' : 'citySelector.climateComingSoon'}">${city.features.climate.available ? 'Climate Dashboard' : 'Climate (Coming Soon)'}</span>
-                        </div>
-                    </div>
-
-                    <div class="city-cta">
-                        <a href="/cities/${city.slug}/" class="btn" style="background-color: ${city.color || '#2F4A2C'}; color: #FAF6E8; border: none;">
-                            <span data-i18n="citySelector.explore">Explore</span> ${city.name} <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-
-            // Re-translate the newly added content
-            if (window.translator) {
-                window.translator.translatePage();
-            }
-        }
-
-        function calculateNetworkStats(cities) {
-            const totalWards = cities.reduce((sum, city) => sum + city.wardCount, 0);
-            const totalCommunities = cities.reduce((sum, city) => sum + (city.features.communities.count || 0), 0);
-            const totalProviders = cities.reduce((sum, city) => sum + (city.features.providers.count || 0), 0);
-
-            // Update stat cards with safety checks
-            const wardCountEl = document.getElementById('wardCount');
-            const commCountEl = document.getElementById('commCount');
-            const providerCountEl = document.getElementById('providerCount');
-
-            if (wardCountEl) wardCountEl.textContent = totalWards.toLocaleString();
-            if (commCountEl) commCountEl.textContent = totalCommunities;
-            if (providerCountEl) providerCountEl.textContent = totalProviders;
-
-            // Also update feature cards with safety checks
-            const dirCommCountEl = document.getElementById('dirCommCount');
-            const orgNetCountEl = document.getElementById('orgNetCount');
-            const mapCommCountEl = document.getElementById('mapCommCount');
-
-            if (dirCommCountEl) dirCommCountEl.textContent = totalCommunities;
-            if (orgNetCountEl) orgNetCountEl.textContent = totalProviders;
-            if (mapCommCountEl) mapCommCountEl.textContent = totalCommunities;
-
-            // Update CTA subtitle with dynamic values after translator is ready
-            // Set the params attribute and retranslate the element
-            function updateCTASubtitle() {
-                const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
-                if (ctaElement && window.translator && window.translator.currentLanguage) {
-                    try {
-                        // Update the params attribute
-                        ctaElement.setAttribute('data-i18n-params', JSON.stringify({
-                            orgCount: totalProviders,
-                            commCount: totalCommunities
-                        }));
-
-                        // Re-translate this specific element with the new params
-                        const translatedText = window.translator.t('cta.subtitle', {
-                            orgCount: totalProviders,
-                            commCount: totalCommunities
-                        });
-                        ctaElement.innerHTML = translatedText;
-                    } catch (error) {
-                        console.warn('Failed to update CTA subtitle:', error);
-                        // Retry after a delay
-                        setTimeout(updateCTASubtitle, 200);
-                    }
-                } else {
-                    // Retry if translator not ready yet
-                    setTimeout(updateCTASubtitle, 200);
-                }
-            }
-
-            // Delay the update to ensure translator is initialized
-            setTimeout(updateCTASubtitle, 500);
-        }
-
-        // Load cities on page load
-        loadCities();
-
-        // Make data available to chatbot (cross-city queries)
-        (async function() {
-            try {
-                await dataLoader.waitForSupabase();
-                const [communities, providers] = await Promise.all([
-                    dataLoader.loadCommunities(),
-                    dataLoader.loadSolutionProviders()
-                ]);
-
-                window.notfData = {
-                    communities: communities,
-                    members: providers,
-                    cities: citiesData.cities || []
-                };
-
-                console.log('[Data Loader] Cross-city data loaded for chatbot');
-            } catch (error) {
-                console.error('[Data Loader] Error loading data:', error);
+                console.error('Error loading preview cards:', error);
                 window.notfData = { communities: [], members: [], cities: [] };
             }
-        })();
+        }
+
+        loadPreviewCards();
     </script>
 
     <!-- Chatbot Scripts -->

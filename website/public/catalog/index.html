@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighbourhood Improvement Projects | NOTF Catalogue</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/i18n/language-selector.css">
+    <style>
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        .breadcrumb a {
+            color: #2F4A2C;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .breadcrumb a:hover {
+            color: #253B23;
+            text-decoration: underline;
+        }
+        .breadcrumb .separator {
+            margin: 0 0.5rem;
+            color: #999;
+        }
+        .breadcrumb .current {
+            color: #666;
+        }
+
+        /* Hero */
+        .catalog-hero {
+            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1.25rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .catalog-hero .hero-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+        .catalog-hero .hero-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+        .catalog-hero h1 {
+            margin: 0 0 0.75rem 0;
+            color: white;
+            font-size: 2.5rem;
+        }
+        .catalog-hero p {
+            margin: 0;
+            opacity: 0.95;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Process Steps */
+        .process-bar {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 2.5rem;
+            padding: 2rem 1rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .process-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+            position: relative;
+            padding: 0 0.5rem;
+        }
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            right: -50%;
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 0;
+        }
+        .step-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #2F4A2C;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 2px 8px rgba(47,74,44,0.3);
+        }
+        .step-icon {
+            color: #3F5F7A;
+            font-size: 1.25rem;
+            margin-bottom: 0.35rem;
+        }
+        .step-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar select,
+        .filter-bar input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+        .filter-bar select:focus,
+        .filter-bar input:focus {
+            outline: none;
+            border-color: #2F4A2C;
+        }
+        .filter-bar select {
+            min-width: 200px;
+        }
+        .filter-bar input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Project Cards Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Project Card */
+        .project-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        .project-card-header {
+            padding: 1.5rem;
+            cursor: pointer;
+        }
+        .project-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(63, 95, 122, 0.15);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #2B2B2B;
+            margin-bottom: 0.5rem;
+        }
+        .project-description {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        /* Effort Indicators */
+        .effort-indicators {
+            margin-bottom: 1rem;
+        }
+        .effort-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .effort-label {
+            font-size: 12px;
+            color: #666;
+            width: 70px;
+            flex-shrink: 0;
+        }
+        .effort-bar {
+            display: flex;
+            gap: 3px;
+        }
+        .effort-segment {
+            width: 20px;
+            height: 8px;
+            border-radius: 2px;
+            background: #e0e0e0;
+        }
+        .effort-time .effort-segment.filled { background: #3F5F7A; }
+        .effort-workload .effort-segment.filled { background: #C45A2A; }
+        .effort-budget .effort-segment.filled { background: #F5B82E; }
+
+        /* Theme Tags */
+        .project-themes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 1rem;
+        }
+        .theme-pill {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+        .theme-pill.waste-management,
+        .theme-pill.circular-economy { background: #2F4A2C; }
+        .theme-pill.education,
+        .theme-pill.awareness { background: #F5B82E; color: #2B2B2B; }
+        .theme-pill.livelihoods,
+        .theme-pill.youth { background: #C45A2A; }
+        .theme-pill.health,
+        .theme-pill.gender { background: #3F5F7A; }
+        .theme-pill.community,
+        .theme-pill.placemaking { background: #B9C98A; color: #2B2B2B; }
+        .theme-pill.assessment { background: #3F5F7A; }
+        .theme-pill.urban-infrastructure { background: #2F4A2C; }
+        .theme-pill.sustainable-living { background: #2F4A2C; }
+        .theme-pill.community-service { background: #B9C98A; color: #2B2B2B; }
+        .theme-pill.default { background: #666; }
+
+        /* Learn More Toggle */
+        .learn-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            background: transparent;
+            border: 2px solid #2F4A2C;
+            color: #2F4A2C;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .learn-more-btn:hover {
+            background: #FAF6E8;
+        }
+        .learn-more-btn i {
+            transition: transform 0.3s ease;
+        }
+        .learn-more-btn.expanded i {
+            transform: rotate(180deg);
+        }
+
+        /* Expanded Content */
+        .project-expanded {
+            display: none;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            border-top: 1px solid #f0f0f0;
+        }
+        .project-expanded.active {
+            display: block;
+        }
+        .expanded-section {
+            margin-bottom: 1.25rem;
+        }
+        .expanded-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2F4A2C;
+            margin: 0 0 0.5rem 0;
+        }
+        .expanded-section p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .expanded-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .expanded-section ul li {
+            padding: 0.5rem 0.75rem;
+            background: #f8f9fa;
+            margin: 0.25rem 0;
+            border-radius: 4px;
+            border-left: 3px solid #B9C98A;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .expanded-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .expanded-links a {
+            color: #3F5F7A;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .expanded-links a:hover {
+            text-decoration: underline;
+        }
+        .contact-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: #2F4A2C;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+            font-family: inherit;
+        }
+        .contact-cta-btn:hover {
+            background: #253B23;
+            transform: translateY(-2px);
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1.25rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .bottom-cta h2 {
+            color: white;
+            margin: 0 0 0.75rem 0;
+            font-size: 2rem;
+        }
+        .bottom-cta p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin: 0 0 1.5rem 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .bottom-cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: white;
+            color: #2F4A2C;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-cta-primary:hover {
+            background: #FAF6E8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+        .btn-cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+        .btn-cta-secondary:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* No results */
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        .no-results i {
+            font-size: 3rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .catalog-hero h1 {
+                font-size: 1.75rem;
+            }
+            .catalog-hero {
+                padding: 2rem 1.5rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-bar {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+            .process-step:not(:last-child)::after {
+                display: none;
+            }
+            .process-step {
+                flex-direction: row;
+                gap: 1rem;
+                text-align: left;
+                min-width: unset;
+                width: 100%;
+                max-width: 280px;
+            }
+            .step-circle {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            .step-info {
+                text-align: left;
+            }
+            .filter-bar {
+                flex-direction: column;
+            }
+            .filter-bar select,
+            .filter-bar input {
+                width: 100%;
+            }
+            .bottom-cta h2 {
+                font-size: 1.5rem;
+            }
+            .project-number {
+                font-size: 2.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="navMenu">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
+                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin">
+                    <i class="fa-solid fa-user-lock"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-container">
+            <section class="content">
+                <!-- Breadcrumb -->
+                <nav class="breadcrumb">
+                    <a href="/" data-i18n="nav.home">Home</a>
+                    <span class="separator">&rsaquo;</span>
+                    <span class="current" data-i18n="catalogPage.breadcrumb">Catalogue</span>
+                </nav>
+
+                <!-- Hero Section -->
+                <div class="catalog-hero">
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h1 data-i18n="catalogPage.title">Neighbourhood Improvement Projects</h1>
+                    <p data-i18n="catalogPage.subtitle">Ready-to-implement, community-tested projects your neighbourhood can adopt.</p>
+                </div>
+
+                <!-- 5-Step Process Bar -->
+                <div class="process-bar">
+                    <div class="process-step">
+                        <div class="step-circle">1</div>
+                        <div class="step-info">
+                            <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                            <div class="step-label" data-i18n="catalogPage.steps.find">Find a project</div>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">2</div>
+                        <div class="step-info">
+                            <div class="step-icon"><i class="fa-solid fa-book-open"></i></div>
+                            <div class="step-label" data-i18n="catalogPage.steps.learn">Learn more</div>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">3</div>
+                        <div class="step-info">
+                            <div class="step-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="step-label" data-i18n="catalogPage.steps.contact">Contact us</div>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">4</div>
+                        <div class="step-info">
+                            <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+                            <div class="step-label" data-i18n="catalogPage.steps.connect">We'll connect you</div>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-circle">5</div>
+                        <div class="step-info">
+                            <div class="step-icon"><i class="fa-solid fa-rocket"></i></div>
+                            <div class="step-label" data-i18n="catalogPage.steps.kickstart">Kickstart change</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <select id="themeFilter" aria-label="Filter by theme">
+                        <option value="" data-i18n="catalogPage.filter.allThemes">All Themes</option>
+                        <option value="Waste Management" data-i18n="catalogPage.filter.wasteManagement">Waste Management</option>
+                        <option value="Education" data-i18n="catalogPage.filter.education">Education</option>
+                        <option value="Livelihoods" data-i18n="catalogPage.filter.livelihoods">Livelihoods</option>
+                        <option value="Health" data-i18n="catalogPage.filter.health">Health</option>
+                    </select>
+                    <input type="text" id="searchInput" data-i18n-placeholder="catalogPage.filter.searchPlaceholder" placeholder="Search projects..." aria-label="Search projects">
+                </div>
+
+                <!-- Projects Grid -->
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <!-- Bottom CTA -->
+                <div class="bottom-cta">
+                    <h2 data-i18n="catalogPage.cta.title">Take Action in Your Neighbourhood</h2>
+                    <p data-i18n="catalogPage.cta.subtitle">Every neighbourhood has the potential to be cleaner, greener, and more liveable.</p>
+                    <div class="bottom-cta-buttons">
+                        <a href="/join/" class="btn-cta-primary">
+                            <i class="fa-solid fa-arrow-right"></i>
+                            <span data-i18n="catalogPage.cta.getStarted">Get Started</span>
+                        </a>
+                        <a href="mailto:contact@notf.in" class="btn-cta-secondary">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span data-i18n="catalogPage.cta.contactUs">Contact Us</span>
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-powered-by">
+            <span data-i18n="footer.poweredBy">NOTF platform powered by</span>
+            <a href="https://rainmatter.org/" target="_blank" rel="noopener noreferrer" class="rainmatter-link">
+                <img src="/assets/images/rainmatter-logo.png" alt="Rainmatter Foundation" class="rainmatter-logo">
+            </a>
+        </div>
+        <div class="footer-license">
+            <span class="cc-text"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+                CC BY-NC-SA 4.0</a></span>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+
+    <script>
+        // Catalog project data
+        const catalogProjects = [
+            {
+                id: 1,
+                title: "Learning Experience Centre",
+                description: "Neighbourhood community spaces for you and your family where you can learn about everyday issues in a fun and interactive manner.",
+                themes: ["Education", "Awareness"],
+                time: 4, workload: 4, budget: 3,
+                whatIsIt: "Immersive, neighbourhood-anchored spaces where people learn about complex public issues through hands-on exploration, storytelling, and interaction. Each centre focuses on one theme \u2014 rivers, textiles, everyday materials. Growing into a city-wide network across Bengaluru.",
+                whyExists: "Complex sustainability, ecology, and livelihood issues need to be made understandable and relatable. Learning should move out of classrooms and conferences into neighbourhood spaces, creating emotional connections that encourage civic engagement.",
+                involves: ["Physical exhibits and artefacts", "Interactive games and activities", "Local stories and data visualizations", "Pathways for civic or personal action"],
+                whereDone: "RR Nagar, Bannerghatta, and Yeshwantpur in Bengaluru. Three centres running: Rivers of Bengaluru, Textile Experience Centre, Everyday Materials.",
+                impact: "Over 850 visitors at Rivers centre in first 3 months. Over 600 visitors at Textile centre. School and college visits confirmed. Partnership with Bangalore Apartment Federation.",
+                whatsNeeded: "600-1,000 sq ft indoor space with controlled lighting. Display racks, frames for exhibits. Power for audio-visual elements.",
+                links: []
+            },
+            {
+                id: 2,
+                title: "RRR Maadi",
+                description: "A one-day repair event, hosted in your apartment, where cobblers, tailors, and experts fix your items.",
+                themes: ["Waste Management", "Circular Economy"],
+                time: 3, workload: 2, budget: 1,
+                whatIsIt: "Community-led initiative bringing repair services directly into neighbourhoods. Encourages repair over disposal and supports informal repair vendor livelihoods. RRR stands for Refuse, Reduce, Repair. Maadi means \u2018do\u2019 in Kannada.",
+                whyExists: "Bengaluru generates 5,000-6,000 tonnes of waste daily. Many discarded items are repairable. Supports Government of India\u2019s Mission LiFE.",
+                involves: ["On-the-spot repair by local vendors (cobbler, tailor, bicycle mechanic, knife sharpener)", "Basic repair and maintenance skill sessions", "Awareness activities on 3Rs and circular economy", "E-waste collection drives and expert talks"],
+                whereDone: "25 events across apartment communities and institutions in South Bengaluru.",
+                impact: "25 repair campaigns completed. 1,720+ citizens engaged. 2,828 items repaired. Over Rs 1.5 lakh generated in repair livelihoods.",
+                whatsNeeded: "Community space for event. Coordination with local repair vendors. Basic tools and awareness materials.",
+                links: ["https://saahas.org/initiatives/rrr-madi/"]
+            },
+            {
+                id: 3,
+                title: "Cutlery Bank",
+                description: "Have an event coming up? Borrow steel plates and spoons from this community service.",
+                themes: ["Waste Management", "Community Service"],
+                time: 2, workload: 2, budget: 1,
+                whatIsIt: "Community-led initiative run by a Self-Help Group (SHG) to reduce single-use waste at source. Provides reusable cups, plates, and cutlery for local events.",
+                whyExists: "Community events rely heavily on disposable cups, plates, cutlery \u2014 contributing to local waste generation and pressure on Panchayat-level waste systems.",
+                involves: ["Providing reusable cups, plates, and cutlery for local functions", "Coordinating with event organisers to replace disposables", "Cleaning, maintaining, and circulating cutlery for repeated use"],
+                whereDone: "Implemented at Panchayat level in Sarjapur. 8 community events supported including festivals and private functions.",
+                impact: "8 events served. Rs 4,320 earned by SHG. 1,051 single-use items prevented.",
+                whatsNeeded: "RWA/CBO/NGO who can provide space to clean and store the cutlery bank.",
+                links: []
+            },
+            {
+                id: 4,
+                title: "Zero Waste School",
+                description: "Students learn to compost, sort waste, reduce plastics, save water and build habits that help the whole neighbourhood.",
+                themes: ["Education", "Waste Management"],
+                time: 4, workload: 3, budget: 2,
+                whatIsIt: "School adoption initiative turning educational institutions into everyday sites of environmental action. Works directly with teachers and students to build lasting habits.",
+                whyExists: "Schools generate significant waste daily and are powerful spaces for shaping habits and values. Students carry practices home and into communities.",
+                involves: ["Waste segregation systems within the school", "Composting of biodegradable waste", "Elimination or reduction of single-use plastics", "Rainwater harvesting and groundwater recharge", "Sustainable menstruation hub"],
+                whereDone: "A couple of school locations in Bengaluru.",
+                impact: "Pilot phase \u2014 impact data being collected.",
+                whatsNeeded: "Willingness from school to host. Participation from teachers and students. Space for segregation, composting, and awareness activities.",
+                links: []
+            },
+            {
+                id: 5,
+                title: "Cloth Pad Bank",
+                description: "A small vending machine placed in schools to help students access reusable cloth pads easily and with privacy.",
+                themes: ["Health", "Gender"],
+                time: 2, workload: 2, budget: 2,
+                whatIsIt: "Community-based initiative providing girls and young women with easy, dignified access to reusable cloth pads through pad vending machines installed in public institutions, especially government schools.",
+                whyExists: "Despite awareness, access remains a challenge especially in government schools. Girls are open to using cloth pads but lack safe, affordable, private ways to obtain them.",
+                involves: ["Installation of a cloth pad vending machine", "A secure cupboard or storage unit", "Linkages with menstrual health and sustainability sessions"],
+                whereDone: "Multiple locations across Chennai. Upcoming installation in JP Nagar, Bengaluru.",
+                impact: "Pilot phase \u2014 expanding to new locations.",
+                whatsNeeded: "Institution willing to host the vending machine. Small indoor space. Support for awareness activities.",
+                links: []
+            },
+            {
+                id: 6,
+                title: "Kasa Kiosk",
+                description: "A staffed waste drop-off stall where people can leave their waste at any time, even if they miss the collection truck.",
+                themes: ["Waste Management", "Urban Infrastructure"],
+                time: 3, workload: 3, budget: 3,
+                whatIsIt: "Neighbourhood-level, manned waste collection kiosk designed to eliminate garbage black spots \u2014 places where waste is repeatedly dumped in public spaces. Named after \u2018Kasa\u2019 (waste in Kannada).",
+                whyExists: "Garbage black spots emerge when waste collection systems don\u2019t align with residents\u2019 routines. Missed pickups and timing issues lead to public dumping.",
+                involves: ["A fixed kiosk structure at a strategic location", "Trained staff for waste collection and segregation", "Clear instructions for residents on acceptable waste", "Coordination with municipal collection vehicles"],
+                whereDone: "Successfully piloted by Saahas in multiple Bengaluru locations. Four locations planned in Hebbagodi.",
+                impact: "Active pilot \u2014 kiosks operational and transforming black spots into managed collection points.",
+                whatsNeeded: "Strategic neighbourhood location. Partnership with experienced NGO. Municipal coordination for waste transport.",
+                links: []
+            },
+            {
+                id: 7,
+                title: "Waste-Free Worship Hubs",
+                description: "Helps temples, mosques, and churches manage waste through sorting, plastic reduction, and material reuse for eco-friendly celebrations.",
+                themes: ["Waste Management", "Community"],
+                time: 3, workload: 3, budget: 2,
+                whatIsIt: "Community-led initiative working with places of worship to transform them into zero-waste centres. Links faith, daily practice, and environmental responsibility.",
+                whyExists: "Places of worship generate significant waste during festivals, special prayers, and community gatherings \u2014 mixed, single-use, and difficult to manage.",
+                involves: ["Waste segregation systems with clear bin placement", "Reduction of single-use plastics", "Reuse and composting of biodegradable offerings", "Awareness connecting environmental care with spiritual values"],
+                whereDone: "Pilot in two locations in Shanthinagar, Bengaluru. Previously implemented in five temples by SWMRT.",
+                impact: "Active pilots showing waste reduction at worship sites.",
+                whatsNeeded: "Willingness from worship place leadership. Municipal support for waste collection. NGO partner for training.",
+                links: []
+            },
+            {
+                id: 8,
+                title: "Model DWCC",
+                description: "Transforms your Dry Waste Collection Centres into neat, bright, well-managed spaces that reduce smell and improve recycling.",
+                themes: ["Waste Management", "Placemaking"],
+                time: 3, workload: 4, budget: 3,
+                whatIsIt: "Placemaking initiative transforming Dry Waste Collection Centres (DWCCs) into clean, well-designed, community-friendly spaces. Also called \u2018Kasa Kuppa Khoobsurat\u2019 (Beautiful Waste Bin).",
+                whyExists: "DWCCs are essential to decentralised waste management but are resisted by communities due to poor maintenance and visual clutter. This reimagines them as assets rather than eyesores.",
+                involves: ["Cleaning, repainting, and aesthetic upgrades", "Improved signage and information boards", "Better layout and storage for dry waste streams", "Community-friendly design elements"],
+                whereDone: "Demonstration site planned in Hebbagodi, Bengaluru.",
+                impact: "In planning phase \u2014 first model site under development.",
+                whatsNeeded: "Support from RWAs, CBOs, NGOs, municipality, or corporate partners for funding and coordination.",
+                links: []
+            },
+            {
+                id: 9,
+                title: "First Job Fellowship",
+                description: "The First Job Fellowship gives guidance, mentorship, and opportunities to help you get your first real job with confidence.",
+                themes: ["Livelihoods", "Youth"],
+                time: 5, workload: 5, budget: 4,
+                whatIsIt: "Six-month, supported transition programme helping young people navigate their first real experience of work. Combines paid work exposure with mentoring, reflection, and life skills support. Rs 10,000/month fellowship stipend.",
+                whyExists: "Skill training often does not translate into meaningful first jobs, especially for young women facing mobility constraints and social restrictions.",
+                involves: ["Rs 10,000/month fellowship stipend", "Structured induction and expectation-setting", "Monthly mentoring and check-ins", "Life skills and workplace readiness sessions", "Reflection, goal-setting, and future planning"],
+                whereDone: "Benson Town, Banashankari, Bommanahalli, Electronic City in Bengaluru. Five pilot cohorts running.",
+                impact: "Five active cohorts across different youth demographics. Building workplace identity, economic imagination, and social capital.",
+                whatsNeeded: "Venue for induction and monthly check-ins. Implementing partner organisation. Programme coordinator and mentors. Learning materials.",
+                links: []
+            },
+            {
+                id: 10,
+                title: "Neighbourhood Green Score",
+                description: "Your area's report card on the quality of water, parks, waste, and community life \u2014 showing what's good and what can get better.",
+                themes: ["Assessment", "Community"],
+                time: 3, workload: 3, budget: 1,
+                whatIsIt: "Simple, community-facing tool looking at everyday aspects of local life \u2014 air quality, water, parks, green cover, waste management, local businesses, and community life. A neighbourhood report card.",
+                whyExists: "People experience city quality at the neighbourhood level, but this information is often scattered, technical, or hard to access.",
+                involves: ["Indicators on air, water, green spaces, and waste", "Simple visuals showing what\u2019s doing well and what needs attention", "Community reflections on safety, access, and everyday life"],
+                whereDone: "Currently in pilot phase \u2014 will be launched with early adopter communities.",
+                impact: "In development \u2014 tool being refined with community input.",
+                whatsNeeded: "A ready and interested neighbourhood. One local champion to coordinate and mobilise residents.",
+                links: []
+            },
+            {
+                id: 11,
+                title: "Smart Refill",
+                description: "Refill station for everyday household products. Bring your own jars to refill detergent, dishwash, and floor cleaner.",
+                themes: ["Waste Management", "Sustainable Living"],
+                time: 2, workload: 1, budget: 2,
+                whatIsIt: "Refill station dispensing everyday household products (laundry detergent, dishwash, floor cleaner). Residents bring their own jars. Machine is ~6.5 ft tall with 6 dispensing nozzles offering natural and branded options.",
+                whyExists: "Reducing plastic waste from single-use product packaging. Tracks how much is refilled, plastic saved, and estimated CO2 reduction.",
+                involves: ["Refill station machine installation", "3 natural/sustainable + 3 branded product options", "Smart Refill mobile app for dispensing and payments", "Community awareness activities"],
+                whereDone: "Already installed in community spaces and institutions. Piloting in JP Nagar, Bengaluru.",
+                impact: "21-35% of households use Smart Refill. 54-73% of buyers refill regularly. 60-100 litres refilled per month in active communities.",
+                whatsNeeded: "Indoor and secure space for the refill station. Access to a 5A power connection. Support for awareness events.",
+                links: []
+            }
+        ];
+
+        // Theme to CSS class mapping
+        function themeToClass(theme) {
+            return theme.toLowerCase().replace(/\s+/g, '-');
+        }
+
+        // Render effort bar
+        function renderEffortBar(value, max) {
+            let html = '';
+            for (let i = 0; i < max; i++) {
+                html += `<span class="effort-segment${i < value ? ' filled' : ''}"></span>`;
+            }
+            return html;
+        }
+
+        // Render a single project card
+        function renderProjectCard(project) {
+            const themePills = project.themes.map(t =>
+                `<span class="theme-pill ${themeToClass(t)}">${t}</span>`
+            ).join('');
+
+            const involvesItems = project.involves.map(item =>
+                `<li>${item}</li>`
+            ).join('');
+
+            let linksHtml = '';
+            if (project.links && project.links.length > 0) {
+                linksHtml = `
+                    <div class="expanded-section">
+                        <h4 data-i18n="catalogPage.details.links"><i class="fa-solid fa-link"></i> Links</h4>
+                        <div class="expanded-links">
+                            ${project.links.map(link => `<a href="${link}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${new URL(link).hostname}</a>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="project-card" id="project-${project.id}" data-themes="${project.themes.join(',').toLowerCase()}">
+                    <div class="project-card-header" onclick="toggleProject(${project.id})">
+                        <div class="project-number">${String(project.id).padStart(2, '0')}</div>
+                        <div class="project-title">${project.title}</div>
+                        <div class="project-description">${project.description}</div>
+                        <div class="effort-indicators">
+                            <div class="effort-indicator effort-time">
+                                <span class="effort-label" data-i18n="catalogPage.effort.time">Time</span>
+                                <div class="effort-bar">${renderEffortBar(project.time, 5)}</div>
+                            </div>
+                            <div class="effort-indicator effort-workload">
+                                <span class="effort-label" data-i18n="catalogPage.effort.workload">Workload</span>
+                                <div class="effort-bar">${renderEffortBar(project.workload, 5)}</div>
+                            </div>
+                            <div class="effort-indicator effort-budget">
+                                <span class="effort-label" data-i18n="catalogPage.effort.budget">Budget</span>
+                                <div class="effort-bar">${renderEffortBar(project.budget, 5)}</div>
+                            </div>
+                        </div>
+                        <div class="project-themes">${themePills}</div>
+                        <button class="learn-more-btn" id="btn-${project.id}" onclick="event.stopPropagation(); toggleProject(${project.id});">
+                            <span data-i18n="catalogPage.learnMore">Learn More</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="project-expanded" id="expanded-${project.id}">
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.whatIsIt"><i class="fa-solid fa-circle-info"></i> What is it?</h4>
+                            <p>${project.whatIsIt}</p>
+                        </div>
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.whyExists"><i class="fa-solid fa-lightbulb"></i> Why does it exist?</h4>
+                            <p>${project.whyExists}</p>
+                        </div>
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.involves"><i class="fa-solid fa-list-check"></i> What does it involve?</h4>
+                            <ul>${involvesItems}</ul>
+                        </div>
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.whereDone"><i class="fa-solid fa-location-dot"></i> Where has it been done?</h4>
+                            <p>${project.whereDone}</p>
+                        </div>
+                        ${project.impact ? `
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.impact"><i class="fa-solid fa-chart-line"></i> Impact so far</h4>
+                            <p>${project.impact}</p>
+                        </div>
+                        ` : ''}
+                        <div class="expanded-section">
+                            <h4 data-i18n="catalogPage.details.whatsNeeded"><i class="fa-solid fa-clipboard-list"></i> What's needed?</h4>
+                            <p>${project.whatsNeeded}</p>
+                        </div>
+                        ${linksHtml}
+                        <a href="mailto:contact@notf.in" class="contact-cta-btn">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span data-i18n="catalogPage.contactAboutProject">Contact Us About This Project</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle project accordion
+        function toggleProject(id) {
+            const expanded = document.getElementById(`expanded-${id}`);
+            const btn = document.getElementById(`btn-${id}`);
+
+            if (expanded.classList.contains('active')) {
+                expanded.classList.remove('active');
+                btn.classList.remove('expanded');
+            } else {
+                expanded.classList.add('active');
+                btn.classList.add('expanded');
+            }
+        }
+
+        // Filter and render projects
+        function filterAndRender() {
+            const themeFilter = document.getElementById('themeFilter').value.toLowerCase();
+            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            const filtered = catalogProjects.filter(project => {
+                const matchesTheme = !themeFilter || project.themes.some(t => t.toLowerCase() === themeFilter);
+                const matchesSearch = !searchText ||
+                    project.title.toLowerCase().includes(searchText) ||
+                    project.description.toLowerCase().includes(searchText) ||
+                    project.themes.some(t => t.toLowerCase().includes(searchText));
+                return matchesTheme && matchesSearch;
+            });
+
+            const grid = document.getElementById('projectsGrid');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p data-i18n="catalogPage.noResults">No projects match your search. Try a different filter or search term.</p>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = filtered.map(renderProjectCard).join('');
+            }
+        }
+
+        // Init
+        document.getElementById('themeFilter').addEventListener('change', filterAndRender);
+        document.getElementById('searchInput').addEventListener('input', filterAndRender);
+
+        // Initial render
+        filterAndRender();
+    </script>
+
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+    <!-- Language Selector -->
+    <script src="/assets/i18n/language-selector.js"></script>
+    <script src="/assets/js/nav-highlight.js"></script>
+</body>
+</html>

@@ -193,7 +193,9 @@
     "cities": "Cities",
     "wards": "Wards",
     "wardsTracked": "Wards Tracked",
-    "providers": "Solution Providers"
+    "providers": "Solution Providers",
+    "catalogItems": "Catalogue",
+    "stories": "Stories"
   },
   "citySelector": {
     "title": "Select Your City",
@@ -503,14 +505,21 @@
           "disaster": "Disaster Management"
         }
       },
-      "statusComingSoon": "Coming Soon"
+      "statusComingSoon": "Coming Soon",
+      "stories": {
+        "title": "Community Stories",
+        "description": "Discover real stories of neighbourhood transformation, told by the people who made it happen.",
+        "button": "Read Stories",
+        "comingSoonDescription": "Community stories for this city are under development. Real stories of neighbourhood transformation coming soon."
+      }
     },
     "nav": {
       "cities": "Cities",
       "communities": "Communities",
       "providers": "Providers",
       "map": "Map",
-      "climate": "Climate"
+      "climate": "Climate",
+      "stories": "Stories"
     },
     "comingSoonCallout": {
       "title": "City Data Coming Soon",
@@ -1214,6 +1223,82 @@
         "lastUpdated": "Last Updated:",
         "lastUpdatedDate": "January 20, 2026"
       }
+    }
+  },
+  "citiesPage": {
+    "title": "Our Cities",
+    "subtitle": "Explore 13 cities across India with ward-level data, community networks, and local initiatives.",
+    "breadcrumb": "Cities",
+    "errorLoading": "Error loading cities. Please refresh the page."
+  },
+  "storiesPage": {
+    "title": "Community Stories",
+    "subtitle": "Real stories of neighbourhood transformation, told by the people who made it happen.",
+    "filterLabel": "Filters",
+    "allCities": "All Cities",
+    "allThemes": "All Themes",
+    "searchPlaceholder": "Search stories...",
+    "loading": "Loading stories...",
+    "noStoriesTitle": "No stories found",
+    "noStoriesDesc": "Try adjusting your filters or search terms.",
+    "readMore": "Read Full Story",
+    "collapse": "Collapse",
+    "watchVideo": "Watch Video",
+    "filterCity": "All Cities",
+    "filterTheme": "All Themes",
+    "readFull": "Read Full Story",
+    "noStories": "No stories found matching your filters."
+  },
+  "statsNav": {
+    "citiesHint": "Bengaluru leads with the most active communities",
+    "exploreAll": "Explore all cities",
+    "browseAll": "Browse communities",
+    "browseCatalog": "Browse catalogue",
+    "readStories": "Read stories",
+    "catalogHint": "Ready-to-implement neighbourhood projects",
+    "storiesLoading": "Loading stories..."
+  },
+  "catalogPage": {
+    "breadcrumb": "Catalogue",
+    "title": "Neighbourhood Improvement Projects",
+    "subtitle": "Ready-to-implement, community-tested projects your neighbourhood can adopt.",
+    "steps": {
+      "find": "Find a project",
+      "learn": "Learn more",
+      "contact": "Contact us",
+      "connect": "We'll connect you",
+      "kickstart": "Kickstart change"
+    },
+    "filter": {
+      "allThemes": "All Themes",
+      "wasteManagement": "Waste Management",
+      "education": "Education",
+      "livelihoods": "Livelihoods",
+      "health": "Health",
+      "searchPlaceholder": "Search projects..."
+    },
+    "effort": {
+      "time": "Time",
+      "workload": "Workload",
+      "budget": "Budget"
+    },
+    "learnMore": "Learn More",
+    "details": {
+      "whatIsIt": "What is it?",
+      "whyExists": "Why does it exist?",
+      "involves": "What does it involve?",
+      "whereDone": "Where has it been done?",
+      "impact": "Impact so far",
+      "whatsNeeded": "What's needed?",
+      "links": "Links"
+    },
+    "contactAboutProject": "Contact Us About This Project",
+    "noResults": "No projects match your search. Try a different filter or search term.",
+    "cta": {
+      "title": "Take Action in Your Neighbourhood",
+      "subtitle": "Every neighbourhood has the potential to be cleaner, greener, and more liveable.",
+      "getStarted": "Get Started",
+      "contactUs": "Contact Us"
     }
   }
 }

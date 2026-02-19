@@ -88,6 +88,7 @@ async function loadCommunities(cityFilter = null) {
         state: item.metadata?.state || '',
         neighborhood: item.neighborhood || item.metadata?.neighborhood || '',
         themes: item.metadata?.themes || [],
+        domains: item.metadata?.domains || [],
         description: item.metadata?.description || '',
         contact: item.metadata?.contact || {},
         offers: item.metadata?.offers || [],
@@ -96,6 +97,47 @@ async function loadCommunities(cityFilter = null) {
         latitude: item.latitude || null,
         longitude: item.longitude || null,
         ward: item.ward || null
+    }));
+}
+
+// Load all stories
+async function loadStories(cityFilter = null) {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+        console.error('Supabase client not initialized');
+        return [];
+    }
+
+    let query = supabase
+        .from('file_metadata')
+        .select('*')
+        .eq('file_type', 'story')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false });
+
+    if (cityFilter) {
+        query = query.eq('city', cityFilter);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error('Error loading stories:', error);
+        return [];
+    }
+
+    return (data || []).map(item => ({
+        slug: item.slug,
+        title: item.metadata?.title || item.slug,
+        type: 'story',
+        city: item.city || item.metadata?.city || '',
+        community: item.metadata?.community || '',
+        location: item.metadata?.location || '',
+        themes: item.metadata?.themes || [],
+        excerpt: item.metadata?.excerpt || '',
+        content: item.metadata?.content || '',
+        youtube_url: item.metadata?.youtube_url || null,
+        created_at: item.created_at || null
     }));
 }
 
@@ -165,12 +207,13 @@ async function initializeGlobalData() {
     try {
         await waitForSupabase();
 
-        console.log('[DataLoader] Loading communities and providers...');
+        console.log('[DataLoader] Loading communities, providers, and stories...');
 
-        // Load both communities and providers in parallel
-        const [communities, providers] = await Promise.all([
+        // Load communities, providers, and stories in parallel
+        const [communities, providers, stories] = await Promise.all([
             loadCommunities(),
-            loadSolutionProviders()
+            loadSolutionProviders(),
+            loadStories()
         ]);
 
         // Populate global data object
@@ -178,10 +221,11 @@ async function initializeGlobalData() {
             communities: communities,
             members: providers, // Alias for backward compatibility
             providers: providers,
+            stories: stories,
             lastUpdated: new Date().toISOString()
         };
 
-        console.log(`[DataLoader] Loaded ${communities.length} communities and ${providers.length} providers`);
+        console.log(`[DataLoader] Loaded ${communities.length} communities, ${providers.length} providers, ${stories.length} stories`);
         return true;
     } catch (error) {
         console.error('[DataLoader] Failed to initialize global data:', error);
@@ -199,6 +243,7 @@ if (document.querySelector('#notf-chatbot, #chat-fab')) {
 window.dataLoader = {
     loadSolutionProviders,
     loadCommunities,
+    loadStories,
     getCities,
     formatDate,
     formatDomains,

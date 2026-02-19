@@ -358,10 +358,6 @@
                 <div class="quick-stat-label" data-i18n="cityHub.stats.communities">Communities</div>
             </div>
             <div class="quick-stat-card">
-                <div class="quick-stat-number" id="providerCount">-</div>
-                <div class="quick-stat-label" data-i18n="cityHub.stats.providers">Solution Providers</div>
-            </div>
-            <div class="quick-stat-card">
                 <div class="quick-stat-number">369</div>
                 <div class="quick-stat-label" data-i18n="cityHub.stats.wardsTracked">Wards Tracked</div>
             </div>
@@ -425,25 +421,25 @@
                     </div>
                 </div>
 
-                <!-- Solution Providers -->
+                <!-- Community Stories (Live) -->
                 <div class="feature-card-large">
                     <div class="feature-header">
                         <div class="feature-icon-large">
-                            <i class="fa-solid fa-building" style="color: #C45A2A !important;"></i>
+                            <i class="fa-solid fa-book-open" style="color: #C45A2A !important;"></i>
                         </div>
                         <div class="feature-info">
-                            <h3 data-i18n="cityHub.features.providers.title">Solution Providers</h3>
+                            <h3 data-i18n="cityHub.features.stories.title">Community Stories</h3>
                             <span class="feature-status-badge live">
                                 <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.map.statusLive">Live</span>
                             </span>
                         </div>
                     </div>
-                    <p class="feature-description" data-i18n="cityHub.features.providers.description" data-i18n-params='{"count":"<strong id=\"providerCountInline\">-</strong>"}' data-i18n-html="true">
-                        Find <strong id="providerCountInline">-</strong> organizations, CBOs, and solution providers working in Bengaluru. Access resources and partnerships.
+                    <p class="feature-description" data-i18n="cityHub.features.stories.description">
+                        Discover real stories of neighbourhood transformation, told by the people who made it happen.
                     </p>
                     <div class="feature-action">
-                        <a href="/cities/bengaluru/solution-providers/" class="btn btn-primary">
-                            <span data-i18n="cityHub.features.providers.button">View Providers</span> <i class="fa-solid fa-arrow-right"></i>
+                        <a href="/cities/bengaluru/stories/" class="btn btn-primary">
+                            <span data-i18n="cityHub.features.stories.button">Read Stories</span> <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
                 </div>
@@ -502,7 +498,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
         </section>
 
         <!-- Chatbot Widget -->
@@ -611,12 +606,9 @@
                 );
 
                 const commCount = bengaluruCommunities.length;
-                const providerCount = bengaluruProviders.length;
 
                 document.getElementById('commCount').textContent = commCount;
-                document.getElementById('providerCount').textContent = providerCount;
                 document.getElementById('commCountInline').textContent = commCount;
-                document.getElementById('providerCountInline').textContent = providerCount;
 
                 // Make data available to chatbot (Bengaluru-specific)
                 window.notfData = {
