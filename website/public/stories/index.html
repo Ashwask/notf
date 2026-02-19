@@ -299,7 +299,53 @@
             margin-bottom: 1rem;
         }
 
-        /* YouTube embed */
+        /* YouTube thumbnail on card */
+        .story-thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .story-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .story-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+
+        .story-thumbnail .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .story-thumbnail:hover .play-overlay {
+            background: rgba(196, 90, 42, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .story-thumbnail .play-overlay i {
+            color: white;
+            font-size: 24px;
+            margin-left: 4px;
+        }
+
+        /* YouTube embed in expanded section */
         .youtube-embed {
             position: relative;
             padding-bottom: 56.25%;
@@ -677,6 +723,12 @@
 
                         return `
                             <div class="story-card" id="story-${index}">
+                                ${youtubeId ? `
+                                    <a href="https://www.youtube.com/watch?v=${escapeHtml(youtubeId)}" target="_blank" rel="noopener" class="story-thumbnail">
+                                        <img src="https://img.youtube.com/vi/${escapeHtml(youtubeId)}/hqdefault.jpg" alt="${escapeHtml(story.title)}" loading="lazy">
+                                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                                    </a>
+                                ` : ''}
                                 <div class="story-card-header">
                                     <div class="story-tags-row">
                                         ${story.city ? `<a href="/cities/${escapeHtml(citySlug)}/" class="city-badge">${escapeHtml(story.city)}</a>` : ''}
@@ -693,13 +745,7 @@
                                     </div>
                                 </div>
                                 <div class="story-card-body">
-                                    ${story.excerpt ? `<p class="story-excerpt">${escapeHtml(story.excerpt)}</p>` : ''}
                                     <div class="story-actions">
-                                        ${youtubeId ? `
-                                            <a href="https://www.youtube.com/watch?v=${escapeHtml(youtubeId)}" target="_blank" rel="noopener" class="video-link">
-                                                <i class="fa-brands fa-youtube"></i> <span data-i18n="storiesPage.watchVideo">Watch Video</span>
-                                            </a>
-                                        ` : '<span></span>'}
                                         ${hasContent ? `
                                             <button class="read-more-btn" onclick="toggleStory(${index})">
                                                 <span data-i18n="storiesPage.readMore">Read Full Story</span> <i class="fa-solid fa-chevron-down"></i>
@@ -709,6 +755,7 @@
                                 </div>
                                 ${hasContent ? `
                                     <div class="story-expanded" id="story-expanded-${index}">
+                                        ${story.excerpt ? `<p class="story-excerpt">${escapeHtml(story.excerpt)}</p>` : ''}
                                         ${youtubeId ? getYoutubeEmbed(story.youtube_url) : ''}
                                         <div class="story-content">${marked.parse(story.content)}</div>
                                         <button class="collapse-btn" onclick="toggleStory(${index})">
