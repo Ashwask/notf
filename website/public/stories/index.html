@@ -676,6 +676,11 @@
             renderStories(filtered);
         }
 
+        // Play video inline, replacing the thumbnail
+        function playVideo(el, videoId) {
+            el.outerHTML = `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+        }
+
         // Toggle story expansion (accordion)
         function toggleStory(index) {
             const expanded = document.getElementById(`story-expanded-${index}`);
@@ -741,10 +746,10 @@
                                 </div>
                                 <div class="story-card-body">
                                     ${youtubeId ? `
-                                        <a href="https://www.youtube.com/watch?v=${escapeHtml(youtubeId)}" target="_blank" rel="noopener" class="story-thumbnail">
+                                        <div class="story-thumbnail" onclick="playVideo(this, '${escapeHtml(youtubeId)}')">
                                             <img src="https://img.youtube.com/vi/${escapeHtml(youtubeId)}/hqdefault.jpg" alt="${escapeHtml(story.title)}" loading="lazy">
                                             <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
-                                        </a>
+                                        </div>
                                     ` : ''}
                                     <div class="story-actions">
                                         ${hasContent ? `
@@ -757,7 +762,6 @@
                                 ${hasContent ? `
                                     <div class="story-expanded" id="story-expanded-${index}">
                                         ${story.excerpt ? `<p class="story-excerpt">${escapeHtml(story.excerpt)}</p>` : ''}
-                                        ${youtubeId ? getYoutubeEmbed(story.youtube_url) : ''}
                                         <div class="story-content">${marked.parse(story.content)}</div>
                                         <button class="collapse-btn" onclick="toggleStory(${index})">
                                             <i class="fa-solid fa-chevron-up"></i> <span data-i18n="storiesPage.collapse">Collapse</span>
