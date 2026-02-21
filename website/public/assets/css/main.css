@@ -248,6 +248,11 @@ nav {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    background: rgba(0, 0, 0, 0.3);
+    padding: var(--space-lg) var(--space-xl);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .hero h1 {
@@ -256,6 +261,7 @@ nav {
     color: var(--warm-cream);
     margin-bottom: var(--space-md);
     line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .hero-subtitle {
@@ -264,6 +270,7 @@ nav {
     margin-bottom: var(--space-lg);
     line-height: 1.6;
     opacity: 0.95;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
 }
 
 .hero-cta {

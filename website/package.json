@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Neighbourhoods of the Future - Static Website",
   "scripts": {
+    "dev": "vite",
+    "preview": "vite preview",
     "clean": "echo 'No build artifacts to clean - using static HTML'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.78.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0"
   }
 }

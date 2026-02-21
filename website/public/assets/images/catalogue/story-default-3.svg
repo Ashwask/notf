@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <rect width="400" height="280" fill="#3F5F7A"/>
+  <circle cx="330" cy="60" r="80" fill="#F5B82E" opacity="0.08"/>
+  <circle cx="70" cy="230" r="70" fill="#B9C98A" opacity="0.08"/>
+  <!-- Quill/pen writing -->
+  <g transform="translate(180, 80) rotate(20)">
+    <path d="M0,0 L-8,80 L0,72 L8,80 Z" fill="#FAF6E8" opacity="0.75"/>
+    <path d="M0,0 C-15,-10 -5,-30 0,-20 C5,-30 15,-10 0,0Z" fill="#F5B82E" opacity="0.5"/>
+  </g>
+  <!-- Paper/document -->
+  <g transform="translate(100, 120)">
+    <rect x="0" y="0" width="50" height="65" rx="4" fill="#FAF6E8" opacity="0.2"/>
+    <line x1="8" y1="15" x2="42" y2="15" stroke="#FAF6E8" stroke-width="1.5" opacity="0.15"/>
+    <line x1="8" y1="28" x2="38" y2="28" stroke="#FAF6E8" stroke-width="1.5" opacity="0.12"/>
+    <line x1="8" y1="41" x2="34" y2="41" stroke="#FAF6E8" stroke-width="1.5" opacity="0.1"/>
+  </g>
+  <!-- Star -->
+  <g transform="translate(300, 150)">
+    <polygon points="0,-16 4,-5 16,-5 7,3 10,14 0,8 -10,14 -7,3 -16,-5 -4,-5" fill="#F5B82E" opacity="0.35"/>
+  </g>
+  <circle cx="60" cy="80" r="4" fill="#FAF6E8" opacity="0.15"/>
+  <rect x="310" y="220" width="10" height="10" fill="#C45A2A" opacity="0.15" transform="rotate(45 315 225)"/>
+</svg>

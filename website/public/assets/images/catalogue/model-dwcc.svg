@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <rect width="400" height="280" fill="#2F4A2C"/>
+  <!-- Geometric shapes -->
+  <circle cx="350" cy="240" r="80" fill="#B9C98A" opacity="0.12"/>
+  <circle cx="40" cy="40" r="60" fill="#F5B82E" opacity="0.08"/>
+  <!-- Building with mural -->
+  <g transform="translate(140, 70)">
+    <rect x="0" y="0" width="120" height="90" rx="4" fill="#FAF6E8" opacity="0.18"/>
+    <!-- Roof -->
+    <polygon points="-10,0 60,-20 130,0" fill="#B9C98A" opacity="0.3"/>
+    <!-- Colorful mural strips -->
+    <rect x="5" y="25" width="110" height="8" rx="2" fill="#C45A2A" opacity="0.4"/>
+    <rect x="5" y="38" width="110" height="8" rx="2" fill="#F5B82E" opacity="0.35"/>
+    <rect x="5" y="51" width="110" height="8" rx="2" fill="#B9C98A" opacity="0.4"/>
+    <rect x="5" y="64" width="110" height="8" rx="2" fill="#3F5F7A" opacity="0.3"/>
+    <!-- Door -->
+    <rect x="45" y="50" width="30" height="40" rx="2" fill="#FAF6E8" opacity="0.2"/>
+  </g>
+  <!-- Sorting bins -->
+  <g transform="translate(80, 190)">
+    <rect x="0" y="0" width="22" height="28" rx="3" fill="#B9C98A" opacity="0.5"/>
+    <rect x="28" y="0" width="22" height="28" rx="3" fill="#F5B82E" opacity="0.45"/>
+    <rect x="56" y="0" width="22" height="28" rx="3" fill="#3F5F7A" opacity="0.4"/>
+  </g>
+  <!-- Sparkle (clean) -->
+  <g transform="translate(310, 80)">
+    <line x1="0" y1="-12" x2="0" y2="12" stroke="#FAF6E8" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+    <line x1="-12" y1="0" x2="12" y2="0" stroke="#FAF6E8" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
+    <line x1="-8" y1="-8" x2="8" y2="8" stroke="#FAF6E8" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+    <line x1="8" y1="-8" x2="-8" y2="8" stroke="#FAF6E8" stroke-width="1.5" opacity="0.25" stroke-linecap="round"/>
+  </g>
+  <!-- Small shapes -->
+  <circle cx="330" cy="160" r="5" fill="#C45A2A" opacity="0.25"/>
+  <polygon points="50,140 58,125 66,140" fill="#FAF6E8" opacity="0.1"/>
+</svg>

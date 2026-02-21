@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <rect width="400" height="280" fill="#3F5F7A"/>
+  <!-- Geometric shapes -->
+  <circle cx="50" cy="60" r="70" fill="#2F4A2C" opacity="0.15"/>
+  <circle cx="360" cy="230" r="60" fill="#B9C98A" opacity="0.1"/>
+  <!-- Kiosk structure -->
+  <g transform="translate(170, 60)">
+    <rect x="0" y="0" width="60" height="90" rx="4" fill="#FAF6E8" opacity="0.2"/>
+    <rect x="-10" y="-8" width="80" height="12" rx="4" fill="#B9C98A" opacity="0.5"/>
+    <rect x="10" y="15" width="40" height="30" rx="3" fill="#FAF6E8" opacity="0.15"/>
+    <rect x="20" y="60" width="20" height="30" rx="2" fill="#2F4A2C" opacity="0.3"/>
+  </g>
+  <!-- Bin icon -->
+  <g transform="translate(90, 140)">
+    <rect x="-18" y="0" width="36" height="40" rx="3" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="-22" y="-6" width="44" height="8" rx="3" fill="#FAF6E8" opacity="0.7"/>
+    <line x1="-6" y1="10" x2="-6" y2="32" stroke="#3F5F7A" stroke-width="2" opacity="0.4"/>
+    <line x1="6" y1="10" x2="6" y2="32" stroke="#3F5F7A" stroke-width="2" opacity="0.4"/>
+  </g>
+  <!-- Clock (24/7) -->
+  <g transform="translate(310, 100)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#F5B82E" stroke-width="2.5" opacity="0.5"/>
+    <line x1="0" y1="0" x2="0" y2="-12" stroke="#F5B82E" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="8" y2="4" stroke="#F5B82E" stroke-width="2" opacity="0.5" stroke-linecap="round"/>
+  </g>
+  <!-- Small shapes -->
+  <rect x="280" y="200" width="10" height="10" fill="#C45A2A" opacity="0.2" transform="rotate(45 285 205)"/>
+  <polygon points="130,230 138,215 146,230" fill="#FAF6E8" opacity="0.12"/>
+</svg>

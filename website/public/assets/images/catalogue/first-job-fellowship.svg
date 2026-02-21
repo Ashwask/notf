@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bg9" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3F5F7A"/>
+      <stop offset="100%" stop-color="#2F4A2C"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" fill="url(#bg9)"/>
+  <!-- Geometric shapes -->
+  <circle cx="60" cy="60" r="70" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="350" cy="230" r="60" fill="#B9C98A" opacity="0.08"/>
+  <!-- Briefcase -->
+  <g transform="translate(170, 100)">
+    <rect x="0" y="10" width="60" height="45" rx="5" fill="#FAF6E8" opacity="0.8"/>
+    <rect x="18" y="0" width="24" height="14" rx="4" fill="none" stroke="#FAF6E8" stroke-width="3" opacity="0.6"/>
+    <line x1="0" y1="30" x2="60" y2="30" stroke="#3F5F7A" stroke-width="2" opacity="0.2"/>
+    <circle cx="30" cy="30" r="5" fill="#F5B82E" opacity="0.7"/>
+  </g>
+  <!-- People silhouettes -->
+  <g transform="translate(90, 130)" opacity="0.4">
+    <circle cx="0" cy="-10" r="8" fill="#FAF6E8"/>
+    <path d="M-12,5 C-12,-2 12,-2 12,5 L12,25 L-12,25Z" fill="#FAF6E8" rx="4"/>
+  </g>
+  <g transform="translate(310, 120)" opacity="0.35">
+    <circle cx="0" cy="-10" r="8" fill="#FAF6E8"/>
+    <path d="M-12,5 C-12,-2 12,-2 12,5 L12,25 L-12,25Z" fill="#FAF6E8" rx="4"/>
+  </g>
+  <!-- Arrow up (growth) -->
+  <g transform="translate(200, 200)">
+    <line x1="0" y1="25" x2="0" y2="-10" stroke="#B9C98A" stroke-width="3" opacity="0.5" stroke-linecap="round"/>
+    <polygon points="-8,-5 0,-18 8,-5" fill="#B9C98A" opacity="0.5"/>
+  </g>
+  <!-- Small shapes -->
+  <rect x="140" y="40" width="10" height="10" fill="#C45A2A" opacity="0.2" transform="rotate(45 145 45)"/>
+  <circle cx="280" cy="60" r="4" fill="#FAF6E8" opacity="0.15"/>
+</svg>

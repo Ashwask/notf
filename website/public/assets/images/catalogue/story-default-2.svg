@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="sbg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C45A2A"/>
+      <stop offset="100%" stop-color="#F5B82E"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" fill="url(#sbg2)"/>
+  <circle cx="50" cy="50" r="70" fill="#FAF6E8" opacity="0.06"/>
+  <circle cx="360" cy="240" r="60" fill="#2F4A2C" opacity="0.08"/>
+  <!-- People connected -->
+  <g transform="translate(140, 110)" opacity="0.7">
+    <circle cx="0" cy="0" r="14" fill="#FAF6E8" opacity="0.8"/>
+    <circle cx="60" cy="-20" r="14" fill="#FAF6E8" opacity="0.8"/>
+    <circle cx="120" cy="0" r="14" fill="#FAF6E8" opacity="0.8"/>
+    <line x1="14" y1="-2" x2="46" y2="-18" stroke="#FAF6E8" stroke-width="2" opacity="0.4"/>
+    <line x1="74" y1="-18" x2="106" y2="-2" stroke="#FAF6E8" stroke-width="2" opacity="0.4"/>
+  </g>
+  <!-- Heart -->
+  <g transform="translate(200, 70)">
+    <path d="M0,12 C-6,3 -18,-6 -18,-14 C-18,-22 -10,-26 0,-18 C10,-26 18,-22 18,-14 C18,-6 6,3 0,12Z" fill="#FAF6E8" opacity="0.5"/>
+  </g>
+  <polygon points="300,180 308,165 316,180" fill="#FAF6E8" opacity="0.12"/>
+  <rect x="70" y="200" width="10" height="10" fill="#FAF6E8" opacity="0.12" transform="rotate(45 75 205)"/>
+</svg>

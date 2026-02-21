@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bg11" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2F4A2C"/>
+      <stop offset="100%" stop-color="#B9C98A"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" fill="url(#bg11)"/>
+  <!-- Geometric shapes -->
+  <circle cx="340" cy="50" r="70" fill="#FAF6E8" opacity="0.06"/>
+  <circle cx="60" cy="240" r="80" fill="#F5B82E" opacity="0.08"/>
+  <!-- Bottle -->
+  <g transform="translate(180, 60)">
+    <rect x="10" y="0" width="20" height="15" rx="4" fill="#FAF6E8" opacity="0.7"/>
+    <rect x="0" y="15" width="40" height="100" rx="8" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Fill level -->
+    <rect x="4" y="55" width="32" height="56" rx="6" fill="#B9C98A" opacity="0.5"/>
+    <!-- Refill arrow -->
+    <path d="M-15,60 C-25,40 -25,20 -10,15" fill="none" stroke="#FAF6E8" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+    <polygon points="-14,10 -6,14 -12,20" fill="#FAF6E8" opacity="0.5"/>
+  </g>
+  <!-- Drop -->
+  <g transform="translate(290, 120)">
+    <path d="M0,-15 C8,0 12,10 0,18 C-12,10 -8,0 0,-15Z" fill="#FAF6E8" opacity="0.4"/>
+  </g>
+  <!-- Circular arrow (reuse) -->
+  <g transform="translate(100, 140)">
+    <path d="M0,-20 A20,20 0 1,1 -17,10" fill="none" stroke="#FAF6E8" stroke-width="2.5" opacity="0.3" stroke-linecap="round"/>
+    <polygon points="-20,5 -17,14 -10,8" fill="#FAF6E8" opacity="0.3"/>
+  </g>
+  <!-- Small shapes -->
+  <rect x="300" y="200" width="10" height="10" fill="#F5B82E" opacity="0.2" transform="rotate(45 305 205)"/>
+  <circle cx="140" cy="50" r="4" fill="#FAF6E8" opacity="0.15"/>
+  <polygon points="320,150 328,138 336,150" fill="#FAF6E8" opacity="0.12"/>
+</svg>

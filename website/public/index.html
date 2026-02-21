@@ -17,73 +17,45 @@
     <link rel="stylesheet" href="/assets/chat/chat.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
-        /* === IMAGE CAROUSEL PREVIEW CARDS === */
+        /* === PREVIEW SECTION === */
         .preview-section {
             padding: var(--space-xl) 0;
-            overflow: hidden;
         }
 
-        .carousel-wrapper {
-            position: relative;
+        .preview-wrapper {
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 var(--space-lg);
         }
 
-        .carousel-track {
-            display: flex;
-            gap: var(--space-md);
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            padding: var(--space-sm) 4px var(--space-md);
-        }
-
-        .carousel-track::-webkit-scrollbar {
-            display: none;
+        /* --- All 3 cards in a single row --- */
+        .preview-row-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
         }
 
         .preview-card {
-            flex: 0 0 340px;
-            scroll-snap-align: start;
             background: var(--color-bg-white);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            height: 380px;
+            overflow: hidden;
             border: 2px solid transparent;
+            transition: all 0.3s ease;
         }
 
         .preview-card:hover {
             box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-            border-color: var(--terracotta);
         }
 
-        .preview-card-image {
-            width: 100%;
-            height: 220px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .preview-card-image svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .preview-card-content {
-            padding: var(--space-md) var(--space-lg);
+        .preview-card-header {
+            padding: 16px 20px 8px;
             display: flex;
-            flex-direction: column;
-            flex: 1;
+            align-items: baseline;
+            gap: 8px;
         }
 
         .preview-card-label {
@@ -91,114 +63,172 @@
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 6px;
         }
 
-        .preview-card-title {
-            font-size: 24px;
-            font-weight: 800;
+        .preview-card-count {
+            font-size: 13px;
+            font-weight: 600;
             color: var(--charcoal);
-            line-height: 1.2;
-            margin-bottom: 8px;
+            opacity: 0.5;
         }
 
-        .preview-card-subtitle {
-            font-size: 15px;
-            color: var(--color-text-light);
-            line-height: 1.5;
+        /* Full-face carousel */
+        .preview-card-carousel-wrapper {
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-card-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            height: 100%;
+        }
+
+        /* Hide scrollbar */
+        .preview-card-carousel::-webkit-scrollbar { height: 0; display: none; }
+        .preview-card-carousel { scrollbar-width: none; }
+
+        /* Each slide fills the full card face */
+        .carousel-slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            position: relative;
+            text-decoration: none;
+            color: var(--warm-cream);
+            display: block;
+            overflow: hidden;
+        }
+
+        .carousel-slide:hover {
+            text-decoration: none;
+            color: var(--warm-cream);
+        }
+
+        .carousel-slide-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.4s ease;
+        }
+
+        .carousel-slide:hover .carousel-slide-bg {
+            transform: scale(1.05);
+        }
+
+        /* Dark overlay at bottom for text */
+        .carousel-slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px 20px 16px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.65));
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .carousel-slide-name {
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 1.25;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+
+        .carousel-slide-meta {
+            font-size: 12px;
+            opacity: 0.8;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Scroll indicator dots */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            padding: 0;
+        }
+
+        .carousel-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--charcoal);
+            opacity: 0.15;
+            transition: opacity 0.2s ease, width 0.2s ease;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .carousel-dot.active {
+            opacity: 0.5;
+            width: 18px;
+            border-radius: 4px;
+        }
+
+        .preview-card-footer {
+            padding: 14px 20px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(0,0,0,0.06);
         }
 
         .preview-card-cta {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             font-size: 15px;
             font-weight: 600;
-            margin-top: 14px;
+            text-decoration: none;
         }
 
         .preview-card-cta i {
             transition: transform 0.2s ease;
+            font-size: 13px;
         }
 
         .preview-card:hover .preview-card-cta i {
             transform: translateX(4px);
         }
 
-        /* Carousel navigation */
-        .carousel-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-top: var(--space-sm);
+        /* City map SVG styling */
+        .city-map-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
 
-        .carousel-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--charcoal);
-            background: transparent;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            color: var(--charcoal);
-            font-size: 14px;
+        /* Loading skeletons */
+        .carousel-slide.skeleton .carousel-slide-bg {
+            background: rgba(0,0,0,0.06);
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
-        .carousel-btn:hover {
-            background: var(--charcoal);
-            color: var(--warm-cream);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
-        .carousel-dots {
-            display: flex;
-            gap: 8px;
+        /* Responsive */
+        @media (max-width: 1099px) {
+            .preview-row-cards {
+                grid-template-columns: 1fr 1fr;
+            }
         }
-
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #d4d0c4;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            padding: 0;
-        }
-
-        .carousel-dot.active {
-            background: var(--charcoal);
-            transform: scale(1.2);
-        }
-
-        @media (min-width: 1100px) {
+        @media (max-width: 749px) {
+            .preview-row-cards {
+                grid-template-columns: 1fr;
+            }
             .preview-card {
-                flex: 0 0 calc(33.333% - 16px);
-            }
-        }
-
-        @media (max-width: 1099px) and (min-width: 700px) {
-            .preview-card {
-                flex: 0 0 calc(50% - 12px);
-            }
-        }
-
-        @media (max-width: 699px) {
-            .preview-card {
-                flex: 0 0 90%;
-            }
-
-            .carousel-btn {
-                display: none;
-            }
-
-            .preview-card-image {
-                height: 200px;
+                height: 320px;
             }
         }
     </style>
@@ -252,155 +282,54 @@
             </div>
         </section>
 
-        <!-- Preview Carousel -->
+        <!-- Preview Content Cards -->
         <section class="preview-section" id="explore">
-            <div class="carousel-wrapper">
-                <div class="carousel-track" id="carouselTrack">
+            <div class="preview-wrapper">
+                <!-- Row 1: Catalogue + Stories as carousel cards -->
+                <div class="preview-row-cards">
                     <!-- Catalogue Card -->
-                    <a href="/catalog/" class="preview-card">
-                        <div class="preview-card-image">
-                            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="280" height="180" fill="#FDF5E6"/>
-                                <rect x="30" y="110" width="60" height="50" rx="4" fill="#C45A2A" opacity="0.15"/>
-                                <rect x="110" y="90" width="60" height="70" rx="4" fill="#C45A2A" opacity="0.25"/>
-                                <rect x="190" y="100" width="60" height="60" rx="4" fill="#C45A2A" opacity="0.15"/>
-                                <circle cx="60" cy="85" r="18" fill="#C45A2A" opacity="0.2"/>
-                                <circle cx="140" cy="65" r="20" fill="#C45A2A" opacity="0.3"/>
-                                <circle cx="220" cy="75" r="16" fill="#C45A2A" opacity="0.2"/>
-                                <path d="M55 85 L60 75 L65 85" stroke="#C45A2A" stroke-width="2" fill="none"/>
-                                <path d="M135 65 L140 53 L145 65" stroke="#C45A2A" stroke-width="2.5" fill="none"/>
-                                <path d="M215 75 L220 66 L225 75" stroke="#C45A2A" stroke-width="2" fill="none"/>
-                                <rect x="48" y="120" width="24" height="3" rx="1.5" fill="#C45A2A" opacity="0.4"/>
-                                <rect x="48" y="127" width="18" height="3" rx="1.5" fill="#C45A2A" opacity="0.3"/>
-                                <rect x="128" y="102" width="24" height="3" rx="1.5" fill="#C45A2A" opacity="0.5"/>
-                                <rect x="128" y="109" width="18" height="3" rx="1.5" fill="#C45A2A" opacity="0.35"/>
-                                <rect x="208" y="112" width="24" height="3" rx="1.5" fill="#C45A2A" opacity="0.4"/>
-                                <rect x="208" y="119" width="18" height="3" rx="1.5" fill="#C45A2A" opacity="0.3"/>
-                                <text x="140" y="30" text-anchor="middle" font-size="11" fill="#C45A2A" font-weight="600" opacity="0.6" font-family="sans-serif">NEIGHBOURHOOD PROJECTS</text>
-                            </svg>
-                        </div>
-                        <div class="preview-card-content">
+                    <div class="preview-card" style="border-color: rgba(196, 90, 42, 0.15);">
+                        <div class="preview-card-header">
                             <span class="preview-card-label" style="color: var(--terracotta);" data-i18n="stats.catalogItems">Catalogue</span>
-                            <div class="preview-card-title"><span id="catalogCount">11</span> <span data-i18n="statsNav.catalogTitle">Projects</span></div>
-                            <div class="preview-card-subtitle" data-i18n="statsNav.catalogHint">Ready-to-implement neighbourhood projects</div>
-                            <span class="preview-card-cta" style="color: var(--terracotta);"><span data-i18n="statsNav.browseCatalog">Browse catalogue</span> <i class="fa-solid fa-arrow-right"></i></span>
+                            <span class="preview-card-count"><span id="catalogCount">11</span> <span data-i18n="statsNav.catalogTitle">Projects</span></span>
                         </div>
-                    </a>
+                        <div class="preview-card-carousel-wrapper">
+                            <div class="preview-card-carousel" id="catalogItems"></div>
+                        </div>
+                        <div class="preview-card-footer">
+                            <a href="/catalog/" class="preview-card-cta" style="color: var(--terracotta);"><span data-i18n="statsNav.browseCatalog">Browse catalogue</span> <i class="fa-solid fa-arrow-right"></i></a>
+                            <div class="carousel-dots" id="catalogDots"></div>
+                        </div>
+                    </div>
 
                     <!-- Stories Card -->
-                    <a href="/stories/" class="preview-card">
-                        <div class="preview-card-image">
-                            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="280" height="180" fill="#FFF8E7"/>
-                                <rect x="40" y="45" width="80" height="100" rx="6" fill="#F5B82E" opacity="0.15" transform="rotate(-5 80 95)"/>
-                                <rect x="50" y="40" width="80" height="100" rx="6" fill="#F5B82E" opacity="0.25"/>
-                                <rect x="62" y="55" width="40" height="3" rx="1.5" fill="#F5B82E" opacity="0.5"/>
-                                <rect x="62" y="63" width="55" height="2" rx="1" fill="#F5B82E" opacity="0.3"/>
-                                <rect x="62" y="70" width="50" height="2" rx="1" fill="#F5B82E" opacity="0.3"/>
-                                <rect x="62" y="77" width="45" height="2" rx="1" fill="#F5B82E" opacity="0.3"/>
-                                <rect x="62" y="84" width="52" height="2" rx="1" fill="#F5B82E" opacity="0.3"/>
-                                <circle cx="190" cy="70" r="35" fill="#F5B82E" opacity="0.12"/>
-                                <polygon points="182,55 205,70 182,85" fill="#F5B82E" opacity="0.4"/>
-                                <path d="M160 120 Q190 105 220 120 Q240 130 260 118" stroke="#F5B82E" stroke-width="2" fill="none" opacity="0.3"/>
-                                <circle cx="165" cy="140" r="8" fill="#F5B82E" opacity="0.15"/>
-                                <circle cx="210" cy="145" r="12" fill="#F5B82E" opacity="0.1"/>
-                                <text x="190" y="30" text-anchor="middle" font-size="11" fill="#D4A017" font-weight="600" opacity="0.6" font-family="sans-serif">COMMUNITY STORIES</text>
-                            </svg>
-                        </div>
-                        <div class="preview-card-content">
+                    <div class="preview-card" style="border-color: rgba(245, 184, 46, 0.2);">
+                        <div class="preview-card-header">
                             <span class="preview-card-label" style="color: var(--mustard-yellow);" data-i18n="stats.stories">Stories</span>
-                            <div class="preview-card-title"><span id="storyCount">-</span> <span data-i18n="statsNav.storiesTitle">Stories</span></div>
-                            <div class="preview-card-subtitle" id="storiesSubtitle" data-i18n="statsNav.storiesHint">Real stories of neighbourhood transformation</div>
-                            <span class="preview-card-cta" style="color: var(--mustard-yellow);"><span data-i18n="statsNav.readStories">Read stories</span> <i class="fa-solid fa-arrow-right"></i></span>
+                            <span class="preview-card-count"><span id="storyCount">-</span> <span data-i18n="statsNav.storiesTitle">Stories</span></span>
                         </div>
-                    </a>
-
-                    <!-- Cities Card -->
-                    <a href="/cities/" class="preview-card">
-                        <div class="preview-card-image">
-                            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="280" height="180" fill="#F0F4F8"/>
-                                <rect x="30" y="80" width="28" height="80" rx="3" fill="#3F5F7A" opacity="0.2"/>
-                                <rect x="65" y="60" width="24" height="100" rx="3" fill="#3F5F7A" opacity="0.3"/>
-                                <rect x="96" y="90" width="30" height="70" rx="3" fill="#3F5F7A" opacity="0.15"/>
-                                <rect x="133" y="50" width="26" height="110" rx="3" fill="#3F5F7A" opacity="0.35"/>
-                                <rect x="166" y="70" width="22" height="90" rx="3" fill="#3F5F7A" opacity="0.2"/>
-                                <rect x="195" y="85" width="28" height="75" rx="3" fill="#3F5F7A" opacity="0.25"/>
-                                <rect x="230" y="95" width="24" height="65" rx="3" fill="#3F5F7A" opacity="0.15"/>
-                                <rect x="36" y="90" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="36" y="100" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="44" y="95" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="71" y="70" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="71" y="80" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="79" y="75" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="139" y="60" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="139" y="70" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <rect x="147" y="65" width="4" height="4" rx="1" fill="#fff" opacity="0.6"/>
-                                <circle cx="50" cy="50" r="3" fill="#3F5F7A" opacity="0.3"/>
-                                <circle cx="150" cy="35" r="4" fill="#3F5F7A" opacity="0.2"/>
-                                <circle cx="210" cy="55" r="3" fill="#3F5F7A" opacity="0.25"/>
-                                <path d="M45 50 Q100 30 155 35 Q200 38 215 55" stroke="#3F5F7A" stroke-width="1.5" fill="none" opacity="0.2" stroke-dasharray="4 3"/>
-                                <text x="140" y="25" text-anchor="middle" font-size="11" fill="#3F5F7A" font-weight="600" opacity="0.6" font-family="sans-serif">ACROSS INDIA</text>
-                            </svg>
+                        <div class="preview-card-carousel-wrapper">
+                            <div class="preview-card-carousel" id="storyItems"></div>
                         </div>
-                        <div class="preview-card-content">
-                            <span class="preview-card-label" style="color: var(--slate-blue);" data-i18n="stats.cities">Cities</span>
-                            <div class="preview-card-title"><span id="cityCount">13</span> <span data-i18n="statsNav.citiesTitle">Cities</span></div>
-                            <div class="preview-card-subtitle" id="citySubtitle" data-i18n="statsNav.citiesHint">Bengaluru leads with the most active communities</div>
-                            <span class="preview-card-cta" style="color: var(--slate-blue);"><span data-i18n="statsNav.exploreAll">Explore all cities</span> <i class="fa-solid fa-arrow-right"></i></span>
+                        <div class="preview-card-footer">
+                            <a href="/stories/" class="preview-card-cta" style="color: var(--mustard-yellow);"><span data-i18n="statsNav.readStories">Read stories</span> <i class="fa-solid fa-arrow-right"></i></a>
+                            <div class="carousel-dots" id="storyDots"></div>
                         </div>
-                    </a>
-
-                    <!-- Communities Card -->
-                    <a href="/communities/" class="preview-card">
-                        <div class="preview-card-image">
-                            <svg viewBox="0 0 280 180" xmlns="http://www.w3.org/2000/svg">
-                                <rect width="280" height="180" fill="#F2F6EE"/>
-                                <circle cx="140" cy="85" r="30" fill="#2F4A2C" opacity="0.1"/>
-                                <circle cx="80" cy="95" r="22" fill="#2F4A2C" opacity="0.12"/>
-                                <circle cx="200" cy="95" r="22" fill="#2F4A2C" opacity="0.12"/>
-                                <circle cx="110" cy="55" r="18" fill="#2F4A2C" opacity="0.08"/>
-                                <circle cx="170" cy="55" r="18" fill="#2F4A2C" opacity="0.08"/>
-                                <circle cx="140" cy="85" r="10" fill="#2F4A2C" opacity="0.25"/>
-                                <circle cx="80" cy="95" r="8" fill="#2F4A2C" opacity="0.2"/>
-                                <circle cx="200" cy="95" r="8" fill="#2F4A2C" opacity="0.2"/>
-                                <circle cx="110" cy="55" r="7" fill="#2F4A2C" opacity="0.18"/>
-                                <circle cx="170" cy="55" r="7" fill="#2F4A2C" opacity="0.18"/>
-                                <line x1="140" y1="85" x2="80" y2="95" stroke="#2F4A2C" stroke-width="1.5" opacity="0.15"/>
-                                <line x1="140" y1="85" x2="200" y2="95" stroke="#2F4A2C" stroke-width="1.5" opacity="0.15"/>
-                                <line x1="140" y1="85" x2="110" y2="55" stroke="#2F4A2C" stroke-width="1.5" opacity="0.15"/>
-                                <line x1="140" y1="85" x2="170" y2="55" stroke="#2F4A2C" stroke-width="1.5" opacity="0.15"/>
-                                <line x1="80" y1="95" x2="110" y2="55" stroke="#2F4A2C" stroke-width="1" opacity="0.1"/>
-                                <line x1="200" y1="95" x2="170" y2="55" stroke="#2F4A2C" stroke-width="1" opacity="0.1"/>
-                                <circle cx="55" cy="135" r="14" fill="#B9C98A" opacity="0.3"/>
-                                <circle cx="225" cy="135" r="14" fill="#B9C98A" opacity="0.3"/>
-                                <circle cx="140" cy="145" r="12" fill="#B9C98A" opacity="0.2"/>
-                                <text x="140" y="25" text-anchor="middle" font-size="11" fill="#2F4A2C" font-weight="600" opacity="0.6" font-family="sans-serif">NEIGHBOURHOOD NETWORKS</text>
-                            </svg>
-                        </div>
-                        <div class="preview-card-content">
-                            <span class="preview-card-label" style="color: var(--forest-green);" data-i18n="stats.communities">Communities</span>
-                            <div class="preview-card-title"><span id="commCount">-</span> <span data-i18n="statsNav.communitiesTitle">Communities</span></div>
-                            <div class="preview-card-subtitle" id="commSubtitle" data-i18n="statsNav.communitiesHint">Active neighbourhood groups across India</div>
-                            <span class="preview-card-cta" style="color: var(--forest-green);"><span data-i18n="statsNav.browseAll">Browse communities</span> <i class="fa-solid fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Carousel Navigation -->
-                <div class="carousel-nav">
-                    <button class="carousel-btn" id="carouselPrev" aria-label="Previous">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <div class="carousel-dots" id="carouselDots">
-                        <button class="carousel-dot active" data-index="0" aria-label="Slide 1"></button>
-                        <button class="carousel-dot" data-index="1" aria-label="Slide 2"></button>
-                        <button class="carousel-dot" data-index="2" aria-label="Slide 3"></button>
-                        <button class="carousel-dot" data-index="3" aria-label="Slide 4"></button>
                     </div>
-                    <button class="carousel-btn" id="carouselNext" aria-label="Next">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
+                    <!-- Cities Card -->
+                    <div class="preview-card" style="border-color: rgba(63, 95, 122, 0.15);">
+                        <div class="preview-card-header">
+                            <span class="preview-card-label" style="color: var(--slate-blue);" data-i18n="stats.cities">Cities</span>
+                            <span class="preview-card-count"><span id="cityCount">13</span> <span data-i18n="statsNav.citiesTitle">Cities</span></span>
+                        </div>
+                        <div class="preview-card-carousel-wrapper">
+                            <div class="preview-card-carousel" id="cityItems"></div>
+                        </div>
+                        <div class="preview-card-footer">
+                            <a href="/cities/" class="preview-card-cta" style="color: var(--slate-blue);"><span data-i18n="statsNav.exploreAll">Explore all cities</span> <i class="fa-solid fa-arrow-right"></i></a>
+                            <div class="carousel-dots" id="cityDots"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -640,8 +569,221 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
     <script>
+        // Static catalogue data with SVG images and deep links
+        const catalogProjects = [
+            { id: 1, title: 'Learning Experience Centre', themes: ['Education', 'Awareness'], image: '/assets/images/catalogue/learning-experience-centre.jpg' },
+            { id: 2, title: 'RRR Maadi', themes: ['Waste Management', 'Repair'], image: '/assets/images/catalogue/rrr-maadi.jpg' },
+            { id: 3, title: 'Cutlery Bank', themes: ['Waste Reduction', 'Community'], image: '/assets/images/catalogue/cutlery-bank.jpg' },
+            { id: 4, title: 'Zero Waste School', themes: ['Education', 'Waste Management'], image: '/assets/images/catalogue/zero-waste-school.svg' },
+            { id: 5, title: 'Cloth Pad Bank', themes: ['Health', 'Sustainability'], image: '/assets/images/catalogue/cloth-pad-bank.jpg' },
+            { id: 6, title: 'Kasa Kiosk', themes: ['Waste Management', 'Infrastructure'], image: '/assets/images/catalogue/kasa-kiosk.jpg' },
+            { id: 7, title: 'Waste-Free Worship Hubs', themes: ['Waste Reduction', 'Culture'], image: '/assets/images/catalogue/waste-free-worship.jpg' },
+            { id: 8, title: 'Model DWCC', themes: ['Waste Management', 'Infrastructure'], image: '/assets/images/catalogue/model-dwcc.jpg' },
+            { id: 9, title: 'First Job Fellowship', themes: ['Employment', 'Youth'], image: '/assets/images/catalogue/first-job-fellowship.jpg' },
+            { id: 10, title: 'Neighbourhood Green Score', themes: ['Environment', 'Assessment'], image: '/assets/images/catalogue/neighbourhood-green-score.jpg' },
+            { id: 11, title: 'Smart Refill', themes: ['Waste Reduction', 'Retail'], image: '/assets/images/catalogue/smart-refill.svg' }
+        ];
+
+        // Story default images (fallback when no YouTube video)
+        const storyFallbackImages = [
+            '/assets/images/catalogue/story-default-1.svg',
+            '/assets/images/catalogue/story-default-2.svg',
+            '/assets/images/catalogue/story-default-3.svg'
+        ];
+
+        // Extract YouTube video ID from URL
+        function getYoutubeId(url) {
+            if (!url) return null;
+            const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return match ? match[1] : null;
+        }
+
+        // Get story thumbnail: YouTube thumbnail if available, else fallback SVG
+        function getStoryImage(story, index) {
+            const videoId = getYoutubeId(story.youtube_url);
+            if (videoId) return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            return storyFallbackImages[index % storyFallbackImages.length];
+        }
+
+        // Convert GeoJSON FeatureCollection to an inline SVG string
+        function geojsonToSvg(geojson, color) {
+            const features = geojson.features || [];
+            if (!features.length) return '';
+
+            // Collect all coordinates to compute bounding box
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            const allPolygons = [];
+
+            features.forEach(f => {
+                const geom = f.geometry;
+                if (!geom) return;
+                let rings = [];
+                if (geom.type === 'Polygon') {
+                    rings = geom.coordinates;
+                } else if (geom.type === 'MultiPolygon') {
+                    geom.coordinates.forEach(poly => rings.push(...poly));
+                }
+                rings.forEach(ring => {
+                    const points = ring.map(([lng, lat]) => {
+                        if (lng < minX) minX = lng;
+                        if (lng > maxX) maxX = lng;
+                        if (lat < minY) minY = lat;
+                        if (lat > maxY) maxY = lat;
+                        return [lng, lat];
+                    });
+                    allPolygons.push(points);
+                });
+            });
+
+            if (!allPolygons.length) return '';
+
+            // Add padding
+            const dx = maxX - minX;
+            const dy = maxY - minY;
+            const pad = Math.max(dx, dy) * 0.08;
+            minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+
+            const width = 400;
+            const height = 380;
+            const scaleX = width / (maxX - minX);
+            const scaleY = height / (maxY - minY);
+            const scale = Math.min(scaleX, scaleY);
+            const offsetX = (width - (maxX - minX) * scale) / 2;
+            const offsetY = (height - (maxY - minY) * scale) / 2;
+
+            function project(lng, lat) {
+                const x = (lng - minX) * scale + offsetX;
+                const y = (maxY - lat) * scale + offsetY; // flip Y
+                return `${x.toFixed(1)},${y.toFixed(1)}`;
+            }
+
+            // Simplify: skip points if too close (< 1px apart)
+            function simplify(ring) {
+                if (ring.length < 4) return ring;
+                const result = [ring[0]];
+                for (let i = 1; i < ring.length; i++) {
+                    const [x0, y0] = ring[i - 1];
+                    const [x1, y1] = ring[i];
+                    const dx = (x1 - x0) * scale;
+                    const dy = (y1 - y0) * scale;
+                    if (dx * dx + dy * dy > 1) result.push(ring[i]);
+                }
+                return result;
+            }
+
+            const paths = allPolygons.map(ring => {
+                const simplified = simplify(ring);
+                if (simplified.length < 3) return '';
+                return `<path d="M${simplified.map(([lng, lat]) => project(lng, lat)).join('L')}Z" fill="${color}" fill-opacity="0.2" stroke="${color}" stroke-width="0.5" stroke-opacity="0.4"/>`;
+            }).join('');
+
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" class="city-map-svg" preserveAspectRatio="xMidYMid meet">
+                <rect width="${width}" height="${height}" fill="#FAF6E8"/>
+                ${paths}
+            </svg>`;
+        }
+
+        // Render full-face carousel slides with autoscroll
+        function renderCarouselSlides(containerId, dotsId, items) {
+            const container = document.getElementById(containerId);
+            const dotsContainer = document.getElementById(dotsId);
+            if (!container) return;
+
+            container.innerHTML = items.map(item =>
+                `<a href="${item.href}" class="carousel-slide">
+                    <div class="carousel-slide-bg" style="background-image: url('${item.image}')"></div>
+                    <div class="carousel-slide-overlay">
+                        <span class="carousel-slide-name">${item.name}</span>
+                        ${item.meta ? `<span class="carousel-slide-meta">${item.meta}</span>` : ''}
+                    </div>
+                </a>`
+            ).join('');
+
+            let currentIndex = 0;
+            let autoScrollTimer = null;
+
+            function scrollTo(idx) {
+                currentIndex = idx;
+                container.children[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }
+
+            function advance() {
+                currentIndex = (currentIndex + 1) % items.length;
+                scrollTo(currentIndex);
+            }
+
+            function startAutoScroll() {
+                stopAutoScroll();
+                autoScrollTimer = setInterval(advance, 4000);
+            }
+
+            function stopAutoScroll() {
+                if (autoScrollTimer) { clearInterval(autoScrollTimer); autoScrollTimer = null; }
+            }
+
+            // Create dots
+            if (dotsContainer && items.length > 1) {
+                dotsContainer.innerHTML = items.map((_, i) =>
+                    `<button class="carousel-dot${i === 0 ? ' active' : ''}" aria-label="Slide ${i + 1}"></button>`
+                ).join('');
+
+                // Scroll observer for dot updates + tracking current index
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const idx = Array.from(container.children).indexOf(entry.target);
+                            currentIndex = idx;
+                            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                                dot.classList.toggle('active', i === idx);
+                            });
+                        }
+                    });
+                }, { root: container, threshold: 0.6 });
+
+                container.querySelectorAll('.carousel-slide').forEach(slide => observer.observe(slide));
+
+                // Click dots to scroll
+                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.addEventListener('click', () => {
+                        scrollTo(i);
+                        startAutoScroll();
+                    });
+                });
+            }
+
+            // Pause on hover/touch, resume on leave
+            container.addEventListener('mouseenter', stopAutoScroll);
+            container.addEventListener('mouseleave', startAutoScroll);
+            container.addEventListener('touchstart', stopAutoScroll, { passive: true });
+            container.addEventListener('touchend', () => setTimeout(startAutoScroll, 3000));
+
+            // Start autoscroll if more than 1 item
+            if (items.length > 1) startAutoScroll();
+        }
+
+        // Show loading skeletons for carousels
+        function showCarouselSkeletons(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = `<div class="carousel-slide skeleton"><div class="carousel-slide-bg"></div></div>`;
+        }
+
         // Load live data for preview cards
         async function loadPreviewCards() {
+            // Show skeletons while loading
+            showCarouselSkeletons('storyItems');
+            showCarouselSkeletons('cityItems');
+
+            // Render catalogue immediately (static data, each links to its own card)
+            renderCarouselSlides('catalogItems', 'catalogDots',
+                catalogProjects.map(p => ({
+                    name: p.title,
+                    meta: p.themes.join(', '),
+                    href: `/catalog/#project-${p.id}`,
+                    image: p.image
+                }))
+            );
+
             try {
                 const response = await fetch('/assets/data/cities-metadata.json');
                 const citiesData = await response.json();
@@ -661,31 +803,50 @@
                     if (el('commCount')) el('commCount').textContent = communities.length;
                     if (el('storyCount')) el('storyCount').textContent = stories.length;
 
-                    // City subtitle
+                    // Render stories as full-face carousel slides (YouTube thumbnails when available)
+                    renderCarouselSlides('storyItems', 'storyDots',
+                        stories.map((s, i) => ({
+                            name: s.title || 'Untitled Story',
+                            meta: [s.community, s.city].filter(Boolean).join(', '),
+                            href: `/stories/#${(s.slug || s.title || '').toLowerCase().replace(/\s+/g, '-')}`,
+                            image: getStoryImage(s, i)
+                        }))
+                    );
+
+                    // Render cities as autoscroll carousel with GeoJSON maps
                     const cityCounts = {};
                     communities.forEach(c => { if (c.city) cityCounts[c.city] = (cityCounts[c.city] || 0) + 1; });
-                    const topCity = Object.entries(cityCounts).sort((a, b) => b[1] - a[1])[0];
-                    if (topCity && el('citySubtitle')) {
-                        el('citySubtitle').textContent = `${topCity[0]} leads with ${topCity[1]} active communities`;
-                    }
 
-                    // Communities subtitle
-                    const domainCounts = {};
-                    communities.forEach(c => {
-                        const tags = (c.domains?.length > 0) ? c.domains : (c.themes || []);
-                        tags.forEach(t => { if (t) domainCounts[t] = (domainCounts[t] || 0) + 1; });
+                    const cityItems = cities
+                        .map(c => ({
+                            name: c.name,
+                            meta: cityCounts[c.name] ? `${cityCounts[c.name]} communities` : c.state,
+                            href: `/cities/${c.slug}/`,
+                            image: `/assets/images/cities/${c.slug}.svg`,
+                            boundaryFile: c.features?.map?.boundaryFile,
+                            color: c.color || '#3F5F7A',
+                            count: cityCounts[c.name] || 0
+                        }))
+                        .sort((a, b) => b.count - a.count);
+
+                    renderCarouselSlides('cityItems', 'cityDots', cityItems);
+
+                    // Load GeoJSON maps and render as SVG backgrounds
+                    cityItems.forEach((city, idx) => {
+                        if (!city.boundaryFile) return;
+                        fetch(city.boundaryFile)
+                            .then(r => r.json())
+                            .then(geojson => {
+                                const slide = document.querySelectorAll('#cityItems .carousel-slide')[idx];
+                                if (!slide) return;
+                                const bg = slide.querySelector('.carousel-slide-bg');
+                                if (!bg) return;
+                                const svg = geojsonToSvg(geojson, city.color);
+                                bg.style.backgroundImage = 'none';
+                                bg.innerHTML = svg;
+                            })
+                            .catch(() => {});
                     });
-                    const topDomains = Object.entries(domainCounts).sort((a, b) => b[1] - a[1]).slice(0, 3);
-                    if (topDomains.length > 0 && el('commSubtitle')) {
-                        const labels = topDomains.map(d => d[0].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()));
-                        el('commSubtitle').textContent = labels.join(', ') + ' and more';
-                    }
-
-                    // Stories subtitle
-                    if (stories.length > 0 && el('storiesSubtitle')) {
-                        const storyCities = [...new Set(stories.map(s => s.city).filter(Boolean))];
-                        el('storiesSubtitle').textContent = `From ${storyCities.join(', ')} — with video`;
-                    }
 
                     // Update CTA subtitle
                     function updateCTASubtitle() {
@@ -715,53 +876,6 @@
         }
 
         loadPreviewCards();
-
-        // Carousel navigation
-        (function() {
-            const track = document.getElementById('carouselTrack');
-            const dots = document.querySelectorAll('.carousel-dot');
-            const prevBtn = document.getElementById('carouselPrev');
-            const nextBtn = document.getElementById('carouselNext');
-            if (!track) return;
-
-            function getCardWidth() {
-                const card = track.querySelector('.preview-card');
-                if (!card) return 300;
-                const gap = parseFloat(getComputedStyle(track).gap) || 16;
-                return card.offsetWidth + gap;
-            }
-
-            function getActiveIndex() {
-                const cardWidth = getCardWidth();
-                return Math.round(track.scrollLeft / cardWidth);
-            }
-
-            function scrollToIndex(i) {
-                const cardWidth = getCardWidth();
-                track.scrollTo({ left: i * cardWidth, behavior: 'smooth' });
-            }
-
-            function updateDots() {
-                const idx = getActiveIndex();
-                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-            }
-
-            track.addEventListener('scroll', updateDots);
-
-            prevBtn?.addEventListener('click', () => {
-                const idx = getActiveIndex();
-                scrollToIndex(Math.max(0, idx - 1));
-            });
-
-            nextBtn?.addEventListener('click', () => {
-                const idx = getActiveIndex();
-                scrollToIndex(Math.min(3, idx + 1));
-            });
-
-            dots.forEach(dot => {
-                dot.addEventListener('click', () => scrollToIndex(parseInt(dot.dataset.index)));
-            });
-        })();
     </script>
 
     <!-- Chatbot Scripts -->

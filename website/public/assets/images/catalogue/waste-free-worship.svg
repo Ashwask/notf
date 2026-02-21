@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0%" stop-color="#F5B82E"/>
+      <stop offset="100%" stop-color="#C45A2A"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="280" fill="url(#bg7)"/>
+  <!-- Geometric shapes -->
+  <circle cx="340" cy="50" r="80" fill="#FAF6E8" opacity="0.08"/>
+  <circle cx="60" cy="250" r="50" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Temple/dome -->
+  <g transform="translate(180, 80)">
+    <rect x="-40" y="30" width="80" height="60" rx="4" fill="#FAF6E8" opacity="0.2"/>
+    <path d="M-45,30 C-45,0 0,-30 0,-30 C0,-30 45,0 45,30Z" fill="#FAF6E8" opacity="0.25"/>
+    <circle cx="0" cy="-30" r="8" fill="#FAF6E8" opacity="0.35"/>
+    <rect x="-5" y="50" width="10" height="40" rx="2" fill="#FAF6E8" opacity="0.15"/>
+    <!-- Columns -->
+    <rect x="-30" y="40" width="6" height="50" rx="2" fill="#FAF6E8" opacity="0.12"/>
+    <rect x="24" y="40" width="6" height="50" rx="2" fill="#FAF6E8" opacity="0.12"/>
+  </g>
+  <!-- Leaf (eco) -->
+  <g transform="translate(310, 150)">
+    <path d="M0,0 C12,-25 35,-20 25,0 C15,20 4,16 0,0Z" fill="#2F4A2C" opacity="0.35"/>
+  </g>
+  <!-- Recycling arrows -->
+  <g transform="translate(80, 130)">
+    <path d="M0,-18 A18,18 0 1,1 -16,9" fill="none" stroke="#FAF6E8" stroke-width="2.5" opacity="0.35" stroke-linecap="round"/>
+    <polygon points="-19,4 -16,13 -9,7" fill="#FAF6E8" opacity="0.35"/>
+  </g>
+  <!-- Small shapes -->
+  <rect x="320" y="200" width="10" height="10" fill="#FAF6E8" opacity="0.15" transform="rotate(45 325 205)"/>
+  <circle cx="50" cy="100" r="4" fill="#FAF6E8" opacity="0.2"/>
+</svg>

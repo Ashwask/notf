@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <rect width="400" height="280" fill="#F5B82E"/>
+  <circle cx="320" cy="50" r="80" fill="#C45A2A" opacity="0.1"/>
+  <circle cx="60" cy="240" r="60" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Open book -->
+  <g transform="translate(170, 90)">
+    <path d="M-50,0 C-50,-25 -15,-30 0,-12 C15,-30 50,-25 50,0 L50,70 C50,65 15,58 0,70 C-15,58 -50,65 -50,70 Z" fill="#FAF6E8" opacity="0.85"/>
+    <line x1="0" y1="-12" x2="0" y2="70" stroke="#F5B82E" stroke-width="1.5" opacity="0.3"/>
+    <line x1="-35" y1="15" x2="-8" y2="15" stroke="#2B2B2B" stroke-width="1.5" opacity="0.15"/>
+    <line x1="-35" y1="28" x2="-12" y2="28" stroke="#2B2B2B" stroke-width="1.5" opacity="0.12"/>
+    <line x1="-35" y1="41" x2="-6" y2="41" stroke="#2B2B2B" stroke-width="1.5" opacity="0.1"/>
+    <line x1="8" y1="15" x2="35" y2="15" stroke="#2B2B2B" stroke-width="1.5" opacity="0.15"/>
+    <line x1="12" y1="28" x2="38" y2="28" stroke="#2B2B2B" stroke-width="1.5" opacity="0.12"/>
+  </g>
+  <!-- Speech bubble -->
+  <g transform="translate(300, 80)">
+    <rect x="-22" y="-16" width="44" height="32" rx="10" fill="#FAF6E8" opacity="0.5"/>
+    <polygon points="-8,16 0,26 4,14" fill="#FAF6E8" opacity="0.5"/>
+  </g>
+  <rect x="50" y="80" width="10" height="10" fill="#2F4A2C" opacity="0.15" transform="rotate(45 55 85)"/>
+  <circle cx="100" cy="200" r="5" fill="#FAF6E8" opacity="0.25"/>
+</svg>
