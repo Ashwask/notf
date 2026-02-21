@@ -704,7 +704,8 @@
 
             function scrollTo(idx) {
                 currentIndex = idx;
-                container.children[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                const slide = container.children[idx];
+                if (slide) container.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
             }
 
             function advance() {
