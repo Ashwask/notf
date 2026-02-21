@@ -83,6 +83,7 @@
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
+            overscroll-behavior-x: contain;
             height: 100%;
         }
 
@@ -127,7 +128,7 @@
             left: 0;
             right: 0;
             padding: 40px 20px 16px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.65));
+            background: rgba(0, 0, 0, 0.55);
             display: flex;
             flex-direction: column;
             gap: 2px;
@@ -305,14 +306,14 @@
                     <!-- Stories Card -->
                     <div class="preview-card" style="border-color: rgba(245, 184, 46, 0.2);">
                         <div class="preview-card-header">
-                            <span class="preview-card-label" style="color: var(--mustard-yellow);" data-i18n="stats.stories">Stories</span>
+                            <span class="preview-card-label" style="color: #b8960a;" data-i18n="stats.stories">Stories</span>
                             <span class="preview-card-count"><span id="storyCount">-</span> <span data-i18n="statsNav.storiesTitle">Stories</span></span>
                         </div>
                         <div class="preview-card-carousel-wrapper">
                             <div class="preview-card-carousel" id="storyItems"></div>
                         </div>
                         <div class="preview-card-footer">
-                            <a href="/stories/" class="preview-card-cta" style="color: var(--mustard-yellow);"><span data-i18n="statsNav.readStories">Read stories</span> <i class="fa-solid fa-arrow-right"></i></a>
+                            <a href="/stories/" class="preview-card-cta" style="color: #b8960a;"><span data-i18n="statsNav.readStories">Read stories</span> <i class="fa-solid fa-arrow-right"></i></a>
                             <div class="carousel-dots" id="storyDots"></div>
                         </div>
                     </div>
@@ -683,6 +684,13 @@
             </svg>`;
         }
 
+        // Escape HTML special characters to prevent XSS
+        function esc(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
         // Render full-face carousel slides with autoscroll
         function renderCarouselSlides(containerId, dotsId, items) {
             const container = document.getElementById(containerId);
@@ -690,11 +698,11 @@
             if (!container) return;
 
             container.innerHTML = items.map(item =>
-                `<a href="${item.href}" class="carousel-slide">
-                    <div class="carousel-slide-bg" style="background-image: url('${item.image}')"></div>
+                `<a href="${esc(item.href)}" class="carousel-slide">
+                    <div class="carousel-slide-bg" style="background-image: url('${esc(item.image)}')"></div>
                     <div class="carousel-slide-overlay">
-                        <span class="carousel-slide-name">${item.name}</span>
-                        ${item.meta ? `<span class="carousel-slide-meta">${item.meta}</span>` : ''}
+                        <span class="carousel-slide-name">${esc(item.name)}</span>
+                        ${item.meta ? `<span class="carousel-slide-meta">${esc(item.meta)}</span>` : ''}
                     </div>
                 </a>`
             ).join('');
@@ -849,7 +857,8 @@
                             .catch(() => {});
                     });
 
-                    // Update CTA subtitle
+                    // Update CTA subtitle (max 25 retries = 5s)
+                    let ctaRetries = 0;
                     function updateCTASubtitle() {
                         const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
                         if (ctaElement && window.translator?.currentLanguage) {
@@ -862,8 +871,8 @@
                                     orgCount: providers.length,
                                     commCount: communities.length
                                 });
-                            } catch (e) { setTimeout(updateCTASubtitle, 200); }
-                        } else { setTimeout(updateCTASubtitle, 200); }
+                            } catch (e) { if (++ctaRetries < 25) setTimeout(updateCTASubtitle, 200); }
+                        } else { if (++ctaRetries < 25) setTimeout(updateCTASubtitle, 200); }
                     }
                     setTimeout(updateCTASubtitle, 500);
 
