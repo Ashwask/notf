@@ -277,7 +277,10 @@
     "active": "متحرک",
     "pending": "زیر التوا",
     "archived": "محفوظ شدہ دستاویزات",
-    "view_details": "View Details [ur]"
+    "view_details": "View Details [ur]",
+    "untitledStory": "بے عنوان کہانی",
+    "communities": "برادری",
+    "slide": "سلائیڈ"
   },
   "footer": {
     "poweredBy": "NOTF پلیٹ فارم جس کے ذریعہ تقویت یافتہ ہے",

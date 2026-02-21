@@ -277,7 +277,10 @@
     "active": "সক্রিয়",
     "pending": "মুলতুবি",
     "archived": "সংরক্ষণাগারভুক্ত",
-    "view_details": "View Details [bn]"
+    "view_details": "View Details [bn]",
+    "untitledStory": "শিরোনামহীন গল্প",
+    "communities": "সম্প্রদায়",
+    "slide": "স্লাইড"
   },
   "footer": {
     "poweredBy": "NOTF প্ল্যাটফর্ম দ্বারা চালিত",

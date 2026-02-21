@@ -277,7 +277,10 @@
     "active": "സജീവമാണ്",
     "pending": "തീർപ്പാക്കാത്തത്",
     "archived": "ആർക്കൈവ് ചെയ്തു",
-    "view_details": "View Details [ml]"
+    "view_details": "View Details [ml]",
+    "untitledStory": "ശീർഷകമില്ലാത്ത കഥ",
+    "communities": "സമൂഹങ്ങൾ",
+    "slide": "സ്ലൈഡ്"
   },
   "footer": {
     "poweredBy": "NOTF പ്ലാറ്റ്ഫോം നൽകുന്നത്",

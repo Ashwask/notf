@@ -277,7 +277,10 @@
     "active": "ସକ୍ରିୟ |",
     "pending": "ବିଚାରାଧୀନ ଅଛି",
     "archived": "ସଂଗୃହିତ",
-    "view_details": "View Details [or]"
+    "view_details": "View Details [or]",
+    "untitledStory": "ଶୀର୍ଷକହୀନ କାହାଣୀ",
+    "communities": "ସମ୍ପ୍ରଦାୟ",
+    "slide": "ସ୍ଲାଇଡ୍"
   },
   "footer": {
     "poweredBy": "ଦ୍ୱାରା ପରିଚାଳିତ NOTF ପ୍ଲାଟଫର୍ମ |",

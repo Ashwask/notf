@@ -277,7 +277,10 @@
     "active": "સક્રિય",
     "pending": "બાકી છે",
     "archived": "આર્કાઇવ",
-    "view_details": "View Details [gu]"
+    "view_details": "View Details [gu]",
+    "untitledStory": "શીર્ષકહીન વાર્તા",
+    "communities": "સમુદાયો",
+    "slide": "સ્લાઇડ"
   },
   "footer": {
     "poweredBy": "દ્વારા સંચાલિત NOTF પ્લેટફોર્મ",

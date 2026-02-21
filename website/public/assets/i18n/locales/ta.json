@@ -277,7 +277,10 @@
     "active": "செயலில்",
     "pending": "நிலுவையில் உள்ளது",
     "archived": "காப்பகப்படுத்தப்பட்டது",
-    "view_details": "View Details [ta]"
+    "view_details": "View Details [ta]",
+    "untitledStory": "தலைப்பிடாத கதை",
+    "communities": "சமூகங்கள்",
+    "slide": "ஸ்லைடு"
   },
   "footer": {
     "poweredBy": "NOTF இயங்குதளம் மூலம் இயக்கப்படுகிறது",

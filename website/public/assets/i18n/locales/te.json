@@ -277,7 +277,10 @@
     "active": "చురుకుగా",
     "pending": "పెండింగ్‌లో ఉంది",
     "archived": "ఆర్కైవ్ చేయబడింది",
-    "view_details": "View Details [te]"
+    "view_details": "View Details [te]",
+    "untitledStory": "శీర్షిక లేని కథ",
+    "communities": "సమూదాయాలు",
+    "slide": "స్లైడ్"
   },
   "footer": {
     "poweredBy": "NOTF ప్లాట్‌ఫారమ్ ద్వారా ఆధారితం",

@@ -277,7 +277,10 @@
     "active": "Active",
     "pending": "Pending",
     "archived": "Archived",
-    "view_details": "View Details"
+    "view_details": "View Details",
+    "untitledStory": "Untitled Story",
+    "communities": "communities",
+    "slide": "Slide"
   },
   "footer": {
     "poweredBy": "NOTF platform powered by",

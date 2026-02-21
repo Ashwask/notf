@@ -277,7 +277,10 @@
     "active": "सक्रिय",
     "pending": "प्रलंबित",
     "archived": "संग्रहित",
-    "view_details": "तपशील पहा"
+    "view_details": "तपशील पहा",
+    "untitledStory": "शीर्षकहीन कथा",
+    "communities": "समुदाय",
+    "slide": "स्लाइड"
   },
   "footer": {
     "poweredBy": "NOTF प्लॅटफॉर्मद्वारे समर्थित",

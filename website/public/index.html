@@ -52,7 +52,7 @@
         }
 
         .preview-card-header {
-            padding: 16px 20px 8px;
+            padding: 16px 24px 8px;
             display: flex;
             align-items: baseline;
             gap: 8px;
@@ -127,7 +127,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 40px 20px 16px;
+            padding: 48px 24px 16px;
             background: rgba(0, 0, 0, 0.55);
             display: flex;
             flex-direction: column;
@@ -151,13 +151,13 @@
         .carousel-dots {
             display: flex;
             justify-content: center;
-            gap: 6px;
+            gap: 8px;
             padding: 0;
         }
 
         .carousel-dot {
-            width: 7px;
-            height: 7px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: var(--charcoal);
             opacity: 0.15;
@@ -169,12 +169,12 @@
 
         .carousel-dot.active {
             opacity: 0.5;
-            width: 18px;
+            width: 16px;
             border-radius: 4px;
         }
 
         .preview-card-footer {
-            padding: 14px 20px 16px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -205,6 +205,19 @@
             inset: 0;
             width: 100%;
             height: 100%;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* Loading skeletons */
@@ -646,8 +659,10 @@
 
             const width = 400;
             const height = 380;
-            const scaleX = width / (maxX - minX);
-            const scaleY = height / (maxY - minY);
+            const spanX = Math.max(maxX - minX, 1e-6);
+            const spanY = Math.max(maxY - minY, 1e-6);
+            const scaleX = width / spanX;
+            const scaleY = height / spanY;
             const scale = Math.min(scaleX, scaleY);
             const offsetX = (width - (maxX - minX) * scale) / 2;
             const offsetY = (height - (maxY - minY) * scale) / 2;
@@ -697,8 +712,9 @@
             const dotsContainer = document.getElementById(dotsId);
             if (!container) return;
 
+            container.removeAttribute('aria-busy');
             container.innerHTML = items.map(item =>
-                `<a href="${esc(item.href)}" class="carousel-slide">
+                `<a href="${esc(item.href)}" class="carousel-slide" data-slide-name="${esc(item.name)}">
                     <div class="carousel-slide-bg" style="background-image: url('${esc(item.image)}')"></div>
                     <div class="carousel-slide-overlay">
                         <span class="carousel-slide-name">${esc(item.name)}</span>
@@ -733,7 +749,7 @@
             // Create dots
             if (dotsContainer && items.length > 1) {
                 dotsContainer.innerHTML = items.map((_, i) =>
-                    `<button class="carousel-dot${i === 0 ? ' active' : ''}" aria-label="Slide ${i + 1}"></button>`
+                    `<button class="carousel-dot${i === 0 ? ' active' : ''}" aria-label="${(window.translator?.t('common.slide') || 'Slide')} ${i + 1}"></button>`
                 ).join('');
 
                 // Scroll observer for dot updates + tracking current index
@@ -774,7 +790,8 @@
         function showCarouselSkeletons(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
-            container.innerHTML = `<div class="carousel-slide skeleton"><div class="carousel-slide-bg"></div></div>`;
+            container.setAttribute('aria-busy', 'true');
+            container.innerHTML = `<div class="carousel-slide skeleton" role="status"><div class="carousel-slide-bg"></div><span class="sr-only">${window.translator?.t('common.loading') || 'Loading...'}</span></div>`;
         }
 
         // Load live data for preview cards
@@ -815,7 +832,7 @@
                     // Render stories as full-face carousel slides (YouTube thumbnails when available)
                     renderCarouselSlides('storyItems', 'storyDots',
                         stories.map((s, i) => ({
-                            name: s.title || 'Untitled Story',
+                            name: s.title || (window.translator?.t('common.untitledStory') || 'Untitled Story'),
                             meta: [s.community, s.city].filter(Boolean).join(', '),
                             href: `/stories/#${(s.slug || s.title || '').toLowerCase().replace(/\s+/g, '-')}`,
                             image: getStoryImage(s, i)
@@ -829,7 +846,7 @@
                     const cityItems = cities
                         .map(c => ({
                             name: c.name,
-                            meta: cityCounts[c.name] ? `${cityCounts[c.name]} communities` : c.state,
+                            meta: cityCounts[c.name] ? `${cityCounts[c.name]} ${window.translator?.t('common.communities') || 'communities'}` : c.state,
                             href: `/cities/${c.slug}/`,
                             image: `/assets/images/cities/${c.slug}.svg`,
                             boundaryFile: c.features?.map?.boundaryFile,
@@ -841,12 +858,12 @@
                     renderCarouselSlides('cityItems', 'cityDots', cityItems);
 
                     // Load GeoJSON maps and render as SVG backgrounds
-                    cityItems.forEach((city, idx) => {
+                    cityItems.forEach(city => {
                         if (!city.boundaryFile) return;
                         fetch(city.boundaryFile)
                             .then(r => r.json())
                             .then(geojson => {
-                                const slide = document.querySelectorAll('#cityItems .carousel-slide')[idx];
+                                const slide = document.querySelector(`#cityItems .carousel-slide[data-slide-name="${CSS.escape(city.name)}"]`);
                                 if (!slide) return;
                                 const bg = slide.querySelector('.carousel-slide-bg');
                                 if (!bg) return;

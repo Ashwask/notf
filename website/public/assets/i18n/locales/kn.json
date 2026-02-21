@@ -277,7 +277,10 @@
     "active": "ಸಕ್ರಿಯ",
     "pending": "ಬಾಕಿಯಿದೆ",
     "archived": "ಆರ್ಕೈವ್ ಮಾಡಲಾಗಿದೆ",
-    "view_details": "View Details [kn]"
+    "view_details": "View Details [kn]",
+    "untitledStory": "ಶೀರ್ಷಿಕೆಯಿಲ್ಲದ ಕಥೆ",
+    "communities": "ಸಮುದಾಯಗಳು",
+    "slide": "ಸ್ಲೈಡ್"
   },
   "footer": {
     "poweredBy": "NOTF ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಚಾಲಿತವಾಗಿದೆ",
