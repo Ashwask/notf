@@ -362,7 +362,7 @@ function displayValidationPreview(results) {
             </div>
         `;
     } else {
-        errorsContainer.innerHTML = '<p style="color: #2F4A2C;">✓ All rows valid!</p>';
+        errorsContainer.innerHTML = '<p style="color: #2F4A2C;"><i class="fa-solid fa-circle-check"></i> All rows valid!</p>';
     }
 
     // Show results and actions

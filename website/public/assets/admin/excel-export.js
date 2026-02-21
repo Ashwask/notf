@@ -529,10 +529,10 @@ async function promptExportOptions() {
     if (hasSearch || hasStatusFilter) {
         // Filters are active
         const filterDesc = hasSearch ? `search results` : `"${window.currentStatusFilter}" records`;
-        message = `Export Options:\n\n✓ Visible Records - Export only ${filterDesc} currently shown\n✗ All Records - Export everything from database`;
+        message = `Export Options:\n\n[OK] Visible Records - Export only ${filterDesc} currently shown\n[Cancel] All Records - Export everything from database`;
     } else {
         // No filters, but still ask
-        message = `Export Options:\n\n✓ Visible Records - Export what's currently displayed on screen\n✗ All Records - Export everything from database`;
+        message = `Export Options:\n\n[OK] Visible Records - Export what's currently displayed on screen\n[Cancel] All Records - Export everything from database`;
     }
 
     const exportVisible = confirm(message);

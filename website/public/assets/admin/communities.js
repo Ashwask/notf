@@ -533,9 +533,9 @@ async function handleFormSubmit(e) {
 
         closeModal();
         await loadCommunities();
-        alert(`✓ Community ${isEditing ? 'updated' : 'created'} successfully!`);
+        alert(`Success: Community ${isEditing ? 'updated' : 'created'} successfully!`);
     } catch (error) {
-        alert('✗ Error: ' + error.message);
+        alert('Error: ' + error.message);
     } finally {
         submitBtn.disabled = false;
         submitBtnText.style.display = 'inline';
@@ -574,9 +574,9 @@ async function deleteCommunity(id, name) {
         }
 
         await loadCommunities();
-        alert('✓ Community deleted successfully!');
+        alert('Success: Community deleted successfully!');
     } catch (error) {
-        alert('✗ Error: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 
@@ -609,7 +609,7 @@ async function updateStatus(id, newStatus) {
 
         await loadCommunities();
     } catch (error) {
-        alert('✗ Error updating status: ' + error.message);
+        alert('Error updating status: ' + error.message);
     }
 }
 

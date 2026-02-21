@@ -300,9 +300,9 @@ async function handleFormSubmit(e) {
 
         closeModal();
         await loadOrganizations();
-        alert(`✓ Organization ${isEditing ? 'updated' : 'created'} successfully!`);
+        alert(`Success: Organization ${isEditing ? 'updated' : 'created'} successfully!`);
     } catch (error) {
-        alert('✗ Error: ' + error.message);
+        alert('Error: ' + error.message);
     } finally {
         submitBtn.disabled = false;
         submitBtnText.style.display = 'inline';
@@ -341,9 +341,9 @@ async function deleteOrganization(id, name) {
         }
 
         await loadOrganizations();
-        alert('✓ Organization deleted successfully!');
+        alert('Success: Organization deleted successfully!');
     } catch (error) {
-        alert('✗ Error: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 
@@ -377,7 +377,7 @@ async function updateStatus(id, newStatus) {
 
         await loadOrganizations();
     } catch (error) {
-        alert('✗ Error updating status: ' + error.message);
+        alert('Error updating status: ' + error.message);
     }
 }
 

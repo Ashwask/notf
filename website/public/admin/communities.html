@@ -13,7 +13,7 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/chat/chat.css">
+
 </head>
 <body style="margin: 0; padding: 0; background: transparent;">
     <main>
@@ -243,7 +243,7 @@
                         <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
                             <textarea id="commStories" rows="4" placeholder="Community stories and impact narratives (supports markdown)" style="flex: 1;"></textarea>
                             <button type="button" onclick="openStoryEditor()" class="btn-secondary" style="white-space: nowrap;">
-                                ✏️ Open Editor
+                                <i class="fa-solid fa-pen-to-square"></i> Open Editor
                             </button>
                         </div>
                         <small style="color: var(--color-text-light); font-size: 0.85rem;">Supports markdown: **bold**, *italic*, [links](url), # headers, etc.</small>
@@ -300,66 +300,7 @@
             </div>
         </div>
 
-        <!-- Story Editor Modal -->
-        <div id="storyModal" class="modal" style="display: none;">
-            <div class="modal-content" style="max-width: 1000px; max-height: 90vh;">
-                <div class="modal-header" id="storyModalHeader">
-                    <div class="drag-handle" title="Drag to move">
-                        <i class="fa-solid fa-grip-vertical"></i>
-                    </div>
-                    <h2>📝 Story Editor (Markdown)</h2>
-                    <button onclick="closeStoryEditor()" class="btn-close">×</button>
-                </div>
-                <div class="modal-body" style="padding: 0;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; height: 70vh;">
-                        <!-- Editor Pane -->
-                        <div style="border-right: 1px solid #e0e0e0; display: flex; flex-direction: column;">
-                            <div style="padding: 1rem; border-bottom: 1px solid #e0e0e0; background: #f8f9fa;">
-                                <h3 style="margin: 0; font-size: 1rem; color: var(--color-text-light);">
-                                    ✍️ Markdown Editor
-                                </h3>
-                                <div style="margin-top: 0.5rem; font-size: 0.85rem; color: #999;">
-                                    <code>**bold**</code> <code>*italic*</code> <code>[link](url)</code> <code># heading</code>
-                                </div>
-                            </div>
-                            <textarea id="storyEditorText" style="
-                                flex: 1;
-                                width: 100%;
-                                border: none;
-                                padding: 1.5rem;
-                                font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-                                font-size: 0.95rem;
-                                line-height: 1.6;
-                                resize: none;
-                            " placeholder="Write your community stories here using markdown..."></textarea>
-                        </div>
-
-                        <!-- Preview Pane -->
-                        <div style="display: flex; flex-direction: column; background: #fafafa;">
-                            <div style="padding: 1rem; border-bottom: 1px solid #e0e0e0; background: #f8f9fa;">
-                                <h3 style="margin: 0; font-size: 1rem; color: var(--color-text-light);">
-                                    👁️ Preview
-                                </h3>
-                            </div>
-                            <div id="storyPreview" style="
-                                flex: 1;
-                                overflow-y: auto;
-                                padding: 1.5rem;
-                                line-height: 1.7;
-                            ">
-                                <p style="color: #999; font-style: italic;">Preview will appear here...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding: 1.5rem; border-top: 1px solid #e0e0e0; background: white; display: flex; justify-content: flex-end; gap: 0.75rem;">
-                        <button type="button" onclick="closeStoryEditor()" class="btn-secondary">Cancel</button>
-                        <button type="button" onclick="saveStoryContent()" class="btn-primary">Save Story</button>
-                    </div>
-                </div>
-                <div class="resize-handle" title="Drag to resize"></div>
-            </div>
-        </div>
-
+        <!-- Story Editor Modal (injected by admin-modals.js) -->
         <!-- View Details Modal -->
         <div id="viewModal" class="modal view-modal" style="display: none;">
             <div class="modal-content">
@@ -380,55 +321,7 @@
             </div>
         </div>
 
-        <!-- Import Modal -->
-        <div id="importModal" class="modal" style="display: none;">
-            <div class="modal-content" style="max-width: 700px;">
-                <div class="modal-header">
-                    <h2><i class="fa-solid fa-file-import"></i> Import from Excel</h2>
-                    <button onclick="closeImportModal()" class="btn-close">×</button>
-                </div>
-                <div class="modal-body">
-                    <!-- Upload Area -->
-                    <div id="uploadArea" style="
-                        border: 2px dashed #B9C98A;
-                        border-radius: 8px;
-                        padding: 3rem;
-                        text-align: center;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                        background: #FAF6E8;
-                    ">
-                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; color: #B9C98A; margin-bottom: 1rem;"></i>
-                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Drop Excel file here or click to browse</p>
-                        <p style="font-size: 0.9rem; color: #666;">Supports .xlsx files exported from this system</p>
-                        <input type="file" id="fileInput" accept=".xlsx" style="display: none;" />
-                    </div>
-
-                    <!-- Validation Results -->
-                    <div id="validationResults" style="display: none; margin-top: 2rem;">
-                        <h3 style="margin-bottom: 1rem;">Validation Results</h3>
-                        <div id="validationStats" style="
-                            display: grid;
-                            grid-template-columns: repeat(3, 1fr);
-                            gap: 1rem;
-                            margin-bottom: 1.5rem;
-                        "></div>
-                        <div id="errorsList"></div>
-                    </div>
-
-                    <!-- Import Actions -->
-                    <div id="importActions" style="display: none; margin-top: 2rem; gap: 0.75rem;">
-                        <button type="button" id="downloadErrorsBtn" onclick="downloadErrorLog()" class="btn-secondary" style="display: none;">
-                            <i class="fa-solid fa-download"></i> Download Error Log
-                        </button>
-                        <button type="button" id="executeImportBtn" onclick="executeImport()" class="btn-primary">
-                            <i class="fa-solid fa-check"></i> Import Valid Rows
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Import Modal (injected by admin-modals.js) -->
         <!-- Import Progress Modal -->
         <div id="progressModal" class="modal" style="display: none;">
             <div class="modal-content" style="max-width: 500px;">
@@ -471,6 +364,20 @@
 <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/admin/auth.js"></script>
+<script src="/assets/admin/admin-modals.js"></script>
+<script>
+injectImportModal();
+injectMarkdownEditor({
+    modalId: 'storyModal',
+    headerId: 'storyModalHeader',
+    textareaId: 'storyEditorText',
+    previewId: 'storyPreview',
+    placeholder: 'Write your community stories here using markdown...',
+    saveLabel: 'Save Story',
+    onSave: 'saveStoryContent',
+    onClose: 'closeStoryEditor'
+});
+</script>
 <script src="/assets/admin/communities.js"></script>
 <!-- Excel export/import modules -->
 <script src="/assets/admin/excel-common.js"></script>

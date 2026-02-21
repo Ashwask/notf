@@ -527,38 +527,6 @@
             }
         });
 
-        // Accordion functionality for FAQs
-        document.querySelectorAll('.accordion-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const item = header.parentElement;
-                const content = item.querySelector('.accordion-content');
-                const icon = header.querySelector('i');
-                const isActive = item.classList.contains('active');
-
-                // Close all other accordions
-                document.querySelectorAll('.accordion-item').forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('active')) {
-                        otherItem.classList.remove('active');
-                        const otherContent = otherItem.querySelector('.accordion-content');
-                        const otherIcon = otherItem.querySelector('.accordion-header i');
-                        otherContent.style.maxHeight = '0';
-                        otherIcon.classList.replace('fa-chevron-up', 'fa-chevron-down');
-                    }
-                });
-
-                // Toggle current accordion
-                if (isActive) {
-                    item.classList.remove('active');
-                    content.style.maxHeight = '0';
-                    icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
-                } else {
-                    item.classList.add('active');
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                    icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
-                }
-            });
-        });
-
         // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -702,9 +670,8 @@
 
         // Escape HTML special characters to prevent XSS
         function esc(str) {
-            const d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
+            if (typeof str !== 'string') return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
         // Track cleanup state per carousel to prevent leaks on re-render

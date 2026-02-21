@@ -14,258 +14,15 @@
 
     <link rel="stylesheet" href="/assets/admin/admin.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
+    <link rel="stylesheet" href="/assets/admin/geocode-tool.css">
 
-        .container {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            height: 100vh;
-        }
-
-        .sidebar {
-            background: white;
-            overflow-y: auto;
-            border-right: 1px solid #ddd;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            padding: 1.5rem;
-            border-bottom: 2px solid #B9C98A;
-            background: #2F4A2C;
-            color: white;
-        }
-
-        .header h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.5rem;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 0.875rem;
-            opacity: 0.9;
-        }
-
-        .stats {
-            padding: 1rem 1.5rem;
-            background: #f8f9fa;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 1.75rem;
-            font-weight: bold;
-            color: #2F4A2C;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--color-text-light);
-            margin-top: 0.25rem;
-        }
-
-        .communities-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        .community-item {
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .community-item:hover {
-            border-color: #2F4A2C;
-            background: #f8feff;
-        }
-
-        .community-item.active {
-            border-color: #2F4A2C;
-            background: rgba(185, 201, 138, 0.15);
-        }
-
-        .community-item.completed {
-            border-color: #4caf50;
-            background: #f1f8f4;
-            opacity: 0.7;
-        }
-
-        .community-name {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.25rem;
-        }
-
-        .community-neighborhood {
-            font-size: 0.875rem;
-            color: var(--color-text-light);
-        }
-
-        .community-coords {
-            font-size: 0.75rem;
-            color: #2F4A2C;
-            margin-top: 0.5rem;
-            font-family: 'Courier New', monospace;
-        }
-
-        .checkmark {
-            float: right;
-            color: #4caf50;
-            font-size: 1.25rem;
-        }
-
-        #map {
-            height: 100vh;
-            position: relative;
-        }
-
-        .map-instructions {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            max-width: 300px;
-        }
-
-        .map-instructions h3 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1rem;
-            color: #2F4A2C;
-        }
-
-        .map-instructions p {
-            margin: 0;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-
-        .map-instructions.hidden {
-            display: none;
-        }
-
-        .current-community-banner {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2F4A2C;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(35, 162, 165, 0.4);
-            z-index: 1000;
-            display: none;
-        }
-
-        .current-community-banner.active {
-            display: block;
-        }
-
-        .current-community-banner h3 {
-            margin: 0;
-            font-size: 1.125rem;
-        }
-
-        .current-community-banner p {
-            margin: 0.25rem 0 0 0;
-            font-size: 0.875rem;
-            opacity: 0.9;
-        }
-
-        .btn-save {
-            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 1rem;
-            width: 100%;
-        }
-
-        .btn-save:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-        }
-
-        .btn-save:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .leaflet-popup-content {
-            min-width: 200px;
-        }
-
-        .popup-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .btn-confirm {
-            background: #2F4A2C;
-            color: white;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-cancel {
-            background: #e0e0e0;
-            color: #333;
-            border: none;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: var(--color-text-light);
-        }
-    </style>
-    <link rel="stylesheet" href="/assets/chat/chat.css">
 </head>
 <body>
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="header">
-                <h1>📍 Manual Geocoding</h1>
+                <h1><i class="fa-solid fa-location-dot"></i> Manual Geocoding</h1>
                 <p>Click communities, then click on the map to set coordinates</p>
             </div>
 
@@ -309,6 +66,11 @@
     <script src="/assets/admin/auth.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // Escape HTML to prevent XSS
+        function esc(str) {
+            return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
         let communities = [];
         let currentCommunity = null;
         let map = null;
@@ -369,9 +131,9 @@
                 html += '<h3 style="padding: 0.5rem 0; margin: 0 0 0.5rem 0; color: var(--color-text-light); font-size: 0.875rem;">NEEDS COORDINATES</h3>';
                 missing.forEach(comm => {
                     html += `
-                        <div class="community-item" onclick="selectCommunity('${comm.id}')">
-                            <div class="community-name">${comm.name}</div>
-                            <div class="community-neighborhood">📍 ${comm.neighborhood}</div>
+                        <div class="community-item" onclick="selectCommunity('${esc(comm.id)}')">
+                            <div class="community-name">${esc(comm.name)}</div>
+                            <div class="community-neighborhood"><i class="fa-solid fa-location-dot"></i> ${esc(comm.neighborhood)}</div>
                         </div>
                     `;
                 });
@@ -382,9 +144,9 @@
                 completed.forEach(comm => {
                     html += `
                         <div class="community-item completed">
-                            <span class="checkmark">✓</span>
-                            <div class="community-name">${comm.name}</div>
-                            <div class="community-neighborhood">📍 ${comm.neighborhood}</div>
+                            <span class="checkmark"><i class="fa-solid fa-check"></i></span>
+                            <div class="community-name">${esc(comm.name)}</div>
+                            <div class="community-neighborhood"><i class="fa-solid fa-location-dot"></i> ${esc(comm.neighborhood)}</div>
                             <div class="community-coords">${comm.latitude?.toFixed(6)}, ${comm.longitude?.toFixed(6)}</div>
                         </div>
                     `;
@@ -409,7 +171,7 @@
             // Update banner
             const banner = document.getElementById('currentBanner');
             document.getElementById('currentName').textContent = currentCommunity.name;
-            document.getElementById('currentNeighborhood').textContent = `📍 ${currentCommunity.neighborhood} - Click on the map`;
+            document.getElementById('currentNeighborhood').textContent = `${currentCommunity.neighborhood} - Click on the map`;
             banner.classList.add('active');
 
             // Pan to neighborhood if it has coords
@@ -430,7 +192,7 @@
             // Add markers for communities that already have coordinates
             communities.filter(c => c.hasCoords).forEach(comm => {
                 L.marker([comm.latitude, comm.longitude])
-                    .bindPopup(`<strong>${comm.name}</strong><br>${comm.neighborhood}`)
+                    .bindPopup(`<strong>${esc(comm.name)}</strong><br>${esc(comm.neighborhood)}`)
                     .addTo(map);
             });
 
@@ -463,12 +225,12 @@
             }).addTo(map);
 
             const popupContent = `
-                <strong>${currentCommunity.name}</strong><br>
-                ${currentCommunity.neighborhood}<br>
+                <strong>${esc(currentCommunity.name)}</strong><br>
+                ${esc(currentCommunity.neighborhood)}<br>
                 <small>${latlng.lat.toFixed(6)}, ${latlng.lng.toFixed(6)}</small>
                 <div class="popup-buttons">
-                    <button class="btn-confirm" onclick="confirmLocation()">✓ Confirm</button>
-                    <button class="btn-cancel" onclick="cancelLocation()">✗ Cancel</button>
+                    <button class="btn-confirm" onclick="confirmLocation()"><i class="fa-solid fa-check"></i> Confirm</button>
+                    <button class="btn-cancel" onclick="cancelLocation()"><i class="fa-solid fa-xmark"></i> Cancel</button>
                 </div>
             `;
 
@@ -478,12 +240,12 @@
             tempMarker.on('dragend', function(e) {
                 const newLatLng = e.target.getLatLng();
                 const newContent = `
-                    <strong>${currentCommunity.name}</strong><br>
-                    ${currentCommunity.neighborhood}<br>
+                    <strong>${esc(currentCommunity.name)}</strong><br>
+                    ${esc(currentCommunity.neighborhood)}<br>
                     <small>${newLatLng.lat.toFixed(6)}, ${newLatLng.lng.toFixed(6)}</small>
                     <div class="popup-buttons">
-                        <button class="btn-confirm" onclick="confirmLocation()">✓ Confirm</button>
-                        <button class="btn-cancel" onclick="cancelLocation()">✗ Cancel</button>
+                        <button class="btn-confirm" onclick="confirmLocation()"><i class="fa-solid fa-check"></i> Confirm</button>
+                        <button class="btn-cancel" onclick="cancelLocation()"><i class="fa-solid fa-xmark"></i> Cancel</button>
                     </div>
                 `;
                 tempMarker.setPopupContent(newContent);
@@ -528,9 +290,9 @@
                 document.getElementById('currentBanner').classList.remove('active');
                 currentCommunity = null;
 
-                alert('✅ Coordinates saved successfully!');
+                alert('Coordinates saved successfully!');
             } catch (error) {
-                alert('❌ Error saving coordinates: ' + error.message);
+                alert('Error saving coordinates: ' + error.message);
             }
         }
 

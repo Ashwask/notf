@@ -159,7 +159,7 @@ nav {
     font-weight: 500;
     padding: 8px 16px;
     border-radius: var(--radius-md);
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease;
     display: inline-flex;
     align-items: center;
     min-height: 40px;
@@ -215,7 +215,7 @@ nav {
     height: 3px;
     background: var(--forest-green);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 /* === HERO SECTION === */
@@ -296,7 +296,7 @@ nav {
     font-weight: 600;
     border-radius: 20px;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     border: none;
 }
@@ -355,7 +355,7 @@ nav {
     border-radius: var(--radius-lg);
     text-align: center;
     box-shadow: var(--shadow-lg);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-top: 4px solid var(--olive-green);
 }
 
@@ -432,7 +432,7 @@ nav {
     padding: var(--space-lg);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     border: 2px solid transparent;
 }
 
@@ -493,7 +493,7 @@ nav {
     color: var(--forest-green);
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: gap 0.3s ease;
 }
 
 .feature-card:nth-child(2) .feature-link {
@@ -600,7 +600,7 @@ nav {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: var(--shadow-lg);
 }
 
@@ -637,7 +637,7 @@ footer p {
 footer a {
     color: rgba(250, 246, 232, 0.8);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 footer a:hover {
@@ -664,7 +664,7 @@ footer a:hover {
     text-decoration: none;
     display: block;
     margin-bottom: 8px;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease, padding-left 0.3s ease;
 }
 
 .footer-section a:hover {
@@ -716,7 +716,7 @@ footer a:hover {
     gap: 8px;
     color: var(--warm-cream);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .rainmatter-link:hover {
@@ -740,21 +740,6 @@ footer a:hover {
     font-size: 14px;
 }
 
-@media (max-width: 768px) {
-    .footer-powered-by,
-    .footer-license {
-        font-size: 12px;
-    }
-
-    .rainmatter-logo {
-        height: 20px;
-    }
-
-    .cc-icon {
-        height: 16px;
-        width: 16px;
-    }
-}
 
 /* === EXECUTING PARTNERS SECTION === */
 .executing-partners-section {
@@ -779,7 +764,7 @@ footer a:hover {
     background: var(--color-bg-white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     max-width: 250px;
     width: 100%;
 }
@@ -797,17 +782,6 @@ footer a:hover {
     display: block;
 }
 
-@media (max-width: 768px) {
-    .partners-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-        max-width: 300px;
-    }
-
-    .partner-logo {
-        max-height: 60px;
-    }
-}
 
 /* === JOIN THE MOVEMENT SECTION === */
 .cities {
@@ -828,7 +802,7 @@ footer a:hover {
     padding: var(--space-lg);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     border: 2px solid transparent;
 }
 
@@ -875,7 +849,9 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
 }
 
 /* === RESPONSIVE DESIGN === */
+/* === ALL RESPONSIVE RULES (768px) === */
 @media (max-width: 768px) {
+    /* Navigation */
     .hamburger {
         display: flex;
     }
@@ -892,7 +868,7 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
         transform: translateY(-100%);
         opacity: 0;
         pointer-events: none;
-        transition: all 0.3s ease;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     .nav-menu.active {
@@ -901,6 +877,7 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
         pointer-events: all;
     }
 
+    /* Hero */
     .hero h1 {
         font-size: 36px;
         white-space: normal;
@@ -914,6 +891,7 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
         flex-direction: column;
     }
 
+    /* Stats & Features */
     .stats {
         grid-template-columns: 1fr;
         gap: var(--space-sm);
@@ -926,6 +904,101 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
 
     .section-title {
         font-size: 32px;
+    }
+
+    /* Footer */
+    .footer-powered-by,
+    .footer-license {
+        font-size: 12px;
+    }
+
+    .rainmatter-logo {
+        height: 20px;
+    }
+
+    .cc-icon {
+        height: 16px;
+        width: 16px;
+    }
+
+    /* Partners */
+    .partners-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+        max-width: 300px;
+    }
+
+    .partner-logo {
+        max-height: 60px;
+    }
+
+    /* Content Sections */
+    .section-intro h2 {
+        font-size: 32px;
+    }
+
+    .section-intro .subtitle {
+        font-size: 18px;
+    }
+
+    .section-intro p {
+        font-size: 16px;
+    }
+
+    .info-grid,
+    .principles-grid,
+    .infrastructure-grid,
+    .benefits-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+
+    .split-layout {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .split-visual {
+        order: 2;
+    }
+
+    .split-content {
+        order: 1;
+    }
+
+    .split-content h2 {
+        font-size: 28px;
+    }
+
+    .split-content .subtitle {
+        font-size: 18px;
+    }
+
+    .split-content .intro {
+        font-size: 16px;
+    }
+
+    .accordion-header {
+        font-size: 16px;
+        padding: var(--space-md);
+    }
+
+    .accordion-content p {
+        font-size: 15px;
+    }
+
+    .principle-card h3 {
+        font-size: 20px;
+    }
+
+    .benefit-card h4 {
+        font-size: 18px;
+    }
+
+    .principles-section::before {
+        width: 120px;
+        height: 120px;
+        right: -30px;
     }
 }
 
@@ -1474,72 +1547,3 @@ body > main > section:not(.hero):not(.stats):not(.features):not(.about):not(.cta
 }
 
 /* === RESPONSIVE DESIGN === */
-@media (max-width: 768px) {
-    .section-intro h2 {
-        font-size: 32px;
-    }
-
-    .section-intro .subtitle {
-        font-size: 18px;
-    }
-
-    .section-intro p {
-        font-size: 16px;
-    }
-
-    .info-grid,
-    .principles-grid,
-    .infrastructure-grid,
-    .benefits-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-md);
-    }
-
-    .split-layout {
-        grid-template-columns: 1fr;
-        gap: var(--space-lg);
-    }
-
-    .split-visual {
-        order: 2;
-    }
-
-    .split-content {
-        order: 1;
-    }
-
-    .split-content h2 {
-        font-size: 28px;
-    }
-
-    .split-content .subtitle {
-        font-size: 18px;
-    }
-
-    .split-content .intro {
-        font-size: 16px;
-    }
-
-    .accordion-header {
-        font-size: 16px;
-        padding: var(--space-md);
-    }
-
-    .accordion-content p {
-        font-size: 15px;
-    }
-
-    .principle-card h3 {
-        font-size: 20px;
-    }
-
-    .benefit-card h4 {
-        font-size: 18px;
-    }
-
-    .principles-section::before {
-        width: 120px;
-        height: 120px;
-        right: -30px;
-    }
-}
