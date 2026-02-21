@@ -44,7 +44,7 @@
             height: 380px;
             overflow: hidden;
             border: 2px solid transparent;
-            transition: all 0.3s ease;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .preview-card:hover {
@@ -115,6 +115,7 @@
             background-size: cover;
             background-position: center;
             transition: transform 0.4s ease;
+            will-change: transform;
         }
 
         .carousel-slide:hover .carousel-slide-bg {
@@ -161,7 +162,7 @@
             border-radius: 50%;
             background: var(--charcoal);
             opacity: 0.15;
-            transition: opacity 0.2s ease, width 0.2s ease;
+            transition: opacity 0.2s ease, transform 0.2s ease, border-radius 0.2s ease;
             border: none;
             padding: 0;
             cursor: pointer;
@@ -169,7 +170,7 @@
 
         .carousel-dot.active {
             opacity: 0.5;
-            width: 16px;
+            transform: scaleX(2);
             border-radius: 4px;
         }
 
@@ -297,7 +298,7 @@
         </section>
 
         <!-- Preview Content Cards -->
-        <section class="preview-section" id="explore">
+        <section class="preview-section" id="explore" aria-label="Explore catalogue, stories, and cities">
             <div class="preview-wrapper">
                 <!-- Row 1: Catalogue + Stories as carousel cards -->
                 <div class="preview-row-cards">
@@ -706,11 +707,19 @@
             return d.innerHTML;
         }
 
+        // Track cleanup state per carousel to prevent leaks on re-render
+        const carouselCleanup = {};
+
         // Render full-face carousel slides with autoscroll
         function renderCarouselSlides(containerId, dotsId, items) {
             const container = document.getElementById(containerId);
             const dotsContainer = document.getElementById(dotsId);
             if (!container) return;
+
+            // Clean up previous render (observer, listeners, timer)
+            if (carouselCleanup[containerId]) {
+                carouselCleanup[containerId]();
+            }
 
             container.removeAttribute('aria-busy');
             container.innerHTML = items.map(item =>
@@ -725,6 +734,8 @@
 
             let currentIndex = 0;
             let autoScrollTimer = null;
+            let observer = null;
+            const ac = new AbortController();
 
             function scrollTo(idx) {
                 currentIndex = idx;
@@ -753,7 +764,7 @@
                 ).join('');
 
                 // Scroll observer for dot updates + tracking current index
-                const observer = new IntersectionObserver((entries) => {
+                observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const idx = Array.from(container.children).indexOf(entry.target);
@@ -772,18 +783,25 @@
                     dot.addEventListener('click', () => {
                         scrollTo(i);
                         startAutoScroll();
-                    });
+                    }, { signal: ac.signal });
                 });
             }
 
             // Pause on hover/touch, resume on leave
-            container.addEventListener('mouseenter', stopAutoScroll);
-            container.addEventListener('mouseleave', startAutoScroll);
-            container.addEventListener('touchstart', stopAutoScroll, { passive: true });
-            container.addEventListener('touchend', () => setTimeout(startAutoScroll, 3000));
+            container.addEventListener('mouseenter', stopAutoScroll, { signal: ac.signal });
+            container.addEventListener('mouseleave', startAutoScroll, { signal: ac.signal });
+            container.addEventListener('touchstart', stopAutoScroll, { passive: true, signal: ac.signal });
+            container.addEventListener('touchend', () => setTimeout(startAutoScroll, 3000), { signal: ac.signal });
 
             // Start autoscroll if more than 1 item
             if (items.length > 1) startAutoScroll();
+
+            // Store cleanup function for this carousel
+            carouselCleanup[containerId] = () => {
+                stopAutoScroll();
+                if (observer) observer.disconnect();
+                ac.abort();
+            };
         }
 
         // Show loading skeletons for carousels
@@ -812,6 +830,7 @@
 
             try {
                 const response = await fetch('/assets/data/cities-metadata.json');
+                if (!response.ok) throw new Error(`cities-metadata.json: HTTP ${response.status}`);
                 const citiesData = await response.json();
                 const cities = citiesData.cities || [];
 
