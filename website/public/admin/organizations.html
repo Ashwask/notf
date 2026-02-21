@@ -154,26 +154,7 @@
             </div>
         </div>
 
-        <!-- View Details Modal -->
-        <div id="viewModal" class="modal view-modal" style="display: none;">
-            <div class="modal-content">
-                <div class="view-header" id="viewModalHeader">
-                    <div class="drag-handle" title="Drag to move">
-                        <i class="fa-solid fa-grip-vertical"></i>
-                    </div>
-                    <div style="flex: 1;">
-                        <h2 id="viewTitle">Provider Details</h2>
-                        <span id="viewStatus" class="status-indicator"></span>
-                    </div>
-                    <button onclick="closeViewModal()" class="btn-close" style="color: white;">×</button>
-                </div>
-                <div class="view-body" id="viewBody">
-                    <!-- Content will be dynamically loaded -->
-                </div>
-                <div class="resize-handle" title="Drag to resize"></div>
-            </div>
-        </div>
-
+        <!-- View Details Modal (injected by admin-modals.js) -->
         <!-- Import Modal (injected by admin-modals.js) -->
         <!-- Import Progress Modal -->
         <div id="progressModal" class="modal" style="display: none;">
@@ -216,7 +197,10 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/admin/auth.js"></script>
 <script src="/assets/admin/admin-modals.js"></script>
-<script>injectImportModal();</script>
+<script>
+injectViewModal('Provider Details');
+injectImportModal();
+</script>
 <script src="/assets/admin/organizations.js"></script>
 <!-- Excel export/import modules -->
 <script src="/assets/admin/excel-common.js"></script>

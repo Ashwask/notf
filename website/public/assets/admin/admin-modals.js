@@ -1,7 +1,39 @@
 /**
- * Shared Admin Modals - Import Modal & Markdown Editor Modal
+ * Shared Admin Modals - View Modal, Import Modal & Markdown Editor Modal
  * Eliminates HTML duplication across communities.html, organizations.html, and stories.html
  */
+
+/**
+ * Inject the View Details Modal HTML into the page.
+ * Used by communities.html, organizations.html, and stories.html.
+ *
+ * @param {string} title - The default title (e.g. 'Community Details', 'Provider Details')
+ */
+function injectViewModal(title) {
+    if (document.getElementById('viewModal')) return; // already injected
+
+    const html = `
+    <div id="viewModal" class="modal view-modal" style="display: none;">
+        <div class="modal-content">
+            <div class="view-header" id="viewModalHeader">
+                <div class="drag-handle" title="Drag to move">
+                    <i class="fa-solid fa-grip-vertical"></i>
+                </div>
+                <div style="flex: 1;">
+                    <h2 id="viewTitle">${title}</h2>
+                    <span id="viewStatus" class="status-indicator"></span>
+                </div>
+                <button onclick="closeViewModal()" class="btn-close" style="color: white;">&times;</button>
+            </div>
+            <div class="view-body" id="viewBody">
+                <!-- Content will be dynamically loaded -->
+            </div>
+            <div class="resize-handle" title="Drag to resize"></div>
+        </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+}
 
 /**
  * Inject the Import Modal HTML into the page.
