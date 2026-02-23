@@ -1642,10 +1642,11 @@ body.menu-open {
 }
 
 .preview-card-header {
-    padding: 16px 24px 8px;
+    padding: 10px 16px;
     display: flex;
-    align-items: baseline;
-    gap: 8px;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;
 }
 
 .preview-card-label {
@@ -1659,7 +1660,9 @@ body.menu-open {
     font-size: 13px;
     font-weight: 600;
     color: var(--charcoal);
-    opacity: 0.5;
+    opacity: 0.45;
+    flex: 1;
+    margin-left: 10px;
 }
 
 .preview-card-carousel-wrapper {
@@ -1768,29 +1771,33 @@ body.menu-open {
 }
 
 .preview-card-footer {
-    padding: 16px 24px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     border-top: 1px solid rgba(0,0,0,0.06);
 }
 
 .preview-card-cta {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 15px;
+    gap: 5px;
+    font-size: 12px;
     font-weight: 600;
     text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7;
+}
+
+.preview-card-cta:hover {
+    opacity: 1;
+    gap: 8px;
 }
 
 .preview-card-cta i {
-    transition: transform 0.2s ease;
-    font-size: 13px;
-}
-
-.preview-card:hover .preview-card-cta i {
-    transform: translateX(4px);
+    font-size: 10px;
 }
 
 .city-map-svg {
