@@ -16,237 +16,6 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/chat/chat.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
-    <style>
-        /* === PREVIEW SECTION === */
-        .preview-section {
-            padding: var(--space-xl) 0;
-        }
-
-        .preview-wrapper {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 0 var(--space-lg);
-        }
-
-        /* --- All 3 cards in a single row --- */
-        .preview-row-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        .preview-card {
-            background: var(--color-bg-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            display: flex;
-            flex-direction: column;
-            height: 380px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .preview-card:hover {
-            box-shadow: var(--shadow-lg);
-        }
-
-        .preview-card-header {
-            padding: 16px 24px 8px;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-        }
-
-        .preview-card-label {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .preview-card-count {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--charcoal);
-            opacity: 0.5;
-        }
-
-        /* Full-face carousel */
-        .preview-card-carousel-wrapper {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .preview-card-carousel {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            overscroll-behavior-x: contain;
-            height: 100%;
-        }
-
-        /* Hide scrollbar */
-        .preview-card-carousel::-webkit-scrollbar { height: 0; display: none; }
-        .preview-card-carousel { scrollbar-width: none; }
-
-        /* Each slide fills the full card face */
-        .carousel-slide {
-            flex-shrink: 0;
-            width: 100%;
-            height: 100%;
-            scroll-snap-align: start;
-            position: relative;
-            text-decoration: none;
-            color: var(--warm-cream);
-            display: block;
-            overflow: hidden;
-        }
-
-        .carousel-slide:hover {
-            text-decoration: none;
-            color: var(--warm-cream);
-        }
-
-        .carousel-slide-bg {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            transition: transform 0.4s ease;
-            will-change: transform;
-        }
-
-        .carousel-slide:hover .carousel-slide-bg {
-            transform: scale(1.05);
-        }
-
-        /* Dark overlay at bottom for text */
-        .carousel-slide-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 48px 24px 16px;
-            background: rgba(0, 0, 0, 0.55);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .carousel-slide-name {
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 1.25;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-        }
-
-        .carousel-slide-meta {
-            font-size: 12px;
-            opacity: 0.8;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        /* Scroll indicator dots */
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            padding: 0;
-        }
-
-        .carousel-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--charcoal);
-            opacity: 0.15;
-            transition: opacity 0.2s ease, transform 0.2s ease, border-radius 0.2s ease;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-        }
-
-        .carousel-dot.active {
-            opacity: 0.5;
-            transform: scaleX(2);
-            border-radius: 4px;
-        }
-
-        .preview-card-footer {
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid rgba(0,0,0,0.06);
-        }
-
-        .preview-card-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .preview-card-cta i {
-            transition: transform 0.2s ease;
-            font-size: 13px;
-        }
-
-        .preview-card:hover .preview-card-cta i {
-            transform: translateX(4px);
-        }
-
-        /* City map SVG styling */
-        .city-map-svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Screen reader only */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Loading skeletons */
-        .carousel-slide.skeleton .carousel-slide-bg {
-            background: rgba(0,0,0,0.06);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Responsive */
-        @media (max-width: 1099px) {
-            .preview-row-cards {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        @media (max-width: 749px) {
-            .preview-row-cards {
-                grid-template-columns: 1fr;
-            }
-            .preview-card {
-                height: 320px;
-            }
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -286,10 +55,10 @@
         <!-- Brief What is NoTF Teaser -->
         <section class="what-is-notf-section">
             <div class="container">
-                <div class="section-intro" style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <div class="section-intro">
                     <h2 data-i18n="homepage.teaser.title">An Alliance for Local Action</h2>
-                    <p style="font-size: 18px; line-height: 1.8; margin-bottom: var(--space-lg);" data-i18n="homepage.teaser.description">NoTF is an informal alliance that treats neighbourhoods as sites of knowhow and action. The Nudge Unit brings communities, organizations, and local actors together through shared infrastructure, enabling collaboration that creates lasting change at the neighbourhood level.</p>
-                    <a href="/about/" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px;">
+                    <p class="teaser-description" data-i18n="homepage.teaser.description">NoTF is an informal alliance that treats neighbourhoods as sites of knowhow and action. The Nudge Unit brings communities, organizations, and local actors together through shared infrastructure, enabling collaboration that creates lasting change at the neighbourhood level.</p>
+                    <a href="/about/" class="btn btn-secondary teaser-cta-link">
                         <span data-i18n="homepage.teaser.cta">Learn More About NoTF</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
@@ -423,13 +192,13 @@
                 <p class="section-subtitle" data-i18n="homepage.executingPartners.subtitle">Organizations implementing NoTF initiatives on the ground</p>
                 <div class="partners-grid">
                     <a href="https://socratus.org/" target="_blank" rel="noopener noreferrer" class="partner-logo-link">
-                        <img src="/assets/images/socratus-logo.png" alt="Socratus Foundation" class="partner-logo">
+                        <img src="/assets/images/socratus-logo.png" alt="Socratus Foundation" class="partner-logo" loading="lazy">
                     </a>
                     <a href="https://www.bengaluruplanning.org/" target="_blank" rel="noopener noreferrer" class="partner-logo-link">
-                        <img src="/assets/images/bpac-logo.png" alt="Bangalore Political Action Committee" class="partner-logo">
+                        <img src="/assets/images/bpac-logo.png" alt="Bangalore Political Action Committee" class="partner-logo" loading="lazy">
                     </a>
                     <a href="https://praja.in/" target="_blank" rel="noopener noreferrer" class="partner-logo-link">
-                        <img src="/assets/images/praja-logo.png" alt="Praja Foundation" class="partner-logo">
+                        <img src="/assets/images/praja-logo.png" alt="Praja Foundation" class="partner-logo" loading="lazy">
                     </a>
                 </div>
             </div>
@@ -507,23 +276,26 @@
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
 
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
         hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
+            const isOpen = hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open', isOpen);
         });
 
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
+            link.addEventListener('click', closeMenu);
         });
 
         document.addEventListener('click', function(event) {
             if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
+                closeMenu();
             }
         });
 
@@ -892,17 +664,17 @@
     </script>
 
     <!-- Chatbot Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <script type="module" src="/assets/chat/semantic-matcher.js"></script>
-    <script src="/assets/chat/smart-matcher.js"></script>
-    <script src="/assets/chat/discovery-engine.js"></script>
-    <script src="/assets/chat/complaint-engine.js"></script>
-    <script src="/assets/chat/boundary-loader.js"></script>
-    <script src="/assets/chat/boundary-validator.js"></script>
-    <script src="/assets/chat/notf-cms-api.js"></script>
-    <script src="/assets/chat/unified-chatbot.js"></script>
+    <script defer src="/assets/chat/smart-matcher.js"></script>
+    <script defer src="/assets/chat/discovery-engine.js"></script>
+    <script defer src="/assets/chat/complaint-engine.js"></script>
+    <script defer src="/assets/chat/boundary-loader.js"></script>
+    <script defer src="/assets/chat/boundary-validator.js"></script>
+    <script defer src="/assets/chat/notf-cms-api.js"></script>
+    <script defer src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector (All 11 languages on homepage) -->
     <script src="/assets/i18n/language-selector.js"></script>

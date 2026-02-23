@@ -992,8 +992,8 @@ button.btn-green:hover {
 /* Floating Action Button */
 .chat-fab {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: calc(24px + env(safe-area-inset-right, 0px));
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -1027,8 +1027,8 @@ button.btn-green:hover {
 /* Chat Widget Updates */
 .chat-widget {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: calc(24px + env(safe-area-inset-right, 0px));
     width: 400px;
     max-height: 600px;
     background: white;
@@ -1056,11 +1056,16 @@ button.btn-green:hover {
         width: 100%;
         max-height: 100%;
         border-radius: 0;
+        transition: transform 0.3s ease;
+    }
+
+    #notf-chatbot {
+        min-width: unset;
     }
 
     .chat-fab {
-        bottom: 16px;
-        right: 16px;
+        bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        right: calc(16px + env(safe-area-inset-right, 0px));
         width: 56px;
         height: 56px;
         font-size: 22px;

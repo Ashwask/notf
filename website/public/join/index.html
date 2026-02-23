@@ -329,14 +329,14 @@
             <div class="form-type-selector">
                 <div class="type-option active" onclick="selectType('community')">
                     <div class="icon">
-                        <i class="fa-solid fa-house" style="font-size: 2rem;"></i>
+                        <i class="fa-solid fa-house type-icon-large"></i>
                     </div>
                     <h3 data-i18n="joinpage.typeSelector.community.title">Community</h3>
                     <p data-i18n="joinpage.typeSelector.community.description">Neighborhood organization or resident group</p>
                 </div>
                 <div class="type-option" onclick="selectType('solution-provider')">
                     <div class="icon">
-                        <i class="fa-solid fa-wrench" style="font-size: 2rem;"></i>
+                        <i class="fa-solid fa-wrench type-icon-large"></i>
                     </div>
                     <h3 data-i18n="joinpage.typeSelector.provider.title">Solution Provider</h3>
                     <p data-i18n="joinpage.typeSelector.provider.description">Organization offering services or solutions</p>
@@ -503,18 +503,30 @@
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
 
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
+        function closeMenu() {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        hamburger.addEventListener('click', function() {
+            const isOpen = hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open', isOpen);
         });
 
         // Close menu when clicking a link
         const navLinks = navMenu.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
+                closeMenu();
             });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                closeMenu();
+            }
         });
     </script>
 
@@ -561,16 +573,16 @@
     <script src="/assets/i18n/translator.js"></script>
 
     <!-- Chatbot Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <script type="module" src="/assets/chat/semantic-matcher.js"></script>
-    <script src="/assets/chat/smart-matcher.js"></script>
-    <script src="/assets/chat/discovery-engine.js"></script>
-    <script src="/assets/chat/complaint-engine.js"></script>
-    <script src="/assets/chat/boundary-loader.js"></script>
+    <script defer src="/assets/chat/smart-matcher.js"></script>
+    <script defer src="/assets/chat/discovery-engine.js"></script>
+    <script defer src="/assets/chat/complaint-engine.js"></script>
+    <script defer src="/assets/chat/boundary-loader.js"></script>
 
-    <script src="/assets/chat/boundary-validator.js"></script>
-    <script src="/assets/chat/unified-chatbot.js"></script>
+    <script defer src="/assets/chat/boundary-validator.js"></script>
+    <script defer src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector -->
     <script src="/assets/i18n/language-selector.js"></script>
