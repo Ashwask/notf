@@ -394,7 +394,7 @@
         <section class="cta-section">
             <div class="container">
                 <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
-                <p data-i18n="cta.subtitle" data-i18n-html="true">Join {{orgCount}}+ organizations and {{commCount}} communities building a better future together.</p>
+                <p data-i18n="cta.subtitle" data-i18n-html="true" style="visibility: hidden;">Join {{orgCount}}+ organizations and {{commCount}} communities building a better future together.</p>
                 <div class="cta-center">
                     <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
                 </div>
@@ -536,49 +536,42 @@
             });
         });
         // Update CTA subtitle with dynamic counts
-        async function updateCTASubtitle() {
-            try {
-                // Fetch data from Supabase
-                const providersResponse = await fetch('https://qqxexzujhfomxaaoiyou.supabase.co/rest/v1/solution_providers?select=*', {
-                    headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxeGV4enVqaGZvbXhhYW9peW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyNTgxNDUsImV4cCI6MjA1MTgzNDE0NX0.JE4E8RoGiW-fQHy7eKbz4yXKjuUPJa87P8hXXPbwbsQ' }
-                });
-                const communitiesResponse = await fetch('https://qqxexzujhfomxaaoiyou.supabase.co/rest/v1/community_organizations?select=*', {
-                    headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxeGV4enVqaGZvbXhhYW9peW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyNTgxNDUsImV4cCI6MjA1MTgzNDE0NX0.JE4E8RoGiW-fQHy7eKbz4yXKjuUPJa87P8hXXPbwbsQ' }
-                });
+        let ctaData = null;
+        let ctaRetries = 0;
 
+        async function fetchCTAData() {
+            try {
+                const [providersResponse, communitiesResponse] = await Promise.all([
+                    fetch('https://qqxexzujhfomxaaoiyou.supabase.co/rest/v1/solution_providers?select=*', {
+                        headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxeGV4enVqaGZvbXhhYW9peW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyNTgxNDUsImV4cCI6MjA1MTgzNDE0NX0.JE4E8RoGiW-fQHy7eKbz4yXKjuUPJa87P8hXXPbwbsQ' }
+                    }),
+                    fetch('https://qqxexzujhfomxaaoiyou.supabase.co/rest/v1/community_organizations?select=*', {
+                        headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxeGV4enVqaGZvbXhhYW9peW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzYyNTgxNDUsImV4cCI6MjA1MTgzNDE0NX0.JE4E8RoGiW-fQHy7eKbz4yXKjuUPJa87P8hXXPbwbsQ' }
+                    })
+                ]);
                 const providers = await providersResponse.json();
                 const communities = await communitiesResponse.json();
-
-                const totalProviders = providers.length;
-                const totalCommunities = communities.length;
-
-                // Wait for translator to be ready
-                if (window.translator) {
-                    const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
-                    if (ctaElement) {
-                        const translatedText = window.translator.t('cta.subtitle', {
-                            orgCount: totalProviders,
-                            commCount: totalCommunities
-                        });
-                        ctaElement.innerHTML = translatedText;
-                    }
-                } else {
-                    // Retry if translator not ready
-                    setTimeout(updateCTASubtitle, 200);
-                }
+                ctaData = { orgCount: providers.length, commCount: communities.length };
+                applyCTASubtitle();
             } catch (error) {
-                console.warn('Failed to update CTA subtitle:', error);
+                console.warn('Failed to fetch CTA data:', error);
             }
         }
 
-        // Update CTA when page loads and when language changes
-        window.addEventListener('load', () => {
-            updateCTASubtitle();
-        });
+        function applyCTASubtitle() {
+            if (!ctaData) return;
+            const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
+            if (ctaElement && window.translator?.currentLanguage) {
+                ctaElement.setAttribute('data-i18n-params', JSON.stringify(ctaData));
+                ctaElement.innerHTML = window.translator.t('cta.subtitle', ctaData);
+                ctaElement.style.visibility = 'visible';
+            } else if (++ctaRetries < 25) {
+                setTimeout(applyCTASubtitle, 200);
+            }
+        }
 
-        window.addEventListener('languageChanged', () => {
-            updateCTASubtitle();
-        });
+        fetchCTAData();
+        window.addEventListener('languageChanged', () => { applyCTASubtitle(); });
     </script>
 
     <!-- i18n Translation System -->
