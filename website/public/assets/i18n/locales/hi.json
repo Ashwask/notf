@@ -634,7 +634,9 @@
       "education": "शिक्षा",
       "livelihoods": "आजीविका",
       "health": "स्वास्थ्य",
-      "searchPlaceholder": "परियोजनाएँ खोजें..."
+      "searchPlaceholder": "परियोजनाएँ खोजें...",
+      "mobility": "गतिशीलता",
+      "governance": "शासन"
     },
     "effort": {
       "time": "समय",

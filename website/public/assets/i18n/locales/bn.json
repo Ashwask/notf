@@ -634,7 +634,9 @@
       "education": "শিক্ষা",
       "livelihoods": "জীবিকা",
       "health": "স্বাস্থ্য",
-      "searchPlaceholder": "প্রকল্প খুঁজুন..."
+      "searchPlaceholder": "প্রকল্প খুঁজুন...",
+      "mobility": "পরিবহন",
+      "governance": "শাসন"
     },
     "effort": {
       "time": "সময়",

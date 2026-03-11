@@ -841,7 +841,9 @@
       "education": "शिक्षण",
       "livelihoods": "उपजीविका",
       "health": "आरोग्य",
-      "searchPlaceholder": "प्रकल्प शोधा..."
+      "searchPlaceholder": "प्रकल्प शोधा...",
+      "mobility": "वाहतूक",
+      "governance": "शासन"
     },
     "effort": {
       "time": "वेळ",

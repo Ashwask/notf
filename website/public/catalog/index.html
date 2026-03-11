@@ -139,6 +139,48 @@
             line-height: 1.3;
         }
 
+        /* Theme Navigation Pills */
+        .theme-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #FAF6E8;
+            padding: 0.75rem 0;
+        }
+        .theme-nav-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 2rem;
+            background: white;
+            font-size: 0.9rem;
+            font-family: inherit;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .theme-nav-pill i {
+            font-size: 0.85rem;
+        }
+        .theme-nav-pill:hover {
+            border-color: #2F4A2C;
+            color: #2F4A2C;
+            background: rgba(47, 74, 44, 0.05);
+        }
+        .theme-nav-pill.active {
+            background: #2F4A2C;
+            color: white;
+            border-color: #2F4A2C;
+        }
+
         /* Filter Bar */
         .filter-bar {
             display: flex;
@@ -147,7 +189,6 @@
             flex-wrap: wrap;
             align-items: center;
         }
-        .filter-bar select,
         .filter-bar input {
             padding: 0.75rem 1rem;
             border: 2px solid #e0e0e0;
@@ -156,26 +197,72 @@
             font-family: inherit;
             background: white;
             transition: border-color 0.2s ease;
+            flex: 1;
+            min-width: 200px;
+            width: 100%;
         }
-        .filter-bar select:focus,
         .filter-bar input:focus {
             outline: none;
             border-color: #2F4A2C;
         }
-        .filter-bar select {
-            min-width: 200px;
+
+        /* Theme Sections */
+        .theme-section {
+            margin-bottom: 2.5rem;
         }
-        .filter-bar input {
-            flex: 1;
-            min-width: 200px;
+        .theme-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #e0e0e0;
         }
+        .theme-section-header .theme-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+        .theme-section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2B2B2B;
+            margin: 0;
+        }
+        .theme-section-header .theme-count {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            margin-left: auto;
+        }
+
+        /* Theme icon colors */
+        .theme-icon.waste-management { background: #2F4A2C; }
+        .theme-icon.education { background: #F5B82E; }
+        .theme-icon.livelihoods { background: #C45A2A; }
+        .theme-icon.health { background: #3F5F7A; }
+        .theme-icon.mobility { background: #3F5F7A; }
+        .theme-icon.governance { background: #C45A2A; }
+
+        /* Theme section border accent colors */
+        .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: #2F4A2C; }
+        .theme-section[data-theme="Education"] .theme-section-header { border-bottom-color: #F5B82E; }
+        .theme-section[data-theme="Livelihoods"] .theme-section-header { border-bottom-color: #C45A2A; }
+        .theme-section[data-theme="Health"] .theme-section-header { border-bottom-color: #3F5F7A; }
+        .theme-section[data-theme="Mobility"] .theme-section-header { border-bottom-color: #3F5F7A; }
+        .theme-section[data-theme="Governance"] .theme-section-header { border-bottom-color: #C45A2A; }
 
         /* Project Cards Grid */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            margin-bottom: 3rem;
         }
 
         /* Project Card */
@@ -274,6 +361,8 @@
         .theme-pill.urban-infrastructure { background: #2F4A2C; }
         .theme-pill.sustainable-living { background: #2F4A2C; }
         .theme-pill.community-service { background: #B9C98A; color: #2B2B2B; }
+        .theme-pill.mobility { background: #3F5F7A; }
+        .theme-pill.governance { background: #C45A2A; }
         .theme-pill.default { background: #666; }
 
         /* Learn More Toggle */
@@ -464,6 +553,14 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .theme-nav {
+                gap: 0.4rem;
+                padding: 0.5rem 0;
+            }
+            .theme-nav-pill {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.8rem;
+            }
             .catalog-hero h1 {
                 font-size: 1.75rem;
             }
@@ -509,6 +606,9 @@
             }
             .project-number {
                 font-size: 2.25rem;
+            }
+            .theme-section-header h2 {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -597,20 +697,38 @@
                     </div>
                 </div>
 
-                <!-- Filter Bar -->
+                <!-- Theme Navigation Pills -->
+                <div class="theme-nav" id="themeNav">
+                    <button class="theme-nav-pill active" data-theme="" data-i18n="catalogPage.filter.allThemes">
+                        <i class="fa-solid fa-border-all"></i> All
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Waste Management" data-i18n="catalogPage.filter.wasteManagement">
+                        <i class="fa-solid fa-recycle"></i> Waste Management
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Education" data-i18n="catalogPage.filter.education">
+                        <i class="fa-solid fa-graduation-cap"></i> Education
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Livelihoods" data-i18n="catalogPage.filter.livelihoods">
+                        <i class="fa-solid fa-briefcase"></i> Livelihoods
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Health" data-i18n="catalogPage.filter.health">
+                        <i class="fa-solid fa-heart-pulse"></i> Health
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Mobility" data-i18n="catalogPage.filter.mobility">
+                        <i class="fa-solid fa-car"></i> Mobility
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Governance" data-i18n="catalogPage.filter.governance">
+                        <i class="fa-solid fa-landmark"></i> Governance
+                    </button>
+                </div>
+
+                <!-- Search Bar -->
                 <div class="filter-bar">
-                    <select id="themeFilter" aria-label="Filter by theme">
-                        <option value="" data-i18n="catalogPage.filter.allThemes">All Themes</option>
-                        <option value="Waste Management" data-i18n="catalogPage.filter.wasteManagement">Waste Management</option>
-                        <option value="Education" data-i18n="catalogPage.filter.education">Education</option>
-                        <option value="Livelihoods" data-i18n="catalogPage.filter.livelihoods">Livelihoods</option>
-                        <option value="Health" data-i18n="catalogPage.filter.health">Health</option>
-                    </select>
                     <input type="text" id="searchInput" data-i18n-placeholder="catalogPage.filter.searchPlaceholder" placeholder="Search projects..." aria-label="Search projects">
                 </div>
 
-                <!-- Projects Grid -->
-                <div class="projects-grid" id="projectsGrid">
+                <!-- Projects Container (grouped by theme) -->
+                <div id="projectsContainer">
                     <!-- Rendered by JS -->
                 </div>
 
@@ -833,6 +951,34 @@
                 impact: "21-35% of households use Smart Refill. 54-73% of buyers refill regularly. 60-100 litres refilled per month in active communities.",
                 whatsNeeded: "Indoor and secure space for the refill station. Access to a 5A power connection. Support for awareness events.",
                 links: []
+            },
+            {
+                id: 12,
+                title: "Wheels of Change",
+                description: "Auto driving training programme for economically vulnerable women and transgender persons to become licensed auto drivers with sustainable livelihoods.",
+                themes: ["Livelihoods", "Mobility", "Gender"],
+                time: 4, workload: 4, budget: 4,
+                whatIsIt: "Wheels of Change is an auto driving training programme for women and transgender persons. It trains economically vulnerable women and transgender persons to become licensed auto drivers, creating sustainable, independent livelihoods with flexible working hours. Run in collaboration with CGI and Namma Saarathi.",
+                whyExists: "Bengaluru has 1,75,000+ auto drivers but only ~800 are women \u2014 a huge gender gap in last-mile mobility. There is strong demand for women-driven autos, and auto driving offers a flexible earning opportunity suited for women managing household responsibilities. It also creates a safer mobility ecosystem for women passengers. B.PAC\u2019s vision is 10,000 women auto drivers in Bengaluru.",
+                involves: ["Community engagement through B.PAC Civic Leaders, MLAs and local networks", "Outreach via NGOs, SHGs, women-led and transgender-led organizations", "Screening and interviews for each candidate", "30\u201345 days driving training with road safety and legal compliance", "Field visits to Traffic Management Centre and Police Stations", "Financial literacy, digital literacy and loan readiness", "Soft skills, basic English communication and confidence building", "Government approvals for ground and infrastructure", "Engagement with auto aggregators for rental support"],
+                whereDone: "Malleshwaram, Rajajinagar, Indira Nagar, Shantinagar, Dasarahalli, Mahadevapura, BTM, Okalipuram, Chamarajpet, Vidyaranyapuram, Fazer Town, Jayanagar, Cox Town, Ramaswamy Palya, and BEL Road in Bengaluru.",
+                impact: "311 women trained and licensed. 75 women actively driving autos. 6 transgender persons currently under training.",
+                whatsNeeded: "CSR or donor funding for down-payment assistance. Partnership with auto aggregators. Government approvals for training ground. Bank partnerships for loan facilitation.",
+                links: ["https://bpac.in/b-safe/"]
+            },
+            {
+                id: 13,
+                title: "Public Leadership Training Program",
+                description: "Workshops equipping grassroots political leaders with essential leadership principles, public policy understanding, and practical campaign skills.",
+                themes: ["Governance", "Education"],
+                time: 3, workload: 3, budget: 2,
+                whatIsIt: "B.PAC conducts Public Leadership workshops on request from specific groups to facilitate sessions that improve and introduce concepts of public leadership to grassroots leaders. The core objective is to help leaders understand basics of public leadership, media and stakeholder engagement, Bengaluru history, and other relevant sessions to aid their journey in public life.",
+                whyExists: "There is a need to create leadership capacity at the municipal level to enable better city governance. Grassroots leaders need to understand the complexities and dynamics of managing a ward and a city, aspire to public offices with capability and integrity, and participate in the political process to improve governance.",
+                involves: ["Structured sessions on leadership development principles", "Public policy and public administration overview", "Media and stakeholder engagement training", "Bengaluru history and civic context sessions", "Practical campaign skills and political process understanding", "Curriculum designed in consultation with B.PAC and domain experts"],
+                whereDone: "Multiple batches across Bengaluru. In 2021, over 100 leaders engaged. Training completed for 300+ JD(S) leaders across five batches. In 2023, nine sessions for JD(S) and comprehensive two-day workshops for 50+ leaders from eight Assembly Constituencies. Three sessions held for Bengaluru NavaNirmana Party with 40+ leaders.",
+                impact: "350+ leaders have attended the programme across multiple political parties and constituencies.",
+                whatsNeeded: "Venue for workshop sessions. Coordination with political parties or civic groups. Domain experts for specialised sessions.",
+                links: ["https://bpac.in/public-leadership-workshops/"]
             }
         ];
 
@@ -949,13 +1095,25 @@
             }
         }
 
-        // Filter and render projects
+        // Theme display config: order, icons, labels
+        const themeConfig = [
+            { key: 'Waste Management', icon: 'fa-solid fa-recycle', label: 'Waste Management', i18nKey: 'catalogPage.filter.wasteManagement' },
+            { key: 'Education', icon: 'fa-solid fa-graduation-cap', label: 'Education', i18nKey: 'catalogPage.filter.education' },
+            { key: 'Livelihoods', icon: 'fa-solid fa-briefcase', label: 'Livelihoods', i18nKey: 'catalogPage.filter.livelihoods' },
+            { key: 'Health', icon: 'fa-solid fa-heart-pulse', label: 'Health', i18nKey: 'catalogPage.filter.health' },
+            { key: 'Mobility', icon: 'fa-solid fa-car', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
+            { key: 'Governance', icon: 'fa-solid fa-landmark', label: 'Governance', i18nKey: 'catalogPage.filter.governance' },
+        ];
+
+        let activeTheme = '';
+
+        // Filter and render projects grouped by theme
         function filterAndRender() {
-            const themeFilter = document.getElementById('themeFilter').value.toLowerCase();
+            const themeFilter = activeTheme;
             const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
 
             const filtered = catalogProjects.filter(project => {
-                const matchesTheme = !themeFilter || project.themes.some(t => t.toLowerCase() === themeFilter);
+                const matchesTheme = !themeFilter || project.themes.some(t => t === themeFilter);
                 const matchesSearch = !searchText ||
                     project.title.toLowerCase().includes(searchText) ||
                     project.description.toLowerCase().includes(searchText) ||
@@ -963,22 +1121,92 @@
                 return matchesTheme && matchesSearch;
             });
 
-            const grid = document.getElementById('projectsGrid');
+            const container = document.getElementById('projectsContainer');
 
             if (filtered.length === 0) {
-                grid.innerHTML = `
+                container.innerHTML = `
                     <div class="no-results">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <p data-i18n="catalogPage.noResults">No projects match your search. Try a different filter or search term.</p>
                     </div>
                 `;
-            } else {
-                grid.innerHTML = filtered.map(renderProjectCard).join('');
+                return;
             }
+
+            // If a specific theme is selected, show flat grid
+            if (themeFilter) {
+                container.innerHTML = `<div class="projects-grid">${filtered.map(renderProjectCard).join('')}</div>`;
+                return;
+            }
+
+            // Group projects by primary theme (first matching theme from themeConfig)
+            const grouped = new Map();
+            for (const config of themeConfig) {
+                grouped.set(config.key, []);
+            }
+
+            for (const project of filtered) {
+                const placed = new Set();
+                for (const theme of project.themes) {
+                    if (grouped.has(theme) && !placed.has(project.id)) {
+                        grouped.get(theme).push(project);
+                        placed.add(project.id);
+                    }
+                }
+            }
+
+            let html = '';
+            for (const config of themeConfig) {
+                const projects = grouped.get(config.key);
+                if (!projects || projects.length === 0) continue;
+
+                const themeClass = config.key.toLowerCase().replace(/\s+/g, '-');
+                html += `
+                    <div class="theme-section" data-theme="${config.key}">
+                        <div class="theme-section-header">
+                            <div class="theme-icon ${themeClass}">
+                                <i class="${config.icon}"></i>
+                            </div>
+                            <h2 data-i18n="${config.i18nKey}">${config.label}</h2>
+                            <span class="theme-count">${projects.length} project${projects.length !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div class="projects-grid">
+                            ${projects.map(renderProjectCard).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
         }
 
-        // Init
-        document.getElementById('themeFilter').addEventListener('change', filterAndRender);
+        // Theme pill click handlers
+        document.querySelectorAll('.theme-nav-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                const theme = pill.dataset.theme;
+
+                document.querySelectorAll('.theme-nav-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+
+                if (!theme) {
+                    // "All" pill — reset and show grouped view
+                    activeTheme = '';
+                    filterAndRender();
+                    window.scrollTo({ top: document.getElementById('projectsContainer').offsetTop - 80, behavior: 'smooth' });
+                } else {
+                    // Specific theme — keep grouped view but scroll to section
+                    activeTheme = '';
+                    filterAndRender();
+                    const section = document.querySelector(`.theme-section[data-theme="${theme}"]`);
+                    if (section) {
+                        const offset = document.querySelector('.theme-nav').offsetHeight + 16;
+                        const top = section.getBoundingClientRect().top + window.scrollY - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
         document.getElementById('searchInput').addEventListener('input', filterAndRender);
 
         // Initial render

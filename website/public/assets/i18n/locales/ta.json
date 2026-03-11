@@ -634,7 +634,9 @@
       "education": "கல்வி",
       "livelihoods": "வாழ்வாதாரம்",
       "health": "ஆரோக்கியம்",
-      "searchPlaceholder": "திட்டங்களை தேடுங்கள்..."
+      "searchPlaceholder": "திட்டங்களை தேடுங்கள்...",
+      "mobility": "போக்குவரத்து",
+      "governance": "ஆட்சி"
     },
     "effort": {
       "time": "நேரம்",

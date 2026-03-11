@@ -634,7 +634,9 @@
       "education": "വിദ്യാഭ്യാസം",
       "livelihoods": "ജീവനോപാധി",
       "health": "ആരോഗ്യം",
-      "searchPlaceholder": "പദ്ധതികള് തിരയുക..."
+      "searchPlaceholder": "പദ്ധതികള് തിരയുക...",
+      "mobility": "ഗതാഗതം",
+      "governance": "ഭരണം"
     },
     "effort": {
       "time": "സമയം",

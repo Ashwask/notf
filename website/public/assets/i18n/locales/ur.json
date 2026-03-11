@@ -634,7 +634,9 @@
       "education": "تعلیم",
       "livelihoods": "ذرائع معاش",
       "health": "صحت",
-      "searchPlaceholder": "منصوبے تلاش کریں..."
+      "searchPlaceholder": "منصوبے تلاش کریں...",
+      "mobility": "نقل و حمل",
+      "governance": "حکمرانی"
     },
     "effort": {
       "time": "وقت",

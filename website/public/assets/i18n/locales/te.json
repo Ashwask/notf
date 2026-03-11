@@ -634,7 +634,9 @@
       "education": "విద్య",
       "livelihoods": "జీవనోపాధి",
       "health": "ఆరోగ్యం",
-      "searchPlaceholder": "ప్రాజెక్టులు వెతకండి..."
+      "searchPlaceholder": "ప్రాజెక్టులు వెతకండి...",
+      "mobility": "రవాణా",
+      "governance": "పాలన"
     },
     "effort": {
       "time": "సమయం",

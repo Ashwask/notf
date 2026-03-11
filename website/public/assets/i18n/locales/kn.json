@@ -1072,7 +1072,9 @@
       "education": "ಶಿಕ್ಷಣ",
       "livelihoods": "ಜೀವನೋಪಾಯ",
       "health": "ಆರೋಗ್ಯ",
-      "searchPlaceholder": "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ..."
+      "searchPlaceholder": "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ...",
+      "mobility": "ಸಂಚಾರ",
+      "governance": "ಆಡಳಿತ"
     },
     "effort": {
       "time": "ಸಮಯ",
