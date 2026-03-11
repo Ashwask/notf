@@ -55,5 +55,5 @@
   <path d="M 50,80 Q 400,50 750,80" stroke="#2F4A2C" stroke-width="2" fill="none" opacity="0.2" stroke-dasharray="8,4"/>
 
   <!-- Title -->
-  <text x="400" y="30" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#2F4A2C" text-anchor="middle">Your Journey with NoTF</text>
+  <text x="400" y="30" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#2F4A2C" text-anchor="middle">Your Journey with NOTF</text>
 </svg>
