@@ -6,7 +6,10 @@
     "providers": "Providers",
     "map": "Map",
     "join": "Join",
-    "admin": "Admin Login"
+    "admin": "Admin Login",
+    "adminLogin": "Admin Login",
+    "bengaluru": "Bengaluru",
+    "climate": "Climate"
   },
   "hero": {
     "title": "Bringing Our Neighbourhoods to Life",
@@ -206,7 +209,8 @@
     "communitiesComingSoon": "Communities (Coming Soon)",
     "providersComingSoon": "Providers (Coming Soon)",
     "climateDashboard": "Climate Dashboard",
-    "climateComingSoon": "Climate (Coming Soon)"
+    "climateComingSoon": "Climate (Coming Soon)",
+    "storiesComingSoon": "Stories (Coming Soon)"
   },
   "features": {
     "title": "How NOTF Works",
@@ -297,7 +301,8 @@
       "city": "City",
       "themes": "Themes",
       "offers": "Offers",
-      "asks": "Asks"
+      "asks": "Asks",
+      "neighborhood": "Neighborhood"
     },
     "loadingCommunities": "Loading communities...",
     "cta": {
@@ -312,7 +317,8 @@
       },
       "contactUs": "Contact Us",
       "note": "Use the button above to join NOTF, update your community's details, or share your success stories"
-    }
+    },
+    "sortLabel": "Sort by:"
   },
   "providers": {
     "title": "Solution Providers",
@@ -522,7 +528,8 @@
       "providers": "Providers",
       "map": "Map",
       "climate": "Climate",
-      "stories": "Stories"
+      "stories": "Stories",
+      "backTo": "Back to Bengaluru"
     },
     "comingSoonCallout": {
       "title": "City Data Coming Soon",
@@ -750,7 +757,9 @@
             "segregation": "Waste Segregation (% at source)",
             "recycling": "Recycling Rate (% diverted)",
             "wasteGeneration": "Waste Generation (kg/capita/day)",
-            "landfillDiversion": "Landfill Diversion (%)"
+            "landfillDiversion": "Landfill Diversion (%)",
+            "generation": "Waste Generation (kg/capita/day)",
+            "diversion": "Landfill Diversion (% diverted)"
           },
           "zones": {
             "all": "All Zones (227 wards)",
