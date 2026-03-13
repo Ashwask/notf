@@ -101,69 +101,128 @@
             color: white;
         }
 
-        .communities-table {
+        .communities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .community-card {
             background: white;
-            border-radius: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
             border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #2F4A2C;
-            border-bottom: none;
-        }
-
-        th {
-            padding: 1.25rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: white;
+            overflow: hidden;
+            transition: all 0.3s ease;
             cursor: pointer;
-            user-select: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .community-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(47, 74, 44, 0.15);
+        }
+
+        .card-header {
+            background: #2F4A2C;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-name {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .card-neighborhood {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .card-body {
+            padding: 1.25rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-themes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .card-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(185, 201, 138, 0.15);
+            border-radius: 0.5rem;
+            border: 1px solid rgba(185, 201, 138, 0.25);
+            cursor: pointer;
             transition: all 0.2s ease;
+            flex: 1;
+            justify-content: center;
         }
 
-        th:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .card-stat:hover {
+            background: rgba(185, 201, 138, 0.3);
         }
 
-        th.sortable::after {
-            content: ' ⇅';
-            color: rgba(255, 255, 255, 0.7);
+        .card-stat-label {
             font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
         }
 
-        th.sorted-asc::after {
-            content: ' ↑';
-            color: #F5B82E;
+        .card-stat-value {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #2F4A2C;
         }
 
-        th.sorted-desc::after {
-            content: ' ↓';
-            color: #F5B82E;
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #f0f0f0;
+        .sort-select {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            min-width: 180px;
+            transition: all 0.3s ease;
         }
 
-        tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .themes-cell {
-            max-width: 300px;
+        .sort-select:focus {
+            outline: none;
+            border-color: #2F4A2C;
+            box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
         }
 
         .theme-tag {
@@ -528,17 +587,18 @@
                 justify-content: center;
             }
 
-            .communities-table {
-                overflow-x: scroll;
+            .communities-grid {
+                grid-template-columns: 1fr;
             }
 
-            th, td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.9rem;
+            .sort-controls {
+                flex-direction: column;
+                align-items: stretch;
             }
 
-            .themes-cell {
-                max-width: 150px;
+            .sort-select {
+                min-width: unset;
+                width: 100%;
             }
 
             .cta-card-header {
@@ -640,23 +700,18 @@
                 <h2><span data-i18n="communities.title">Active Communities</span> <span id="communityCount" style="font-size: 0.6em; color: #B9C98A; font-weight: 600;">(0)</span></h2>
                 <p class="lead" data-i18n="communities.lead">NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.</p>
 
-                <div class="communities-table">
-                    <table id="communitiesTable">
-                        <thead>
-                            <tr>
-                                <th class="sortable" data-sort="name" data-i18n="communities.tableHeaders.name">Name</th>
-                                <th class="sortable" data-sort="neighborhood" data-i18n="communities.tableHeaders.neighborhood">Neighborhood</th>
-                                <th class="sortable" data-sort="themes" data-i18n="communities.tableHeaders.themes">Themes</th>
-                                <th class="sortable" data-sort="offers" data-i18n="communities.tableHeaders.offers">Offers</th>
-                                <th class="sortable" data-sort="asks" data-i18n="communities.tableHeaders.asks">Asks</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                            <tr>
-                                <td colspan="5" class="empty-state" data-i18n="communities.loadingCommunities">Loading communities...</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="sort-controls">
+                    <label class="filter-label" for="sortSelect" data-i18n="communities.sortLabel">Sort by:</label>
+                    <select id="sortSelect" class="sort-select">
+                        <option value="name" data-i18n="communities.tableHeaders.name">Name</option>
+                        <option value="neighborhood" data-i18n="communities.tableHeaders.neighborhood">Neighborhood</option>
+                        <option value="offers" data-i18n="communities.tableHeaders.offers">Offers</option>
+                        <option value="asks" data-i18n="communities.tableHeaders.asks">Asks</option>
+                    </select>
+                </div>
+
+                <div class="communities-grid" id="communitiesGrid">
+                    <div class="empty-state" data-i18n="communities.loadingCommunities">Loading communities...</div>
                 </div>
 
                 <section class="community-cta-card">
@@ -816,8 +871,7 @@
 
             filteredCommunities = [...allCommunities];
 
-            // Render initial table
-            renderTable();
+            renderCards();
             setupSorting();
 
             // Make data available to chatbot with city context
@@ -828,61 +882,53 @@
             };
         })();
 
-        function renderTable() {
-            const tbody = document.getElementById('tableBody');
+        function renderCards() {
+            const grid = document.getElementById('communitiesGrid');
 
-            // Update count display
             document.getElementById('communityCount').textContent = `(${filteredCommunities.length})`;
 
             if (filteredCommunities.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No communities found in Bengaluru.</td></tr>';
+                grid.innerHTML = '<div class="empty-state">No communities found in Bengaluru.</div>';
                 return;
             }
 
-            tbody.innerHTML = filteredCommunities.map((comm, idx) => {
+            grid.innerHTML = filteredCommunities.map((comm, idx) => {
                 const themes = comm.themes && comm.themes.length > 0
                     ? comm.themes.slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
-                    : '<span style="color: var(--color-text-lighter);">—</span>';
+                    : '';
 
                 const offersCount = (comm.offers || []).length;
                 const asksCount = (comm.asks || []).length;
-                const neighborhood = comm.neighborhood || '—';
 
                 return `
-                    <tr>
-                        <td><a href="#" class="name-link" onclick="showDetails(${idx}); return false;"><strong>${comm.name}</strong></a></td>
-                        <td>${neighborhood}</td>
-                        <td class="themes-cell">${themes}</td>
-                        <td><span class="count-badge" onclick="showOffers(${idx})">${offersCount}</span></td>
-                        <td><span class="count-badge" onclick="showAsks(${idx})">${asksCount}</span></td>
-                    </tr>
+                    <div class="community-card" onclick="showDetails(${idx})">
+                        <div class="card-header">
+                            <h3 class="card-name">${comm.name}</h3>
+                            ${comm.neighborhood ? `<span class="card-neighborhood"><i class="fa-solid fa-location-dot"></i> ${comm.neighborhood}</span>` : ''}
+                        </div>
+                        <div class="card-body">
+                            ${themes ? `<div class="card-themes">${themes}</div>` : ''}
+                            <div class="card-stats">
+                                <div class="card-stat" onclick="event.stopPropagation(); showOffers(${idx})">
+                                    <span class="card-stat-value">${offersCount}</span>
+                                    <span class="card-stat-label">Offers</span>
+                                </div>
+                                <div class="card-stat" onclick="event.stopPropagation(); showAsks(${idx})">
+                                    <span class="card-stat-value">${asksCount}</span>
+                                    <span class="card-stat-label">Asks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
 
         function setupSorting() {
-            document.querySelectorAll('th.sortable').forEach(th => {
-                th.addEventListener('click', function() {
-                    const sortColumn = this.dataset.sort;
-
-                    // Toggle sort direction
-                    if (currentSort.column === sortColumn) {
-                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-                    } else {
-                        currentSort.column = sortColumn;
-                        currentSort.direction = 'asc';
-                    }
-
-                    // Update UI
-                    document.querySelectorAll('th').forEach(h => {
-                        h.classList.remove('sorted-asc', 'sorted-desc');
-                    });
-                    this.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
-
-                    // Sort data
-                    sortCommunities();
-                    renderTable();
-                });
+            document.getElementById('sortSelect').addEventListener('change', function() {
+                currentSort.column = this.value;
+                sortCommunities();
+                renderCards();
             });
         }
 
