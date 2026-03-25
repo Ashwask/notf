@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#3F5F7A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="50" r="80" fill="#2F4A2C" opacity="0.12"/>
+  <circle cx="60" cy="320" r="70" fill="#B9C98A" opacity="0.08"/>
+  <!-- Podium -->
+  <g transform="translate(200, 175)">
+    <!-- Center podium (tall) -->
+    <rect x="-25" y="-20" width="50" height="70" rx="3" fill="#FAF6E8" opacity="0.75"/>
+    <!-- Left podium (medium) -->
+    <rect x="-70" y="10" width="45" height="40" rx="3" fill="#FAF6E8" opacity="0.6"/>
+    <!-- Right podium (short) -->
+    <rect x="25" y="20" width="45" height="30" rx="3" fill="#FAF6E8" opacity="0.6"/>
+  </g>
+  <!-- People silhouettes -->
+  <g transform="translate(200, 120)">
+    <!-- Center person (on tall podium) -->
+    <circle cx="0" cy="-10" r="14" fill="#FAF6E8" opacity="0.8"/>
+    <path d="M-12,8 C-12,0 12,0 12,8 L10,30 L-10,30 Z" fill="#FAF6E8" opacity="0.7"/>
+    <!-- Left person -->
+    <circle cx="-48" cy="15" r="11" fill="#FAF6E8" opacity="0.6"/>
+    <path d="M-57,30 C-57,24 -39,24 -39,30 L-41,48 L-55,48 Z" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Right person -->
+    <circle cx="48" cy="20" r="11" fill="#FAF6E8" opacity="0.6"/>
+    <path d="M39,35 C39,29 57,29 57,35 L55,48 L41,48 Z" fill="#FAF6E8" opacity="0.5"/>
+  </g>
+  <!-- Star/achievement above center -->
+  <g transform="translate(200, 75)">
+    <polygon points="0,-12 3,-4 12,-4 5,2 8,10 0,5 -8,10 -5,2 -12,-4 -3,-4" fill="#F5B82E" opacity="0.6"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="310" y="100" width="10" height="10" fill="#F5B82E" opacity="0.2" transform="rotate(45 315 105)"/>
+  <circle cx="80" cy="180" r="5" fill="#FAF6E8" opacity="0.15"/>
+  <polygon points="100,280 108,265 116,280" fill="#B9C98A" opacity="0.12"/>
+  <circle cx="330" cy="270" r="4" fill="#FAF6E8" opacity="0.12"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Public Leadership</text>
+</svg>

@@ -643,7 +643,8 @@
       "health": "स्वास्थ्य",
       "searchPlaceholder": "परियोजनाएँ खोजें...",
       "mobility": "गतिशीलता",
-      "governance": "शासन"
+      "governance": "शासन",
+      "awareness": "जागरूकता"
     },
     "effort": {
       "time": "समय",

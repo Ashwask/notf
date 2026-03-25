@@ -1295,7 +1295,8 @@
       "health": "Health",
       "searchPlaceholder": "Search projects...",
       "mobility": "Mobility",
-      "governance": "Governance"
+      "governance": "Governance",
+      "awareness": "Awareness"
     },
     "effort": {
       "time": "Time",

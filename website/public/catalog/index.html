@@ -249,6 +249,7 @@
         .theme-icon.health { background: #3F5F7A; }
         .theme-icon.mobility { background: #3F5F7A; }
         .theme-icon.governance { background: #C45A2A; }
+        .theme-icon.awareness { background: #F5B82E; }
 
         /* Theme section border accent colors */
         .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: #2F4A2C; }
@@ -720,6 +721,9 @@
                     <button class="theme-nav-pill" data-theme="Governance" data-i18n="catalogPage.filter.governance">
                         <i class="fa-solid fa-landmark"></i> Governance
                     </button>
+                    <button class="theme-nav-pill" data-theme="Awareness" data-i18n="catalogPage.filter.awareness">
+                        <i class="fa-solid fa-bullhorn"></i> Awareness
+                    </button>
                 </div>
 
                 <!-- Search Bar -->
@@ -954,6 +958,48 @@
             },
             {
                 id: 12,
+                title: "Noisewatchers",
+                description: "A citizen-led movement against vehicular noise pollution, running localised awareness campaigns at busy junctions and advocating for better enforcement.",
+                themes: ["Awareness", "Community"],
+                time: 2, workload: 3, budget: 1,
+                whatIsIt: "Noisewatchers is a movement against noise pollution. They identify that vehicular noise pollution is rampant in the city and design localised campaigns involving citizens at junctions where vehicular movement is high and residents, hospitals, educational institutions, street-side businesses, traffic police, and biodiversity are at stake. Apart from awareness campaigns, they also advocate for better enforcement and interventions by government agencies.",
+                whyExists: "Noise pollution from vehicles \u2014 unnecessary honking, habitual honking, additionally fitted post-manufacturing horns, and modified silencers \u2014 is a widespread urban problem affecting health, wellbeing, and biodiversity.",
+                involves: ["Street awareness campaigns at high-traffic junctions", "Advocacy with government agencies for enforcement", "Awareness campaigns with auto unions and citizen groups", "Collaboration with welfare associations and apartment groups", "Engagement with traffic police for enforcement drives"],
+                whereDone: "JP Nagar 7th Phase, Bengaluru. Campaigns expanding to more neighbourhoods.",
+                impact: "Successful advocacy leading to enforcement against shrill horns through special drives by Traffic Police. BTP issued awareness posts on social media following Noisewatchers\u2019 advocacy.",
+                whatsNeeded: "Community groups willing to participate in street awareness campaigns. Venues and basic seating arrangements for awareness sessions.",
+                links: []
+            },
+            {
+                id: 13,
+                title: "The Blue Bag Project",
+                description: "A dry waste recycling programme where households collect clean dry waste in blue bags for weekly pickup and earn money through the Bintix app.",
+                themes: ["Waste Management", "Community"],
+                time: 3, workload: 2, budget: 1,
+                whatIsIt: "The Blue Bag Project promotes at-source segregation, ensures responsible processing of dry waste, and rewards residents for participation. The project aims to enact behavioural change within households and communities to increase participation in the waste management process. Run in collaboration with Reconstruct Sustainable Solutions, Start Upcycling Now, and Bintix.",
+                whyExists: "Mumbai generates 6,000 tonnes of municipal solid waste daily. Recycling is largely driven by the informal sector without safety equipment. Due to lack of source segregation, recyclable materials end up in landfills. A behavioural shift is needed to increase public participation in waste management.",
+                involves: ["Awareness campaign at household or community level", "Weekly collection of clean dry waste in blue bags with QR codes", "Dry waste sorting and recycling at processing plant", "Payout to households via the Bintix app (Rs 4 per kg)", "Each household receives 6 blue bags per month"],
+                whereDone: "Navy Nagar, Lower Parel, Dadar, Santacruz, Vile Parle, Goregaon, Kandivali, and Borivali in Mumbai.",
+                impact: "1,881 total pickups. 712 registered users. 1,167 kg waste collected in February 2026. Approx. 2,566 kg CO2 equivalent averted, 1,695 litres fuel and 10 trees saved. Previously 5,000 kg collected from Devangini Society, Vile Parle.",
+                whatsNeeded: "Space for awareness sessions. Storage space for blue bags. A smartphone per household to download the Bintix app. Minimum number of households to register in an area.",
+                links: []
+            },
+            {
+                id: 14,
+                title: "Ek Saath - The Earth Foundation",
+                description: "Community-led waste management, coastal clean-ups, and Miyawaki afforestation for sustainable island and slum communities.",
+                themes: ["Waste Management", "Awareness"],
+                time: 4, workload: 4, budget: 3,
+                whatIsIt: "Ek Saath - The Earth Foundation is an environmental organisation working to build sustainable and waste-free communities. It focuses on community-led waste management, protecting water bodies, reducing carbon emissions, and sustainable afforestation. By working with communities at Elephanta Island, Alibaug, and slum settlements like Kokari Agar, Ek Saath helps create systems that divert waste from landfills and water bodies, restore ecosystems, and encourage people to take ownership of their environment. Supports the Government of India\u2019s Swachh Bharat Abhiyan.",
+                whyExists: "Tourist destinations like UNESCO world heritage site Elephanta Island and Alibaug attract large numbers of visitors, generating significant waste. Without proper waste-management systems, waste is burned, dumped into the sea, or mixed with marine debris. In slum settlements like Kokari Agar, waste accumulation has choked local nalas that once carried the flow of the Mithi River. In just 1.5 years, over 44 tonnes of waste from Elephanta Island alone have been diverted from landfills.",
+                involves: ["Collection and segregation of waste with recyclable processing", "Awareness sessions and door-to-door sensitisation with residents and businesses", "School-based interactive workshops called Eco Shiksha", "Regular clean-up drives to remove marine debris from public spaces and shorelines", "Infrastructure development including public sanitation and Material Recovery Facilities (MRFs)", "Sustainable afforestation through Miyawaki plantations"],
+                whereDone: "110+ restaurants and stalls on Elephanta Island, Raigad. 2 villages at Alibaug, Raigad. 500+ households at Kokari Agar, Mumbai.",
+                impact: "48,447 kg waste diverted from landfills. 58,136 kg carbon emissions prevented. 65+ awareness and community sessions. 2,900+ people reached. 4,000+ trees planted and maintained. (Numbers since December 2023.)",
+                whatsNeeded: "Active participation from residents and local businesses. Community spaces for awareness sessions and workshops. Local volunteers or environmental champions. Financial/CSR support for infrastructure and plantations. Logistical support and equipment for clean-up drives.",
+                links: ["https://eksaathfoundation.com/"]
+            },
+            {
+                id: 15,
                 title: "Wheels of Change",
                 description: "Auto driving training programme for economically vulnerable women and transgender persons to become licensed auto drivers with sustainable livelihoods.",
                 themes: ["Livelihoods", "Mobility", "Gender"],
@@ -967,7 +1013,7 @@
                 links: ["https://bpac.in/b-safe/"]
             },
             {
-                id: 13,
+                id: 16,
                 title: "Public Leadership Training Program",
                 description: "Workshops equipping grassroots political leaders with essential leadership principles, public policy understanding, and practical campaign skills.",
                 themes: ["Governance", "Education"],
@@ -1103,6 +1149,7 @@
             { key: 'Health', icon: 'fa-solid fa-heart-pulse', label: 'Health', i18nKey: 'catalogPage.filter.health' },
             { key: 'Mobility', icon: 'fa-solid fa-car', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
             { key: 'Governance', icon: 'fa-solid fa-landmark', label: 'Governance', i18nKey: 'catalogPage.filter.governance' },
+            { key: 'Awareness', icon: 'fa-solid fa-bullhorn', label: 'Awareness', i18nKey: 'catalogPage.filter.awareness' },
         ];
 
         let activeTheme = '';
