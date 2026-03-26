@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#2F4A2C"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#B9C98A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#F5B82E" opacity="0.08"/>
+  <!-- Broom / Cleanup icon -->
+  <g transform="translate(200, 150)">
+    <!-- Broom handle -->
+    <rect x="-4" y="-80" width="8" height="100" rx="3" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Broom head base -->
+    <rect x="-35" y="20" width="70" height="14" rx="5" fill="#FAF6E8" opacity="0.7"/>
+    <!-- Broom bristles -->
+    <rect x="-30" y="34" width="6" height="40" rx="2" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="-20" y="34" width="6" height="45" rx="2" fill="#FAF6E8" opacity="0.55"/>
+    <rect x="-10" y="34" width="6" height="48" rx="2" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="0" y="34" width="6" height="45" rx="2" fill="#FAF6E8" opacity="0.55"/>
+    <rect x="10" y="34" width="6" height="48" rx="2" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="20" y="34" width="6" height="40" rx="2" fill="#FAF6E8" opacity="0.55"/>
+    <!-- Sparkle / clean effect -->
+    <path d="M50,-40 L55,-30 L60,-40 L55,-50 Z" fill="#FAF6E8" opacity="0.4"/>
+    <path d="M-50,-20 L-45,-12 L-40,-20 L-45,-28 Z" fill="#FAF6E8" opacity="0.3"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#B9C98A" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#F5B82E" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">DYOC</text>
+</svg>

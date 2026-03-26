@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#C45A2A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#3F5F7A" opacity="0.08"/>
+  <!-- Paintbrush / Mural icon -->
+  <g transform="translate(200, 150)">
+    <!-- Wall / canvas background -->
+    <rect x="-55" y="-30" width="110" height="90" rx="4" fill="#FAF6E8" opacity="0.25"/>
+    <!-- Colorful mural blocks on wall -->
+    <rect x="-48" y="-22" width="28" height="25" rx="2" fill="#F5B82E" opacity="0.6"/>
+    <rect x="-15" y="-22" width="28" height="25" rx="2" fill="#B9C98A" opacity="0.5"/>
+    <rect x="18" y="-22" width="28" height="25" rx="2" fill="#3F5F7A" opacity="0.5"/>
+    <rect x="-48" y="8" width="28" height="25" rx="2" fill="#3F5F7A" opacity="0.5"/>
+    <rect x="-15" y="8" width="28" height="25" rx="2" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="18" y="8" width="28" height="25" rx="2" fill="#F5B82E" opacity="0.5"/>
+    <rect x="-48" y="38" width="43" height="18" rx="2" fill="#B9C98A" opacity="0.5"/>
+    <rect x="0" y="38" width="46" height="18" rx="2" fill="#2F4A2C" opacity="0.4"/>
+    <!-- Paintbrush -->
+    <g transform="translate(35, -55) rotate(25)">
+      <!-- Brush handle -->
+      <rect x="-4" y="-45" width="8" height="50" rx="2" fill="#FAF6E8" opacity="0.8"/>
+      <!-- Ferrule -->
+      <rect x="-6" y="5" width="12" height="8" rx="1" fill="#FAF6E8" opacity="0.65"/>
+      <!-- Bristles -->
+      <path d="M-5,13 L-3,30 L3,30 L5,13 Z" fill="#F5B82E" opacity="0.7"/>
+    </g>
+    <!-- Paint drip -->
+    <circle cx="-60" cy="15" r="4" fill="#F5B82E" opacity="0.5"/>
+    <circle cx="-58" cy="28" r="3" fill="#F5B82E" opacity="0.35"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Public Space Art</text>
+</svg>

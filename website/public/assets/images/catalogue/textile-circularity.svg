@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#C45A2A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Circular arrows / fabric circularity icon -->
+  <g transform="translate(200, 150)">
+    <!-- Circular arrow path (top) -->
+    <path d="M0,-55 A55,55 0 0,1 48,28" fill="none" stroke="#FAF6E8" stroke-width="8" opacity="0.75" stroke-linecap="round"/>
+    <!-- Arrow head (top-right) -->
+    <polygon points="48,28 58,12 36,18" fill="#FAF6E8" opacity="0.75"/>
+    <!-- Circular arrow path (bottom-left) -->
+    <path d="M48,28 A55,55 0 0,1 -48,28" fill="none" stroke="#FAF6E8" stroke-width="8" opacity="0.6" stroke-linecap="round"/>
+    <!-- Arrow head (bottom-left) -->
+    <polygon points="-48,28 -58,12 -36,18" fill="#FAF6E8" opacity="0.6"/>
+    <!-- Circular arrow path (left) -->
+    <path d="M-48,28 A55,55 0 0,1 0,-55" fill="none" stroke="#FAF6E8" stroke-width="8" opacity="0.5" stroke-linecap="round"/>
+    <!-- Arrow head (top) -->
+    <polygon points="0,-55 -14,-45 -6,-63" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Fabric/thread spool center -->
+    <ellipse cx="0" cy="0" rx="18" ry="22" fill="#FAF6E8" opacity="0.7"/>
+    <line x1="-12" y1="-8" x2="12" y2="-8" stroke="#C45A2A" stroke-width="2" opacity="0.4"/>
+    <line x1="-14" y1="0" x2="14" y2="0" stroke="#C45A2A" stroke-width="2" opacity="0.4"/>
+    <line x1="-12" y1="8" x2="12" y2="8" stroke="#C45A2A" stroke-width="2" opacity="0.4"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Textile Circularity</text>
+</svg>
