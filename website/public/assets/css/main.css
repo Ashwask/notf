@@ -1740,38 +1740,47 @@ body.menu-open {
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
-.carousel-dots {
+.carousel-nav {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 0;
+    gap: 12px;
 }
 
-.carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--charcoal);
-    opacity: 0.15;
-    transition: opacity 0.2s ease, transform 0.2s ease, border-radius 0.2s ease;
+.carousel-arrow {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
     border: none;
-    padding: 0;
+    background: rgba(0,0,0,0.06);
     cursor: pointer;
-    /* Touch target: invisible padding */
-    box-sizing: content-box;
-    margin: -18px;
-    padding: 18px;
-    background-clip: content-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+    color: var(--charcoal);
+    font-size: 11px;
+    opacity: 0.6;
 }
 
-.carousel-dot.active {
-    opacity: 0.5;
-    transform: scaleX(2);
-    border-radius: 4px;
+.carousel-arrow:hover {
+    background: var(--forest-green);
+    color: white;
+    opacity: 1;
+}
+
+.carousel-counter {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--charcoal);
+    opacity: 0.35;
+    min-width: 36px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
 }
 
 .preview-card-footer {
-    padding: 12px 24px;
+    padding: 8px 24px;
     display: flex;
     align-items: center;
     justify-content: center;

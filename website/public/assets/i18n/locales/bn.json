@@ -284,7 +284,9 @@
     "view_details": "View Details [bn]",
     "untitledStory": "শিরোনামহীন গল্প",
     "communities": "সম্প্রদায়",
-    "slide": "স্লাইড"
+    "slide": "স্লাইড",
+    "previous": "পূর্ববর্তী",
+    "next": "পরবর্তী"
   },
   "footer": {
     "poweredBy": "NOTF প্ল্যাটফর্ম দ্বারা চালিত",
@@ -653,11 +655,11 @@
     },
     "learnMore": "আরও জানুন",
     "details": {
-      "whatIsIt": "এটা কী?",
-      "whyExists": "এটা কেন আছে?",
+      "whatIsIt": "এটি কী?",
+      "whyExists": "এটি কেন বিদ্যমান?",
       "involves": "এতে কী জড়িত?",
-      "whereDone": "এটা কোথায় করা হয়েছে?",
-      "impact": "এখনও পর্যন্ত প্রভাব",
+      "whereDone": "এটি কোথায় করা হয়েছে?",
+      "impact": "এখন পর্যন্ত প্রভাব",
       "whatsNeeded": "কী প্রয়োজন?",
       "links": "লিংক"
     },
@@ -668,7 +670,8 @@
       "subtitle": "প্রতিটি প্রতিবেশীর পরিষ্কার, সবুজ এবং উন্নত হওয়ার সামর্থ্য আছে।",
       "getStarted": "শুরু করুন",
       "contactUs": "যোগাযোগ করুন"
-    }
+    },
+    "detailsButton": "বিবরণ"
   },
   "mumbai": {
     "climate": {

@@ -284,7 +284,9 @@
     "view_details": "View Details [ur]",
     "untitledStory": "بے عنوان کہانی",
     "communities": "برادری",
-    "slide": "سلائیڈ"
+    "slide": "سلائیڈ",
+    "previous": "پچھلا",
+    "next": "اگلا"
   },
   "footer": {
     "poweredBy": "NOTF پلیٹ فارم جس کے ذریعہ تقویت یافتہ ہے",
@@ -654,7 +656,7 @@
     "learnMore": "مزید جانیں",
     "details": {
       "whatIsIt": "یہ کیا ہے؟",
-      "whyExists": "یہ کیوں ہے؟",
+      "whyExists": "یہ کیوں موجود ہے؟",
       "involves": "اس میں کیا شامل ہے؟",
       "whereDone": "یہ کہاں کیا گیا ہے؟",
       "impact": "اب تک کا اثر",
@@ -668,7 +670,8 @@
       "subtitle": "ہر محلے میں صاف، ہرا بھرا اور بہتر بننے کی صلاحیت ہے۔",
       "getStarted": "شروع کریں",
       "contactUs": "رابطہ کریں"
-    }
+    },
+    "detailsButton": "تفصیلات"
   },
   "mumbai": {
     "climate": {

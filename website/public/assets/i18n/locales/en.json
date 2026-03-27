@@ -284,7 +284,9 @@
     "view_details": "View Details",
     "untitledStory": "Untitled Story",
     "communities": "communities",
-    "slide": "Slide"
+    "slide": "Slide",
+    "previous": "Previous",
+    "next": "Next"
   },
   "footer": {
     "poweredBy": "NOTF platform powered by",
@@ -1320,6 +1322,7 @@
       "subtitle": "Every neighbourhood has the potential to be cleaner, greener, and more liveable.",
       "getStarted": "Get Started",
       "contactUs": "Contact Us"
-    }
+    },
+    "detailsButton": "Details"
   }
 }

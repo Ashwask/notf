@@ -284,7 +284,9 @@
     "view_details": "View Details [kn]",
     "untitledStory": "ಶೀರ್ಷಿಕೆಯಿಲ್ಲದ ಕಥೆ",
     "communities": "ಸಮುದಾಯಗಳು",
-    "slide": "ಸ್ಲೈಡ್"
+    "slide": "ಸ್ಲೈಡ್",
+    "previous": "ಹಿಂದಿನ",
+    "next": "ಮುಂದಿನ"
   },
   "footer": {
     "poweredBy": "NOTF ಪ್ಲಾಟ್‌ಫಾರ್ಮ್ ಚಾಲಿತವಾಗಿದೆ",
@@ -1092,11 +1094,11 @@
     "learnMore": "ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ",
     "details": {
       "whatIsIt": "ಇದು ಏನು?",
-      "whyExists": "ಇದು ಏಕೆ ಇದೆ?",
-      "involves": "ಇದರಲ್ಲಿ ಏನು ಒಳಗೊಂಡಿದೆ?",
-      "whereDone": "ಇದು ಎಲ್ಲಿ ಮಾಡಲಾಗಿದೆ?",
-      "impact": "ಇದುವರೆಗಿನ ಪರಿಣಾಮ",
-      "whatsNeeded": "ಏನು ಬೇಕು?",
+      "whyExists": "ಇದು ಏಕೆ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ?",
+      "involves": "ಇದು ಏನನ್ನು ಒಳಗೊಂಡಿದೆ?",
+      "whereDone": "ಇದನ್ನು ಎಲ್ಲಿ ಮಾಡಲಾಗಿದೆ?",
+      "impact": "ಇಲ್ಲಿಯವರೆಗಿನ ಪರಿಣಾಮ",
+      "whatsNeeded": "ಏನು ಅಗತ್ಯ?",
       "links": "ಲಿಂಕ್‌ಗಳು"
     },
     "contactAboutProject": "ಈ ಯೋಜನೆಯ ಬಗ್ಗೆ ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
@@ -1106,7 +1108,8 @@
       "subtitle": "ಪ್ರತಿಯೊಂದು ನೆರೆಹೊರೆಹುಡ್ ಸ್ವಚ್ಛ, ಹಸಿರು ಮತ್ತು ಉತ್ತಮವಾಗುವ ಸಾಮರ್ಥ್ಯ ಹೊಂದಿದೆ.",
       "getStarted": "ಪ್ರಾರಂಭಿಸಿ",
       "contactUs": "ಸಂಪರ್ಕಿಸಿ"
-    }
+    },
+    "detailsButton": "ವಿವರಗಳು"
   },
   "mumbai": {
     "climate": {

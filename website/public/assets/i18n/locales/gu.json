@@ -284,7 +284,9 @@
     "view_details": "View Details [gu]",
     "untitledStory": "શીર્ષકહીન વાર્તા",
     "communities": "સમુદાયો",
-    "slide": "સ્લાઇડ"
+    "slide": "સ્લાઇડ",
+    "previous": "પાછલું",
+    "next": "આગલું"
   },
   "footer": {
     "poweredBy": "દ્વારા સંચાલિત NOTF પ્લેટફોર્મ",
@@ -654,11 +656,11 @@
     "learnMore": "વધુ જાણો",
     "details": {
       "whatIsIt": "આ શું છે?",
-      "whyExists": "આ કેમ છે?",
+      "whyExists": "આ શા માટે અસ્તિત્વમાં છે?",
       "involves": "આમાં શું સામેલ છે?",
       "whereDone": "આ ક્યાં કરવામાં આવ્યું છે?",
       "impact": "અત્યાર સુધીની અસર",
-      "whatsNeeded": "શું જોઈએ છે?",
+      "whatsNeeded": "શું જરૂરી છે?",
       "links": "લિંક્સ"
     },
     "contactAboutProject": "આ યોજના વિશે અમારો સંપર્ક કરો",
@@ -668,7 +670,8 @@
       "subtitle": "દરેક પડોશમાં સ્વચ્છ, હરિયાળું અને વધુ સારું બનવાની ક્ષમતા છે.",
       "getStarted": "શરૂ કરો",
       "contactUs": "સંપર્ક કરો"
-    }
+    },
+    "detailsButton": "વિગતો"
   },
   "mumbai": {
     "climate": {

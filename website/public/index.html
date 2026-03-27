@@ -82,7 +82,7 @@
                             <div class="preview-card-carousel" id="catalogItems"></div>
                         </div>
                         <div class="preview-card-footer">
-                            <div class="carousel-dots" id="catalogDots"></div>
+                            <div class="carousel-nav" id="catalogNav"></div>
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@
                             <div class="preview-card-carousel" id="storyItems"></div>
                         </div>
                         <div class="preview-card-footer">
-                            <div class="carousel-dots" id="storyDots"></div>
+                            <div class="carousel-nav" id="storyNav"></div>
                         </div>
                     </div>
                     <!-- Cities Card -->
@@ -111,7 +111,7 @@
                             <div class="preview-card-carousel" id="cityItems"></div>
                         </div>
                         <div class="preview-card-footer">
-                            <div class="carousel-dots" id="cityDots"></div>
+                            <div class="carousel-nav" id="cityNav"></div>
                         </div>
                     </div>
                 </div>
@@ -463,12 +463,26 @@
         const carouselCleanup = {};
 
         // Render full-face carousel slides with autoscroll
-        function renderCarouselSlides(containerId, dotsId, items) {
+        function selectShowcaseItems(items, count) {
+            if (items.length <= count) return items;
+            const withPhotos = items.filter(p => p.image?.endsWith('.jpg'));
+            const svgOnly = items.filter(p => !p.image?.endsWith('.jpg'));
+            const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+            shuffle(withPhotos);
+            shuffle(svgOnly);
+            const selected = [...withPhotos.slice(0, count)];
+            if (selected.length < count) {
+                selected.push(...svgOnly.slice(0, count - selected.length));
+            }
+            return selected.slice(0, count);
+        }
+
+        function renderCarouselSlides(containerId, navId, items) {
             const container = document.getElementById(containerId);
-            const dotsContainer = document.getElementById(dotsId);
+            const navContainer = document.getElementById(navId);
             if (!container) return;
 
-            // Clean up previous render (observer, listeners, timer)
+            // Clean up previous render
             if (carouselCleanup[containerId]) {
                 carouselCleanup[containerId]();
             }
@@ -489,7 +503,7 @@
             let observer = null;
             const ac = new AbortController();
 
-            function scrollTo(idx) {
+            function scrollToSlide(idx) {
                 currentIndex = idx;
                 const slide = container.children[idx];
                 if (slide) container.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
@@ -497,46 +511,62 @@
 
             function advance() {
                 currentIndex = (currentIndex + 1) % items.length;
-                scrollTo(currentIndex);
+                scrollToSlide(currentIndex);
             }
 
             function startAutoScroll() {
                 stopAutoScroll();
-                autoScrollTimer = setInterval(advance, 4000);
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    autoScrollTimer = setInterval(advance, 4000);
+                }
             }
 
             function stopAutoScroll() {
                 if (autoScrollTimer) { clearInterval(autoScrollTimer); autoScrollTimer = null; }
             }
 
-            // Create dots
-            if (dotsContainer && items.length > 1) {
-                dotsContainer.innerHTML = items.map((_, i) =>
-                    `<button class="carousel-dot${i === 0 ? ' active' : ''}" aria-label="${(window.translator?.t('common.slide') || 'Slide')} ${i + 1}"></button>`
-                ).join('');
+            // Arrow navigation + counter
+            if (navContainer && items.length > 1) {
+                const prevLabel = window.translator?.t('common.previous') || 'Previous';
+                const nextLabel = window.translator?.t('common.next') || 'Next';
+                navContainer.innerHTML = `
+                    <button class="carousel-arrow carousel-prev" aria-label="${prevLabel}"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span class="carousel-counter">1 / ${items.length}</span>
+                    <button class="carousel-arrow carousel-next" aria-label="${nextLabel}"><i class="fa-solid fa-chevron-right"></i></button>
+                `;
 
-                // Scroll observer for dot updates + tracking current index
+                const counter = navContainer.querySelector('.carousel-counter');
+                const prevBtn = navContainer.querySelector('.carousel-prev');
+                const nextBtn = navContainer.querySelector('.carousel-next');
+
+                function updateCounter(idx) {
+                    counter.textContent = `${idx + 1} / ${items.length}`;
+                }
+
+                prevBtn.addEventListener('click', () => {
+                    const idx = (currentIndex - 1 + items.length) % items.length;
+                    scrollToSlide(idx);
+                    startAutoScroll();
+                }, { signal: ac.signal });
+
+                nextBtn.addEventListener('click', () => {
+                    const idx = (currentIndex + 1) % items.length;
+                    scrollToSlide(idx);
+                    startAutoScroll();
+                }, { signal: ac.signal });
+
+                // Observer to track current slide and update counter
                 observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             const idx = Array.from(container.children).indexOf(entry.target);
                             currentIndex = idx;
-                            dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                                dot.classList.toggle('active', i === idx);
-                            });
+                            updateCounter(idx);
                         }
                     });
                 }, { root: container, threshold: 0.6 });
 
                 container.querySelectorAll('.carousel-slide').forEach(slide => observer.observe(slide));
-
-                // Click dots to scroll
-                dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-                    dot.addEventListener('click', () => {
-                        scrollTo(i);
-                        startAutoScroll();
-                    }, { signal: ac.signal });
-                });
             }
 
             // Pause on hover/touch, resume on leave
@@ -545,10 +575,8 @@
             container.addEventListener('touchstart', stopAutoScroll, { passive: true, signal: ac.signal });
             container.addEventListener('touchend', () => setTimeout(startAutoScroll, 3000), { signal: ac.signal });
 
-            // Start autoscroll if more than 1 item
             if (items.length > 1) startAutoScroll();
 
-            // Store cleanup function for this carousel
             carouselCleanup[containerId] = () => {
                 stopAutoScroll();
                 if (observer) observer.disconnect();
@@ -571,8 +599,8 @@
             showCarouselSkeletons('cityItems');
 
             // Render catalogue immediately (static data, each links to its own card)
-            renderCarouselSlides('catalogItems', 'catalogDots',
-                catalogProjects.map(p => ({
+            renderCarouselSlides('catalogItems', 'catalogNav',
+                selectShowcaseItems(catalogProjects, 6).map(p => ({
                     name: p.title,
                     meta: p.themes.join(', '),
                     href: `/catalog/#project-${p.id}`,
@@ -601,7 +629,7 @@
                     if (el('storyCount')) el('storyCount').textContent = stories.length;
 
                     // Render stories as full-face carousel slides (YouTube thumbnails when available)
-                    renderCarouselSlides('storyItems', 'storyDots',
+                    renderCarouselSlides('storyItems', 'storyNav',
                         stories.map((s, i) => ({
                             name: s.title || (window.translator?.t('common.untitledStory') || 'Untitled Story'),
                             meta: [s.community, s.city].filter(Boolean).join(', '),
@@ -626,7 +654,7 @@
                         }))
                         .sort((a, b) => b.count - a.count);
 
-                    renderCarouselSlides('cityItems', 'cityDots', cityItems);
+                    renderCarouselSlides('cityItems', 'cityNav', cityItems);
 
                     // Load GeoJSON maps and render as SVG backgrounds
                     cityItems.forEach(city => {

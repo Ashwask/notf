@@ -284,7 +284,9 @@
     "view_details": "View Details [hi]",
     "untitledStory": "शीर्षकहीन कहानी",
     "communities": "समुदाय",
-    "slide": "स्लाइड"
+    "slide": "स्लाइड",
+    "previous": "पिछला",
+    "next": "अगला"
   },
   "footer": {
     "poweredBy": "NOTF प्लेटफ़ॉर्म द्वारा संचालित",
@@ -654,7 +656,7 @@
     "learnMore": "और जानें",
     "details": {
       "whatIsIt": "यह क्या है?",
-      "whyExists": "यह क्यों है?",
+      "whyExists": "यह क्यों मौजूद है?",
       "involves": "इसमें क्या शामिल है?",
       "whereDone": "यह कहाँ किया गया है?",
       "impact": "अब तक का प्रभाव",
@@ -668,7 +670,8 @@
       "subtitle": "हर मोहल्ले में स्वच्छ, हरा-भरा और बेहतर बनने की क्षमता है।",
       "getStarted": "शुरू करें",
       "contactUs": "संपर्क करें"
-    }
+    },
+    "detailsButton": "विवरण"
   },
   "mumbai": {
     "climate": {
