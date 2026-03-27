@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#3F5F7A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#2F4A2C" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#F5B82E" opacity="0.08"/>
+  <!-- City Hall / Building -->
+  <g transform="translate(200, 150)">
+    <!-- Pediment (triangle roof) -->
+    <polygon points="-70,-60 0,-100 70,-60" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Main building body -->
+    <rect x="-65" y="-60" width="130" height="100" fill="#FAF6E8" opacity="0.7"/>
+    <!-- Columns -->
+    <rect x="-50" y="-50" width="12" height="85" rx="3" fill="#3F5F7A" opacity="0.4"/>
+    <rect x="-20" y="-50" width="12" height="85" rx="3" fill="#3F5F7A" opacity="0.4"/>
+    <rect x="8" y="-50" width="12" height="85" rx="3" fill="#3F5F7A" opacity="0.4"/>
+    <rect x="38" y="-50" width="12" height="85" rx="3" fill="#3F5F7A" opacity="0.4"/>
+    <!-- Door -->
+    <rect x="-12" y="5" width="24" height="35" rx="12" fill="#3F5F7A" opacity="0.35"/>
+    <!-- Steps -->
+    <rect x="-75" y="40" width="150" height="8" rx="2" fill="#FAF6E8" opacity="0.5"/>
+    <rect x="-80" y="48" width="160" height="8" rx="2" fill="#FAF6E8" opacity="0.4"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Urban Reforms</text>
+</svg>

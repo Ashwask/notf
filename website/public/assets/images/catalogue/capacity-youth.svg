@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#C45A2A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Group of people with graduation cap -->
+  <g transform="translate(200, 145)">
+    <!-- Center person (with graduation cap) -->
+    <circle cx="0" cy="-45" r="20" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Graduation cap -->
+    <polygon points="-28,-62 0,-75 28,-62 0,-50" fill="#FAF6E8" opacity="0.85"/>
+    <rect x="-2" y="-72" width="4" height="12" fill="#FAF6E8" opacity="0.7"/>
+    <line x1="22" y1="-58" x2="26" y2="-45" stroke="#FAF6E8" stroke-width="2.5" opacity="0.6" stroke-linecap="round"/>
+    <circle cx="26" cy="-43" r="3" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Center person body -->
+    <path d="M-15,-22 C-15,-22 -18,15 -18,25 L18,25 C18,15 15,-22 15,-22 Z" fill="#FAF6E8" opacity="0.7"/>
+    <!-- Left person -->
+    <circle cx="-50" cy="-30" r="18" fill="#FAF6E8" opacity="0.6"/>
+    <path d="M-63,-10 C-63,-10 -66,22 -66,30 L-34,30 C-34,22 -37,-10 -37,-10 Z" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Right person -->
+    <circle cx="50" cy="-30" r="18" fill="#FAF6E8" opacity="0.6"/>
+    <path d="M37,-10 C37,-10 34,22 34,30 L66,30 C66,22 63,-10 63,-10 Z" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Far left person (partial) -->
+    <circle cx="-85" cy="-20" r="15" fill="#FAF6E8" opacity="0.35"/>
+    <path d="M-95,-3 C-95,-3 -97,20 -97,28 L-73,28 C-73,20 -75,-3 -75,-3 Z" fill="#FAF6E8" opacity="0.3"/>
+    <!-- Far right person (partial) -->
+    <circle cx="85" cy="-20" r="15" fill="#FAF6E8" opacity="0.35"/>
+    <path d="M75,-3 C75,-3 73,20 73,28 L97,28 C97,20 95,-3 95,-3 Z" fill="#FAF6E8" opacity="0.3"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#FAF6E8" opacity="0.9">Capacity Building: Youth</text>
+</svg>

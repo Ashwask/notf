@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#2F4A2C"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#B9C98A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#F5B82E" opacity="0.08"/>
+  <!-- Podium / Speaker -->
+  <g transform="translate(200, 140)">
+    <!-- Person (head) -->
+    <circle cx="0" cy="-55" r="22" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Person (body) -->
+    <path d="M-18,-30 C-18,-30 -22,5 -22,15 L22,15 C22,5 18,-30 18,-30 Z" fill="#FAF6E8" opacity="0.7"/>
+    <!-- Arms gesturing -->
+    <path d="M-18,-15 L-45,-35" fill="none" stroke="#FAF6E8" stroke-width="6" opacity="0.6" stroke-linecap="round"/>
+    <path d="M18,-15 L45,-40" fill="none" stroke="#FAF6E8" stroke-width="6" opacity="0.6" stroke-linecap="round"/>
+    <!-- Podium -->
+    <path d="M-35,15 L-40,70 L40,70 L35,15 Z" fill="#FAF6E8" opacity="0.6"/>
+    <!-- Podium front panel -->
+    <rect x="-28" y="25" width="56" height="30" rx="3" fill="#2F4A2C" opacity="0.3"/>
+    <!-- Microphone -->
+    <rect x="-2" y="-2" width="4" height="18" fill="#FAF6E8" opacity="0.5"/>
+    <circle cx="0" cy="-5" r="5" fill="#FAF6E8" opacity="0.5"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#B9C98A" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Elected Representatives</text>
+</svg>
