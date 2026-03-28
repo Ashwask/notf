@@ -315,7 +315,25 @@ async function editCommunity(id) {
     document.getElementById('commDescription').value = comm.metadata?.description || '';
     document.getElementById('commPopulation').value = comm.metadata?.population || '';
     document.getElementById('commGeography').value = comm.metadata?.geography || '';
-    document.getElementById('commThemes').value = (comm.metadata?.themes || comm.metadata?.focus_areas || []).join('\n');
+    // Set theme checkboxes
+    const themes = comm.metadata?.themes || comm.metadata?.focus_areas || [];
+    document.querySelectorAll('#commThemeCheckboxes input[type="checkbox"]').forEach(cb => {
+        cb.checked = themes.includes(cb.value);
+    });
+    // Handle "Other" themes not in THEME_CATEGORIES
+    const knownThemes = typeof THEME_CATEGORIES !== 'undefined' ? THEME_CATEGORIES : [];
+    const otherThemes = themes.filter(t => !knownThemes.includes(t));
+    const otherCheck = document.getElementById('commThemeOtherCheck');
+    const otherInput = document.getElementById('commThemeOtherInput');
+    if (otherThemes.length > 0) {
+        otherCheck.checked = true;
+        otherInput.style.display = 'block';
+        otherInput.value = otherThemes.join(', ');
+    } else {
+        otherCheck.checked = false;
+        otherInput.style.display = 'none';
+        otherInput.value = '';
+    }
     document.getElementById('commLeadOrg').value = comm.metadata?.lead_organization || '';
     document.getElementById('commLeadOrgName').value = comm.metadata?.lead_organization_name || '';
     document.getElementById('commContactPerson').value = comm.metadata?.contact?.person || '';
@@ -400,8 +418,24 @@ async function handleFormSubmit(e) {
         description: document.getElementById('commDescription').value.trim(),
         population: document.getElementById('commPopulation').value.trim(),
         geography: document.getElementById('commGeography').value.trim(),
-        themes: document.getElementById('commThemes').value.split('\n').map(s => s.trim()).filter(s => s),
-        focus_areas: document.getElementById('commThemes').value.split('\n').map(s => s.trim()).filter(s => s),
+        themes: (function() {
+            const checked = Array.from(document.querySelectorAll('#commThemeCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+            const otherCheck = document.getElementById('commThemeOtherCheck');
+            const otherInput = document.getElementById('commThemeOtherInput');
+            if (otherCheck?.checked && otherInput?.value.trim()) {
+                checked.push(...otherInput.value.split(',').map(s => s.trim()).filter(s => s));
+            }
+            return checked;
+        })(),
+        focus_areas: (function() {
+            const checked = Array.from(document.querySelectorAll('#commThemeCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+            const otherCheck = document.getElementById('commThemeOtherCheck');
+            const otherInput = document.getElementById('commThemeOtherInput');
+            if (otherCheck?.checked && otherInput?.value.trim()) {
+                checked.push(...otherInput.value.split(',').map(s => s.trim()).filter(s => s));
+            }
+            return checked;
+        })(),
         lead_organization: document.getElementById('commLeadOrg').value.trim(),
         lead_organization_name: document.getElementById('commLeadOrgName').value.trim(),
         contact: {

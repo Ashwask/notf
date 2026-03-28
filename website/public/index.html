@@ -25,16 +25,17 @@
                     <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
-                <a href="/" class="nav-active" data-i18n="nav.home">Home</a>
+                <a href="/" data-i18n="nav.home">Home</a>
                 <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -52,17 +53,55 @@
             </div>
         </section>
 
-        <!-- Brief What is NOTF Teaser -->
-        <section class="what-is-notf-section">
-            <div class="container">
-                <div class="section-intro">
-                    <h2 data-i18n="homepage.teaser.title">An Alliance for Local Action</h2>
-                    <p class="teaser-description" data-i18n="homepage.teaser.description">NOTF is an informal alliance that treats neighbourhoods as sites of knowhow and action. The Nudge Unit brings communities, organizations, and local actors together through shared infrastructure, enabling collaboration that creates lasting change at the neighbourhood level.</p>
-                    <a href="/about/" class="btn btn-secondary teaser-cta-link">
-                        <span data-i18n="homepage.teaser.cta">Learn More About NOTF</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
+        <!-- Live Network Stats Bar -->
+        <section class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-number" id="statCommunities">-</span>
+                <span class="stat-label" data-i18n="homepage.stats.communities">Communities</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="statProviders">-</span>
+                <span class="stat-label" data-i18n="homepage.stats.providers">Solution Providers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="statProjects">-</span>
+                <span class="stat-label" data-i18n="homepage.stats.projects">Projects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="statCities">-</span>
+                <span class="stat-label" data-i18n="homepage.stats.cities">Cities</span>
+            </div>
+        </section>
+
+        <!-- What is NOTF -->
+        <section class="notf-explainer">
+            <div class="notf-explainer-content">
+                <h2 data-i18n="homepage.explainer.title">What is Neighbourhoods of the Future?</h2>
+                <p class="notf-explainer-lead" data-i18n="homepage.explainer.lead">NOTF is a framework to encourage citizens at the local level to think about the common good, participate in steering infrastructure and behaviour, and build neighbourhoods that are resilient to climate shock and provide a better quality of life.</p>
+                <div class="notf-explainer-points">
+                    <div class="explainer-point">
+                        <i class="fa-solid fa-people-group"></i>
+                        <div>
+                            <strong data-i18n="homepage.explainer.point1.title">Community-Led</strong>
+                            <span data-i18n="homepage.explainer.point1.desc">Communities share knowledge, learn from each other, and imagine what their neighbourhood could be</span>
+                        </div>
+                    </div>
+                    <div class="explainer-point">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                        <div>
+                            <strong data-i18n="homepage.explainer.point2.title">Supported by Experts</strong>
+                            <span data-i18n="homepage.explainer.point2.desc">Solution providers offer ready-to-implement projects, training, and expertise to help communities act</span>
+                        </div>
+                    </div>
+                    <div class="explainer-point">
+                        <i class="fa-solid fa-seedling"></i>
+                        <div>
+                            <strong data-i18n="homepage.explainer.point3.title">Climate Resilient</strong>
+                            <span data-i18n="homepage.explainer.point3.desc">Track climate action across wards and sectors, from waste management to green cover to clean energy</span>
+                        </div>
+                    </div>
                 </div>
+                <a href="/about/" class="notf-explainer-cta" data-i18n="homepage.explainer.cta">Learn more about NOTF <i class="fa-solid fa-arrow-right"></i></a>
             </div>
         </section>
 
@@ -75,7 +114,7 @@
                     <div class="preview-card" style="border-color: rgba(196, 90, 42, 0.15);">
                         <div class="preview-card-header">
                             <span class="preview-card-label" style="color: var(--terracotta);" data-i18n="stats.catalogItems">Catalogue</span>
-                            <span class="preview-card-count"><span id="catalogCount">27</span> <span data-i18n="statsNav.catalogTitle">Projects</span></span>
+                            <span class="preview-card-count"><span id="catalogCount">33</span> <span data-i18n="statsNav.catalogTitle">Projects</span></span>
                             <a href="/catalog/" class="preview-card-cta" style="color: var(--terracotta);">Browse all <i class="fa-solid fa-arrow-right"></i></a>
                         </div>
                         <div class="preview-card-carousel-wrapper">
@@ -118,73 +157,6 @@
             </div>
         </section>
 
-        <!-- For Community Organizations Section -->
-        <section class="for-communities-section">
-            <div class="container">
-                <div class="section-intro">
-                    <h2 data-i18n="homepage.forCommunities.title">For Community Organizations</h2>
-                    <p class="subtitle" data-i18n="homepage.forCommunities.subtitle">Multiply your impact at the local level</p>
-                </div>
-
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <h4 data-i18n="homepage.forCommunities.momentum.title">Build Momentum</h4>
-                        <p data-i18n="homepage.forCommunities.momentum.desc">Your participation helps generate momentum that spreads beyond a single project, creating ripple effects across the neighbourhood.</p>
-                    </div>
-
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-bullhorn"></i>
-                        <h4 data-i18n="homepage.forCommunities.amplify.title">Amplify Local Impact</h4>
-                        <p data-i18n="homepage.forCommunities.amplify.desc">When multiple projects come together in the same neighbourhood, they reinforce one another, making your impact deeper and more visible.</p>
-                    </div>
-
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-users"></i>
-                        <h4 data-i18n="homepage.forCommunities.community.title">Join a Community of Practice</h4>
-                        <p data-i18n="homepage.forCommunities.community.desc">Become part of a vibrant learning circle where implementers share experiences, troubleshoot challenges, and improve together.</p>
-                    </div>
-
-                    <div class="benefit-card">
-                        <i class="fa-solid fa-certificate"></i>
-                        <h4 data-i18n="homepage.forCommunities.validation.title">Gain Grounded Validation</h4>
-                        <p data-i18n="homepage.forCommunities.validation.desc">Your work is seen, tested, and validated directly by residents and fellow practitioners, not just funders.</p>
-                    </div>
-                </div>
-
-                <div class="section-cta">
-                    <a href="/join/" class="btn btn-primary-large" data-i18n="homepage.forCommunities.cta">Join as a Community</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Join the Movement -->
-        <section class="cities">
-            <div class="container">
-                <h2 class="section-title" data-i18n="join.title">Join the Movement</h2>
-                <p class="section-subtitle" data-i18n="join.subtitle">Three simple steps to start transforming your neighbourhood</p>
-
-                <div class="cities-grid">
-                    <div class="city-card">
-                        <h3 data-i18n="join.step1.title">1. Register</h3>
-                        <p data-i18n="join.step1.description">Submit your community or organization details through our simple form. We'll review within 3-5 days.</p>
-                        <a href="/join/" class="feature-link" data-i18n="join.step1.link">Get Started →</a>
-                    </div>
-
-                    <div class="city-card">
-                        <h3 data-i18n="join.step2.title">2. Connect</h3>
-                        <p data-i18n="join.step2.description">Get matched with communities and organizations that align with your needs and offers.</p>
-                    </div>
-
-                    <div class="city-card">
-                        <h3 data-i18n="join.step3.title">3. Collaborate</h3>
-                        <p data-i18n="join.step3.description">Build partnerships, share resources, and create lasting impact in your neighbourhood.</p>
-                        <a href="/join/" class="feature-link" data-i18n="join.step3.link">Join Network →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Executing Partners -->
         <section class="executing-partners-section">
             <div class="container">
@@ -204,13 +176,41 @@
             </div>
         </section>
 
-        <!-- CTA Section (PRESERVED COLORS) -->
-        <section class="cta-section">
-            <div class="container">
-                <h2 data-i18n="cta.title">Ready to Transform Your Neighbourhood?</h2>
-                <p data-i18n="cta.subtitle" data-i18n-html="true">Join {{orgCount}}+ organizations and {{commCount}} communities building a better future together.</p>
-                <div class="cta-center">
-                    <a href="/join/" class="btn btn-primary-large" data-i18n="cta.button">Join NOTF Network</a>
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <h2 data-i18n="homepage.howItWorks.title">How It Works</h2>
+            <div class="steps-row">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="fa-solid fa-user-plus"></i></div>
+                    <h3 data-i18n="homepage.howItWorks.step1.title">Join</h3>
+                    <p data-i18n="homepage.howItWorks.step1.description">Register your community or organisation. It takes 2 minutes.</p>
+                </div>
+                <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <h3 data-i18n="homepage.howItWorks.step2.title">Connect</h3>
+                    <p data-i18n="homepage.howItWorks.step2.description">Find communities and solution providers near you.</p>
+                </div>
+                <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3 data-i18n="homepage.howItWorks.step3.title">Act</h3>
+                    <p data-i18n="homepage.howItWorks.step3.description">Use ready-to-implement projects from our catalogue.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simplified CTA -->
+        <section class="join-cta">
+            <div class="join-cta-content">
+                <h2 data-i18n="homepage.cta.title">Ready to join? It takes 2 minutes.</h2>
+                <p data-i18n="homepage.cta.subtitle">Join a network of neighbourhoods building climate-resilient communities together.</p>
+                <div class="join-cta-buttons">
+                    <a href="/join/" class="btn btn-primary btn-lg" data-i18n="homepage.cta.joinButton">Join the Network</a>
+                    <button class="btn btn-secondary btn-lg" onclick="openChatbotOnboarding()" data-i18n="homepage.cta.chatButton">Talk to Our Assistant</button>
                 </div>
             </div>
         </section>
@@ -272,6 +272,16 @@
     </footer>
 
     <script>
+        // Open chatbot in onboarding mode (triggered from CTA button)
+        function openChatbotOnboarding() {
+            const fab = document.getElementById('chat-fab');
+            if (fab) fab.click();
+            // Dispatch custom event that unified-chatbot.js listens for
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('notf-open-onboarding'));
+            }, 500);
+        }
+
         // Hamburger menu toggle
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navMenu');
@@ -352,7 +362,13 @@
             { id: 24, title: 'YUWA Climate Chaupal', themes: ['Awareness', 'Community'], image: '/assets/images/catalogue/climate-chaupal.svg' },
             { id: 25, title: 'Urban Reforms', themes: ['Governance', 'Community'], image: '/assets/images/catalogue/urban-reforms.svg' },
             { id: 26, title: 'Capacity Building: Elected Reps', themes: ['Governance', 'Education'], image: '/assets/images/catalogue/capacity-elected-reps.svg' },
-            { id: 27, title: 'Capacity Building of Youth', themes: ['Governance', 'Education'], image: '/assets/images/catalogue/capacity-youth.svg' }
+            { id: 27, title: 'Capacity Building of Youth', themes: ['Governance', 'Education'], image: '/assets/images/catalogue/capacity-youth.svg' },
+            { id: 28, title: 'E-QLT', themes: ['Assessment', 'Governance'], image: '/assets/images/catalogue/eqlt.svg' },
+            { id: 29, title: 'Rubbish! Board Game', themes: ['Education', 'Waste Management'], image: '/assets/images/catalogue/rubbish-game.svg' },
+            { id: 30, title: '74th Amendment Workshop', themes: ['Governance', 'Education'], image: '/assets/images/catalogue/74th-amendment.svg' },
+            { id: 31, title: 'Ondu Kathe Keli', themes: ['Community', 'Governance'], image: '/assets/images/catalogue/ondu-kathe-keli.svg' },
+            { id: 32, title: 'Framework for Lake Rejuvenation', themes: ['Water', 'Community'], image: '/assets/images/catalogue/lake-rejuvenation.svg' },
+            { id: 33, title: 'Strategy Tool for RWAs', themes: ['Water', 'Community'], image: '/assets/images/catalogue/stp-strategy-tool.svg' }
         ];
 
         // Story default images (fallback when no YouTube video)
@@ -470,7 +486,13 @@
             if (items.length <= count) return items;
             const withPhotos = items.filter(p => p.image?.endsWith('.jpg'));
             const svgOnly = items.filter(p => !p.image?.endsWith('.jpg'));
-            const shuffle = arr => arr.sort(() => Math.random() - 0.5);
+            const shuffle = arr => {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            };
             shuffle(withPhotos);
             shuffle(svgOnly);
             const selected = [...withPhotos.slice(0, count)];
@@ -631,6 +653,13 @@
                     if (el('commCount')) el('commCount').textContent = communities.length;
                     if (el('storyCount')) el('storyCount').textContent = stories.length;
 
+                    // Populate stats bar
+                    if (el('statCommunities')) el('statCommunities').textContent = communities.length;
+                    // Provider count now from Supabase (synced with catalogue)
+                    if (el('statProviders')) el('statProviders').textContent = providers.length;
+                    if (el('statProjects')) el('statProjects').textContent = catalogProjects.length;
+                    if (el('statCities')) el('statCities').textContent = cities.length;
+
                     // Render stories as full-face carousel slides (YouTube thumbnails when available)
                     renderCarouselSlides('storyItems', 'storyNav',
                         stories.map((s, i) => ({
@@ -676,25 +705,6 @@
                             .catch(() => {});
                     });
 
-                    // Update CTA subtitle (max 25 retries = 5s)
-                    let ctaRetries = 0;
-                    function updateCTASubtitle() {
-                        const ctaElement = document.querySelector('[data-i18n="cta.subtitle"]');
-                        if (ctaElement && window.translator?.currentLanguage) {
-                            try {
-                                ctaElement.setAttribute('data-i18n-params', JSON.stringify({
-                                    orgCount: providers.length,
-                                    commCount: communities.length
-                                }));
-                                ctaElement.innerHTML = window.translator.t('cta.subtitle', {
-                                    orgCount: providers.length,
-                                    commCount: communities.length
-                                });
-                            } catch (e) { if (++ctaRetries < 25) setTimeout(updateCTASubtitle, 200); }
-                        } else { if (++ctaRetries < 25) setTimeout(updateCTASubtitle, 200); }
-                    }
-                    setTimeout(updateCTASubtitle, 500);
-
                     window.notfData = { communities, members: providers, cities };
                     console.log('[Home] Preview cards loaded');
                 }
@@ -718,6 +728,9 @@
     <script defer src="/assets/chat/boundary-loader.js"></script>
     <script defer src="/assets/chat/boundary-validator.js"></script>
     <script defer src="/assets/chat/notf-cms-api.js"></script>
+    <script defer src="/assets/js/theme-categories.js"></script>
+    <script defer src="/assets/js/utils.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script defer src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector (All 11 languages on homepage) -->

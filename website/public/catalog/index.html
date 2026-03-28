@@ -16,66 +16,7 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
-        /* Breadcrumb */
-        .breadcrumb {
-            padding: 1rem 0;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-        .breadcrumb a {
-            color: #2F4A2C;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-        .breadcrumb a:hover {
-            color: #253B23;
-            text-decoration: underline;
-        }
-        .breadcrumb .separator {
-            margin: 0 0.5rem;
-            color: #999;
-        }
-        .breadcrumb .current {
-            color: #666;
-        }
-
-        /* Hero */
-        .catalog-hero {
-            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 1.25rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-        .catalog-hero .hero-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-        }
-        .catalog-hero .hero-icon i {
-            font-size: 2.5rem;
-            color: white;
-        }
-        .catalog-hero h1 {
-            margin: 0 0 0.75rem 0;
-            color: white;
-            font-size: 2.5rem;
-        }
-        .catalog-hero p {
-            margin: 0;
-            opacity: 0.95;
-            font-size: 1.15rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         /* Process Steps */
         .process-bar {
@@ -87,7 +28,7 @@
             padding: 2rem 1rem;
             background: white;
             border-radius: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-sm);
             position: relative;
             flex-wrap: wrap;
         }
@@ -115,7 +56,7 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             display: flex;
             align-items: center;
@@ -125,10 +66,10 @@
             margin-bottom: 0.75rem;
             position: relative;
             z-index: 1;
-            box-shadow: 0 2px 8px rgba(47,74,44,0.3);
+            box-shadow: var(--shadow-md);
         }
         .step-icon {
-            color: #3F5F7A;
+            color: var(--slate-blue);
             font-size: 1.25rem;
             margin-bottom: 0.35rem;
         }
@@ -148,7 +89,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
-            background: #FAF6E8;
+            background: var(--warm-cream);
             padding: 0.75rem 0;
         }
         .theme-nav-pill {
@@ -171,14 +112,14 @@
             font-size: 0.85rem;
         }
         .theme-nav-pill:hover {
-            border-color: #2F4A2C;
-            color: #2F4A2C;
+            border-color: var(--forest-green);
+            color: var(--forest-green);
             background: rgba(47, 74, 44, 0.05);
         }
         .theme-nav-pill.active {
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
         }
 
         /* Filter Bar */
@@ -203,7 +144,7 @@
         }
         .filter-bar input:focus {
             outline: none;
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
         }
 
         /* Theme Sections */
@@ -232,7 +173,7 @@
         .theme-section-header h2 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #2B2B2B;
+            color: var(--charcoal);
             margin: 0;
         }
         .theme-section-header .theme-count {
@@ -243,21 +184,21 @@
         }
 
         /* Theme icon colors */
-        .theme-icon.waste-management { background: #2F4A2C; }
-        .theme-icon.education { background: #F5B82E; }
-        .theme-icon.livelihoods { background: #C45A2A; }
-        .theme-icon.health { background: #3F5F7A; }
-        .theme-icon.mobility { background: #3F5F7A; }
-        .theme-icon.governance { background: #C45A2A; }
-        .theme-icon.awareness { background: #F5B82E; }
+        .theme-icon.waste-management { background: var(--forest-green); }
+        .theme-icon.education { background: var(--mustard-yellow); }
+        .theme-icon.livelihoods { background: var(--terracotta); }
+        .theme-icon.health { background: var(--slate-blue); }
+        .theme-icon.mobility { background: var(--slate-blue); }
+        .theme-icon.governance { background: var(--terracotta); }
+        .theme-icon.awareness { background: var(--mustard-yellow); }
 
         /* Theme section border accent colors */
-        .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: #2F4A2C; }
-        .theme-section[data-theme="Education"] .theme-section-header { border-bottom-color: #F5B82E; }
-        .theme-section[data-theme="Livelihoods"] .theme-section-header { border-bottom-color: #C45A2A; }
-        .theme-section[data-theme="Health"] .theme-section-header { border-bottom-color: #3F5F7A; }
-        .theme-section[data-theme="Mobility"] .theme-section-header { border-bottom-color: #3F5F7A; }
-        .theme-section[data-theme="Governance"] .theme-section-header { border-bottom-color: #C45A2A; }
+        .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: var(--forest-green); }
+        .theme-section[data-theme="Education"] .theme-section-header { border-bottom-color: var(--mustard-yellow); }
+        .theme-section[data-theme="Livelihoods"] .theme-section-header { border-bottom-color: var(--terracotta); }
+        .theme-section[data-theme="Health"] .theme-section-header { border-bottom-color: var(--slate-blue); }
+        .theme-section[data-theme="Mobility"] .theme-section-header { border-bottom-color: var(--slate-blue); }
+        .theme-section[data-theme="Governance"] .theme-section-header { border-bottom-color: var(--terracotta); }
 
         /* Project Cards Grid */
         .projects-grid {
@@ -270,13 +211,13 @@
         .project-card {
             background: white;
             border-radius: 1rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             border: 1px solid rgba(0,0,0,0.05);
             overflow: hidden;
             transition: all 0.3s ease;
         }
         .project-card:hover {
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            box-shadow: var(--shadow-lg);
             transform: translateY(-2px);
         }
         .project-card-header {
@@ -293,7 +234,7 @@
         .project-title {
             font-size: 1.25rem;
             font-weight: 700;
-            color: #2B2B2B;
+            color: var(--charcoal);
             margin-bottom: 0.5rem;
         }
         .project-description {
@@ -329,9 +270,9 @@
             border-radius: 2px;
             background: #e0e0e0;
         }
-        .effort-time .effort-segment.filled { background: #3F5F7A; }
-        .effort-workload .effort-segment.filled { background: #C45A2A; }
-        .effort-budget .effort-segment.filled { background: #F5B82E; }
+        .effort-time .effort-segment.filled { background: var(--slate-blue); }
+        .effort-workload .effort-segment.filled { background: var(--terracotta); }
+        .effort-budget .effort-segment.filled { background: var(--mustard-yellow); }
 
         /* Theme Tags */
         .project-themes {
@@ -349,21 +290,21 @@
             color: white;
         }
         .theme-pill.waste-management,
-        .theme-pill.circular-economy { background: #2F4A2C; }
+        .theme-pill.circular-economy { background: var(--forest-green); }
         .theme-pill.education,
-        .theme-pill.awareness { background: #F5B82E; color: #2B2B2B; }
+        .theme-pill.awareness { background: var(--mustard-yellow); color: var(--charcoal); }
         .theme-pill.livelihoods,
-        .theme-pill.youth { background: #C45A2A; }
+        .theme-pill.youth { background: var(--terracotta); }
         .theme-pill.health,
-        .theme-pill.gender { background: #3F5F7A; }
+        .theme-pill.gender { background: var(--slate-blue); }
         .theme-pill.community,
-        .theme-pill.placemaking { background: #B9C98A; color: #2B2B2B; }
-        .theme-pill.assessment { background: #3F5F7A; }
-        .theme-pill.urban-infrastructure { background: #2F4A2C; }
-        .theme-pill.sustainable-living { background: #2F4A2C; }
-        .theme-pill.community-service { background: #B9C98A; color: #2B2B2B; }
-        .theme-pill.mobility { background: #3F5F7A; }
-        .theme-pill.governance { background: #C45A2A; }
+        .theme-pill.placemaking { background: var(--olive-green); color: var(--charcoal); }
+        .theme-pill.assessment { background: var(--slate-blue); }
+        .theme-pill.urban-infrastructure { background: var(--forest-green); }
+        .theme-pill.sustainable-living { background: var(--forest-green); }
+        .theme-pill.community-service { background: var(--olive-green); color: var(--charcoal); }
+        .theme-pill.mobility { background: var(--slate-blue); }
+        .theme-pill.governance { background: var(--terracotta); }
         .theme-pill.default { background: #666; }
 
         /* Learn More Toggle */
@@ -375,7 +316,7 @@
             background: rgba(0,0,0,0.04);
             border: none;
             border-radius: 1rem;
-            color: #2B2B2B;
+            color: var(--charcoal);
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
@@ -410,7 +351,7 @@
         .expanded-section h4 {
             font-size: 1rem;
             font-weight: 700;
-            color: #2F4A2C;
+            color: var(--forest-green);
             margin: 0 0 0.5rem 0;
         }
         .expanded-section p {
@@ -429,7 +370,7 @@
             background: #f8f9fa;
             margin: 0.25rem 0;
             border-radius: 4px;
-            border-left: 3px solid #B9C98A;
+            border-left: 3px solid var(--olive-green);
             font-size: 0.95rem;
             color: #555;
         }
@@ -440,7 +381,7 @@
             margin-top: 0.5rem;
         }
         .expanded-links a {
-            color: #3F5F7A;
+            color: var(--slate-blue);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.9rem;
@@ -451,12 +392,22 @@
         .expanded-links a:hover {
             text-decoration: underline;
         }
+        .provider-attribution {
+            background: rgba(185, 201, 138, 0.1);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+        }
+        .provider-name {
+            font-weight: 700;
+            color: var(--forest-green);
+            font-size: 1.05rem;
+        }
         .contact-cta-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             border: none;
             border-radius: 4px;
@@ -469,13 +420,13 @@
             font-family: inherit;
         }
         .contact-cta-btn:hover {
-            background: #253B23;
+            background: var(--forest-green-dark);
             transform: translateY(-2px);
         }
 
         /* Bottom CTA */
         .bottom-cta {
-            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
+            background: linear-gradient(135deg, var(--forest-green) 0%, var(--slate-blue) 100%);
             color: white;
             padding: 3rem 2rem;
             border-radius: 1.25rem;
@@ -509,7 +460,7 @@
             gap: 0.5rem;
             padding: 0.875rem 2rem;
             background: white;
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             border-radius: 50px;
             font-size: 1rem;
@@ -518,7 +469,7 @@
             border: none;
         }
         .btn-cta-primary:hover {
-            background: #FAF6E8;
+            background: var(--warm-cream);
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0,0,0,0.2);
         }
@@ -564,12 +515,6 @@
             .theme-nav-pill {
                 padding: 0.4rem 0.75rem;
                 font-size: 0.8rem;
-            }
-            .catalog-hero h1 {
-                font-size: 1.75rem;
-            }
-            .catalog-hero {
-                padding: 2rem 1.5rem;
             }
             .projects-grid {
                 grid-template-columns: 1fr;
@@ -632,11 +577,12 @@
             </button>
             <div class="nav-menu" id="navMenu">
                 <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/about/" data-i18n="nav.about">About</a>
                 <a href="/communities/" data-i18n="nav.communities">Communities</a>
-                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
-                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
-                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin">
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
@@ -654,7 +600,7 @@
                 </nav>
 
                 <!-- Hero Section -->
-                <div class="catalog-hero">
+                <div class="page-hero">
                     <div class="hero-icon">
                         <i class="fa-solid fa-seedling"></i>
                     </div>
@@ -831,7 +777,8 @@
                 whereDone: "25 events across apartment communities and institutions in South Bengaluru.",
                 impact: "25 repair campaigns completed. 1,720+ citizens engaged. 2,828 items repaired. Over Rs 1.5 lakh generated in repair livelihoods.",
                 whatsNeeded: "Community space for event. Coordination with local repair vendors. Basic tools and awareness materials.",
-                links: ["https://saahas.org/initiatives/rrr-madi/"]
+                links: ["https://saahas.org/initiatives/rrr-madi/"],
+                provider: "Saahas"
             },
             {
                 id: 3,
@@ -845,7 +792,8 @@
                 whereDone: "Implemented at Panchayat level in Sarjapur. 8 community events supported including festivals and private functions.",
                 impact: "8 events served. Rs 4,320 earned by SHG. 1,051 single-use items prevented.",
                 whatsNeeded: "RWA/CBO/NGO who can provide space to clean and store the cutlery bank.",
-                links: []
+                links: [],
+                provider: "Saahas"
             },
             {
                 id: 4,
@@ -887,7 +835,8 @@
                 whereDone: "Successfully piloted by Saahas in multiple Bengaluru locations. Four locations planned in Hebbagodi.",
                 impact: "Active pilot \u2014 kiosks operational and transforming black spots into managed collection points.",
                 whatsNeeded: "Strategic neighbourhood location. Partnership with experienced NGO. Municipal coordination for waste transport.",
-                links: []
+                links: [],
+                provider: "Saahas"
             },
             {
                 id: 7,
@@ -901,7 +850,8 @@
                 whereDone: "Pilot in two locations in Shanthinagar, Bengaluru. Previously implemented in five temples by SWMRT.",
                 impact: "Active pilots showing waste reduction at worship sites.",
                 whatsNeeded: "Willingness from worship place leadership. Municipal support for waste collection. NGO partner for training.",
-                links: []
+                links: [],
+                provider: "Saahas"
             },
             {
                 id: 8,
@@ -915,7 +865,8 @@
                 whereDone: "Demonstration site planned in Hebbagodi, Bengaluru.",
                 impact: "In planning phase \u2014 first model site under development.",
                 whatsNeeded: "Support from RWAs, CBOs, NGOs, municipality, or corporate partners for funding and coordination.",
-                links: []
+                links: [],
+                provider: "Saahas"
             },
             {
                 id: 9,
@@ -957,7 +908,8 @@
                 whereDone: "Already installed in community spaces and institutions. Piloting in JP Nagar, Bengaluru.",
                 impact: "21-35% of households use Smart Refill. 54-73% of buyers refill regularly. 60-100 litres refilled per month in active communities.",
                 whatsNeeded: "Indoor and secure space for the refill station. Access to a 5A power connection. Support for awareness events.",
-                links: []
+                links: [],
+                provider: "Smart Refill"
             },
             {
                 id: 12,
@@ -971,7 +923,8 @@
                 whereDone: "JP Nagar 7th Phase, Bengaluru. Campaigns expanding to more neighbourhoods.",
                 impact: "Successful advocacy leading to enforcement against shrill horns through special drives by Traffic Police. BTP issued awareness posts on social media following Noisewatchers\u2019 advocacy.",
                 whatsNeeded: "Community groups willing to participate in street awareness campaigns. Venues and basic seating arrangements for awareness sessions.",
-                links: []
+                links: [],
+                provider: "Noisewatchers"
             },
             {
                 id: 13,
@@ -985,7 +938,8 @@
                 whereDone: "Navy Nagar, Lower Parel, Dadar, Santacruz, Vile Parle, Goregaon, Kandivali, and Borivali in Mumbai.",
                 impact: "1,881 total pickups. 712 registered users. 1,167 kg waste collected in February 2026. Approx. 2,566 kg CO2 equivalent averted, 1,695 litres fuel and 10 trees saved. Previously 5,000 kg collected from Devangini Society, Vile Parle.",
                 whatsNeeded: "Space for awareness sessions. Storage space for blue bags. A smartphone per household to download the Bintix app. Minimum number of households to register in an area.",
-                links: []
+                links: [],
+                provider: "Start Upcycling Now"
             },
             {
                 id: 14,
@@ -999,7 +953,8 @@
                 whereDone: "Marathahalli Slum Board Quarters, Bengaluru (2022). Remote villages in Karnataka (2018/2019). Kannaginagar Slum Board Quarters (2020). A small area in Dharavi, Mumbai (2020). 12 government schools in Bundelkhand region, Madhya Pradesh (2022).",
                 impact: "20 neighbourhood projects completed. 2,000+ children, women, queer persons, and men engaged. Successful reclamation of public spaces for leisure use by women and children. Local community leaders emerging to sustain the initiative.",
                 whatsNeeded: "Walls to paint (big or small). Tables and access to water for painting. Storage for paints and ladders. Community halls for workshops. Partner organisations for awareness talks and continued engagement.",
-                links: ["https://aravaniartproject.com/progress"]
+                links: ["https://aravaniartproject.com/progress"],
+                provider: "Aravani Art Project"
             },
             {
                 id: 15,
@@ -1013,7 +968,8 @@
                 whereDone: "110+ restaurants and stalls on Elephanta Island, Raigad. 2 villages at Alibaug, Raigad. 500+ households at Kokari Agar, Mumbai.",
                 impact: "48,447 kg waste diverted from landfills. 58,136 kg carbon emissions prevented. 65+ awareness and community sessions. 2,900+ people reached. 4,000+ trees planted and maintained. (Numbers since December 2023.)",
                 whatsNeeded: "Active participation from residents and local businesses. Community spaces for awareness sessions and workshops. Local volunteers or environmental champions. Financial/CSR support for infrastructure and plantations. Logistical support and equipment for clean-up drives.",
-                links: ["https://eksaathfoundation.com/"]
+                links: ["https://eksaathfoundation.com/"],
+                provider: "Ek Saath Foundation"
             },
             {
                 id: 16,
@@ -1027,7 +983,8 @@
                 whereDone: "Malleshwaram, Rajajinagar, Indira Nagar, Shantinagar, Dasarahalli, Mahadevapura, BTM, Okalipuram, Chamarajpet, Vidyaranyapuram, Fazer Town, Jayanagar, Cox Town, Ramaswamy Palya, and BEL Road in Bengaluru.",
                 impact: "311 women trained and licensed. 75 women actively driving autos. 6 transgender persons currently under training.",
                 whatsNeeded: "CSR or donor funding for down-payment assistance. Partnership with auto aggregators. Government approvals for training ground. Bank partnerships for loan facilitation.",
-                links: ["https://bpac.in/b-safe/"]
+                links: ["https://bpac.in/b-safe/"],
+                provider: "B.PAC"
             },
             {
                 id: 17,
@@ -1041,7 +998,8 @@
                 whereDone: "Multiple batches across Bengaluru. In 2021, over 100 leaders engaged. Training completed for 300+ JD(S) leaders across five batches. In 2023, nine sessions for JD(S) and comprehensive two-day workshops for 50+ leaders from eight Assembly Constituencies. Three sessions held for Bengaluru NavaNirmana Party with 40+ leaders.",
                 impact: "350+ leaders have attended the programme across multiple political parties and constituencies.",
                 whatsNeeded: "Venue for workshop sessions. Coordination with political parties or civic groups. Domain experts for specialised sessions.",
-                links: ["https://bpac.in/public-leadership-workshops/"]
+                links: ["https://bpac.in/public-leadership-workshops/"],
+                provider: "B.PAC"
             },
             {
                 id: 18,
@@ -1055,7 +1013,8 @@
                 whereDone: "Implemented across Dehradun, Dharamshala, and Bir.",
                 impact: "111 citizen-led clean-up drives conducted since January 2025. 1,535+ people participated. 5 metric tonnes of waste collected and responsibly managed.",
                 whatsNeeded: "Willing individuals or groups to lead clean-up efforts. Basic materials (gloves, bags, collection tools). Access to waste collection or disposal systems. Simple coordination and mobilisation within the neighbourhood.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 19,
@@ -1069,7 +1028,8 @@
                 whereDone: "Implemented across Waste Warriors projects including Dehradun and Dharamshala.",
                 impact: "19 green workers given access to the programme. Significant improvement in literacy and numeracy \u2014 average scores increased from 3 (baseline) to 10 (endline). Strong improvements in alphabet recognition, addition, and multiplication. Increased confidence, independence, and ability to access banking and government schemes.",
                 whatsNeeded: "Time allocation for workers to attend sessions. Basic learning space (community centre, MRF, office). Learning materials (books, worksheets, boards). A facilitator or trainer. Support from supervisors or local leadership.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 20,
@@ -1083,7 +1043,8 @@
                 whereDone: "Implemented across multiple neighbourhoods in Himachal Pradesh and Uttarakhand. Linked with SHG \u2018Weaving Lives\u2019 in Dehradun for upcycling products.",
                 impact: "31 cloth donation drives conducted since January 2025. 1,100+ people participated. 10.3 metric tonnes of textile waste diverted from landfill. Strengthened access to clothing for informal workers and communities in need. Supported livelihood generation through SHG-led upcycling.",
                 whatsNeeded: "Space for collection and sorting of clothes. Community participation in donation drives. Volunteers for sorting and distribution. Linkages with SHGs or upcycling partners. Basic storage and transport support.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 21,
@@ -1097,7 +1058,8 @@
                 whereDone: "Implemented across 10 schools under the Green Campus Program in Kangra, Solan, and Una District in Himachal Pradesh.",
                 impact: "10 schools equipped with recycling gullaks. Improved understanding of waste segregation among students. Regular collection and storage of dry waste within schools. Creation of long-term behaviour change habits at an early age. Spillover impact into households through student learning.",
                 whatsNeeded: "Space within school premises for gullak installation. Participation from teachers and students. Basic signage and communication materials. Linkage with a dry waste collection or recycling system. Periodic monitoring support.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 22,
@@ -1111,7 +1073,8 @@
                 whereDone: "Implemented across community events, schools, and local gatherings across Himachal Pradesh and Uttarakhand. Includes bhandaras, school events, awareness sessions, and menstrual hygiene workshops.",
                 impact: "435+ awareness workshops and event-based engagements conducted since January 2025. 20,000+ people reached through community events and campaigns. 104 Menstrual Hygiene Management (MHM) workshops conducted. 3,559 menstruators engaged through MHM sessions.",
                 whatsNeeded: "Partnership with organisers of upcoming community events. Simple zero-waste plan (materials, segregation, flow). Alignment of vendors, volunteers, and organisers. On-ground setup and support during events. Encouragement for organisers to adopt practices in future events.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 23,
@@ -1125,7 +1088,8 @@
                 whereDone: "Multiple locations across Dehradun, Dharamshala, Kasauli, Manali, and Corbett. Implemented in high-footfall public spaces, tourist areas, and neighbourhood sites.",
                 impact: "200+ art installations and wall murals installed. Over 2 million tourists reached in high-footfall tourist hill stations. 300+ local community members participated in art projects.",
                 whatsNeeded: "A public space or identified waste hotspot. Basic permissions (if required). Access to locally collected waste materials. Participation from residents and volunteers. Basic tools, paints, and fabrication support.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 24,
@@ -1139,7 +1103,8 @@
                 whereDone: "Multiple neighbourhoods across Dehradun and Dharamshala. Hosted in caf\u00e9s, parks, and institutional spaces. Conducted as recurring monthly/weekly gatherings.",
                 impact: "35+ Climate Chaupals conducted. 1,050+ citizens engaged across cities.",
                 whatsNeeded: "A small to medium accessible venue (caf\u00e9, park, community hall, or classroom). Seating arrangements for 20\u201350 participants. Basic audio-visual setup (projector/screen, power supply). A local coordinator or volunteer group to mobilise participants.",
-                links: ["https://wastewarriors.org/"]
+                links: ["https://wastewarriors.org/"],
+                provider: "Waste Warriors"
             },
             {
                 id: 25,
@@ -1153,7 +1118,8 @@
                 whereDone: "9 cities in Maharashtra (Mumbai, Thane, Vasai-Virar, Navi Mumbai, Pune, Pimpri-Chinchwad, Ch. Sambhajinagar, Nashik, Nagpur). 6 cities in UP (Lucknow, Gorakhpur, Varanasi, Kanpur, Ghaziabad, Meerut). 2 cities in Assam (Guwahati, Dibrugarh).",
                 impact: "830 urban leaders trained across 25 cities. In UP, enabled standardised mutation fees across 762 city governments, unified billing systems, and real-time financial dashboards. In Maharashtra and Assam, advocated for e-governance reforms including needs-and-wants portals and open budget systems.",
                 whatsNeeded: "Urban experts to join the network. Documentation of good practices. Organisations that can help implement and foster greater e-governance reforms.",
-                links: ["https://praja.org/"]
+                links: ["https://praja.org/"],
+                provider: "Praja Foundation"
             },
             {
                 id: 26,
@@ -1167,7 +1133,8 @@
                 whereDone: "9 cities in Maharashtra, 6 in Uttar Pradesh, and 2 in Assam. Research continues in 60+ cities across India.",
                 impact: "Councillors develop a deeper understanding of city government functioning, enabling more informed policy and budgetary decisions. Councillors are given nudges to raise ward-level issues during General Body Meetings.",
                 whatsNeeded: "Urban knowledge experts. Institutions to host programmes.",
-                links: ["https://praja.org/"]
+                links: ["https://praja.org/"],
+                provider: "Praja Foundation"
             },
             {
                 id: 27,
@@ -1181,7 +1148,98 @@
                 whereDone: "Prajatantra National Youth Festival held in Delhi, Lucknow, Mumbai, and other cities. Fellowships active in Mumbai, Lucknow, Guwahati, Dibrugarh, Pune, and Nashik. Strong networks in Maharashtra, Uttar Pradesh, and Assam.",
                 impact: "Created a pool of informed, aware, and active citizens and policymakers. Many youth participants have chosen careers in public policy, social work, and governance after engagement with the programme.",
                 whatsNeeded: "Collaboration with academic institutions, universities, and youth-based organisations.",
-                links: ["https://praja.org/"]
+                links: ["https://praja.org/"],
+                provider: "Praja Foundation"
+            },
+            {
+                id: 28,
+                title: "E-QLT",
+                description: "A simulation tool that assesses household vulnerabilities and maps social protection gaps by modelling demographics, income, expenditure, and scheme access over time.",
+                themes: ["Assessment", "Governance"],
+                time: 4, workload: 4, budget: 3,
+                whatIsIt: "E-QLT is a simulation tool designed to assess vulnerabilities and integrate social protection measures for households. By analysing factors such as demography, income, expenditure, and access to social protection measures, it offers insights into a household\u2019s vulnerability level and pathways for resilience. Uses system dynamic modelling to simulate a household\u2019s state and calculate a Social Protection Score across health, education, and finance dimensions.",
+                whyExists: "Vulnerabilities are temporal and dynamic, forming an intricate web across finance, caste, gender, education, health, and social capital. Schemes and policies exist to help families tackle vulnerabilities, but it\u2019s difficult to map how different schemes stitch together social protection for a particular household. E-QLT helps by quantifying dynamic vulnerabilities and scheme effectiveness.",
+                involves: ["Collection of household-level data through CSOs", "System dynamic modelling to simulate household state over 10 years", "Calculation of Social Protection Score (Health, Education, Finance)", "Analysis of data in partnership with CSOs", "Integration of E-QLT within organisations"],
+                whereDone: "Piloted in Panvel (urban), Kagal (rural), and Chikhaldara (tribal) districts. Piloted for diverse vulnerable populations in Kerala. Workshop with CSOs in Bengaluru to reimagine resilience.",
+                impact: "Households with Social Protection Score below 300 identified as vulnerable. Enables policymakers to make informed decisions and address gaps in social protection.",
+                whatsNeeded: "Household-level data on demographics, incomes, expenditures, scheme access, and priorities.",
+                links: ["https://eqlt.in/"],
+                provider: "Fields of View"
+            },
+            {
+                id: 29,
+                title: "Rubbish! Board Game",
+                description: "A tri-lingual board game set in the urban waste management system where players experience the trade-offs faced by Dry Waste Collection Centre managers.",
+                themes: ["Education", "Waste Management"],
+                time: 2, workload: 1, budget: 1,
+                whatIsIt: "Rubbish! is a tri-lingual board game set in the urban waste management system of an Indian city. Players take the role of Dry Waste Collection Centre managers, experiencing trade-offs between the environment and fiscal sustainability. A cross-cultural design collaboration between Bangalore and Amsterdam with mediaLAB Amsterdam and IIIT-B.",
+                whyExists: "Bangalore adopted a decentralised approach to its waste crisis with Dry Waste Collection Centres (DWCCs) set up in every ward. Challenges include citizen apathy toward waste and lack of knowledge about the decentralised system. The game addresses knowledge gaps and promotes understanding at both micro and macro levels.",
+                involves: ["Players manage a Dry Waste Collection Centre", "City generates sorted, unsorted, and mixed waste each round", "Players trade waste \u2014 uncollected waste goes to landfill", "Win by building DWCCs in every ward; lose if landfill fills up", "Session runs 1\u20131.5 hours with minimum 6 players, facilitated with briefing, gameplay, and debrief"],
+                whereDone: "Organisations and universities across India in Chennai, Bangalore, Maharashtra, and Amsterdam.",
+                impact: "300+ game sessions conducted to build capacity of RWAs, university students, and consultants in the waste management sector.",
+                whatsNeeded: "Game assets. Game facilitator. An organisation to bring participants together and host the session.",
+                links: ["https://fieldsofview.in/projects/rubbish/"],
+                provider: "Fields of View"
+            },
+            {
+                id: 30,
+                title: "74th Amendment Workshop",
+                description: "A day-long interactive workshop teaching communities and CBOs about the 74th Constitutional Amendment and how to participate in urban governance.",
+                themes: ["Governance", "Education"],
+                time: 2, workload: 2, budget: 1,
+                whatIsIt: "A curriculum designed as a day-long workshop module addressing the lack of awareness of the 74th Constitutional Amendment Act. The training uses comic books, group-based interactive activities, and peer learning to help communities understand urban governance, institutional hierarchy, and how to engage with local bodies. Developed in collaboration with Indo Global Social Service Society (IGSSS).",
+                whyExists: "The 74th Amendment Act was a milestone in decentralising governance, but critical gaps in implementation lie in the interface between urban local bodies and communities. The language, technicalities, and lack of awareness make it difficult for people to participate effectively in the planning process.",
+                involves: ["Comic book on history of urban local governance", "Group-based interactive guided activities (peer learning)", "Module 1: Introduction to Act and institutions (4 activities)", "Module 2: Case studies and budget analysis", "Module 3: Practical engagement exercises"],
+                whereDone: "Karnataka and Maharashtra. Used to train over 200 public policy students and CSO workers over 4 years.",
+                impact: "200+ public policy students and CSO workers trained. Improved understanding of governance processes and community participation in planning.",
+                whatsNeeded: "Session assets and facilitator. 4-hour time commitment. Space for group activities.",
+                links: ["https://fieldsofview.in/projects/curriculum-74/"],
+                provider: "Fields of View"
+            },
+            {
+                id: 31,
+                title: "Ondu Kathe Keli",
+                description: "A storytelling tool that builds dialogue between groups, helping communities share experiences, identify shared risks, and surface common issues for policy input.",
+                themes: ["Community", "Governance"],
+                time: 2, workload: 1, budget: 1,
+                whatIsIt: "Ondu Kathe Keli (\u2018Listen to a Story\u2019) is a tool to build dialogue where individuals from different groups share their experiences, recognise commonalities and diversities, and identify shared risks and values. Storytellers visit themed booths where listeners collect stories and assign coloured blocks (challenge or support). The blocks fill a collective jar, visualising the community\u2019s shared experience.",
+                whyExists: "Stories provide rich qualitative data about people\u2019s lived experiences \u2014 their needs, preferences, and challenges. When shared collectively, two outcomes emerge: a sense of collective understanding built on shared experiences, and a pool of common issues that can inform policy decisions.",
+                involves: ["Storytellers share experiences at themed booths (policy areas)", "Listeners assign coloured blocks (challenge vs support)", "Blocks deposited in a collective jar to visualise community experience", "Session runs 1\u20131.5 hours for up to 50 players", "Briefing, gameplay, and debrief structure"],
+                whereDone: "Used across COVID-19 community challenges, housing, workplace safety, and mental health access contexts. Sessions held in Chennai, Bangalore, Maharashtra, and Amsterdam.",
+                impact: "Surfaced transport gaps, smartphone access barriers, PPE shortages, healthcare challenges, and governance gaps across multiple policy domains through community storytelling.",
+                whatsNeeded: "Game assets. Game facilitator. Organisation to bring participants together.",
+                links: ["https://fieldsofview.in/projects/kattu-kathe/"],
+                provider: "Fields of View"
+            },
+            {
+                id: 32,
+                title: "Framework for Lake Rejuvenation",
+                description: "A systems-based decision-support tool that guides planning, implementation, and evaluation of urban and peri-urban lake restoration through hydrological assessment and community stewardship.",
+                themes: ["Water", "Community"],
+                time: 5, workload: 4, budget: 3,
+                whatIsIt: "The Framework for Lake Rejuvenation is a systems-based decision-support tool that guides the planning, implementation, and evaluation of urban and peri-urban lake restoration. It provides a step-by-step, evidence-based process integrating hydrological assessment, water quality management, ecological restoration, and community stewardship. It helps stakeholders diagnose lake health, identify degradation drivers, prioritise interventions, and track outcomes. Developed with Bangalore Climate Action Cell, WELL Labs, and Friends of Lakes, supported by DCB Bank in collaboration with CDD India, Biome, ATREE, ICCW, CSTEP, ACIWRM, and Bangalore University Water Institute.",
+                whyExists: "Lake restoration is often fragmented and ad-hoc \u2014 interventions are implemented without a clear understanding of hydrology, pollution sources, ecological dynamics, community needs, or long-term management. These gaps lead to short-lived or ineffective outcomes. The framework provides a structured, science-based process for systematic diagnosis, prioritised interventions, and transparent, measurable outcomes.",
+                involves: ["Structured five-stage process: diagnosis and visioning, design, implementation, operation and maintenance, monitoring and evaluation", "Risk analysis, lake function assessment, stakeholder mapping, and checklist-based evaluation", "Community visioning workshops to align ecological feasibility with local needs", "Lake Vision Document that guides design, implementation, and monitoring"],
+                whereDone: "Mallapalli Lake, Chintamani (Chikballapur District, Karnataka). Multiple meetings with City Municipal Council, RWA, local stakeholders, and farmers.",
+                impact: "1 lake rejuvenated in a semi-arid, water-scarce region. Multi-stakeholder engagement with RWA, City Municipal Council, and local communities (35 residents, 31 students, 2 ward councillors). Water holding capacity increased by 10.6% (186ML to 206ML). Exploring opportunities to scale across the region.",
+                whatsNeeded: "Access to secondary datasets (flood vulnerability, groundwater, water quality, biodiversity). Field surveys and site assessments. Stakeholder participation (community groups, government agencies, experts). Venues for community consultations and visioning workshops. Technical inputs: GIS analysis, ecological assessment, hydrological understanding.",
+                links: ["https://welllabs.org/review-draft-framework-for-lake-rejuvenation/"],
+                provider: "WELL Labs"
+            },
+            {
+                id: 33,
+                title: "Strategy Tool for RWAs (STP Upgrades)",
+                description: "A structured six-step process helping Resident Welfare Associations evaluate, upgrade, or refurbish their on-site Sewage Treatment Plants with ROI analysis and transparent decision-making.",
+                themes: ["Water", "Community"],
+                time: 4, workload: 3, budget: 3,
+                whatIsIt: "The Strategy Tool for RWAs is a structured six-step process designed to guide Resident Welfare Associations in rectifying, upgrading, or refurbishing their on-site Sewage Treatment Plants (STPs) to improve decentralised wastewater treatment and reuse. It uses a detailed STP audit to evaluate current performance and an ROI calculator to help residents compare financial, health, and environmental benefits of different investment options. Developed with Eawag (Swiss Federal Institute of Aquatic Science and Technology), BAF (Bangalore Apartments\u2019 Federation), and CDD India.",
+                whyExists: "Many RWAs lack sufficient technical expertise to evaluate treatment options and balance upfront investment costs with longer-term benefits like increased water security or reduced risks of fines. Decisions are often delayed, poorly informed, or influenced by biased external advice. This tool provides a structured, transparent framework combining performance audits and ROI analysis, enabling RWAs to compare options clearly and invest in solutions that strengthen water security.",
+                involves: ["Module 1: Planning Group Formation \u2014 RWA subcommittee for implementation", "Module 2: Baseline Mapping \u2014 collect water (re)use data and survey resident priorities", "Module 3: STP Audit & Investment Options \u2014 assess existing STP, identify upgrade pathways", "Module 4: Vendor Discovery & Vetting \u2014 collect quotes and verify specifications", "Module 5: Technology Evaluation \u2014 ROI calculator weighing vendor options against status quo risks", "Module 6: Decision \u2014 present data-driven business case to broader RWA"],
+                whereDone: "Piloted in 2\u20133 apartment complexes in Bengaluru covering a range of treatment scales and technologies. Accompanied by a Playbook that guides use and highlights common RWA challenges.",
+                impact: "Piloted in Bengaluru apartment complexes. Being developed based on monitoring of implemented on-site STPs and analysis of business models, regulations, and user acceptance from the WaterReuseLab Project.",
+                whatsNeeded: "Internal data from RWAs: financial records on water and STP costs, resident participation. Market data for uncertainty analysis. Private sector solutions: cost-effective offerings tailored to RWAs. Transparent business models with clear value propositions.",
+                links: ["https://welllabs.org/urban-water/dstp-strategy-tools-for-rwas/"],
+                provider: "WELL Labs"
             }
         ];
 
@@ -1275,6 +1333,12 @@
                             <p>${project.whatsNeeded}</p>
                         </div>
                         ${linksHtml}
+                        ${project.provider ? `
+                        <div class="expanded-section provider-attribution">
+                            <h4><i class="fa-solid fa-building"></i> Offered by</h4>
+                            <p class="provider-name">${project.provider}</p>
+                        </div>
+                        ` : ''}
                         <a href="mailto:contact@notf.in" class="contact-cta-btn">
                             <i class="fa-solid fa-envelope"></i>
                             <span data-i18n="catalogPage.contactAboutProject">Contact Us About This Project</span>

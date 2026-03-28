@@ -308,27 +308,33 @@
                     <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
-                <a href="/cities/bengaluru/" class="back-button">
-                    <i class="fa-solid fa-arrow-left"></i> Bengaluru Hub
-                </a>
-                <a href="/cities/bengaluru/communities/">Communities</a>
-                <a href="/cities/bengaluru/solution-providers/">Providers</a>
-                <a href="/cities/bengaluru/map/">Map</a>
-                <a href="/join/" class="join-link">Join</a>
-                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
         </nav>
     </header>
+<div class="city-sub-nav">
+        <a href="/cities/bengaluru/" class="city-sub-nav-link">
+            <i class="fa-solid fa-arrow-left"></i> Bengaluru
+        </a>
+        <a href="/cities/bengaluru/communities/" class="city-sub-nav-link">Communities</a>
+        <a href="/cities/bengaluru/climate/" class="city-sub-nav-link active">Climate</a>
+        <a href="/cities/bengaluru/map/" class="city-sub-nav-link">Map</a>
+        <a href="/cities/bengaluru/stories/" class="city-sub-nav-link">Stories</a>
+    </div>
 
     <main>
         <!-- Sector Hero -->
@@ -344,6 +350,31 @@
                 <p class="sector-subtitle">Creating sustainable, low-carbon transportation systems with focus on public transit, electric vehicles, and active mobility.</p>
             </div>
         </section>
+
+        <!-- Sector Tabs -->
+        <nav class="sector-tabs">
+            <a href="/cities/bengaluru/climate/energy/" class="sector-tab">
+                <i class="fa-solid fa-bolt"></i> Energy
+            </a>
+            <a href="/cities/bengaluru/climate/transportation/" class="sector-tab active">
+                <i class="fa-solid fa-bus"></i> Transport
+            </a>
+            <a href="/cities/bengaluru/climate/waste/" class="sector-tab">
+                <i class="fa-solid fa-recycle"></i> Waste
+            </a>
+            <a href="/cities/bengaluru/climate/air-quality/" class="sector-tab">
+                <i class="fa-solid fa-wind"></i> Air
+            </a>
+            <a href="/cities/bengaluru/climate/water/" class="sector-tab">
+                <i class="fa-solid fa-droplet"></i> Water
+            </a>
+            <a href="/cities/bengaluru/climate/greening/" class="sector-tab">
+                <i class="fa-solid fa-tree"></i> Greening
+            </a>
+            <a href="/cities/bengaluru/climate/disaster/" class="sector-tab">
+                <i class="fa-solid fa-triangle-exclamation"></i> Disaster
+            </a>
+        </nav>
 
         <!-- Targets Section -->
         <section class="targets-section">
@@ -555,6 +586,9 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
     <link rel="stylesheet" href="/assets/chat/chat.css">
     <script src="/assets/chat/discovery-engine.js"></script>
+    <script defer src="/assets/js/theme-categories.js"></script>
+    <script defer src="/assets/js/utils.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>    <script src="/assets/js/nav-highlight.js"></script>
 
 </body>

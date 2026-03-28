@@ -197,8 +197,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="commThemes">Themes / Focus Areas (one per line)</label>
-                        <textarea id="commThemes" rows="3" placeholder="Water&#10;Waste&#10;Energy&#10;Mobility"></textarea>
+                        <label>Themes / Focus Areas</label>
+                        <style>
+                            .theme-checkboxes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+                            .theme-checkboxes label { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.04); border-radius: 1rem; font-size: 0.85rem; cursor: pointer; }
+                            .theme-checkboxes label:has(input:checked) { background: rgba(47,74,44,0.15); color: #2F4A2C; font-weight: 600; }
+                            .theme-checkboxes input[type="checkbox"] { accent-color: #2F4A2C; }
+                        </style>
+                        <div class="theme-checkboxes" id="commThemeCheckboxes">
+                            <!-- Generated from THEME_CATEGORIES -->
+                        </div>
+                        <div style="margin-top: 4px;">
+                            <label style="font-size: 0.85rem; font-weight: 400; display: flex; align-items: center; gap: 6px;">
+                                <input type="checkbox" id="commThemeOtherCheck" onchange="document.getElementById('commThemeOtherInput').style.display = this.checked ? 'block' : 'none';" style="accent-color: #2F4A2C;">
+                                Other
+                            </label>
+                            <input type="text" id="commThemeOtherInput" placeholder="Enter other themes, comma-separated" style="display: none; margin-top: 6px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; width: 100%; box-sizing: border-box;">
+                        </div>
                     </div>
 
                     <div class="form-row">
@@ -359,6 +374,18 @@ injectMarkdownEditor({
     onSave: 'saveStoryContent',
     onClose: 'closeStoryEditor'
 });
+</script>
+<script src="/assets/js/theme-categories.js"></script>
+<script>
+// Initialize theme checkboxes from THEME_CATEGORIES
+(function() {
+    const container = document.getElementById('commThemeCheckboxes');
+    if (container && typeof THEME_CATEGORIES !== 'undefined') {
+        container.innerHTML = THEME_CATEGORIES.map(theme =>
+            `<label><input type="checkbox" name="commThemes" value="${theme}"> ${theme}</label>`
+        ).join('');
+    }
+})();
 </script>
 <script src="/assets/admin/communities.js"></script>
 <!-- Excel export/import modules -->

@@ -16,33 +16,7 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
-        .join-hero {
-            background: linear-gradient(135deg, #F5B82E 0%, #C45A2A 30%, #2F4A2C 70%, #253B23 100%);
-            background-size: 200% 200%;
-            animation: gradient-shift 15s ease infinite;
-            padding: 4rem 2rem 3rem;
-            text-align: center;
-            color: white;
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .join-hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .join-hero p {
-            font-size: 1.25rem;
-            opacity: 0.95;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         .join-container {
             max-width: 800px;
@@ -59,6 +33,101 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
+        /* Progress Bar */
+        .wizard-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            gap: 0;
+        }
+
+        .wizard-step-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wizard-step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .wizard-step-indicator.active .wizard-step-circle {
+            background: var(--forest-green);
+            color: var(--warm-cream);
+            border-color: var(--olive-green);
+        }
+
+        .wizard-step-indicator.completed .wizard-step-circle {
+            background: var(--olive-green);
+            color: var(--forest-green);
+            border-color: var(--forest-green);
+        }
+
+        .wizard-step-label {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .wizard-step-indicator.active .wizard-step-label {
+            color: var(--forest-green);
+        }
+
+        .wizard-step-indicator.completed .wizard-step-label {
+            color: var(--forest-green);
+        }
+
+        .wizard-step-line {
+            width: 80px;
+            height: 3px;
+            background: #e5e7eb;
+            transition: background 0.3s;
+            margin: 0 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .wizard-step-line.completed {
+            background: var(--olive-green);
+        }
+
+        /* Wizard Steps */
+        .wizard-step {
+            display: none;
+        }
+
+        .wizard-step.active {
+            display: block;
+        }
+
+        .wizard-step h2 {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--forest-green);
+            background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Type Selector */
         .form-type-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -77,15 +146,15 @@
         }
 
         .type-option:hover {
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(35, 162, 165, 0.15);
+            box-shadow: 0 8px 20px rgba(47, 74, 44, 0.15);
         }
 
         .type-option.active {
-            border-color: #2F4A2C;
-            background: linear-gradient(135deg, rgba(35, 162, 165, 0.1) 0%, rgba(13, 117, 118, 0.1) 100%);
-            box-shadow: 0 8px 20px rgba(35, 162, 165, 0.2);
+            border-color: var(--forest-green);
+            background: rgba(47, 74, 44, 0.06);
+            box-shadow: 0 8px 20px rgba(47, 74, 44, 0.2);
         }
 
         .type-option .icon {
@@ -105,34 +174,9 @@
             color: #6b7280;
         }
 
-        .form-section {
-            margin-bottom: 2rem;
-        }
-
-        .form-section h2 {
-            font-size: 1.5rem;
-            color: #1f2937;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 2px solid #2F4A2C;
-            background: linear-gradient(135deg, #2F4A2C 0%, #253B23 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
+        /* Form Groups */
         .form-group {
             margin-bottom: 1.5rem;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
         }
 
         .form-group label {
@@ -144,7 +188,7 @@
         }
 
         .form-group label .required {
-            color: #ef4444;
+            color: var(--terracotta);
             margin-left: 0.25rem;
         }
 
@@ -158,19 +202,20 @@
             font-size: 1rem;
             transition: all 0.2s;
             font-family: inherit;
+            box-sizing: border-box;
         }
 
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #2F4A2C;
-            box-shadow: 0 0 0 3px rgba(35, 162, 165, 0.1);
+            border-color: var(--forest-green);
+            box-shadow: 0 0 0 3px rgba(47, 74, 44, 0.1);
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 120px;
+            min-height: 80px;
         }
 
         .form-group small {
@@ -180,109 +225,272 @@
             font-size: 0.875rem;
         }
 
-        .dynamic-list {
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: var(--terracotta);
+            box-shadow: 0 0 0 3px rgba(196, 90, 42, 0.1);
+        }
+
+        .field-error {
+            color: var(--terracotta);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Theme Checkboxes */
+        .theme-checkboxes {
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
-        .dynamic-item {
+        .theme-checkboxes label {
             display: flex;
-            gap: 0.5rem;
-        }
-
-        .dynamic-item input {
-            flex: 1;
-        }
-
-        .btn-add, .btn-remove {
-            padding: 0.875rem 1rem;
-            border: none;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, #2F4A2C 0%, #253B23 100%);
-            color: white;
-            margin-top: 0.5rem;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(35, 162, 165, 0.3);
-        }
-
-        .btn-remove {
-            background: #ef4444;
-            color: white;
-            padding: 0.875rem 1.25rem;
-        }
-
-        .btn-remove:hover {
-            background: #dc2626;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 1.25rem;
-            background: linear-gradient(135deg, #2F4A2C 0%, #253B23 100%);
-            color: white;
-            border: none;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(0, 0, 0, 0.04);
             border-radius: 1rem;
-            font-size: 1.125rem;
-            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
+            font-weight: 400;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .theme-checkboxes label:hover {
+            background: rgba(47, 74, 44, 0.08);
+        }
+
+        .theme-checkboxes label:has(input:checked) {
+            background: rgba(47, 74, 44, 0.15);
+            color: var(--forest-green);
+            font-weight: 600;
+            border-color: var(--forest-green);
+        }
+
+        .theme-checkboxes input[type="checkbox"] {
+            accent-color: var(--forest-green);
+        }
+
+        /* Character Counter */
+        .char-counter {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .char-counter.over-limit {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+
+        /* Wizard Navigation */
+        .wizard-nav {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
             margin-top: 2rem;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(35, 162, 165, 0.4);
+        .wizard-nav .btn-back {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
         }
 
-        .btn-submit:disabled {
+        .wizard-nav .btn-next {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            margin-left: auto;
+        }
+
+        .wizard-nav .btn-next:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(47, 74, 44, 0.3);
+        }
+
+        .wizard-nav .btn-submit {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            background: var(--terracotta);
+            color: var(--warm-cream);
+        }
+
+        .wizard-nav .btn-submit:hover {
+            background: var(--terracotta-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(196, 90, 42, 0.3);
+        }
+
+        .wizard-nav .btn-submit:disabled {
             background: #9ca3af;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .success-message, .error-message {
+        /* Confirmation Screen */
+        .confirmation-screen {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .confirmation-screen.active {
+            display: block;
+        }
+
+        .confirmation-icon {
+            font-size: 4rem;
+            color: var(--forest-green);
+            margin-bottom: 1.5rem;
+        }
+
+        .confirmation-screen h2 {
+            font-size: 1.75rem;
+            color: var(--forest-green);
+            margin-bottom: 1rem;
+            border: none;
+            background: none;
+            -webkit-text-fill-color: var(--forest-green);
+        }
+
+        .confirmation-ref {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--warm-cream);
+            border: 2px solid var(--olive-green);
+            border-radius: 0.75rem;
+            font-family: monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--forest-green);
+            margin: 1rem 0;
+        }
+
+        .confirmation-timeline {
+            color: #6b7280;
+            font-size: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .confirmation-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .confirmation-links a {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .confirmation-links a.primary-link {
+            background: var(--forest-green);
+            color: var(--warm-cream);
+        }
+
+        .confirmation-links a.primary-link:hover {
+            background: var(--forest-green-dark);
+        }
+
+        .confirmation-links a.secondary-link {
+            background: white;
+            color: var(--forest-green);
+            border: 2px solid var(--forest-green);
+        }
+
+        .confirmation-links a.secondary-link:hover {
+            background: var(--warm-cream);
+        }
+
+        /* While You Wait Action Cards */
+        .confirmation-actions { margin-top: 2rem; text-align: center; }
+        .confirmation-actions h3 { color: var(--forest-green); margin-bottom: 1rem; font-size: 1.1rem; }
+        .confirmation-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .confirmation-card {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            padding: 1.25rem; border-radius: 10px; text-decoration: none; color: inherit;
+            background: rgba(185,201,138,0.08); border: 1px solid rgba(185,201,138,0.2);
+            transition: all 0.2s;
+        }
+        .confirmation-card:hover { background: rgba(185,201,138,0.15); transform: translateY(-2px); }
+        .confirmation-card i { font-size: 1.5rem; color: var(--forest-green); }
+        .confirmation-card strong { font-size: 0.85rem; color: var(--forest-green); }
+        .confirmation-card span { font-size: 0.75rem; color: #666; }
+
+        /* Error message */
+        .error-message {
             padding: 1.25rem;
             border-radius: 1rem;
             margin-bottom: 1.5rem;
             font-weight: 600;
-        }
-
-        .success-message {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-            color: #059669;
-            border: 2px solid #10b981;
-        }
-
-        .error-message {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
             color: #dc2626;
             border: 2px solid #ef4444;
+            display: none;
+        }
+
+        /* City Other */
+        #cityOtherGroup {
+            display: none;
+            margin-top: 0.75rem;
+        }
+
+        /* Reassurance */
+        .reassurance-text {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--warm-cream);
+            border-radius: 0.75rem;
+            color: var(--forest-green);
+            font-size: 0.9rem;
+            margin-top: 1.5rem;
         }
 
         @media (max-width: 768px) {
-            .join-hero h1 {
-                font-size: 2rem;
-            }
-
             .form-card {
                 padding: 2rem 1.5rem;
             }
 
-            .form-grid {
+            .form-type-selector {
                 grid-template-columns: 1fr;
             }
 
-            .form-type-selector {
+            .wizard-step-line {
+                width: 40px;
+            }
+
+            .wizard-step-label {
+                font-size: 0.7rem;
+            }
+
+            .wizard-nav {
+                flex-direction: column;
+            }
+
+            .wizard-nav .btn-next,
+            .wizard-nav .btn-submit {
+                margin-left: 0;
+            }
+
+            .confirmation-links {
+                flex-direction: column;
+            }
+
+            .confirmation-cards {
                 grid-template-columns: 1fr;
             }
         }
@@ -297,17 +505,18 @@
                     <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
                 <a href="/" data-i18n="nav.home">Home</a>
                 <a href="/about/" data-i18n="nav.about">About</a>
-                <a href="/join/" class="join-link active" data-i18n="nav.join">Join</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
@@ -315,166 +524,182 @@
         </nav>
     </header>
 
-    <section class="join-hero">
+    <section class="page-hero">
         <h1 data-i18n="joinpage.hero.title">Join NOTF</h1>
         <p data-i18n="joinpage.hero.subtitle">Connect your community or solution with the Neighbourhood of the Future network</p>
     </section>
 
     <div class="join-container">
         <div class="form-card">
-            <div id="successMessage" class="success-message" style="display: none;"></div>
-            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <div id="errorMessage" class="error-message"></div>
 
-            <!-- Type Selector -->
-            <div class="form-type-selector">
-                <div class="type-option active" onclick="selectType('community')">
-                    <div class="icon">
-                        <i class="fa-solid fa-house type-icon-large"></i>
-                    </div>
-                    <h3 data-i18n="joinpage.typeSelector.community.title">Community</h3>
-                    <p data-i18n="joinpage.typeSelector.community.description">Neighborhood organization or resident group</p>
+            <!-- Progress Bar -->
+            <div class="wizard-progress" id="wizardProgress">
+                <div class="wizard-step-indicator active" data-step="1">
+                    <div class="wizard-step-circle">1</div>
+                    <div class="wizard-step-label" data-i18n="joinPage.step1.title">Who are you?</div>
                 </div>
-                <div class="type-option" onclick="selectType('solution-provider')">
-                    <div class="icon">
-                        <i class="fa-solid fa-wrench type-icon-large"></i>
-                    </div>
-                    <h3 data-i18n="joinpage.typeSelector.provider.title">Solution Provider</h3>
-                    <p data-i18n="joinpage.typeSelector.provider.description">Organization offering services or solutions</p>
+                <div class="wizard-step-line" id="line1"></div>
+                <div class="wizard-step-indicator" data-step="2">
+                    <div class="wizard-step-circle">2</div>
+                    <div class="wizard-step-label" data-i18n="joinPage.step2.title">What do you care about?</div>
+                </div>
+                <div class="wizard-step-line" id="line2"></div>
+                <div class="wizard-step-indicator" data-step="3">
+                    <div class="wizard-step-circle">3</div>
+                    <div class="wizard-step-label" data-i18n="joinPage.step3.title">How can we reach you?</div>
                 </div>
             </div>
 
-            <form id="joinForm">
-                <input type="hidden" id="formType" value="community">
+            <!-- Step 1: Who are you? -->
+            <div class="wizard-step active" id="step1">
+                <h2 data-i18n="joinPage.step1.title">Who are you?</h2>
 
-                <!-- Basic Information -->
-                <div class="form-section">
-                    <h2 data-i18n="joinpage.form.basicInfo">Basic Information</h2>
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label>Organization/Community Name<span class="required">*</span></label>
-                            <input type="text" id="name" required placeholder="e.g., HSR Layout Residents Association">
+                <div class="form-type-selector">
+                    <div class="type-option active" data-type="community" onclick="selectType('community', this)">
+                        <div class="icon">
+                            <i class="fa-solid fa-house type-icon-large"></i>
                         </div>
-
-                        <div class="form-group">
-                            <label>City<span class="required">*</span></label>
-                            <input type="text" id="city" required placeholder="e.g., Bengaluru">
-                        </div>
-
-                        <div class="form-group">
-                            <label>State<span class="required">*</span></label>
-                            <input type="text" id="state" required placeholder="e.g., Karnataka">
-                        </div>
-
-                        <div class="form-group" id="neighborhoodGroup">
-                            <label>Neighborhood<span class="required">*</span></label>
-                            <input type="text" id="neighborhood" required placeholder="e.g., HSR Layout">
-                        </div>
-
-                        <div class="form-group" id="locationGroup" style="display: none;">
-                            <label>Location<span class="required">*</span></label>
-                            <input type="text" id="location" placeholder="e.g., Sector 5, HSR Layout, Bengaluru">
-                        </div>
+                        <h3 data-i18n="joinpage.typeSelector.community.title">Community</h3>
+                        <p data-i18n="joinpage.typeSelector.community.description">Neighborhood organization or resident group</p>
                     </div>
-
-                    <div class="form-group">
-                        <label>Description<span class="required">*</span></label>
-                        <textarea id="description" required placeholder="Tell us about your organization/community, your mission, and what you do..."></textarea>
-                        <small>Minimum 50 characters</small>
+                    <div class="type-option" data-type="solution-provider" onclick="selectType('solution-provider', this)">
+                        <div class="icon">
+                            <i class="fa-solid fa-wrench type-icon-large"></i>
+                        </div>
+                        <h3 data-i18n="joinpage.typeSelector.provider.title">Solution Provider</h3>
+                        <p data-i18n="joinpage.typeSelector.provider.description">Organization offering services or solutions</p>
                     </div>
                 </div>
 
-                <!-- Themes/Focus Areas -->
-                <div class="form-section">
-                    <h2 id="themesTitle">Focus Areas & Themes</h2>
-                    <div class="form-group">
-                        <label>What themes or areas do you focus on?<span class="required">*</span></label>
-                        <div class="dynamic-list" id="themesList">
-                            <div class="dynamic-item">
-                                <input type="text" class="theme-input" placeholder="e.g., Waste Management, Community Building, Education" required>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-add" onclick="addTheme()">+ Add Another Theme</button>
-                        <small>Press Enter or click to add multiple themes</small>
+                <div class="form-group">
+                    <label data-i18n="joinPage.step1.name">Organisation/Community Name<span class="required">*</span></label>
+                    <input type="text" id="name" required placeholder="e.g., HSR Layout Residents Association">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step1.city">City<span class="required">*</span></label>
+                    <select id="city" required>
+                        <option value="">-- Select a city --</option>
+                        <!-- Populated dynamically from SUPPORTED_CITIES -->
+                    </select>
+                    <div id="cityOtherGroup">
+                        <input type="text" id="cityOther" placeholder="Enter your city" data-i18n-placeholder="joinPage.step1.cityOther">
                     </div>
                 </div>
 
-                <!-- Contact Information -->
-                <div class="form-section">
-                    <h2 data-i18n="joinpage.form.contactInfo">Contact Information</h2>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Contact Person Name<span class="required">*</span></label>
-                            <input type="text" id="contactPerson" required placeholder="Full Name">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Email<span class="required">*</span></label>
-                            <input type="email" id="email" required placeholder="contact@example.org">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="tel" id="phone" placeholder="+91 98765 43210">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Website/Social Media</label>
-                            <input type="url" id="website" placeholder="https://example.org or @handle">
-                        </div>
-                    </div>
+                <div class="form-group" id="neighbourhoodGroup">
+                    <label data-i18n="joinPage.step1.neighbourhood">Neighbourhood<span class="required">*</span></label>
+                    <input type="text" id="neighbourhood" placeholder="e.g., HSR Layout">
                 </div>
 
-                <!-- Community Specific Fields -->
-                <div id="communityFields">
-                    <div class="form-section">
-                        <h2>Community Details</h2>
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Approximate Population</label>
-                                <input type="text" id="population" placeholder="e.g., 5000 households">
-                            </div>
+                <div class="wizard-nav">
+                    <button type="button" class="btn btn-primary btn-next" onclick="goToStep(2)" data-i18n="joinPage.nav.next">Next <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
 
-                            <div class="form-group">
-                                <label>Geographic Coverage</label>
-                                <input type="text" id="geography" placeholder="e.g., 2 sq km">
-                            </div>
-                        </div>
+            <!-- Step 2: What do you care about? -->
+            <div class="wizard-step" id="step2">
+                <h2 data-i18n="joinPage.step2.title">What do you care about?</h2>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step2.focusAreas">Focus Areas<span class="required">*</span></label>
+                    <small data-i18n="joinPage.step2.focusHint">Select at least one area you focus on</small>
+                    <div class="theme-checkboxes" id="themeCheckboxes">
+                        <!-- Generated from THEME_CATEGORIES -->
                     </div>
+                    <div id="themesError" class="field-error" style="display: none;">Please select at least one focus area</div>
                 </div>
 
-                <!-- Offers -->
-                <div class="form-section">
-                    <h2>What Can You Offer?</h2>
-                    <div class="form-group">
-                        <label>Resources, services, or expertise you can share</label>
-                        <div class="dynamic-list" id="offersList">
-                            <div class="dynamic-item">
-                                <input type="text" class="offer-input" placeholder="e.g., Community space for events, Volunteer network">
-                            </div>
-                        </div>
-                        <button type="button" class="btn-add" onclick="addOffer()">+ Add Another Offer</button>
-                    </div>
+                <div class="form-group">
+                    <label data-i18n="joinPage.step2.description">Description<span class="required">*</span></label>
+                    <textarea id="description" required maxlength="140" placeholder="Tell us briefly about your organisation and what you do..."></textarea>
+                    <div class="char-counter"><span id="charCount">0</span> / 140</div>
                 </div>
 
-                <!-- Asks -->
-                <div class="form-section">
-                    <h2>What Do You Need?</h2>
-                    <div class="form-group">
-                        <label>Support, resources, or connections you're looking for</label>
-                        <div class="dynamic-list" id="asksList">
-                            <div class="dynamic-item">
-                                <input type="text" class="ask-input" placeholder="e.g., Funding for projects, Technical expertise">
-                            </div>
-                        </div>
-                        <button type="button" class="btn-add" onclick="addAsk()">+ Add Another Need</button>
-                    </div>
+                <div class="form-group">
+                    <label data-i18n="joinPage.step2.offers">What can you offer?</label>
+                    <textarea id="offers" placeholder="e.g., Community space, volunteer network, expertise in waste management"></textarea>
                 </div>
 
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    <span id="submitText" data-i18n="joinpage.form.submit">Submit Application</span>
-                    <span id="submitLoader" style="display: none;" data-i18n="joinpage.form.submitting">Submitting...</span>
-                </button>
-            </form>
+                <div class="form-group">
+                    <label data-i18n="joinPage.step2.asks">What do you need?</label>
+                    <textarea id="asks" placeholder="e.g., Funding, technical expertise, training materials"></textarea>
+                </div>
+
+                <div class="wizard-nav">
+                    <button type="button" class="btn btn-tertiary btn-back" onclick="goToStep(1)" data-i18n="joinPage.nav.back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary btn-next" onclick="goToStep(3)" data-i18n="joinPage.nav.next">Next <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            <!-- Step 3: How can we reach you? -->
+            <div class="wizard-step" id="step3">
+                <h2 data-i18n="joinPage.step3.title">How can we reach you?</h2>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step3.contactPerson">Contact Person Name<span class="required">*</span></label>
+                    <input type="text" id="contactPerson" required placeholder="Full name">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step3.email">Email<span class="required">*</span></label>
+                    <input type="email" id="email" required placeholder="contact@example.org">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step3.phone">Phone</label>
+                    <input type="tel" id="phone" placeholder="+91 98765 43210">
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="joinPage.step3.website">Website / Social Media</label>
+                    <input type="url" id="website" placeholder="https://example.org or @handle">
+                </div>
+
+                <div class="reassurance-text">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span data-i18n="joinPage.step3.reassurance">You can always update these details later.</span>
+                </div>
+
+                <div class="wizard-nav">
+                    <button type="button" class="btn btn-tertiary btn-back" onclick="goToStep(2)" data-i18n="joinPage.nav.back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-submit" id="submitBtn" onclick="submitForm()" data-i18n="joinPage.nav.submit">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Application
+                    </button>
+                </div>
+            </div>
+
+            <!-- Confirmation Screen -->
+            <div class="confirmation-screen" id="confirmationScreen">
+                <div class="confirmation-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h2 data-i18n="joinPage.confirmation.title">Application Submitted!</h2>
+                <p data-i18n="joinPage.confirmation.reference">Your reference number:</p>
+                <div class="confirmation-ref" id="referenceNumber"></div>
+                <p class="confirmation-timeline" data-i18n="joinPage.confirmation.timeline">We'll review your application within 3 working days.</p>
+                <div class="confirmation-actions">
+                    <h3 data-i18n="joinPage.confirmation.whileYouWait">While you wait, explore:</h3>
+                    <div class="confirmation-cards">
+                        <a href="/communities/" class="confirmation-card">
+                            <i class="fa-solid fa-house-user"></i>
+                            <strong data-i18n="joinPage.confirmation.browseCommunities">Browse communities near you</strong>
+                            <span data-i18n="joinPage.confirmation.browseCommunitiesDesc">See who's already active in your area</span>
+                        </a>
+                        <a href="/catalog/" class="confirmation-card">
+                            <i class="fa-solid fa-book-open"></i>
+                            <strong data-i18n="joinPage.confirmation.exploreCatalogue">Explore project catalogue</strong>
+                            <span data-i18n="joinPage.confirmation.exploreCatalogueDesc">27 ready-to-implement neighbourhood projects</span>
+                        </a>
+                        <a href="/stories/" class="confirmation-card">
+                            <i class="fa-solid fa-play-circle"></i>
+                            <strong data-i18n="joinPage.confirmation.readStories">Read community stories</strong>
+                            <span data-i18n="joinPage.confirmation.readStoriesDesc">Learn from communities who've already started</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -497,6 +722,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
+    <script src="/assets/js/theme-categories.js"></script>
+    <script src="/assets/js/utils.js"></script>
     <script src="/assets/js/join-form.js"></script>
     <script>
         // Hamburger menu functionality
@@ -582,6 +809,7 @@
     <script defer src="/assets/chat/boundary-loader.js"></script>
 
     <script defer src="/assets/chat/boundary-validator.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script defer src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector -->

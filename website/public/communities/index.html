@@ -22,7 +22,7 @@
             -webkit-backdrop-filter: blur(10px);
             padding: 1.5rem;
             border-radius: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             margin-bottom: 2rem;
             display: flex;
             gap: 1rem;
@@ -47,8 +47,37 @@
 
         .filter-select:focus {
             outline: none;
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
             box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .search-input-wrapper:focus-within {
+            border-color: var(--forest-green);
+            box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
+        }
+        .search-input-wrapper i {
+            color: #999;
+            font-size: 0.9rem;
+        }
+        .search-input-wrapper input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            flex: 1;
+            background: transparent;
+            font-family: inherit;
         }
 
         .communities-grid {
@@ -58,24 +87,13 @@
         }
 
         .community-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
         }
 
-        .community-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 28px rgba(47, 74, 44, 0.15);
-        }
-
         .card-header {
-            background: #2F4A2C;
+            background: var(--forest-green);
             padding: 1.25rem 1.5rem;
             display: flex;
             justify-content: space-between;
@@ -150,7 +168,7 @@
         .card-stat-value {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #2F4A2C;
+            color: var(--forest-green);
         }
 
         .sort-controls {
@@ -170,14 +188,14 @@
 
         .sort-select:focus {
             outline: none;
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
             box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
         }
 
         .theme-tag {
             display: inline-block;
             background: linear-gradient(135deg, rgba(91, 192, 195, 0.15) 0%, rgba(185, 201, 138, 0.25) 100%);
-            color: #253B23;
+            color: var(--forest-green-dark);
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
             font-size: 0.85rem;
@@ -194,7 +212,7 @@
 
         .count-badge {
             display: inline-block;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
@@ -213,7 +231,7 @@
         }
 
         .view-details-btn {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
@@ -224,19 +242,19 @@
         }
 
         .view-details-btn:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             gap: 0.5rem;
         }
 
         .name-link {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             transition: all 0.2s ease;
             cursor: pointer;
         }
 
         .name-link:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             text-decoration: underline;
         }
 
@@ -283,7 +301,7 @@
 
         .modal-header {
             padding: 2rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             display: flex;
             justify-content: space-between;
@@ -328,7 +346,7 @@
 
         .modal-section h3 {
             margin: 0 0 0.75rem 0;
-            background: #2F4A2C;
+            background: var(--forest-green);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -352,7 +370,7 @@
             background: #f8f9fa;
             margin: 0.25rem 0;
             border-radius: 4px;
-            border-left: 3px solid #B9C98A;
+            border-left: 3px solid var(--olive-green);
         }
 
         /* CTA Card Styles */
@@ -374,7 +392,7 @@
         .cta-card-header {
             text-align: center;
             padding: 3rem 2rem 2rem 2rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             position: relative;
         }
@@ -422,7 +440,7 @@
             margin: 0 0 1.5rem 0;
             font-size: 1.25rem;
             font-weight: 600;
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-align: center;
         }
 
@@ -451,7 +469,7 @@
 
         .community-benefit i {
             font-size: 1.75rem;
-            color: #2F4A2C;
+            color: var(--forest-green);
             min-width: 32px;
             text-align: center;
         }
@@ -474,7 +492,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 1rem 2.5rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -487,7 +505,7 @@
         }
 
         .cta-btn:hover {
-            background: #253B23;
+            background: var(--forest-green-dark);
             transform: translateY(-3px);
             box-shadow: 0 8px 28px rgba(35, 162, 165, 0.5);
         }
@@ -511,14 +529,14 @@
         }
 
         .cta-note a {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s ease;
         }
 
         .cta-note a:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             text-decoration: underline;
         }
 
@@ -586,6 +604,9 @@
             <div class="nav-menu" id="navMenu">
                 <a href="/" data-i18n="nav.home">Home</a>
                 <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -601,6 +622,10 @@
             <p class="lead" data-i18n="communities.lead">NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.</p>
 
             <div class="filters">
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" data-i18n-placeholder="communities.searchPlaceholder" placeholder="Search communities..." aria-label="Search communities">
+                </div>
                 <label class="filter-label" for="cityFilter" data-i18n="communities.filterLabel">Filter by City:</label>
                 <select id="cityFilter" class="filter-select">
                     <option value="all" data-i18n="communities.allCities">All Cities</option>
@@ -770,11 +795,21 @@
         let allCommunities = [];
         let filteredCommunities = [];
         let currentSort = { column: 'name', direction: 'asc' };
+        let fuse = null;
 
         (async function() {
             await dataLoader.waitForSupabase();
             allCommunities = await dataLoader.loadCommunities();
             filteredCommunities = [...allCommunities];
+
+            // Create Fuse.js instance for search
+            if (typeof Fuse !== 'undefined') {
+                fuse = new Fuse(allCommunities, {
+                    keys: ['name', 'city', 'neighborhood', 'themes', 'description'],
+                    threshold: 0.4,
+                    ignoreLocation: true
+                });
+            }
 
             // Populate city filter
             const cities = [...new Set(allCommunities.map(c => c.city).filter(c => c))].sort();
@@ -789,6 +824,7 @@
             renderCards();
             setupSorting();
             setupFilters();
+            setupSearch();
         })();
 
         function renderCards() {
@@ -810,7 +846,7 @@
                 const asksCount = (comm.asks || []).length;
 
                 return `
-                    <div class="community-card" onclick="showDetails(${idx})">
+                    <div class="content-card community-card" onclick="showDetails(${idx})">
                         <div class="card-header">
                             <h3 class="card-name">${comm.name}</h3>
                             ${comm.city ? `<span class="card-city"><i class="fa-solid fa-location-dot"></i> ${comm.city}</span>` : ''}
@@ -883,18 +919,32 @@
             });
         }
 
+        function applyFilters() {
+            const selectedCity = document.getElementById('cityFilter').value;
+            const query = document.getElementById('searchInput').value.trim();
+
+            let results = (query && fuse) ? fuse.search(query).map(r => r.item) : [...allCommunities];
+
+            if (selectedCity !== 'all') {
+                results = results.filter(c => c.city === selectedCity);
+            }
+
+            filteredCommunities = results;
+            sortCommunities();
+            renderCards();
+        }
+
         function setupFilters() {
             document.getElementById('cityFilter').addEventListener('change', function() {
-                const selectedCity = this.value;
+                applyFilters();
+            });
+        }
 
-                if (selectedCity === 'all') {
-                    filteredCommunities = [...allCommunities];
-                } else {
-                    filteredCommunities = allCommunities.filter(c => c.city === selectedCity);
-                }
-
-                sortCommunities();
-                renderCards();
+        let searchTimeout;
+        function setupSearch() {
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => applyFilters(), 200);
             });
         }
 
@@ -1045,6 +1095,9 @@
     <script defer src="/assets/chat/complaint-engine.js"></script>
     <script defer src="/assets/chat/boundary-loader.js"></script>
     <script defer src="/assets/chat/boundary-validator.js"></script>
+    <script defer src="/assets/js/theme-categories.js"></script>
+    <script defer src="/assets/js/utils.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script defer src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector -->

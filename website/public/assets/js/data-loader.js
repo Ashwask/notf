@@ -13,8 +13,13 @@ function getSupabaseClient() {
     return supabasePublic;
 }
 
+// Simple in-memory cache to prevent duplicate API calls
+const _cache = {};
+
 // Load all solution providers
 async function loadSolutionProviders() {
+    const cacheKey = 'solutionProviders';
+    if (_cache[cacheKey]) return _cache[cacheKey];
     const supabase = getSupabaseClient();
     if (!supabase) {
         console.error('Supabase client not initialized');
@@ -33,7 +38,7 @@ async function loadSolutionProviders() {
         return [];
     }
 
-    return (data || []).map(item => ({
+    const result = (data || []).map(item => ({
         slug: item.slug,
         name: item.metadata?.name || item.slug,
         type: 'solution-provider',
@@ -52,10 +57,15 @@ async function loadSolutionProviders() {
         neighborhood: item.neighborhood || null,
         ward: item.ward || null
     }));
+    _cache[cacheKey] = result;
+    return result;
 }
 
 // Load all communities
 async function loadCommunities(cityFilter = null) {
+    const cacheKey = `communities_${cityFilter || 'all'}`;
+    if (_cache[cacheKey]) return _cache[cacheKey];
+
     const supabase = getSupabaseClient();
     if (!supabase) {
         console.error('Supabase client not initialized');
@@ -80,7 +90,7 @@ async function loadCommunities(cityFilter = null) {
         return [];
     }
 
-    return (data || []).map(item => ({
+    const result = (data || []).map(item => ({
         slug: item.slug,
         name: item.metadata?.name || item.slug,
         type: 'community',
@@ -98,10 +108,15 @@ async function loadCommunities(cityFilter = null) {
         longitude: item.longitude || null,
         ward: item.ward || null
     }));
+    _cache[cacheKey] = result;
+    return result;
 }
 
 // Load all stories
 async function loadStories(cityFilter = null) {
+    const cacheKey = `stories_${cityFilter || 'all'}`;
+    if (_cache[cacheKey]) return _cache[cacheKey];
+
     const supabase = getSupabaseClient();
     if (!supabase) {
         console.error('Supabase client not initialized');
@@ -126,7 +141,7 @@ async function loadStories(cityFilter = null) {
         return [];
     }
 
-    return (data || []).map(item => ({
+    const result = (data || []).map(item => ({
         slug: item.slug,
         title: item.metadata?.title || item.slug,
         type: 'story',
@@ -139,6 +154,8 @@ async function loadStories(cityFilter = null) {
         youtube_url: item.metadata?.youtube_url || null,
         created_at: item.created_at || null
     }));
+    _cache[cacheKey] = result;
+    return result;
 }
 
 // Get unique cities from communities
@@ -241,6 +258,7 @@ if (document.querySelector('#notf-chatbot, #chat-fab')) {
 
 // Export for use in pages
 window.dataLoader = {
+    getSupabaseClient,
     loadSolutionProviders,
     loadCommunities,
     loadStories,

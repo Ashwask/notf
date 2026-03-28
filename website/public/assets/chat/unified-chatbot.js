@@ -1,13 +1,13 @@
 /**
  * NOTF Unified Chatbot
- * Dual-mode chatbot: Discovery Mode + Complaint Mode
- * Last updated: 2026-01-18
+ * Triple-mode chatbot: Discovery Mode + Onboarding Mode + Complaint Mode
+ * Last updated: 2026-03-27
  */
 
 class NotfChatbot {
     constructor() {
         this.state = 'intent_selection';
-        this.mode = null; // 'discovery' or 'complaint'
+        this.mode = null; // 'discovery', 'onboarding', or 'complaint'
         this.conversationHistory = [];
         this.formData = {};
 
@@ -15,6 +15,7 @@ class NotfChatbot {
         this.discoveryEngine = null;
         this.complaintEngine = null;
         this.boundaryValidator = null;
+        this.onboardingEngine = null;
 
         // Session ID
         this.sessionId = this.generateSessionId();
@@ -31,6 +32,15 @@ class NotfChatbot {
 
         // Show welcome message
         this.showWelcomeMessage();
+
+        // Listen for external onboarding trigger (e.g. from CTA button)
+        window.addEventListener('notf-open-onboarding', () => {
+            if (this.mode !== 'onboarding') {
+                this.selectIntent('onboarding').catch(err => {
+                    console.warn('[Chatbot] Failed to open onboarding mode:', err);
+                });
+            }
+        });
     }
 
     generateSessionId() {
@@ -195,6 +205,11 @@ class NotfChatbot {
                         <span class="label">Find Communities & Resources</span>
                         <span class="description">Discover organizations, projects, and opportunities</span>
                     </button>
+                    <button class="intent-button onboarding-button" data-intent="onboarding">
+                        <span class="icon"><i class="fa-solid fa-user-plus"></i></span>
+                        <span class="label">Join NOTF</span>
+                        <span class="description">Register your community or organisation to join the network</span>
+                    </button>
                     <button class="intent-button complaint-button" data-intent="complaint">
                         <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
                         <span class="label">File a Complaint</span>
@@ -230,13 +245,19 @@ class NotfChatbot {
         this.elements.switchModeButton?.classList.remove('hidden');
 
         // Add user's choice to conversation immediately
-        const choiceText = intent === 'discovery' ? 'Find Communities & Resources' : 'File a Complaint';
-        this.addUserMessage(choiceText);
+        const choiceLabels = {
+            'discovery': 'Find Communities & Resources',
+            'onboarding': 'Join NOTF',
+            'complaint': 'File a Complaint'
+        };
+        this.addUserMessage(choiceLabels[intent] || intent);
 
         // Initialize appropriate engine (async, but UI already updated)
         if (intent === 'discovery') {
             // This will show loading state and wait for data asynchronously
             await this.initializeDiscoveryMode();
+        } else if (intent === 'onboarding') {
+            await this.initializeOnboardingMode();
         } else {
             // Complaint mode is immediate, no data loading required
             this.initializeComplaintMode();
@@ -250,6 +271,8 @@ class NotfChatbot {
 
         if (mode === 'discovery') {
             this.elements.modeTitle.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Discovery Mode';
+        } else if (mode === 'onboarding') {
+            this.elements.modeTitle.innerHTML = '<i class="fa-solid fa-user-plus"></i> Join NOTF';
         } else if (mode === 'complaint') {
             this.elements.modeTitle.innerHTML = '<i class="fa-solid fa-file-pen"></i> Complaint Mode';
         } else {
@@ -258,22 +281,17 @@ class NotfChatbot {
     }
 
     switchMode() {
-        // Determine which mode to switch to
-        const otherMode = this.mode === 'discovery' ? 'complaint' : 'discovery';
-        const otherModeLabel = otherMode === 'discovery' ? 'Discovery' : 'Complaint';
-
-        // Check if there's conversation history
-        const hasMessages = this.conversationHistory.length > 1; // More than just the welcome message
+        // Return to welcome / mode selection screen
+        const hasMessages = this.conversationHistory.length > 1;
 
         if (hasMessages) {
-            // Ask for confirmation
             const confirmed = confirm(
-                `Switching to ${otherModeLabel} Mode will start a new conversation. ` +
-                `Your current conversation will be cleared. Continue?`
+                'Switching modes will start a new conversation. ' +
+                'Your current conversation will be cleared. Continue?'
             );
 
             if (!confirmed) {
-                return; // User cancelled
+                return;
             }
         }
 
@@ -281,11 +299,22 @@ class NotfChatbot {
         this.conversationHistory = [];
         this.formData = {};
 
+        // Reset onboarding engine if it exists
+        if (this.onboardingEngine) {
+            this.onboardingEngine.reset();
+        }
+
+        // Reset state
+        this.state = 'intent_selection';
+        this.mode = null;
+
         // Reset UI
         this.elements.messagesContainer.innerHTML = '';
+        this.elements.switchModeButton?.classList.add('hidden');
+        this.updateHeaderTitle(null);
 
-        // Switch to the other mode
-        this.selectIntent(otherMode);
+        // Show welcome message again
+        this.showWelcomeMessage();
     }
 
     async initializeDiscoveryMode() {
@@ -403,6 +432,8 @@ class NotfChatbot {
     async processMessage(message) {
         if (this.mode === 'discovery') {
             await this.processDiscoveryMessage(message);
+        } else if (this.mode === 'onboarding') {
+            await this.processOnboardingMessage(message);
         } else if (this.mode === 'complaint') {
             await this.processComplaintMessage(message);
         }
@@ -578,6 +609,144 @@ class NotfChatbot {
         if (modal) {
             modal.remove();
         }
+    }
+
+    // ==========================================
+    // Onboarding Mode
+    // ==========================================
+
+    async initializeOnboardingMode() {
+        this.state = 'onboarding_active';
+
+        // Lazy-load onboarding engine
+        if (!this.onboardingEngine) {
+            this.onboardingEngine = new OnboardingEngine();
+        } else {
+            this.onboardingEngine.reset();
+        }
+
+        // Initialize with Supabase client from data-loader.js
+        try {
+            const client = (typeof dataLoader !== 'undefined' && dataLoader.getSupabaseClient)
+                ? dataLoader.getSupabaseClient()
+                : null;
+            if (client) {
+                await this.onboardingEngine.init(client);
+            }
+        } catch (err) {
+            console.warn('[Chatbot] Could not initialize Supabase for onboarding:', err);
+        }
+
+        // Show the welcome/type selection message
+        const welcome = this.onboardingEngine.getWelcomeMessage();
+        this.renderOnboardingResponse(welcome);
+        this.disableInput();
+    }
+
+    async processOnboardingMessage(message) {
+        if (!this.onboardingEngine) return;
+
+        const response = await this.onboardingEngine.handleInput(message);
+
+        this.renderOnboardingResponse(response);
+
+        if (response.done) {
+            this.disableInput();
+        }
+    }
+
+    renderOnboardingResponse(response) {
+        let html = '';
+
+        // Text content - handle newlines
+        if (response.text) {
+            const lines = response.text.split('\n').filter(l => l.trim());
+            html += lines.map(line => `<p>${this.escapeHtml(line)}</p>`).join('');
+        }
+
+        // Buttons (single-select options)
+        if (response.buttons && response.buttons.length > 0) {
+            html += '<div class="chat-option-buttons">';
+            response.buttons.forEach(btn => {
+                if (btn.value.startsWith('_link:')) {
+                    const url = btn.value.replace('_link:', '');
+                    html += `<a href="${url}" class="chat-link-btn"><i class="fa-solid fa-arrow-right"></i> ${this.escapeHtml(btn.label)}</a>`;
+                } else {
+                    html += `<button class="chat-option-btn" onclick="window.notfChatbot.handleOnboardingButton('${this.escapeHtml(btn.value)}')">${this.escapeHtml(btn.label)}</button>`;
+                }
+            });
+            html += '</div>';
+            this.disableInput();
+        }
+
+        // Checkboxes (multi-select pills)
+        if (response.checkboxes && response.checkboxes.length > 0) {
+            html += '<div class="chat-checkboxes" id="onboarding-checkboxes">';
+            response.checkboxes.forEach(cb => {
+                html += `<button class="chat-checkbox-pill" data-value="${this.escapeHtml(cb.value)}" onclick="window.notfChatbot.toggleOnboardingCheckbox(this)">${this.escapeHtml(cb.label)}</button>`;
+            });
+            html += '</div>';
+            html += '<button class="chat-continue-btn" onclick="window.notfChatbot.submitOnboardingCheckboxes()"><i class="fa-solid fa-arrow-right"></i> Continue</button>';
+            this.disableInput();
+        }
+
+        // If response only has text and an inputType, enable the input
+        if (response.inputType && !response.buttons && !response.checkboxes) {
+            this.enableInput();
+            if (response.inputType === 'email') {
+                this.elements.inputField.type = 'email';
+                this.elements.inputField.placeholder = 'Enter your email address';
+            } else {
+                this.elements.inputField.type = 'text';
+                this.elements.inputField.placeholder = 'Type your answer...';
+            }
+        }
+
+        if (html) {
+            this.addBotMessage(html);
+        }
+
+        // If done, offer return to main menu
+        if (response.done) {
+            setTimeout(() => {
+                this.addBotMessage(`
+                    <div style="margin-top: 8px;">
+                        <button class="chat-option-btn" onclick="window.notfChatbot.switchMode()">
+                            <i class="fa-solid fa-arrow-left"></i> Back to main menu
+                        </button>
+                    </div>
+                `);
+            }, 500);
+        }
+    }
+
+    handleOnboardingButton(value) {
+        this.addUserMessage(value === '_other' ? 'Other' : value);
+        // Reset input field type
+        this.elements.inputField.type = 'text';
+        this.elements.inputField.placeholder = 'Type your message...';
+        this.processOnboardingMessage(value);
+    }
+
+    toggleOnboardingCheckbox(element) {
+        element.classList.toggle('selected');
+    }
+
+    submitOnboardingCheckboxes() {
+        const container = this.elements.messagesContainer.querySelector('#onboarding-checkboxes');
+        if (!container) return;
+
+        const selected = Array.from(container.querySelectorAll('.chat-checkbox-pill.selected'))
+            .map(el => el.dataset.value);
+
+        if (selected.length === 0) {
+            // Flash the continue button to indicate error
+            this.addBotMessage('<p style="color: #C45A2A;">Please select at least one focus area.</p>');
+            return;
+        }
+
+        this.addUserMessage(selected.join(', '));
+        this.processOnboardingMessage(selected);
     }
 
     async processComplaintMessage(message) {

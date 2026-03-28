@@ -44,49 +44,7 @@
             color: #666;
         }
 
-        /* Hero section */
-        .cities-hero {
-            background: linear-gradient(135deg, var(--forest-green, #2F4A2C) 0%, var(--slate-blue, #3F5F7A) 100%);
-            color: white;
-            padding: 3rem 2rem;
-            border-radius: 1.25rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            text-align: center;
-        }
-
-        .cities-hero-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .cities-hero-icon i {
-            font-size: 2.5rem;
-            color: white;
-        }
-
-        .cities-hero h1 {
-            margin: 0 0 0.75rem 0;
-            color: white;
-            font-size: 2.5rem;
-        }
-
-        .cities-hero p {
-            margin: 0;
-            opacity: 0.95;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         /* === CITY SELECTOR CARDS === */
         .city-grid {
@@ -265,23 +223,6 @@
 
         /* === RESPONSIVE === */
         @media (max-width: 768px) {
-            .cities-hero h1 {
-                font-size: 1.75rem;
-            }
-
-            .cities-hero p {
-                font-size: 1rem;
-            }
-
-            .cities-hero-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .cities-hero-icon i {
-                font-size: 2rem;
-            }
-
             .city-features {
                 grid-template-columns: 1fr;
                 gap: 6px;
@@ -318,6 +259,9 @@
             <div class="nav-menu" id="navMenu">
                 <a href="/" data-i18n="nav.home">Home</a>
                 <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -337,8 +281,8 @@
                 </nav>
 
                 <!-- Hero Section -->
-                <div class="cities-hero">
-                    <div class="cities-hero-icon">
+                <div class="page-hero">
+                    <div class="hero-icon">
                         <i class="fa-solid fa-city"></i>
                     </div>
                     <h1 data-i18n="citiesPage.title">Our Cities</h1>

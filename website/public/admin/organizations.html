@@ -92,12 +92,28 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="orgTheme">Theme/Sector</label>
-                            <input type="text" id="orgTheme" placeholder="e.g., Water, Waste, Energy" />
+                    <div class="form-group">
+                        <label>Theme / Sector</label>
+                        <style>
+                            .theme-checkboxes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+                            .theme-checkboxes label { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.04); border-radius: 1rem; font-size: 0.85rem; cursor: pointer; }
+                            .theme-checkboxes label:has(input:checked) { background: rgba(47,74,44,0.15); color: #2F4A2C; font-weight: 600; }
+                            .theme-checkboxes input[type="checkbox"] { accent-color: #2F4A2C; }
+                        </style>
+                        <div class="theme-checkboxes" id="orgThemeCheckboxes">
+                            <!-- Generated from THEME_CATEGORIES -->
                         </div>
-                        <div class="form-group">
+                        <div style="margin-top: 4px;">
+                            <label style="font-size: 0.85rem; font-weight: 400; display: flex; align-items: center; gap: 6px;">
+                                <input type="checkbox" id="orgThemeOtherCheck" onchange="document.getElementById('orgThemeOtherInput').style.display = this.checked ? 'block' : 'none';" style="accent-color: #2F4A2C;">
+                                Other
+                            </label>
+                            <input type="text" id="orgThemeOtherInput" placeholder="Enter other themes, comma-separated" style="display: none; margin-top: 6px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem; width: 100%; box-sizing: border-box;">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group full">
                             <label for="orgLocation">Location</label>
                             <input type="text" id="orgLocation" placeholder="City, State" />
                         </div>
@@ -200,6 +216,18 @@
 <script>
 injectViewModal('Provider Details');
 injectImportModal();
+</script>
+<script src="/assets/js/theme-categories.js"></script>
+<script>
+// Initialize theme checkboxes from THEME_CATEGORIES
+(function() {
+    const container = document.getElementById('orgThemeCheckboxes');
+    if (container && typeof THEME_CATEGORIES !== 'undefined') {
+        container.innerHTML = THEME_CATEGORIES.map(theme =>
+            `<label><input type="checkbox" name="orgThemes" value="${theme}"> ${theme}</label>`
+        ).join('');
+    }
+})();
 </script>
 <script src="/assets/admin/organizations.js"></script>
 <!-- Excel export/import modules -->

@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#2F4A2C"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#B9C98A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#F5B82E" opacity="0.08"/>
+  <!-- Dice / Board game icon -->
+  <g transform="translate(200, 150)">
+    <!-- Die 1 (front-facing, tilted) -->
+    <g transform="rotate(-15)">
+      <rect x="-55" y="-55" width="80" height="80" rx="10" fill="#FAF6E8" opacity="0.8"/>
+      <!-- Dots on die 1 (showing 5) -->
+      <circle cx="-35" cy="-35" r="5" fill="#2F4A2C" opacity="0.7"/>
+      <circle cx="-35" cy="-5" r="5" fill="#2F4A2C" opacity="0.7"/>
+      <circle cx="-15" cy="-20" r="5" fill="#2F4A2C" opacity="0.7"/>
+      <circle cx="5" cy="-35" r="5" fill="#2F4A2C" opacity="0.7"/>
+      <circle cx="5" cy="-5" r="5" fill="#2F4A2C" opacity="0.7"/>
+    </g>
+    <!-- Die 2 (offset, tilted other way) -->
+    <g transform="translate(30, 10) rotate(12)">
+      <rect x="-30" y="-30" width="70" height="70" rx="10" fill="#FAF6E8" opacity="0.65"/>
+      <!-- Dots on die 2 (showing 3) -->
+      <circle cx="-12" cy="-12" r="4.5" fill="#2F4A2C" opacity="0.6"/>
+      <circle cx="5" cy="5" r="4.5" fill="#2F4A2C" opacity="0.6"/>
+      <circle cx="22" cy="22" r="4.5" fill="#2F4A2C" opacity="0.6"/>
+    </g>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#B9C98A" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Rubbish! Game</text>
+</svg>

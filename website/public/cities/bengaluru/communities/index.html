@@ -16,54 +16,7 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
-        /* Breadcrumb styles */
-        .breadcrumb {
-            padding: 1rem 0;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .breadcrumb a {
-            color: #2F4A2C;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .breadcrumb a:hover {
-            color: #253B23;
-            text-decoration: underline;
-        }
-
-        .breadcrumb .separator {
-            margin: 0 0.5rem;
-            color: #999;
-        }
-
-        .breadcrumb .current {
-            color: #666;
-        }
-
-        /* Hero section with city header */
-        .city-hero {
-            background: linear-gradient(135deg, #2F4A2C 0%, #3F5F7A 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 1.25rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-        }
-
-        .city-hero h1 {
-            margin: 0 0 0.5rem 0;
-            color: white;
-            font-size: 2.5rem;
-        }
-
-        .city-hero p {
-            margin: 0;
-            opacity: 0.95;
-            font-size: 1.1rem;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         /* City navigation bar */
         .city-nav {
@@ -71,7 +24,7 @@
             backdrop-filter: blur(10px);
             padding: 1rem;
             border-radius: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: var(--shadow-md);
             margin-bottom: 2rem;
             display: flex;
             gap: 1rem;
@@ -83,7 +36,7 @@
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
             text-decoration: none;
-            color: #2F4A2C;
+            color: var(--forest-green);
             font-weight: 600;
             transition: all 0.2s ease;
             display: inline-flex;
@@ -97,7 +50,7 @@
         }
 
         .city-nav a.active {
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
         }
 
@@ -108,24 +61,13 @@
         }
 
         .community-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
         }
 
-        .community-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 28px rgba(47, 74, 44, 0.15);
-        }
-
         .card-header {
-            background: #2F4A2C;
+            background: var(--forest-green);
             padding: 1.25rem 1.5rem;
             display: flex;
             justify-content: space-between;
@@ -200,7 +142,36 @@
         .card-stat-value {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #2F4A2C;
+            color: var(--forest-green);
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .search-input-wrapper:focus-within {
+            border-color: var(--forest-green);
+            box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
+        }
+        .search-input-wrapper i {
+            color: #999;
+            font-size: 0.9rem;
+        }
+        .search-input-wrapper input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            flex: 1;
+            background: transparent;
+            font-family: inherit;
         }
 
         .sort-controls {
@@ -208,6 +179,7 @@
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .sort-select {
@@ -221,14 +193,14 @@
 
         .sort-select:focus {
             outline: none;
-            border-color: #2F4A2C;
+            border-color: var(--forest-green);
             box-shadow: 0 0 0 3px rgba(185, 201, 138, 0.2);
         }
 
         .theme-tag {
             display: inline-block;
             background: linear-gradient(135deg, rgba(91, 192, 195, 0.15) 0%, rgba(185, 201, 138, 0.25) 100%);
-            color: #253B23;
+            color: var(--forest-green-dark);
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
             font-size: 0.85rem;
@@ -245,7 +217,7 @@
 
         .count-badge {
             display: inline-block;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             padding: 0.35rem 0.75rem;
             border-radius: 1rem;
@@ -264,7 +236,7 @@
         }
 
         .view-details-btn {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
@@ -275,19 +247,19 @@
         }
 
         .view-details-btn:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             gap: 0.5rem;
         }
 
         .name-link {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             transition: all 0.2s ease;
             cursor: pointer;
         }
 
         .name-link:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             text-decoration: underline;
         }
 
@@ -334,7 +306,7 @@
 
         .modal-header {
             padding: 2rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             display: flex;
             justify-content: space-between;
@@ -379,7 +351,7 @@
 
         .modal-section h3 {
             margin: 0 0 0.75rem 0;
-            background: #2F4A2C;
+            background: var(--forest-green);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -403,7 +375,7 @@
             background: #f8f9fa;
             margin: 0.25rem 0;
             border-radius: 4px;
-            border-left: 3px solid #B9C98A;
+            border-left: 3px solid var(--olive-green);
         }
 
         /* CTA Card Styles */
@@ -425,7 +397,7 @@
         .cta-card-header {
             text-align: center;
             padding: 3rem 2rem 2rem 2rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             position: relative;
         }
@@ -473,7 +445,7 @@
             margin: 0 0 1.5rem 0;
             font-size: 1.25rem;
             font-weight: 600;
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-align: center;
         }
 
@@ -502,7 +474,7 @@
 
         .community-benefit i {
             font-size: 1.75rem;
-            color: #2F4A2C;
+            color: var(--forest-green);
             min-width: 32px;
             text-align: center;
         }
@@ -525,7 +497,7 @@
             align-items: center;
             gap: 0.75rem;
             padding: 1rem 2.5rem;
-            background: #2F4A2C;
+            background: var(--forest-green);
             color: white;
             text-decoration: none;
             border-radius: 50px;
@@ -538,7 +510,7 @@
         }
 
         .cta-btn:hover {
-            background: #253B23;
+            background: var(--forest-green-dark);
             transform: translateY(-3px);
             box-shadow: 0 8px 28px rgba(35, 162, 165, 0.5);
         }
@@ -562,22 +534,18 @@
         }
 
         .cta-note a {
-            color: #2F4A2C;
+            color: var(--forest-green);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s ease;
         }
 
         .cta-note a:hover {
-            color: #253B23;
+            color: var(--forest-green-dark);
             text-decoration: underline;
         }
 
         @media (max-width: 768px) {
-            .city-hero h1 {
-                font-size: 1.75rem;
-            }
-
             .city-nav {
                 flex-direction: column;
                 align-items: stretch;
@@ -649,16 +617,26 @@
             </button>
             <div class="nav-menu" id="navMenu">
                 <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/about/" data-i18n="nav.about">About</a>
                 <a href="/communities/" data-i18n="nav.communities">Communities</a>
-                <a href="/solution-providers/" data-i18n="nav.providers">Providers</a>
-                <a href="/map/" data-i18n="nav.map">Map</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
-                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin">
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
         </nav>
     </header>
+<div class="city-sub-nav">
+        <a href="/cities/bengaluru/" class="city-sub-nav-link">
+            <i class="fa-solid fa-arrow-left"></i> Bengaluru
+        </a>
+        <a href="/cities/bengaluru/communities/" class="city-sub-nav-link active">Communities</a>
+        <a href="/cities/bengaluru/climate/" class="city-sub-nav-link">Climate</a>
+        <a href="/cities/bengaluru/map/" class="city-sub-nav-link">Map</a>
+        <a href="/cities/bengaluru/stories/" class="city-sub-nav-link">Stories</a>
+    </div>
 
     <main>
         <div class="page-container">
@@ -673,34 +651,19 @@
                 </nav>
 
                 <!-- City Hero Section -->
-                <div class="city-hero">
+                <div class="page-hero">
                     <h1><i class="fa-solid fa-house-user"></i> Bengaluru Communities</h1>
                     <p>Discover community-led initiatives transforming Bengaluru's neighbourhoods</p>
                 </div>
-
-                <!-- City Navigation -->
-                <nav class="city-nav">
-                    <a href="/cities/bengaluru/">
-                        <i class="fa-solid fa-arrow-left"></i> Back to Bengaluru
-                    </a>
-                    <a href="/cities/bengaluru/communities/" class="active">
-                        <i class="fa-solid fa-house-user"></i> Communities
-                    </a>
-                    <a href="/cities/bengaluru/map/">
-                        <i class="fa-solid fa-map-marked-alt"></i> Map
-                    </a>
-                    <a href="/cities/bengaluru/climate/">
-                        <i class="fa-solid fa-leaf"></i> Climate
-                    </a>
-                    <a href="/cities/bengaluru/stories/">
-                        <i class="fa-solid fa-book-open"></i> Stories
-                    </a>
-                </nav>
 
                 <h2><span data-i18n="communities.title">Active Communities</span> <span id="communityCount" style="font-size: 0.6em; color: #B9C98A; font-weight: 600;">(0)</span></h2>
                 <p class="lead" data-i18n="communities.lead">NOTF supports neighborhood-level initiatives across India, working on community-driven transformation.</p>
 
                 <div class="sort-controls">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" data-i18n-placeholder="communities.searchPlaceholder" placeholder="Search communities..." aria-label="Search communities">
+                    </div>
                     <label class="filter-label" for="sortSelect" data-i18n="communities.sortLabel">Sort by:</label>
                     <select id="sortSelect" class="sort-select">
                         <option value="name" data-i18n="communities.tableHeaders.name">Name</option>
@@ -859,6 +822,7 @@
         let allCommunities = [];
         let filteredCommunities = [];
         let currentSort = { column: 'name', direction: 'asc' };
+        let fuse = null;
 
         (async function() {
             await dataLoader.waitForSupabase();
@@ -871,8 +835,18 @@
 
             filteredCommunities = [...allCommunities];
 
+            // Create Fuse.js instance for search
+            if (typeof Fuse !== 'undefined') {
+                fuse = new Fuse(allCommunities, {
+                    keys: ['name', 'neighborhood', 'themes', 'description'],
+                    threshold: 0.4,
+                    ignoreLocation: true
+                });
+            }
+
             renderCards();
             setupSorting();
+            setupSearch();
 
             // Make data available to chatbot with city context
             window.notfData = {
@@ -901,7 +875,7 @@
                 const asksCount = (comm.asks || []).length;
 
                 return `
-                    <div class="community-card" onclick="showDetails(${idx})">
+                    <div class="content-card community-card" onclick="showDetails(${idx})">
                         <div class="card-header">
                             <h3 class="card-name">${comm.name}</h3>
                             ${comm.neighborhood ? `<span class="card-neighborhood"><i class="fa-solid fa-location-dot"></i> ${comm.neighborhood}</span>` : ''}
@@ -971,6 +945,20 @@
                 } else {
                     return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
                 }
+            });
+        }
+
+        let searchTimeout;
+        function setupSearch() {
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const input = this;
+                searchTimeout = setTimeout(() => {
+                    const query = input.value.trim();
+                    filteredCommunities = (query && fuse) ? fuse.search(query).map(r => r.item) : [...allCommunities];
+                    sortCommunities();
+                    renderCards();
+                }, 200);
             });
         }
 
@@ -1121,6 +1109,9 @@
     <script src="/assets/chat/complaint-engine.js"></script>
     <script src="/assets/chat/boundary-loader.js"></script>
     <script src="/assets/chat/boundary-validator.js"></script>
+    <script defer src="/assets/js/theme-categories.js"></script>
+    <script defer src="/assets/js/utils.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector -->

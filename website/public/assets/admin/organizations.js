@@ -202,7 +202,24 @@ async function editOrganization(id) {
     document.getElementById('orgId').value = org.id;
     document.getElementById('orgFilePath').value = org.file_path;
     document.getElementById('orgName').value = org.metadata?.name || '';
-    document.getElementById('orgTheme').value = org.metadata?.theme || '';
+    // Set theme checkboxes
+    const orgThemes = org.metadata?.theme ? org.metadata.theme.split(',').map(s => s.trim()) : (org.metadata?.themes || []);
+    document.querySelectorAll('#orgThemeCheckboxes input[type="checkbox"]').forEach(cb => {
+        cb.checked = orgThemes.includes(cb.value);
+    });
+    const knownThemes = typeof THEME_CATEGORIES !== 'undefined' ? THEME_CATEGORIES : [];
+    const otherOrgThemes = orgThemes.filter(t => !knownThemes.includes(t) && t);
+    const orgOtherCheck = document.getElementById('orgThemeOtherCheck');
+    const orgOtherInput = document.getElementById('orgThemeOtherInput');
+    if (otherOrgThemes.length > 0) {
+        orgOtherCheck.checked = true;
+        orgOtherInput.style.display = 'block';
+        orgOtherInput.value = otherOrgThemes.join(', ');
+    } else {
+        orgOtherCheck.checked = false;
+        orgOtherInput.style.display = 'none';
+        orgOtherInput.value = '';
+    }
     document.getElementById('orgLocation').value = org.metadata?.location || '';
     document.getElementById('orgDescription').value = org.metadata?.description || '';
     document.getElementById('orgContactPerson').value = org.metadata?.contact?.person || '';
@@ -231,7 +248,24 @@ async function handleFormSubmit(e) {
     const metadata = {
         name: name,
         type: 'solution-provider',
-        theme: document.getElementById('orgTheme').value.trim(),
+        theme: (function() {
+            const checked = Array.from(document.querySelectorAll('#orgThemeCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+            const otherCheck = document.getElementById('orgThemeOtherCheck');
+            const otherInput = document.getElementById('orgThemeOtherInput');
+            if (otherCheck?.checked && otherInput?.value.trim()) {
+                checked.push(...otherInput.value.split(',').map(s => s.trim()).filter(s => s));
+            }
+            return checked.join(', ');
+        })(),
+        themes: (function() {
+            const checked = Array.from(document.querySelectorAll('#orgThemeCheckboxes input[type="checkbox"]:checked')).map(cb => cb.value);
+            const otherCheck = document.getElementById('orgThemeOtherCheck');
+            const otherInput = document.getElementById('orgThemeOtherInput');
+            if (otherCheck?.checked && otherInput?.value.trim()) {
+                checked.push(...otherInput.value.split(',').map(s => s.trim()).filter(s => s));
+            }
+            return checked;
+        })(),
         location: document.getElementById('orgLocation').value.trim(),
         description: document.getElementById('orgDescription').value.trim(),
         contact: {

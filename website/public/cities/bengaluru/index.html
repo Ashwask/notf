@@ -22,31 +22,11 @@
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
     <style>
         /* === CITY HUB STYLES === */
-        .city-hero {
-            background: var(--forest-green);
-            padding: var(--space-2xl) var(--space-md);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .city-hero::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: var(--terracotta);
-            opacity: 0.15;
-            border-radius: 50%;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         .city-hero-content {
             max-width: 800px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
         .city-icon-large {
@@ -59,13 +39,7 @@
 
         .city-icon-large i {
             font-size: 80px;
-        }
-
-        .city-hero h1 {
-            font-size: 56px;
-            font-weight: 700;
             color: var(--warm-cream);
-            margin-bottom: var(--space-sm);
         }
 
         .city-subtitle {
@@ -156,127 +130,105 @@
             line-height: 1.6;
         }
 
-        .feature-grid {
+        /* === HUB INLINE PREVIEW STYLES === */
+        .hub-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: var(--space-lg);
-            max-width: 1400px;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-
-        .feature-card-large {
-            background: var(--color-bg-white);
-            border: 2px solid var(--slate-blue);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            flex-direction: column;
+        .hub-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 1.25rem;
+            overflow: hidden;
         }
-
-        .feature-card-large:hover {
-            border-color: var(--forest-green);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
-        }
-
-        .feature-card-large.coming-soon {
-            border-style: dashed;
-            border-color: var(--mustard-yellow);
-            background: rgba(245, 184, 46, 0.05);
-        }
-
-        .feature-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            margin-bottom: var(--space-md);
-        }
-
-        .feature-icon-large {
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .feature-icon-large i {
-            font-size: 64px;
-        }
-
-        .feature-info h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin-bottom: 4px;
-        }
-
-        .feature-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: var(--radius-xl);
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .feature-status-badge.live {
-            background: var(--forest-green);
-            color: var(--warm-cream);
-        }
-
-        .feature-status-badge.coming-soon {
-            background: var(--mustard-yellow);
-            color: var(--charcoal);
-        }
-
-        .feature-description {
-            font-size: 16px;
-            color: var(--color-text-light);
-            line-height: 1.6;
-            margin-bottom: var(--space-md);
-            flex: 1;
-        }
-
-        .feature-action {
-            margin-top: auto;
-        }
-
-        .feature-action .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        /* Full-width climate card */
-        .climate-preview {
-            grid-column: 1 / -1;
-        }
-
-        
-
-        .sector-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: var(--space-sm);
-            margin: var(--space-md) 0;
-            padding: var(--space-md);
-            background: rgba(185, 201, 138, 0.1);
-            border-radius: var(--radius-md);
-        }
-
-        .sector-item {
+        .hub-section-wide { grid-column: 1 / -1; }
+        .hub-section-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            color: var(--color-text);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
         }
+        .hub-section-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #2F4A2C;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        .hub-count {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #B9C98A;
+        }
+        .hub-see-all {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2F4A2C;
+            text-decoration: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+        }
+        .hub-see-all:hover { opacity: 1; }
 
-        .sector-item i {
-            color: var(--olive-green);
+        .hub-preview-list { display: flex; flex-direction: column; gap: 4px; }
+        .hub-preview-item {
+            display: flex;
+            flex-direction: column;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s;
+        }
+        .hub-preview-item:hover { background: rgba(185,201,138,0.1); }
+        .hub-preview-item strong { font-size: 0.9rem; color: #2B2B2B; }
+        .hub-preview-meta { font-size: 0.75rem; color: #999; }
+
+        .hub-sector-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .hub-sector-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .hub-sector-card:hover { background: rgba(185,201,138,0.1); }
+        .hub-sector-card i { font-size: 1.2rem; color: #2F4A2C; min-width: 24px; text-align: center; }
+        .hub-sector-card strong { font-size: 0.85rem; color: #2B2B2B; display: block; }
+        .hub-sector-card span { font-size: 0.72rem; color: #999; line-height: 1.3; }
+
+        .hub-map-preview {
+            display: block;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #FAF6E8;
+            text-align: center;
+        }
+        .hub-loading { text-align: center; color: #999; padding: 1rem; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            .hub-grid { grid-template-columns: 1fr; }
+            .hub-sector-grid { grid-template-columns: 1fr; }
         }
 
         /* Back button */
@@ -309,20 +261,17 @@
                     <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
-                <a href="/" class="back-button">
-                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="cityHub.nav.cities">Cities</span>
-                </a>
-                <a href="/cities/bengaluru/communities/" data-i18n="cityHub.nav.communities">Communities</a>
-                <a href="/cities/bengaluru/solution-providers/" data-i18n="cityHub.nav.providers">Providers</a>
-                <a href="/cities/bengaluru/map/" data-i18n="cityHub.nav.map">Map</a>
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
@@ -330,13 +279,22 @@
             </div>
         </nav>
     </header>
+<div class="city-sub-nav">
+        <a href="/cities/bengaluru/" class="city-sub-nav-link active">
+            <i class="fa-solid fa-arrow-left"></i> Bengaluru
+        </a>
+        <a href="/cities/bengaluru/communities/" class="city-sub-nav-link">Communities</a>
+        <a href="/cities/bengaluru/climate/" class="city-sub-nav-link">Climate</a>
+        <a href="/cities/bengaluru/map/" class="city-sub-nav-link">Map</a>
+        <a href="/cities/bengaluru/stories/" class="city-sub-nav-link">Stories</a>
+    </div>
 
     <main>
         <!-- City Hero -->
-        <section class="city-hero">
+        <section class="page-hero">
             <div class="city-hero-content">
                 <div class="city-icon-large">
-                    <i class="fa-solid fa-city" style="color: #2F4A2C !important;"></i>
+                    <i class="fa-solid fa-city"></i>
                 </div>
                 <h1>Bengaluru</h1>
                 <p class="city-subtitle" data-i18n="cityHub.bengaluru.subtitle">Karnataka, India</p>
@@ -374,130 +332,100 @@
                 <p data-i18n="cityHub.bengaluru.exploreSubtitle">Navigate through communities, organizations, and ward-level data for India's Silicon Valley.</p>
             </div>
 
-            <div class="feature-grid">
-                <!-- Ward Map -->
-                <div class="feature-card-large">
-                    <div class="feature-header">
-                        <div class="feature-icon-large">
-                            <i class="fa-solid fa-map" style="color: #B9C98A !important;"></i>
-                        </div>
-                        <div class="feature-info">
-                            <h3 data-i18n="cityHub.features.map.title">Ward-Level Map</h3>
-                            <span class="feature-status-badge live">
-                                <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.map.statusLive">Live</span>
-                            </span>
-                        </div>
+            <div class="hub-grid">
+                <!-- Communities Preview -->
+                <div class="hub-section">
+                    <div class="hub-section-header">
+                        <h3><i class="fa-solid fa-house-user"></i> <span data-i18n="cityHub.features.communities.title">Communities</span></h3>
+                        <span class="hub-count" id="hubCommCount">-</span>
+                        <a href="/cities/bengaluru/communities/" class="hub-see-all">See all <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
-                    <p class="feature-description" data-i18n="cityHub.features.map.description" data-i18n-params='{"wardCount":"369"}'>
-                        Explore all 369 electoral wards with interactive boundaries. View ward demographics, boundaries, and geographical data across Bengaluru.
-                    </p>
-                    <div class="feature-action">
-                        <a href="/cities/bengaluru/map/" class="btn btn-primary">
-                            <span data-i18n="cityHub.features.map.button">View Map</span> <i class="fa-solid fa-arrow-right"></i>
-                        </a>
+                    <div class="hub-preview-list" id="hubCommunities">
+                        <div class="hub-loading">Loading...</div>
                     </div>
                 </div>
 
-                <!-- Communities -->
-                <div class="feature-card-large">
-                    <div class="feature-header">
-                        <div class="feature-icon-large">
-                            <i class="fa-solid fa-house-user" style="color: #2F4A2C !important;"></i>
-                        </div>
-                        <div class="feature-info">
-                            <h3 data-i18n="cityHub.features.communities.title">Communities</h3>
-                            <span class="feature-status-badge live">
-                                <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.map.statusLive">Live</span>
-                            </span>
-                        </div>
+                <!-- Stories Preview -->
+                <div class="hub-section">
+                    <div class="hub-section-header">
+                        <h3><i class="fa-solid fa-book-open"></i> <span data-i18n="cityHub.features.stories.title">Community Stories</span></h3>
+                        <a href="/cities/bengaluru/stories/" class="hub-see-all">Read all <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
-                    <p class="feature-description" data-i18n="cityHub.features.communities.description" data-i18n-params='{"count":"<strong id=\"commCountInline\">-</strong>"}' data-i18n-html="true">
-                        Connect with <strong id="commCountInline">-</strong> active community-led initiatives across Bengaluru. Discover collaboration opportunities and local impact projects.
-                    </p>
-                    <div class="feature-action">
-                        <a href="/cities/bengaluru/communities/" class="btn btn-primary">
-                            <span data-i18n="cityHub.features.communities.button">Browse Communities</span> <i class="fa-solid fa-arrow-right"></i>
-                        </a>
+                    <div class="hub-preview-list" id="hubStories">
+                        <div class="hub-loading">Loading...</div>
                     </div>
                 </div>
 
-                <!-- Community Stories (Live) -->
-                <div class="feature-card-large">
-                    <div class="feature-header">
-                        <div class="feature-icon-large">
-                            <i class="fa-solid fa-book-open" style="color: #C45A2A !important;"></i>
-                        </div>
-                        <div class="feature-info">
-                            <h3 data-i18n="cityHub.features.stories.title">Community Stories</h3>
-                            <span class="feature-status-badge live">
-                                <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.map.statusLive">Live</span>
-                            </span>
-                        </div>
+                <!-- Climate Sector Grid -->
+                <div class="hub-section hub-section-wide">
+                    <div class="hub-section-header">
+                        <h3><i class="fa-solid fa-leaf"></i> <span data-i18n="cityHub.features.climate.title">Climate Action Dashboard</span></h3>
+                        <a href="/cities/bengaluru/climate/" class="hub-see-all">Full dashboard <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
-                    <p class="feature-description" data-i18n="cityHub.features.stories.description">
-                        Discover real stories of neighbourhood transformation, told by the people who made it happen.
-                    </p>
-                    <div class="feature-action">
-                        <a href="/cities/bengaluru/stories/" class="btn btn-primary">
-                            <span data-i18n="cityHub.features.stories.button">Read Stories</span> <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Climate Dashboard (Live) -->
-                <div class="feature-card-large climate-preview">
-                    <div class="feature-header">
-                        <div class="feature-icon-large">
-                            <i class="fa-solid fa-leaf" style="color: #B9C98A !important;"></i>
-                        </div>
-                        <div class="feature-info">
-                            <h3 data-i18n="cityHub.features.climate.title">Climate Action Dashboard</h3>
-                            <span class="feature-status-badge live">
-                                <i class="fa-solid fa-check-circle"></i> <span data-i18n="cityHub.features.map.statusLive">Live</span>
-                            </span>
-                        </div>
-                    </div>
-                    <p class="feature-description" data-i18n="cityHub.features.climate.description" data-i18n-params='{"sectorCount":"7","wardCount":"369"}'>
-                        Track climate action progress across 7 sectors and 369 wards. Ward-level baselining and target tracking based on the Bengaluru Climate Action Plan (BCAP).
-                    </p>
-
-                    <div class="sector-preview">
-                        <div class="sector-item">
+                    <div class="hub-sector-grid">
+                        <a href="/cities/bengaluru/climate/energy/" class="hub-sector-card">
                             <i class="fa-solid fa-bolt"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.energy">Energy & Buildings</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.energy">Energy &amp; Buildings</strong>
+                                <span>6 targets &middot; 100% clean cooking by 2030</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/transportation/" class="hub-sector-card">
                             <i class="fa-solid fa-bus"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.transportation">Transportation</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.transportation">Transportation</strong>
+                                <span>7 targets &middot; 75% PT+NMT by 2030</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/waste/" class="hub-sector-card">
                             <i class="fa-solid fa-recycle"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.waste">Solid Waste</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.waste">Solid Waste</strong>
+                                <span>6 targets &middot; 100% segregation by 2025</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/air-quality/" class="hub-sector-card">
                             <i class="fa-solid fa-wind"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.air">Air Quality</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.air">Air Quality</strong>
+                                <span>4 targets &middot; 40% PM10 reduction by 2026</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/water/" class="hub-sector-card">
                             <i class="fa-solid fa-droplet"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.water">Water</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.water">Water</strong>
+                                <span>5 targets &middot; 24% recycled water by 2030</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/greening/" class="hub-sector-card">
                             <i class="fa-solid fa-tree"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.greening">Greening</span>
-                        </div>
-                        <div class="sector-item">
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.greening">Greening</strong>
+                                <span>4 targets &middot; 1M trees by 2025</span>
+                            </div>
+                        </a>
+                        <a href="/cities/bengaluru/climate/disaster/" class="hub-sector-card">
                             <i class="fa-solid fa-triangle-exclamation"></i>
-                            <span data-i18n="cityHub.features.climate.sectors.disaster">Disaster Management</span>
-                        </div>
-                    </div>
-
-                    <div class="feature-action">
-                        <a href="/cities/bengaluru/climate/" class="btn btn-primary">
-                            <span data-i18n="cityHub.features.climate.button">View Climate Dashboard</span> <i class="fa-solid fa-arrow-right"></i>
+                            <div>
+                                <strong data-i18n="cityHub.features.climate.sectors.disaster">Disaster Management</strong>
+                                <span>3 targets &middot; 100% flood mapping</span>
+                            </div>
                         </a>
                     </div>
                 </div>
+
+                <!-- Map Preview -->
+                <div class="hub-section hub-section-wide">
+                    <div class="hub-section-header">
+                        <h3><i class="fa-solid fa-map"></i> <span data-i18n="cityHub.features.map.title">Ward-Level Map</span></h3>
+                        <a href="/cities/bengaluru/map/" class="hub-see-all">View map <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <a href="/cities/bengaluru/map/" class="hub-map-preview" id="hubMap">
+                        <img src="/assets/images/cities/bengaluru.svg" alt="Bengaluru ward map" style="width:100%; height:200px; object-fit: contain; opacity: 0.7;">
+                    </a>
+                </div>
+            </div>
         </section>
 
         <!-- Chatbot Widget -->
@@ -591,9 +519,10 @@
         (async function() {
             try {
                 await dataLoader.waitForSupabase();
-                const [communities, providers] = await Promise.all([
+                const [communities, providers, stories] = await Promise.all([
                     dataLoader.loadCommunities(),
-                    dataLoader.loadSolutionProviders()
+                    dataLoader.loadSolutionProviders(),
+                    dataLoader.loadStories('Bengaluru')
                 ]);
 
                 // Filter for Bengaluru only
@@ -608,7 +537,33 @@
                 const commCount = bengaluruCommunities.length;
 
                 document.getElementById('commCount').textContent = commCount;
-                document.getElementById('commCountInline').textContent = commCount;
+                document.getElementById('hubCommCount').textContent = commCount;
+
+                // Populate communities preview (top 4)
+                const hubCommEl = document.getElementById('hubCommunities');
+                if (bengaluruCommunities.length > 0) {
+                    hubCommEl.innerHTML = bengaluruCommunities.slice(0, 4).map(c => `
+                        <a href="/cities/bengaluru/communities/" class="hub-preview-item">
+                            <strong>${c.name}</strong>
+                            <span class="hub-preview-meta">${(c.themes || []).slice(0, 2).join(', ') || ''}</span>
+                        </a>
+                    `).join('');
+                } else {
+                    hubCommEl.innerHTML = '<div class="hub-loading">No communities found</div>';
+                }
+
+                // Populate stories preview (top 3)
+                const hubStoriesEl = document.getElementById('hubStories');
+                if (stories.length > 0) {
+                    hubStoriesEl.innerHTML = stories.slice(0, 3).map(s => `
+                        <a href="/cities/bengaluru/stories/?story=${s.slug}" class="hub-preview-item">
+                            <strong>${s.title}</strong>
+                            <span class="hub-preview-meta">${s.community || s.location || ''}</span>
+                        </a>
+                    `).join('');
+                } else {
+                    hubStoriesEl.innerHTML = '<div class="hub-loading">No stories yet</div>';
+                }
 
                 // Make data available to chatbot (Bengaluru-specific)
                 window.notfData = {
@@ -617,9 +572,11 @@
                     city: 'bengaluru'
                 };
 
-                console.log('[Bengaluru Hub] Loaded', commCount, 'communities and', providerCount, 'providers');
+                console.log('[Bengaluru Hub] Loaded', commCount, 'communities and', bengaluruProviders.length, 'providers');
             } catch (error) {
                 console.error('[Bengaluru Hub] Error loading data:', error);
+                document.getElementById('hubCommunities').innerHTML = '<div class="hub-loading">Failed to load</div>';
+                document.getElementById('hubStories').innerHTML = '<div class="hub-loading">Failed to load</div>';
                 window.notfData = { communities: [], members: [], city: 'bengaluru' };
             }
         })();
@@ -636,6 +593,9 @@
     <script src="/assets/chat/boundary-loader.js"></script>
     <script src="/assets/chat/boundary-validator.js"></script>
     <script src="/assets/chat/notf-cms-api.js"></script>
+    <script defer src="/assets/js/theme-categories.js"></script>
+    <script defer src="/assets/js/utils.js"></script>
+    <script defer src="/assets/chat/onboarding-engine.js"></script>
     <script src="/assets/chat/unified-chatbot.js"></script>
 
     <!-- Language Selector (English + Kannada only) -->

@@ -19,61 +19,27 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         /* === CLIMATE DASHBOARD STYLES === */
-        .climate-hero {
-            background: var(--olive-green);
-            padding: var(--space-2xl) var(--space-md);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .climate-hero::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: var(--forest-green);
-            opacity: 0.2;
-            border-radius: 50%;
-        }
+        /* Hero - now uses shared .page-hero from main.css */
 
         .climate-hero-content {
             max-width: 900px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
 
-        .climate-hero h1 {
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin-bottom: var(--space-sm);
-        }
-
-        .climate-subtitle {
-            font-size: 18px;
-            color: var(--charcoal);
-            opacity: 0.9;
-            margin-bottom: var(--space-md);
-        }
-
-        .breadcrumb {
+        .page-hero .breadcrumb {
             font-size: 14px;
-            color: var(--charcoal);
+            color: var(--warm-cream);
             opacity: 0.8;
             margin-bottom: var(--space-md);
         }
 
-        .breadcrumb a {
-            color: var(--charcoal);
+        .page-hero .breadcrumb a {
+            color: var(--warm-cream);
             text-decoration: none;
             font-weight: 600;
         }
 
-        .breadcrumb a:hover {
+        .page-hero .breadcrumb a:hover {
             text-decoration: underline;
         }
 
@@ -294,37 +260,43 @@
                     <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
                 </a>
             </div>
-
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-
             <div class="nav-menu" id="navMenu">
-                <a href="/cities/bengaluru/" class="back-button">
-                    <i class="fa-solid fa-arrow-left"></i> Bengaluru Hub
-                </a>
-                <a href="/cities/bengaluru/communities/">Communities</a>
-                <a href="/cities/bengaluru/solution-providers/">Providers</a>
-                <a href="/cities/bengaluru/map/">Map</a>
-                <a href="/join/" class="join-link">Join</a>
-                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                <a href="/" data-i18n="nav.home">Home</a>
+                <a href="/about/" data-i18n="nav.about">About</a>
+                <a href="/communities/" data-i18n="nav.communities">Communities</a>
+                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
+                <a href="/cities/" data-i18n="nav.cities">Cities</a>
+                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
+                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
                     <i class="fa-solid fa-user-lock"></i>
                 </a>
             </div>
         </nav>
     </header>
+<div class="city-sub-nav">
+        <a href="/cities/bengaluru/" class="city-sub-nav-link">
+            <i class="fa-solid fa-arrow-left"></i> Bengaluru
+        </a>
+        <a href="/cities/bengaluru/communities/" class="city-sub-nav-link">Communities</a>
+        <a href="/cities/bengaluru/climate/" class="city-sub-nav-link active">Climate</a>
+        <a href="/cities/bengaluru/map/" class="city-sub-nav-link">Map</a>
+        <a href="/cities/bengaluru/stories/" class="city-sub-nav-link">Stories</a>
+    </div>
 
     <main>
         <!-- Climate Hero -->
-        <section class="climate-hero">
+        <section class="page-hero">
             <div class="climate-hero-content">
                 <div class="breadcrumb">
                     <a href="/">Home</a> / <a href="/cities/bengaluru/">Bengaluru</a> / <span data-i18n="bengaluru.climate.breadcrumb.current">Climate Dashboard</span>
                 </div>
                 <h1 data-i18n="bengaluru.climate.title">Bengaluru Climate Action Dashboard</h1>
-                <p class="climate-subtitle" data-i18n="bengaluru.climate.subtitle">Tracking progress across 7 sectors and 369 wards based on the Bengaluru Climate Action Plan (BCAP)</p>
+                <p data-i18n="bengaluru.climate.subtitle">Tracking progress across 7 sectors and 369 wards based on the Bengaluru Climate Action Plan (BCAP)</p>
             </div>
         </section>
 
@@ -333,6 +305,19 @@
             <div class="section-intro">
                 <h2 data-i18n="bengaluru.climate.intro.title">Climate Action by Sector</h2>
                 <p data-i18n="bengaluru.climate.intro.description">Explore targets, baselines, and ward-level progress across 7 key climate sectors in Bengaluru.</p>
+            </div>
+
+            <div class="ward-search-box">
+                <h3><i class="fa-solid fa-magnifying-glass"></i> <span data-i18n="bengaluru.climate.findWard.title">Find Your Ward</span></h3>
+                <p data-i18n="bengaluru.climate.findWard.subtitle">See how your neighbourhood is performing across all climate sectors</p>
+                <div class="ward-search-input-wrapper">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input type="text" id="wardSearchInput" list="wardList" data-i18n-placeholder="bengaluru.climate.findWard.placeholder" placeholder="Type your ward name..." autocomplete="off">
+                    <datalist id="wardList"></datalist>
+                    <button id="wardSearchBtn" class="btn btn-primary">
+                        <span data-i18n="bengaluru.climate.findWard.button">View Report Card</span>
+                    </button>
+                </div>
             </div>
 
             <div class="sector-grid">
@@ -629,6 +614,38 @@
 
     <!-- Language Selector (English + Kannada only) -->
     <script src="/assets/i18n/language-selector.js"></script>    <script src="/assets/js/nav-highlight.js"></script>
+
+    <!-- Ward Search -->
+    <script>
+        (async function() {
+            try {
+                const response = await fetch('/assets/data/climate/bengaluru/ward_index.json');
+                if (!response.ok) throw new Error('Failed to load ward index');
+                const data = await response.json();
+                const datalist = document.getElementById('wardList');
+                const wardMap = {};
+                if (data.wards) {
+                    data.wards.forEach(w => {
+                        const option = document.createElement('option');
+                        option.value = w.name;
+                        datalist.appendChild(option);
+                        wardMap[w.name.toLowerCase()] = w.slug;
+                    });
+                }
+                document.getElementById('wardSearchBtn').addEventListener('click', () => {
+                    const input = document.getElementById('wardSearchInput').value.trim();
+                    if (!input) return;
+                    const slug = wardMap[input.toLowerCase()] || input.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                    window.location.href = '/cities/bengaluru/climate/ward-report/?ward=' + encodeURIComponent(slug);
+                });
+                document.getElementById('wardSearchInput').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') document.getElementById('wardSearchBtn').click();
+                });
+            } catch (err) {
+                console.error('Ward search init failed:', err);
+            }
+        })();
+    </script>
 
 </body>
 </html>

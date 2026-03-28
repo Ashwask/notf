@@ -9,7 +9,9 @@
     "admin": "Admin Login",
     "adminLogin": "Admin Login",
     "bengaluru": "Bengaluru",
-    "climate": "Climate"
+    "climate": "Climate",
+    "catalogue": "Catalogue",
+    "cities": "Cities"
   },
   "hero": {
     "title": "Bringing Our Neighbourhoods to Life",
@@ -187,6 +189,50 @@
     "executingPartners": {
       "title": "Executing Partners",
       "subtitle": "Organizations implementing NOTF initiatives on the ground"
+    },
+    "stats": {
+      "communities": "Communities",
+      "providers": "Solution Providers",
+      "projects": "Projects",
+      "cities": "Cities"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Join",
+        "description": "Register your community or organisation. It takes 2 minutes."
+      },
+      "step2": {
+        "title": "Connect",
+        "description": "Find communities and solution providers near you."
+      },
+      "step3": {
+        "title": "Act",
+        "description": "Use ready-to-implement projects from our catalogue."
+      }
+    },
+    "cta": {
+      "title": "Ready to join? It takes 2 minutes.",
+      "subtitle": "Join a network of neighbourhoods building climate-resilient communities together.",
+      "joinButton": "Join the Network",
+      "chatButton": "Talk to Our Assistant"
+    },
+    "explainer": {
+      "title": "What is Neighbourhoods of the Future?",
+      "lead": "NOTF is a framework to encourage citizens at the local level to think about the common good, participate in steering infrastructure and behaviour, and build neighbourhoods that are resilient to climate shock and provide a better quality of life.",
+      "point1": {
+        "title": "Community-Led",
+        "desc": "Communities share knowledge, learn from each other, and imagine what their neighbourhood could be"
+      },
+      "point2": {
+        "title": "Supported by Experts",
+        "desc": "Solution providers offer ready-to-implement projects, training, and expertise to help communities act"
+      },
+      "point3": {
+        "title": "Climate Resilient",
+        "desc": "Track climate action across wards and sectors, from waste management to green cover to clean energy"
+      },
+      "cta": "Learn more about NOTF"
     }
   },
   "stats": {
@@ -320,7 +366,8 @@
       "contactUs": "Contact Us",
       "note": "Use the button above to join NOTF, update your community's details, or share your success stories"
     },
-    "sortLabel": "Sort by:"
+    "sortLabel": "Sort by:",
+    "searchPlaceholder": "Search communities..."
   },
   "providers": {
     "title": "Solution Providers",
@@ -1236,6 +1283,12 @@
         "ires": "India Residential Energy Survey (IRES) 2020 - CEEW",
         "lastUpdated": "Last Updated:",
         "lastUpdatedDate": "January 20, 2026"
+      },
+      "findWard": {
+        "title": "Find Your Ward",
+        "subtitle": "See how your neighbourhood is performing across all climate sectors",
+        "placeholder": "Type your ward name...",
+        "button": "View Report Card"
       }
     }
   },
@@ -1324,5 +1377,47 @@
       "contactUs": "Contact Us"
     },
     "detailsButton": "Details"
+  },
+  "joinPage": {
+    "step1": {
+      "title": "Who are you?",
+      "name": "Organisation/Community Name",
+      "city": "City",
+      "cityOther": "Enter your city",
+      "neighbourhood": "Neighbourhood"
+    },
+    "step2": {
+      "title": "What do you care about?",
+      "focusAreas": "Focus Areas",
+      "focusHint": "Select at least one area you focus on",
+      "description": "Description",
+      "offers": "What can you offer?",
+      "asks": "What do you need?"
+    },
+    "step3": {
+      "title": "How can we reach you?",
+      "contactPerson": "Contact Person Name",
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website / Social Media",
+      "reassurance": "You can always update these details later."
+    },
+    "nav": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit Application"
+    },
+    "confirmation": {
+      "title": "Application Submitted!",
+      "reference": "Your reference number:",
+      "timeline": "We’ll review your application within 3 working days.",
+      "browseCommunities": "Browse communities near you",
+      "exploreCatalogue": "Explore project catalogue",
+      "whileYouWait": "While you wait, explore:",
+      "browseCommunitiesDesc": "See who's already active in your area",
+      "exploreCatalogueDesc": "27 ready-to-implement neighbourhood projects",
+      "readStories": "Read community stories",
+      "readStoriesDesc": "Learn from communities who've already started"
+    }
   }
 }
