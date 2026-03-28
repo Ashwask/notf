@@ -290,40 +290,9 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="nav-brand">
-                <a href="/" class="logo-link">
-                    <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
-                </a>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-menu" id="navMenu">
-                <a href="/" data-i18n="nav.home">Home</a>
-                <a href="/about/" data-i18n="nav.about">About</a>
-                <a href="/communities/" data-i18n="nav.communities">Communities</a>
-                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
-                <a href="/cities/" data-i18n="nav.cities">Cities</a>
-                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
-                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
-                    <i class="fa-solid fa-user-lock"></i>
-                </a>
-            </div>
-        </nav>
-    </header>
-<div class="city-sub-nav">
-        <a href="/cities/mumbai/" class="city-sub-nav-link active">
-            <i class="fa-solid fa-arrow-left"></i> Mumbai
-        </a>
-        <a href="/cities/mumbai/climate/" class="city-sub-nav-link">Climate</a>
-        <a href="/cities/mumbai/map/" class="city-sub-nav-link">Map</a>
-    </div>
-
-    <main>
+    <div id="notf-header" data-city="mumbai" data-city-subpage=""></div>
+    <script src="/assets/js/components/header.js"></script>
+<main>
         <!-- City Hero -->
         <section class="city-hero">
             <div class="city-hero-content">
@@ -484,118 +453,19 @@
             </div>
         </section>
 
-        <!-- Chatbot Widget -->
-        <button id="chat-fab" class="chat-fab hidden" aria-label="Open NOTF Assistant">
-            <i class="fa-solid fa-comments"></i>
-        </button>
+</main>
 
-        <div id="notf-chatbot" class="chat-widget">
-            <div class="chat-header">
-                <div class="chat-header-title">
-                    <i class="fa-solid fa-robot"></i>
-                    <span class="chat-mode-title">NOTF Assistant</span>
-                </div>
-                <div class="chat-header-actions">
-                    <button class="chat-switch-mode-button hidden" aria-label="Switch mode">
-                        <i class="fa-solid fa-repeat"></i>
-                    </button>
-                    <button class="chat-close-button" aria-label="Close chat">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
 
-            <div class="chat-messages"></div>
+    <div id="notf-chatbot"></div>
+    <script src="/assets/js/components/chatbot-loader.js"></script>
 
-            <div class="chat-input">
-                <textarea
-                    class="chat-input-field"
-                    placeholder="Type your message..."
-                    rows="1"
-                    aria-label="Chat message input"
-                ></textarea>
-                <button class="chat-send-button" aria-label="Send message">
-                    <i class="fa-solid fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </main>
+    <div id="notf-footer"></div>
+    <script src="/assets/js/components/footer.js"></script>
 
-    <footer>
-        <div class="footer-powered-by">
-            <span data-i18n="footer.poweredBy">NOTF platform powered by</span>
-            <a href="https://rainmatter.org/" target="_blank" rel="noopener noreferrer" class="rainmatter-link">
-                <img src="/assets/images/rainmatter-logo.png" alt="Rainmatter Foundation" class="rainmatter-logo">
-            </a>
-        </div>
-        <div class="footer-license">
-            <span class="cc-text"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
-                CC BY-NC-SA 4.0</a></span>
-        </div>
-    </footer>
-
-    <script>
-        // Hamburger menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-
-        // Make empty data available to chatbot
-        window.notfData = {
-            communities: [],
-            members: [],
-            city: 'mumbai'
-        };
-    </script>
-
-    <!-- i18n Translation System -->
-    <script src="/assets/i18n/translator.js"></script>
-
-    <!-- Chatbot Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
-    <script type="module" src="/assets/chat/semantic-matcher.js"></script>
-    <script src="/assets/chat/smart-matcher.js"></script>
-    <script src="/assets/chat/discovery-engine.js"></script>
-    <script src="/assets/chat/complaint-engine.js"></script>
-    <script src="/assets/chat/boundary-loader.js"></script>
-    <script src="/assets/chat/boundary-validator.js"></script>
-    <script src="/assets/chat/notf-cms-api.js"></script>
-    <script defer src="/assets/js/theme-categories.js"></script>
-    <script defer src="/assets/js/utils.js"></script>
-    <script defer src="/assets/chat/onboarding-engine.js"></script>
-    <script src="/assets/chat/unified-chatbot.js"></script>
 
-    <!-- Language Selector (English + Tamil only) -->
-    <script src="/assets/i18n/language-selector.js"></script>
 
-    <script src="/assets/js/nav-highlight.js"></script>
-
+    <script src="/assets/js/components/common-scripts.js"></script>
 </body>
 </html>

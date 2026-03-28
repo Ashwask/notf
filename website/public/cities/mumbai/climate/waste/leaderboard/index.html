@@ -20,40 +20,9 @@
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="nav-brand">
-                <a href="/" class="logo-link">
-                    <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
-                </a>
-            </div>
-            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <div class="nav-menu" id="navMenu">
-                <a href="/" data-i18n="nav.home">Home</a>
-                <a href="/about/" data-i18n="nav.about">About</a>
-                <a href="/communities/" data-i18n="nav.communities">Communities</a>
-                <a href="/catalog/" data-i18n="nav.catalogue">Catalogue</a>
-                <a href="/cities/" data-i18n="nav.cities">Cities</a>
-                <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
-                <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
-                    <i class="fa-solid fa-user-lock"></i>
-                </a>
-            </div>
-        </nav>
-    </header>
-<div class="city-sub-nav">
-        <a href="/cities/mumbai/" class="city-sub-nav-link">
-            <i class="fa-solid fa-arrow-left"></i> Mumbai
-        </a>
-        <a href="/cities/mumbai/climate/" class="city-sub-nav-link active">Climate</a>
-        <a href="/cities/mumbai/map/" class="city-sub-nav-link">Map</a>
-    </div>
-
-    <main>
+    <div id="notf-header" data-city="mumbai" data-city-subpage="climate"></div>
+    <script src="/assets/js/components/header.js"></script>
+<main>
         <!-- Sector Tabs -->
         <nav class="sector-tabs">
             <a href="/cities/mumbai/climate/energy/" class="sector-tab">
@@ -135,55 +104,10 @@
         </section>
     </main>
 
-    <footer>
-        <div class="footer-powered-by">
-            <span data-i18n="footer.poweredBy">NOTF platform powered by</span>
-            <a href="https://rainmatter.org/" target="_blank" rel="noopener noreferrer" class="rainmatter-link">
-                <img src="/assets/images/rainmatter-logo.png" alt="Rainmatter Foundation" class="rainmatter-logo">
-            </a>
-        </div>
-        <div class="footer-license">
-            <span class="cc-text"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
-                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
-                CC BY-NC-SA 4.0</a></span>
-        </div>
-    </footer>
-
-    <script>
-        // Hamburger menu toggle
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
-        const navLinks = navMenu.querySelectorAll('a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    </script>
-
-    <!-- i18n Translation System -->
-    <script src="/assets/i18n/translator.js"></script>
-    <script src="/assets/i18n/language-selector.js"></script>
+    <div id="notf-footer"></div>
+    <script src="/assets/js/components/footer.js"></script>
 
     <!-- Nav Highlight -->
-    <script src="/assets/js/nav-highlight.js"></script>
 
     <!-- Climate Data & Leaderboard -->
     <script src="/assets/js/climate/data-loader.js"></script>
@@ -274,5 +198,7 @@
             return counts[zone] || 227;
         }
     </script>
+
+    <script src="/assets/js/components/common-scripts.js"></script>
 </body>
 </html>

@@ -337,7 +337,8 @@
   "footer": {
     "poweredBy": "NOTF platform powered by",
     "rainmatterFoundation": "Rainmatter Foundation",
-    "licensedUnder": "Licensed under"
+    "licensedUnder": "Licensed under",
+    "pdgi": "Part of PDGI (People's Digital Goods & Infrastructure) by Rainmatter Foundation"
   },
   "communities": {
     "title": "Active Communities",

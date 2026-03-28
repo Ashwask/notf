@@ -356,6 +356,7 @@ nav {
 .page-hero {
     background: var(--forest-green) url('/assets/images/hero-neighbourhood.png') center center / cover no-repeat;
     padding: var(--space-2xl) var(--space-md);
+    margin-bottom: var(--space-xl);
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -879,6 +880,14 @@ footer a:hover {
     width: auto;
     vertical-align: middle;
     border-radius: 4px;
+}
+
+.footer-pdgi {
+    text-align: center;
+    padding: 4px 0;
+    font-size: 12px;
+    color: var(--charcoal);
+    opacity: 0.45;
 }
 
 .footer-license {

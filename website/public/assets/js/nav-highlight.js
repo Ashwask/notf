@@ -3,7 +3,7 @@
  * Automatically adds 'active' class to the current page's nav link
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+function initNavHighlight() {
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-menu a');
 
@@ -23,4 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.remove('active');
         }
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavHighlight);
+} else {
+    initNavHighlight();
+}

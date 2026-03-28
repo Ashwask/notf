@@ -48,7 +48,7 @@ class NotfChatbot {
     }
 
     initializeUI() {
-        const chatWidget = document.getElementById('notf-chatbot');
+        const chatWidget = document.getElementById('notf-chatbot-widget') || document.getElementById('notf-chatbot');
         const chatFab = document.getElementById('chat-fab');
 
         if (!chatWidget) {
@@ -2016,6 +2016,12 @@ class NotfChatbot {
 }
 
 // Initialize chatbot when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize chatbot — handle both static and dynamic loading
+// If loaded dynamically (via chatbot-loader.js), DOMContentLoaded has already fired
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.notfChatbot = new NotfChatbot();
+    });
+} else {
     window.notfChatbot = new NotfChatbot();
-});
+}
