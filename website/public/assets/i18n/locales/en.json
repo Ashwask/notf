@@ -579,7 +579,8 @@
       "map": "Map",
       "climate": "Climate",
       "stories": "Stories",
-      "backTo": "Back to Bengaluru"
+      "backTo": "Back to Bengaluru",
+      "allCities": "All Cities"
     },
     "comingSoonCallout": {
       "title": "City Data Coming Soon",

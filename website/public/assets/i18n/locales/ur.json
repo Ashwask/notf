@@ -569,12 +569,13 @@
     },
     "nav": {
       "cities": "شہر",
-      "communities": "برادریوں",
+      "communities": "کمیونٹیز",
       "providers": "فراہم کرنے والے",
       "map": "نقشہ",
       "climate": "آب و ہوا",
       "stories": "کہانیاں",
-      "backTo": "بنگلور واپس جائیں"
+      "backTo": "بنگلور واپس جائیں",
+      "allCities": "تمام شہر"
     },
     "comingSoonCallout": {
       "title": "شہر کا ڈیٹا جلد ہی آرہا ہے",

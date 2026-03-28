@@ -569,12 +569,13 @@
     },
     "nav": {
       "cities": "শহরগুলো",
-      "communities": "সম্প্রদায়গুলি",
+      "communities": "সম্প্রদায়",
       "providers": "প্রদানকারী",
       "map": "মানচিত্র",
       "climate": "জলবায়ু",
       "stories": "গল্প",
-      "backTo": "বেঙ্গালুরুতে ফিরে যান"
+      "backTo": "বেঙ্গালুরুতে ফিরে যান",
+      "allCities": "সব শহর"
     },
     "comingSoonCallout": {
       "title": "শহরের ডেটা শীঘ্রই আসছে",

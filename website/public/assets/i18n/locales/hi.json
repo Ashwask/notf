@@ -571,10 +571,11 @@
       "cities": "शहर",
       "communities": "समुदाय",
       "providers": "प्रदाताओं",
-      "map": "मानचित्र",
+      "map": "नक्शा",
       "climate": "जलवायु",
       "stories": "कहानियाँ",
-      "backTo": "बेंगलुरु पर वापस जाएं"
+      "backTo": "बेंगलुरु पर वापस जाएं",
+      "allCities": "सभी शहर"
     },
     "comingSoonCallout": {
       "title": "शहर का डेटा जल्द ही आ रहा है",

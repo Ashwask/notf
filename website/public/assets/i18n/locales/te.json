@@ -569,12 +569,13 @@
     },
     "nav": {
       "cities": "నగరాలు",
-      "communities": "సంఘాలు",
+      "communities": "సమాజాలు",
       "providers": "ప్రొవైడర్లు",
       "map": "మ్యాప్",
       "climate": "వాతావరణం",
       "stories": "కథలు",
-      "backTo": "బెంగళూరుకు తిరిగి వెళ్ళండి"
+      "backTo": "బెంగళూరుకు తిరిగి వెళ్ళండి",
+      "allCities": "అన్ని నగరాలు"
     },
     "comingSoonCallout": {
       "title": "సిటీ డేటా త్వరలో వస్తుంది",

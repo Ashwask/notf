@@ -574,7 +574,8 @@
       "map": "नकाशा",
       "climate": "हवामान",
       "stories": "कथा",
-      "backTo": "बेंगळुरूला परत जा"
+      "backTo": "बेंगळुरूला परत जा",
+      "allCities": "सर्व शहरे"
     },
     "comingSoonCallout": {
       "title": "शहर डेटा लवकरच येत आहे",

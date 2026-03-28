@@ -569,12 +569,13 @@
     },
     "nav": {
       "cities": "ସହରଗୁଡିକ",
-      "communities": "ସମ୍ପ୍ରଦାୟଗୁଡିକ",
+      "communities": "ସମୁଦାୟ",
       "providers": "ପ୍ରଦାନକାରୀ |",
       "map": "ମାନଚିତ୍ର",
       "climate": "ଜଳବାୟୁ",
       "stories": "କାହାଣୀ",
-      "backTo": "ବେଙ୍ଗାଲୁରୁକୁ ଫେରନ୍ତୁ"
+      "backTo": "ବେଙ୍ଗାଲୁରୁକୁ ଫେରନ୍ତୁ",
+      "allCities": "ସବୁ ସହର"
     },
     "comingSoonCallout": {
       "title": "ଶୀଘ୍ର ସିଟି ଡାଟା ଆସୁଛି |",

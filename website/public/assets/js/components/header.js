@@ -57,10 +57,17 @@
             stories: 'Stories'
         };
 
+        const i18nKeys = {
+            communities: 'cityHub.nav.communities',
+            climate: 'cityHub.nav.climate',
+            map: 'cityHub.nav.map',
+            stories: 'cityHub.nav.stories'
+        };
+
         let backLink;
         if (!citySubPage) {
             // We're on the hub page itself
-            backLink = '<a href="/cities/" class="city-sub-nav-link"><i class="fa-solid fa-arrow-left"></i> All Cities</a>' +
+            backLink = '<a href="/cities/" class="city-sub-nav-link" data-i18n="cityHub.nav.allCities"><i class="fa-solid fa-arrow-left"></i> All Cities</a>' +
                 '<a href="/cities/' + citySlug + '/" class="city-sub-nav-link active">' + cityName + '</a>';
         } else {
             backLink = '<a href="/cities/' + citySlug + '/" class="city-sub-nav-link"><i class="fa-solid fa-arrow-left"></i> ' + cityName + '</a>';
@@ -70,7 +77,7 @@
 
         links.forEach(function(page) {
             const isActive = citySubPage === page ? ' active' : '';
-            html += '<a href="/cities/' + citySlug + '/' + page + '/" class="city-sub-nav-link' + isActive + '"><i class="fa-solid ' + icons[page] + '"></i> ' + labels[page] + '</a>';
+            html += '<a href="/cities/' + citySlug + '/' + page + '/" class="city-sub-nav-link' + isActive + '" data-i18n="' + i18nKeys[page] + '"><i class="fa-solid ' + icons[page] + '"></i> ' + labels[page] + '</a>';
         });
 
         html += '</div>';

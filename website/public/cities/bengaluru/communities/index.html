@@ -603,9 +603,11 @@
     <link rel="stylesheet" href="/assets/chat/chat.css">
 </head>
 <body>
+<body>
     <div id="notf-header" data-city="bengaluru" data-city-subpage="communities"></div>
     <script src="/assets/js/components/header.js"></script>
-<main>
+
+    <main>
         <div class="page-container">
             <section class="content">
                 <!-- Breadcrumb Navigation -->
@@ -699,7 +701,96 @@
                 </div>
             </div>
         </div>
+
+        <!-- Chatbot Widget -->
+        <!-- Floating Action Button (shows when minimized) -->
+
+    <div id="notf-chatbot"></div>
+    <script src="/assets/js/components/chatbot-loader.js"></script>
+
     </main>
+
+    <div id="notf-footer"></div>
+    <script src="/assets/js/components/footer.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/data-loader.js"></script>
+    <script>
+        let allCommunities = [];
+        let filteredCommunities = [];
+        let currentSort = { column: 'name', direction: 'asc' };
+        let fuse = null;
+
+        (async function() {
+            await dataLoader.waitForSupabase();
+            allCommunities = await dataLoader.loadCommunities();
+
+            // Filter to Bengaluru communities only
+            allCommunities = allCommunities.filter(c =>
+                c.city && c.city.toLowerCase().includes('bengaluru')
+            );
+
+            filteredCommunities = [...allCommunities];
+
+            // Create Fuse.js instance for search
+            if (typeof Fuse !== 'undefined') {
+                fuse = new Fuse(allCommunities, {
+                    keys: ['name', 'neighborhood', 'themes', 'description'],
+                    threshold: 0.4,
+                    ignoreLocation: true
+                });
+            }
+
+            renderCards();
+            setupSorting();
+            setupSearch();
+
+            // Make data available to chatbot with city context
+            window.notfData = {
+                communities: allCommunities,
+                members: [],
+                city: 'bengaluru'
+            };
+        })();
+
+        function renderCards() {
+            const grid = document.getElementById('communitiesGrid');
+
+            document.getElementById('communityCount').textContent = `(${filteredCommunities.length})`;
+
+            if (filteredCommunities.length === 0) {
+                grid.innerHTML = '<div class="empty-state">No communities found in Bengaluru.</div>';
+                return;
+            }
+
+            grid.innerHTML = filteredCommunities.map((comm, idx) => {
+                const themes = comm.themes && comm.themes.length > 0
+                    ? comm.themes.slice(0, 3).map(t => `<span class="theme-tag">${t}</span>`).join('')
+                    : '';
+
+                const offersCount = (comm.offers || []).length;
+                const asksCount = (comm.asks || []).length;
+
+                return `
+                    <div class="content-card community-card" onclick="showDetails(${idx})">
+                        <div class="card-header">
+                            <h3 class="card-name">${comm.name}</h3>
+                            ${comm.neighborhood ? `<span class="card-neighborhood"><i class="fa-solid fa-location-dot"></i> ${comm.neighborhood}</span>` : ''}
+                        </div>
+                        <div class="card-body">
+                            ${themes ? `<div class="card-themes">${themes}</div>` : ''}
+                            <div class="card-stats">
+                                <div class="card-stat" onclick="event.stopPropagation(); showOffers(${idx})">
+                                    <span class="card-stat-value">${offersCount}</span>
+                                    <span class="card-stat-label">Offers</span>
+                                </div>
+                                <div class="card-stat" onclick="event.stopPropagation(); showAsks(${idx})">
+                                    <span class="card-stat-value">${asksCount}</span>
+                                    <span class="card-stat-label">Asks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
@@ -902,12 +993,6 @@
             }
         });
     </script>
-
-    <div id="notf-chatbot"></div>
-    <script src="/assets/js/components/chatbot-loader.js"></script>
-
-    <div id="notf-footer"></div>
-    <script src="/assets/js/components/footer.js"></script>
 
     <script src="/assets/js/components/common-scripts.js"></script>
 </body>
