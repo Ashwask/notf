@@ -699,7 +699,8 @@
                 whereDone: "RR Nagar, Bannerghatta, and Yeshwantpur in Bengaluru. Three centres running: Rivers of Bengaluru, Textile Experience Centre, Everyday Materials.",
                 impact: "Over 850 visitors at Rivers centre in first 3 months. Over 600 visitors at Textile centre. School and college visits confirmed. Partnership with Bangalore Apartment Federation.",
                 whatsNeeded: "600-1,000 sq ft indoor space with controlled lighting. Display racks, frames for exhibits. Power for audio-visual elements.",
-                links: []
+                links: [],
+                provider: "Socratus Foundation"
             },
             {
                 id: 2,
@@ -743,7 +744,8 @@
                 whereDone: "A couple of school locations in Bengaluru.",
                 impact: "Pilot phase \u2014 impact data being collected.",
                 whatsNeeded: "Willingness from school to host. Participation from teachers and students. Space for segregation, composting, and awareness activities.",
-                links: []
+                links: [],
+                provider: "Socratus Foundation"
             },
             {
                 id: 5,
@@ -757,7 +759,8 @@
                 whereDone: "Multiple locations across Chennai. Upcoming installation in JP Nagar, Bengaluru.",
                 impact: "Pilot phase \u2014 expanding to new locations.",
                 whatsNeeded: "Institution willing to host the vending machine. Small indoor space. Support for awareness activities.",
-                links: []
+                links: [],
+                provider: "Socratus Foundation"
             },
             {
                 id: 6,
@@ -816,7 +819,8 @@
                 whereDone: "Benson Town, Banashankari, Bommanahalli, Electronic City in Bengaluru. Five pilot cohorts running.",
                 impact: "Five active cohorts across different youth demographics. Building workplace identity, economic imagination, and social capital.",
                 whatsNeeded: "Venue for induction and monthly check-ins. Implementing partner organisation. Programme coordinator and mentors. Learning materials.",
-                links: []
+                links: [],
+                provider: "Socratus Foundation"
             },
             {
                 id: 10,
@@ -830,7 +834,8 @@
                 whereDone: "Currently in pilot phase \u2014 will be launched with early adopter communities.",
                 impact: "In development \u2014 tool being refined with community input.",
                 whatsNeeded: "A ready and interested neighbourhood. One local champion to coordinate and mobilise residents.",
-                links: []
+                links: [],
+                provider: "Socratus Foundation"
             },
             {
                 id: 11,
@@ -1321,7 +1326,8 @@
                 const matchesSearch = !searchText ||
                     project.title.toLowerCase().includes(searchText) ||
                     project.description.toLowerCase().includes(searchText) ||
-                    project.themes.some(t => t.toLowerCase().includes(searchText));
+                    project.themes.some(t => t.toLowerCase().includes(searchText)) ||
+                    (project.provider && project.provider.toLowerCase().includes(searchText));
                 return matchesTheme && matchesSearch;
             });
 
