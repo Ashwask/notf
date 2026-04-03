@@ -25,7 +25,7 @@
                 <a href="/cities/" data-i18n="nav.cities">Cities</a>
                 <a href="/join/" class="join-link" data-i18n="nav.join">Join</a>
                 <a href="/admin/login.html" class="admin-link" data-i18n-title="nav.admin" title="Admin Login">
-                    <i class="fa-solid fa-user-lock"></i>
+                    <img src="/assets/images/icons/login.svg" alt="Admin" style="width:36px;height:36px;">
                 </a>
             </div>
         </nav>

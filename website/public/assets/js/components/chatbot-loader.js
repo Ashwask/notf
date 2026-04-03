@@ -4,7 +4,7 @@
 
     container.innerHTML =
         '<button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">' +
-            '<i class="fa-solid fa-comments"></i>' +
+            '<img src="/assets/images/icons/communication.svg" alt="" style="width:40px;height:40px;">' +
         '</button>' +
         '<div id="notf-chatbot-widget" class="chat-widget">' +
             '<div class="chat-header">' +

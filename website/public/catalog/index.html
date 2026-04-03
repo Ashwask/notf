@@ -172,8 +172,8 @@
             gap: 10px;
             border-bottom: 1px solid rgba(0,0,0,0.06);
         }
-        .theme-card-icon { width: 32px; height: 32px; }
-        .theme-card-header i.theme-card-fa-icon { font-size: 1.3rem; color: var(--terracotta); }
+        .theme-card-icon { width: 44px; height: 44px; }
+        .theme-card-header i.theme-card-fa-icon { font-size: 2rem; color: var(--terracotta); }
         .theme-card-header h2 {
             font-size: 1rem;
             font-weight: 700;
@@ -215,11 +215,7 @@
             min-width: 0;
         }
         .item-number {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--olive-green);
-            opacity: 0.5;
-            min-width: 20px;
+            display: none;
         }
         .item-title {
             font-size: 0.85rem;
@@ -231,8 +227,10 @@
         }
         .item-provider {
             font-size: 0.7rem;
-            color: #aaa;
+            color: var(--slate-blue);
+            opacity: 0.8;
             white-space: nowrap;
+            font-weight: 500;
         }
         .item-badges { display: flex; gap: 4px; flex-shrink: 0; }
         .item-badge {
@@ -1330,7 +1328,7 @@
             { key: 'Energy & Climate', iconImg: '/assets/images/icons/energy-climate.svg', label: 'Energy & Climate', i18nKey: 'catalogPage.filter.energyClimate' },
             { key: 'Livelihoods & Inclusion', iconImg: '/assets/images/icons/livelihoods-inclusion.svg', label: 'Livelihoods & Inclusion', i18nKey: 'catalogPage.filter.livelihoodsInclusion' },
             { key: 'Water & Ecology', iconImg: '/assets/images/icons/water-ecology.svg', label: 'Water & Ecology', i18nKey: 'catalogPage.filter.waterEcology' },
-            { key: 'Mobility', icon: 'fa-solid fa-train', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
+            { key: 'Mobility', iconImg: '/assets/images/icons/mobility.svg', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
             { key: 'Place-Based Centres', iconImg: '/assets/images/icons/place-based-centres.svg', label: 'Place-Based Centres', i18nKey: 'catalogPage.filter.placeBasedCentres' },
         ];
 
