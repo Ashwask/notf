@@ -1267,6 +1267,25 @@ body.menu-open {
     font-size: 28px;
     color: var(--color-bg-white);
 }
+.info-card-icon:has(.about-brand-icon) {
+    background: none;
+    width: auto;
+    height: auto;
+}
+.info-card-icon .about-brand-icon {
+    width: 64px;
+    height: 64px;
+}
+.about-brand-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+.about-brand-icon-sm {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
 
 .info-card h3 {
     font-size: 20px;
@@ -1505,6 +1524,52 @@ body.menu-open {
     height: auto;
     border-radius: var(--radius-lg);
 }
+
+.nudge-hub-diagram {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+}
+.nudge-hub-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.nudge-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.nudge-node img {
+    width: 48px;
+    height: 48px;
+}
+.nudge-node span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    opacity: 0.6;
+}
+.nudge-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(47, 74, 44, 0.06);
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    justify-content: center;
+}
+.nudge-center img { width: 52px; height: 52px; }
+.nudge-center span { font-weight: 700; color: var(--forest-green); }
+.nudge-tl { top: 5px; left: 5px; }
+.nudge-tr { top: 5px; right: 5px; }
+.nudge-bl { bottom: 5px; left: 5px; }
+.nudge-br { bottom: 5px; right: 5px; }
 
 .split-content h2 {
     font-size: 36px;

@@ -1,57 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 500" width="600" height="500">
   <title>Nudge Unit Illustration</title>
-  <desc>Librarian concept - central facilitator connecting resources and people</desc>
+  <desc>The Nudge Unit as central facilitator connecting communities, knowledge, resources, and services</desc>
 
   <!-- Background -->
   <rect width="600" height="500" fill="#FAF6E8"/>
 
-  <!-- Central figure (librarian/facilitator) -->
-  <circle cx="300" cy="220" r="60" fill="#2F4A2C"/>
-  <circle cx="300" cy="205" r="25" fill="#FAF6E8"/>
-  <path d="M 270,240 Q 300,230 330,240" fill="#FAF6E8"/>
+  <!-- Connection lines (drawn first, behind icons) -->
+  <line x1="170" y1="130" x2="260" y2="210" stroke="#B9C98A" stroke-width="3" opacity="0.5" stroke-dasharray="8,4"/>
+  <line x1="430" y1="130" x2="340" y2="210" stroke="#B9C98A" stroke-width="3" opacity="0.5" stroke-dasharray="8,4"/>
+  <line x1="170" y1="370" x2="260" y2="280" stroke="#B9C98A" stroke-width="3" opacity="0.5" stroke-dasharray="8,4"/>
+  <line x1="430" y1="370" x2="340" y2="280" stroke="#B9C98A" stroke-width="3" opacity="0.5" stroke-dasharray="8,4"/>
 
-  <!-- Book/resource symbol in center -->
-  <rect x="285" y="260" width="30" height="5" rx="2" fill="#F5B82E"/>
-  <rect x="280" y="267" width="40" height="20" rx="2" fill="#3F5F7A"/>
-  <line x1="300" y1="267" x2="300" y2="287" stroke="#FAF6E8" stroke-width="2"/>
+  <!-- Central circle (Nudge Unit hub) -->
+  <circle cx="300" cy="245" r="70" fill="#2F4A2C" opacity="0.1"/>
+  <circle cx="300" cy="245" r="55" fill="#2F4A2C" opacity="0.15"/>
 
-  <!-- Surrounding resource elements -->
-  <!-- Directory (top-left) -->
-  <rect x="80" y="80" width="80" height="60" rx="4" fill="#B9C98A"/>
-  <line x1="95" y1="100" x2="145" y2="100" stroke="#FAF6E8" stroke-width="2"/>
-  <line x1="95" y1="115" x2="145" y2="115" stroke="#FAF6E8" stroke-width="2"/>
-  <text x="120" y="145" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Directory</text>
+  <!-- Central icon: Collaboration (the facilitator) -->
+  <image href="/assets/images/icons/collaboration.svg" x="255" y="200" width="90" height="90"/>
 
-  <!-- Knowledge base (top-right) -->
-  <circle cx="480" cy="110" r="40" fill="#3F5F7A"/>
-  <path d="M 465,105 L 465,125 L 480,120 L 495,125 L 495,105 Z" fill="#FAF6E8"/>
-  <text x="480" y="170" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Knowledge</text>
+  <!-- Top-left: Knowledge/Directory -->
+  <circle cx="130" cy="110" r="50" fill="#3F5F7A" opacity="0.08"/>
+  <image href="/assets/images/icons/knowledge.svg" x="95" y="75" width="70" height="70"/>
+  <text x="130" y="170" font-family="'Okta Neue', -apple-system, sans-serif" font-size="13" fill="#3F5F7A" text-anchor="middle" font-weight="600">Knowledge</text>
 
-  <!-- Community (bottom-left) -->
-  <circle cx="120" cy="360" r="18" fill="#C45A2A"/>
-  <circle cx="160" cy="360" r="18" fill="#C45A2A"/>
-  <circle cx="140" cy="390" r="18" fill="#C45A2A"/>
-  <text x="140" y="430" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Community</text>
+  <!-- Top-right: Toolkit/Resources -->
+  <circle cx="470" cy="110" r="50" fill="#C45A2A" opacity="0.08"/>
+  <image href="/assets/images/icons/toolkit.svg" x="435" y="75" width="70" height="70"/>
+  <text x="470" y="170" font-family="'Okta Neue', -apple-system, sans-serif" font-size="13" fill="#C45A2A" text-anchor="middle" font-weight="600">Toolkit</text>
 
-  <!-- Resources (bottom-right) -->
-  <rect x="440" y="350" width="70" height="50" rx="4" fill="#F5B82E"/>
-  <circle cx="455" cy="365" r="6" fill="#FAF6E8"/>
-  <circle cx="475" cy="365" r="6" fill="#FAF6E8"/>
-  <circle cx="495" cy="365" r="6" fill="#FAF6E8"/>
-  <text x="475" y="425" font-family="Arial, sans-serif" font-size="12" fill="#2F4A2C" text-anchor="middle" font-weight="600">Resources</text>
+  <!-- Bottom-left: Community -->
+  <circle cx="130" cy="380" r="50" fill="#C45A2A" opacity="0.08"/>
+  <image href="/assets/images/icons/community.svg" x="95" y="345" width="70" height="70"/>
+  <text x="130" y="440" font-family="'Okta Neue', -apple-system, sans-serif" font-size="13" fill="#C45A2A" text-anchor="middle" font-weight="600">Community</text>
 
-  <!-- Connection lines (hub and spokes) -->
-  <line x1="160" y1="140" x2="260" y2="190" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
-  <line x1="440" y1="150" x2="340" y2="195" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
-  <line x1="160" y1="360" x2="250" y2="260" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
-  <line x1="440" y1="375" x2="350" y2="260" stroke="#3F5F7A" stroke-width="3" opacity="0.6"/>
+  <!-- Bottom-right: Services/Support -->
+  <circle cx="470" cy="380" r="50" fill="#F5B82E" opacity="0.1"/>
+  <image href="/assets/images/icons/services.svg" x="435" y="345" width="70" height="70"/>
+  <text x="470" y="440" font-family="'Okta Neue', -apple-system, sans-serif" font-size="13" fill="#F5B82E" text-anchor="middle" font-weight="700">Services</text>
 
-  <!-- Arrow indicators showing flow -->
-  <path d="M 250,185 L 245,180 L 245,190 Z" fill="#3F5F7A"/>
-  <path d="M 350,200 L 345,195 L 345,205 Z" fill="#3F5F7A"/>
-  <path d="M 255,265 L 250,260 L 250,270 Z" fill="#3F5F7A"/>
-  <path d="M 345,255 L 340,250 L 340,260 Z" fill="#3F5F7A"/>
-
-  <!-- Title text -->
-  <text x="300" y="470" font-family="Arial, sans-serif" font-size="22" font-weight="600" fill="#2F4A2C" text-anchor="middle">The Nudge Unit: Your First Point of Contact</text>
+  <!-- Title -->
+  <text x="300" y="475" font-family="'Okta Neue', -apple-system, sans-serif" font-size="18" font-weight="600" fill="#2F4A2C" text-anchor="middle">The Nudge Unit: Your First Point of Contact</text>
 </svg>
