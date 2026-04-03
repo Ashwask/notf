@@ -393,10 +393,10 @@
         function renderCityCards(cities) {
             const grid = document.getElementById('cityGrid');
             grid.innerHTML = cities.map(city => `
-                <div class="city-selector-card" data-city="${city.slug}">
+                <div class="city-selector-card" data-city="${city.slug}" style="border-color: ${city.color || '#2F4A2C'}">
                     <div class="city-card-header">
                         <div class="city-icon">
-                            <i class="fa-solid fa-city" style="color: ${city.color || '#2F4A2C'}"></i>
+                            <img src="/assets/images/icons/neighbourhood2.svg" alt="" style="width:36px;height:36px;">
                         </div>
                         <div class="city-info">
                             <div class="city-name">${city.name}</div>
@@ -415,24 +415,24 @@
 
                     <div class="city-features">
                         <div class="feature-item ${city.features.map.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-map"></i>
+                            <img src="/assets/images/icons/location.svg" alt="" style="width:20px;height:20px;">
                             <span data-i18n="${city.features.map.available ? 'citySelector.wardMap' : 'citySelector.mapComingSoon'}">${city.features.map.available ? 'Ward Map' : 'Map (Coming Soon)'}</span>
                         </div>
                         <div class="feature-item ${city.features.communities.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-house-user"></i>
+                            <img src="/assets/images/icons/community.svg" alt="" style="width:20px;height:20px;">
                             <span>${city.features.communities.available ? `${city.features.communities.count} ` : ''}<span data-i18n="${city.features.communities.available ? 'stats.communities' : 'citySelector.communitiesComingSoon'}">${city.features.communities.available ? 'Communities' : 'Communities (Coming Soon)'}</span></span>
                         </div>
                         <div class="feature-item ${city.features.climate.available ? 'available' : 'coming-soon'}">
-                            <i class="fa-solid fa-leaf"></i>
+                            <img src="/assets/images/icons/conservation.svg" alt="" style="width:20px;height:20px;">
                             <span data-i18n="${city.features.climate.available ? 'citySelector.climateDashboard' : 'citySelector.climateComingSoon'}">${city.features.climate.available ? 'Climate Dashboard' : 'Climate (Coming Soon)'}</span>
                         </div>
                         <div class="feature-item ${city.storyCount > 0 ? 'available' : 'coming-soon'}">
                             ${city.storyCount > 0
                                 ? `<a href="/cities/${city.slug}/stories/" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fa-solid fa-book-open"></i>
+                                    <img src="/assets/images/icons/story.svg" alt="" style="width:20px;height:20px;">
                                     <span>${city.storyCount} <span data-i18n="stats.stories">Stories</span></span>
                                    </a>`
-                                : `<i class="fa-solid fa-book-open"></i>
+                                : `<img src="/assets/images/icons/story.svg" alt="" style="width:20px;height:20px;">
                                    <span data-i18n="citySelector.storiesComingSoon">Stories (Coming Soon)</span>`
                             }
                         </div>
