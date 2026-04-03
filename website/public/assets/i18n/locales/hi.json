@@ -695,7 +695,9 @@
       "searchPlaceholder": "परियोजनाएँ खोजें...",
       "mobility": "गतिशीलता",
       "governance": "शासन",
-      "awareness": "जागरूकता"
+      "awareness": "जागरूकता",
+      "water": "जल",
+      "community": "समुदाय"
     },
     "effort": {
       "time": "समय",

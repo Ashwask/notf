@@ -695,7 +695,9 @@
       "searchPlaceholder": "திட்டங்களை தேடுங்கள்...",
       "mobility": "போக்குவரத்து",
       "governance": "ஆட்சி",
-      "awareness": "விழிப்புணர்வு"
+      "awareness": "விழிப்புணர்வு",
+      "water": "நீர்",
+      "community": "சமூகம்"
     },
     "effort": {
       "time": "நேரம்",

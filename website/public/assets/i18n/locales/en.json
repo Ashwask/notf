@@ -1353,7 +1353,9 @@
       "searchPlaceholder": "Search projects...",
       "mobility": "Mobility",
       "governance": "Governance",
-      "awareness": "Awareness"
+      "awareness": "Awareness",
+      "water": "Water",
+      "community": "Community"
     },
     "effort": {
       "time": "Time",

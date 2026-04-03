@@ -191,6 +191,8 @@
         .theme-icon.mobility { background: var(--slate-blue); }
         .theme-icon.governance { background: var(--terracotta); }
         .theme-icon.awareness { background: var(--mustard-yellow); }
+        .theme-icon.water { background: var(--slate-blue); }
+        .theme-icon.community { background: var(--olive-green); }
 
         /* Theme section border accent colors */
         .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: var(--forest-green); }
@@ -304,6 +306,7 @@
         .theme-pill.sustainable-living { background: var(--forest-green); }
         .theme-pill.community-service { background: var(--olive-green); color: var(--charcoal); }
         .theme-pill.mobility { background: var(--slate-blue); }
+        .theme-pill.water { background: var(--slate-blue); }
         .theme-pill.governance { background: var(--terracotta); }
         .theme-pill.default { background: #666; }
 
@@ -648,6 +651,12 @@
                     </button>
                     <button class="theme-nav-pill" data-theme="Awareness" data-i18n="catalogPage.filter.awareness">
                         <i class="fa-solid fa-bullhorn"></i> Awareness
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Water" data-i18n="catalogPage.filter.water">
+                        <i class="fa-solid fa-droplet"></i> Water
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Community" data-i18n="catalogPage.filter.community">
+                        <i class="fa-solid fa-people-group"></i> Community
                     </button>
                 </div>
 
@@ -1312,6 +1321,8 @@
             { key: 'Mobility', icon: 'fa-solid fa-car', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
             { key: 'Governance', icon: 'fa-solid fa-landmark', label: 'Governance', i18nKey: 'catalogPage.filter.governance' },
             { key: 'Awareness', icon: 'fa-solid fa-bullhorn', label: 'Awareness', i18nKey: 'catalogPage.filter.awareness' },
+            { key: 'Water', icon: 'fa-solid fa-droplet', label: 'Water', i18nKey: 'catalogPage.filter.water' },
+            { key: 'Community', icon: 'fa-solid fa-people-group', label: 'Community', i18nKey: 'catalogPage.filter.community' },
         ];
 
         let activeTheme = '';

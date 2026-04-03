@@ -695,7 +695,9 @@
       "searchPlaceholder": "প্রকল্প খুঁজুন...",
       "mobility": "পরিবহন",
       "governance": "শাসন",
-      "awareness": "সচেতনতা"
+      "awareness": "সচেতনতা",
+      "water": "জল",
+      "community": "সম্প্রদায়"
     },
     "effort": {
       "time": "সময়",
