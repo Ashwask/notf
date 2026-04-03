@@ -415,7 +415,7 @@
 
                 <!-- City Hero Section -->
                 <div class="city-hero">
-                    <h1><i class="fa-solid fa-book-open"></i> <span data-i18n="cityHub.features.stories.title">Community Stories</span></h1>
+                    <h1><img src="/assets/images/icons/story.svg" alt="" style="width:20px;height:20px;"> <span data-i18n="cityHub.features.stories.title">Community Stories</span></h1>
                     <p data-i18n="cityHub.features.stories.description">Discover real stories of neighbourhood transformation, told by the people who made it happen.</p>
                 </div>
 
@@ -474,7 +474,7 @@
             if (!stories || stories.length === 0) {
                 container.innerHTML = `
                     <div class="stories-empty">
-                        <i class="fa-solid fa-book-open"></i>
+                        <img src="/assets/images/icons/story.svg" alt="" style="width:20px;height:20px;">
                         <h3>No stories yet</h3>
                         <p>Community stories for Bengaluru will appear here soon.</p>
                     </div>
@@ -500,7 +500,7 @@
                                     <h3>${escapeHtml(story.title)}</h3>
                                     <div class="story-meta">
                                         ${story.location ? `<span><i class="fa-solid fa-map-pin"></i> ${escapeHtml(story.location)}</span>` : ''}
-                                        ${story.community ? `<span><i class="fa-solid fa-house-user"></i> ${escapeHtml(story.community)}</span>` : ''}
+                                        ${story.community ? `<span><img src="/assets/images/icons/community.svg" alt="" style="width:20px;height:20px;"> ${escapeHtml(story.community)}</span>` : ''}
                                     </div>
                                 </div>
                                 <div class="story-card-body">

@@ -955,7 +955,18 @@ website/
 │       └── data/        # GeoJSON boundaries
 ├── package.json         # Only Supabase dependency
 └── node_modules/
+
+NoTF - Iconography/      # Brand icon assets (source files)
+├── Ai - NoTF Iconography/   # Adobe Illustrator source
+├── SVG - NoTF Iconography/  # SVG icons (use these for web)
+├── PNG - NoTF Iconography/  # PNG exports
+├── PDF - NoTF Iconography/  # PDF reference sheet
+└── Mockups/                  # Website banner mockup
 ```
+
+### Brand Icons
+
+**Always check `NoTF - Iconography/SVG - NoTF Iconography/` for brand icons before using FontAwesome.** 67 custom NOTF illustrations are available covering themes like waste, water, community, governance, energy, biodiversity, etc. These are used in the catalogue theme section headers (copied to `website/public/assets/images/icons/`). See the UI/UX Guidelines section for the full icon mapping.
 
 ---
 
