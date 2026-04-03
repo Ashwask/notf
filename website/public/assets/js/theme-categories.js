@@ -3,15 +3,14 @@
  * Single source of truth — update this list to update everywhere.
  */
 const THEME_CATEGORIES = [
-    'Waste Management',
-    'Water',
-    'Energy',
+    'Waste & Circular Economy',
+    'Placemaking & Urban Ecology',
+    'Governance & Policy',
+    'Energy & Climate',
+    'Livelihoods & Inclusion',
+    'Water & Ecology',
     'Mobility',
-    'Urban Ecology',
-    'Education',
-    'Livelihoods',
-    'Health',
-    'Governance'
+    'Place-Based Centres'
 ];
 
 /**

@@ -1346,17 +1346,15 @@
     },
     "filter": {
       "allThemes": "All Themes",
-      "wasteManagement": "Waste Management",
-      "education": "Education",
-      "livelihoods": "Livelihoods",
-      "health": "Health",
       "searchPlaceholder": "Search projects...",
       "mobility": "Mobility",
-      "governance": "Governance",
-      "awareness": "Awareness",
-      "water": "Water",
-      "community": "Community",
-      "greenSpaces": "Urban Ecology"
+      "wasteCircular": "Waste & Circular Economy",
+      "placemakingEcology": "Placemaking & Urban Ecology",
+      "governancePolicy": "Governance & Policy",
+      "energyClimate": "Energy & Climate",
+      "livelihoodsInclusion": "Livelihoods & Inclusion",
+      "waterEcology": "Water & Ecology",
+      "placeBasedCentres": "Place-Based Centres"
     },
     "effort": {
       "time": "Time",

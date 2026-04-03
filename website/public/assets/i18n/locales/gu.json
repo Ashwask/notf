@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "બધા વિષયો",
-      "wasteManagement": "કચરા વ્યવસ્થાપન",
-      "education": "શિક્ષણ",
-      "livelihoods": "આજીવિકા",
-      "health": "આરોગ્ય",
       "searchPlaceholder": "યોજનાઓ શોધો...",
       "mobility": "પરિવહન",
-      "governance": "શાસન",
-      "awareness": "જાગૃતિ",
-      "water": "પાણી",
-      "community": "સમુદાય",
-      "greenSpaces": "શહેરી ઇકોલોજી"
+      "wasteCircular": "કચરો અને ચક્રીય અર્થતંત્ર",
+      "placemakingEcology": "સ્થળ નિર્માણ અને શહેરી પર્યાવરણ",
+      "governancePolicy": "શાસન અને નીતિ",
+      "energyClimate": "ઊર્જા અને આબોહવા",
+      "livelihoodsInclusion": "આજીવિકા અને સમાવેશ",
+      "waterEcology": "પાણી અને પર્યાવરણ",
+      "placeBasedCentres": "સ્થળ-આધારિત કેન્દ્રો"
     },
     "effort": {
       "time": "સમય",

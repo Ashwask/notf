@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "అన్ని అంశాలు",
-      "wasteManagement": "వ్యర్థ నిర్వహణ",
-      "education": "విద్య",
-      "livelihoods": "జీవనోపాధి",
-      "health": "ఆరోగ్యం",
       "searchPlaceholder": "ప్రాజెక్టులు వెతకండి...",
       "mobility": "రవాణా",
-      "governance": "పాలన",
-      "awareness": "అవగాహన",
-      "water": "నీరు",
-      "community": "సమాజం",
-      "greenSpaces": "పట్టణ పర్యావరణ శాస్త్రం"
+      "wasteCircular": "వ్యర్థాలు మరియు వృత్తాకార ఆర్థిక వ్యవస్థ",
+      "placemakingEcology": "స్థల నిర్మాణం మరియు పట్టణ పర్యావరణం",
+      "governancePolicy": "పాలన మరియు విధానం",
+      "energyClimate": "శక్తి మరియు వాతావరణం",
+      "livelihoodsInclusion": "జీవనోపాధి మరియు చేరిక",
+      "waterEcology": "నీరు మరియు పర్యావరణం",
+      "placeBasedCentres": "స్థల-ఆధారిత కేంద్రాలు"
     },
     "effort": {
       "time": "సమయం",

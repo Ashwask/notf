@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#3F5F7A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="350" cy="50" r="80" fill="#B9C98A" opacity="0.1"/>
+  <circle cx="40" cy="330" r="60" fill="#F5B82E" opacity="0.08"/>
+  <!-- Road / Complete Street cross-section -->
+  <g transform="translate(200, 140)">
+    <!-- Road surface -->
+    <rect x="-140" y="20" width="280" height="40" rx="4" fill="#FAF6E8" opacity="0.15"/>
+    <!-- Cycle track left -->
+    <rect x="-140" y="10" width="40" height="12" rx="3" fill="#B9C98A" opacity="0.7"/>
+    <!-- Footpath left -->
+    <rect x="-140" y="-8" width="40" height="14" rx="3" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Cycle track right -->
+    <rect x="100" y="10" width="40" height="12" rx="3" fill="#B9C98A" opacity="0.7"/>
+    <!-- Footpath right -->
+    <rect x="100" y="-8" width="40" height="14" rx="3" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Centre median / planting strip -->
+    <rect x="-10" y="25" width="20" height="30" rx="3" fill="#2F4A2C" opacity="0.5"/>
+    <!-- Tree on median -->
+    <circle cx="0" cy="10" r="14" fill="#2F4A2C" opacity="0.6"/>
+    <!-- Trees along footpath -->
+    <circle cx="-120" cy="-20" r="10" fill="#2F4A2C" opacity="0.5"/>
+    <circle cx="120" cy="-20" r="10" fill="#2F4A2C" opacity="0.5"/>
+    <!-- Pedestrian figures -->
+    <circle cx="-120" cy="0" r="3" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="-122" y="3" width="4" height="8" rx="1" fill="#FAF6E8" opacity="0.5"/>
+    <circle cx="118" cy="0" r="3" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="116" y="3" width="4" height="8" rx="1" fill="#FAF6E8" opacity="0.5"/>
+    <!-- Bicycle symbol left -->
+    <circle cx="-118" cy="16" r="4" fill="none" stroke="#FAF6E8" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="-110" cy="16" r="4" fill="none" stroke="#FAF6E8" stroke-width="1.2" opacity="0.6"/>
+    <line x1="-118" y1="16" x2="-110" y2="16" stroke="#FAF6E8" stroke-width="1" opacity="0.5"/>
+    <!-- Bicycle symbol right -->
+    <circle cx="110" cy="16" r="4" fill="none" stroke="#FAF6E8" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="118" cy="16" r="4" fill="none" stroke="#FAF6E8" stroke-width="1.2" opacity="0.6"/>
+    <line x1="110" y1="16" x2="118" y2="16" stroke="#FAF6E8" stroke-width="1" opacity="0.5"/>
+    <!-- Street lights -->
+    <rect x="-96" y="-30" width="2" height="30" fill="#FAF6E8" opacity="0.35"/>
+    <circle cx="-95" cy="-32" r="4" fill="#F5B82E" opacity="0.5"/>
+    <rect x="94" y="-30" width="2" height="30" fill="#FAF6E8" opacity="0.35"/>
+    <circle cx="95" cy="-32" r="4" fill="#F5B82E" opacity="0.5"/>
+  </g>
+  <!-- Institution buildings silhouette -->
+  <g transform="translate(200, 250)">
+    <rect x="-120" y="-10" width="50" height="35" rx="3" fill="#FAF6E8" opacity="0.2"/>
+    <rect x="-60" y="-20" width="40" height="45" rx="3" fill="#FAF6E8" opacity="0.18"/>
+    <rect x="-10" y="-15" width="55" height="40" rx="3" fill="#FAF6E8" opacity="0.22"/>
+    <rect x="55" y="-8" width="45" height="33" rx="3" fill="#FAF6E8" opacity="0.16"/>
+    <!-- Metro symbol -->
+    <rect x="-140" y="0" width="14" height="18" rx="5" fill="#C45A2A" opacity="0.6"/>
+    <text x="-133" y="14" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="700" fill="#FAF6E8" opacity="0.9">M</text>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="55" y="80" width="10" height="10" fill="#F5B82E" opacity="0.15" transform="rotate(45 60 85)"/>
+  <polygon points="330,280 337,268 344,280" fill="#FAF6E8" opacity="0.12"/>
+  <circle cx="60" cy="250" r="4" fill="#FAF6E8" opacity="0.15"/>
+  <rect x="310" y="110" width="8" height="8" fill="#B9C98A" opacity="0.12" transform="rotate(30 314 114)"/>
+  <!-- Project name -->
+  <text x="200" y="348" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#FAF6E8" opacity="0.9">Institutional Neighbourhood Enhancement</text>
+</svg>

@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "அனைத்து மையங்கள்",
-      "wasteManagement": "கழிவு மேலாண்மை",
-      "education": "கல்வி",
-      "livelihoods": "வாழ்வாதாரம்",
-      "health": "ஆரோக்கியம்",
       "searchPlaceholder": "திட்டங்களை தேடுங்கள்...",
       "mobility": "போக்குவரத்து",
-      "governance": "ஆட்சி",
-      "awareness": "விழிப்புணர்வு",
-      "water": "நீர்",
-      "community": "சமூகம்",
-      "greenSpaces": "நகர்ப்புற சூழலியல்"
+      "wasteCircular": "கழிவு மற்றும் சுழற்சி பொருளாதாரம்",
+      "placemakingEcology": "இடம் உருவாக்கம் மற்றும் நகர்ப்புற சூழலியல்",
+      "governancePolicy": "ஆளுகை மற்றும் கொள்கை",
+      "energyClimate": "ஆற்றல் மற்றும் காலநிலை",
+      "livelihoodsInclusion": "வாழ்வாதாரம் மற்றும் உள்ளடக்கம்",
+      "waterEcology": "நீர் மற்றும் சூழலியல்",
+      "placeBasedCentres": "இட அடிப்படை மையங்கள்"
     },
     "effort": {
       "time": "நேரம்",

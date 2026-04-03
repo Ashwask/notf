@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "تمام موضوعات",
-      "wasteManagement": "فضلے کی نظامت",
-      "education": "تعلیم",
-      "livelihoods": "ذرائع معاش",
-      "health": "صحت",
       "searchPlaceholder": "منصوبے تلاش کریں...",
       "mobility": "نقل و حمل",
-      "governance": "حکمرانی",
-      "awareness": "آگاہی",
-      "water": "پانی",
-      "community": "کمیونٹی",
-      "greenSpaces": "شہری ماحولیات"
+      "wasteCircular": "فضلہ اور سرکلر اکانومی",
+      "placemakingEcology": "جگہ سازی اور شہری ماحولیات",
+      "governancePolicy": "حکمرانی اور پالیسی",
+      "energyClimate": "توانائی اور آب و ہوا",
+      "livelihoodsInclusion": "معاش اور شمولیت",
+      "waterEcology": "پانی اور ماحولیات",
+      "placeBasedCentres": "مقام پر مبنی مراکز"
     },
     "effort": {
       "time": "وقت",

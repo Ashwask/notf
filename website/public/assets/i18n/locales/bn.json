@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "সব বিষয়",
-      "wasteManagement": "বর্জ্য ব্যবস্থাপনা",
-      "education": "শিক্ষা",
-      "livelihoods": "জীবিকা",
-      "health": "স্বাস্থ্য",
       "searchPlaceholder": "প্রকল্প খুঁজুন...",
       "mobility": "পরিবহন",
-      "governance": "শাসন",
-      "awareness": "সচেতনতা",
-      "water": "জল",
-      "community": "সম্প্রদায়",
-      "greenSpaces": "নগর বাস্তুবিদ্যা"
+      "wasteCircular": "বর্জ্য এবং বৃত্তাকার অর্থনীতি",
+      "placemakingEcology": "স্থান নির্মাণ এবং নগর পরিবেশ",
+      "governancePolicy": "শাসন এবং নীতি",
+      "energyClimate": "শক্তি এবং জলবায়ু",
+      "livelihoodsInclusion": "জীবিকা এবং অন্তর্ভুক্তি",
+      "waterEcology": "জল এবং পরিবেশ",
+      "placeBasedCentres": "স্থান-ভিত্তিক কেন্দ্র"
     },
     "effort": {
       "time": "সময়",

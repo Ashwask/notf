@@ -1132,17 +1132,15 @@
     },
     "filter": {
       "allThemes": "ಎಲ್ಲಾ ವಿಷಯಗಳು",
-      "wasteManagement": "ತ್ಯಾಜ್ಯ ನಿರ್ವಹಣೆ",
-      "education": "ಶಿಕ್ಷಣ",
-      "livelihoods": "ಜೀವನೋಪಾಯ",
-      "health": "ಆರೋಗ್ಯ",
       "searchPlaceholder": "ಯೋಜನೆಗಳನ್ನು ಹುಡುಕಿ...",
       "mobility": "ಸಂಚಾರ",
-      "governance": "ಆಡಳಿತ",
-      "awareness": "ಜಾಗೃತಿ",
-      "water": "ನೀರು",
-      "community": "ಸಮುದಾಯ",
-      "greenSpaces": "ನಗರ ಪರಿಸರ ವಿಜ್ಞಾನ"
+      "wasteCircular": "ತ್ಯಾಜ್ಯ ಮತ್ತು ವೃತ್ತಾಕಾರ ಆರ್ಥಿಕತೆ",
+      "placemakingEcology": "ಸ್ಥಳ ನಿರ್ಮಾಣ ಮತ್ತು ನಗರ ಪರಿಸರ",
+      "governancePolicy": "ಆಡಳಿತ ಮತ್ತು ನೀತಿ",
+      "energyClimate": "ಶಕ್ತಿ ಮತ್ತು ಹವಾಮಾನ",
+      "livelihoodsInclusion": "ಜೀವನೋಪಾಯ ಮತ್ತು ಒಳಗೊಳ್ಳುವಿಕೆ",
+      "waterEcology": "ನೀರು ಮತ್ತು ಪರಿಸರ",
+      "placeBasedCentres": "ಸ್ಥಳ-ಆಧಾರಿತ ಕೇಂದ್ರಗಳು"
     },
     "effort": {
       "time": "ಸಮಯ",

@@ -147,266 +147,236 @@
             border-color: var(--forest-green);
         }
 
-        /* Theme Sections */
-        .theme-section {
-            margin-bottom: 2.5rem;
-        }
-        .theme-section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 3px solid #e0e0e0;
-        }
-        .theme-section-header .theme-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.15rem;
-            flex-shrink: 0;
-        }
-        .theme-section-header h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin: 0;
-        }
-        .theme-section-header .theme-count {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #666;
-            margin-left: auto;
-        }
-
-        /* Theme icon colors */
-        .theme-icon.waste-management { background: var(--forest-green); }
-        .theme-icon.education { background: var(--mustard-yellow); }
-        .theme-icon.livelihoods { background: var(--terracotta); }
-        .theme-icon.health { background: var(--slate-blue); }
-        .theme-icon.mobility { background: var(--slate-blue); }
-        .theme-icon.governance { background: var(--terracotta); }
-        .theme-icon.awareness { background: var(--mustard-yellow); }
-        .theme-icon.water { background: var(--slate-blue); }
-        .theme-icon.community { background: var(--olive-green); }
-        .theme-icon.green-spaces { background: var(--forest-green); }
-
-        /* Theme section border accent colors */
-        .theme-section[data-theme="Waste Management"] .theme-section-header { border-bottom-color: var(--forest-green); }
-        .theme-section[data-theme="Education"] .theme-section-header { border-bottom-color: var(--mustard-yellow); }
-        .theme-section[data-theme="Livelihoods"] .theme-section-header { border-bottom-color: var(--terracotta); }
-        .theme-section[data-theme="Health"] .theme-section-header { border-bottom-color: var(--slate-blue); }
-        .theme-section[data-theme="Mobility"] .theme-section-header { border-bottom-color: var(--slate-blue); }
-        .theme-section[data-theme="Governance"] .theme-section-header { border-bottom-color: var(--terracotta); }
-
-        /* Project Cards Grid */
-        .projects-grid {
+        /* Theme Cards Grid */
+        .theme-cards-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
+            gap: 20px;
+            margin-bottom: 2.5rem;
         }
 
-        /* Project Card */
-        .project-card {
+        /* Theme Card */
+        .theme-card {
             background: white;
-            border-radius: 1rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             overflow: hidden;
-            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
         }
-        .project-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-        .project-card-header {
-            padding: 1.5rem;
-            cursor: pointer;
-        }
-        .project-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: rgba(63, 95, 122, 0.15);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-        .project-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--charcoal);
-            margin-bottom: 0.5rem;
-        }
-        .project-description {
-            font-size: 0.95rem;
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-        }
+        .theme-card.hidden { display: none; }
 
-        /* Effort Indicators */
-        .effort-indicators {
-            margin-bottom: 1rem;
-        }
-        .effort-indicator {
+        .theme-card-header {
+            padding: 1rem 1.25rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
         }
-        .effort-label {
-            font-size: 12px;
-            color: #666;
-            width: 70px;
-            flex-shrink: 0;
-        }
-        .effort-bar {
-            display: flex;
-            gap: 3px;
-        }
-        .effort-segment {
-            width: 20px;
-            height: 8px;
-            border-radius: 2px;
-            background: #e0e0e0;
-        }
-        .effort-time .effort-segment.filled { background: var(--slate-blue); }
-        .effort-workload .effort-segment.filled { background: var(--terracotta); }
-        .effort-budget .effort-segment.filled { background: var(--mustard-yellow); }
-
-        /* Theme Tags */
-        .project-themes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-            margin-bottom: 1rem;
-        }
-        .theme-pill {
-            display: inline-block;
-            padding: 0.3rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: white;
-        }
-        .theme-pill.waste-management,
-        .theme-pill.circular-economy { background: var(--forest-green); }
-        .theme-pill.education,
-        .theme-pill.awareness { background: var(--mustard-yellow); color: var(--charcoal); }
-        .theme-pill.livelihoods,
-        .theme-pill.youth { background: var(--terracotta); }
-        .theme-pill.health,
-        .theme-pill.gender { background: var(--slate-blue); }
-        .theme-pill.community,
-        .theme-pill.placemaking { background: var(--olive-green); color: var(--charcoal); }
-        .theme-pill.assessment { background: var(--slate-blue); }
-        .theme-pill.urban-infrastructure { background: var(--forest-green); }
-        .theme-pill.sustainable-living { background: var(--forest-green); }
-        .theme-pill.community-service { background: var(--olive-green); color: var(--charcoal); }
-        .theme-pill.mobility { background: var(--slate-blue); }
-        .theme-pill.water { background: var(--slate-blue); }
-        .theme-pill.governance { background: var(--terracotta); }
-        .theme-pill.default { background: #666; }
-
-        /* Learn More Toggle */
-        .learn-more-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            padding: 0.3rem 0.75rem;
-            background: rgba(0,0,0,0.04);
-            border: none;
-            border-radius: 1rem;
-            color: var(--charcoal);
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s ease, opacity 0.2s ease;
-            font-family: inherit;
-            opacity: 0.5;
-        }
-        .learn-more-btn:hover {
-            background: rgba(0,0,0,0.08);
-            opacity: 0.7;
-        }
-        .learn-more-btn i {
-            font-size: 0.65rem;
-            transition: transform 0.3s ease;
-        }
-        .learn-more-btn.expanded i {
-            transform: rotate(180deg);
-        }
-
-        /* Expanded Content */
-        .project-expanded {
-            display: none;
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            border-top: 1px solid #f0f0f0;
-        }
-        .project-expanded.active {
-            display: block;
-        }
-        .expanded-section {
-            margin-bottom: 1.25rem;
-        }
-        .expanded-section h4 {
+        .theme-card-icon { width: 32px; height: 32px; }
+        .theme-card-header i.theme-card-fa-icon { font-size: 1.3rem; color: var(--terracotta); }
+        .theme-card-header h2 {
             font-size: 1rem;
             font-weight: 700;
             color: var(--forest-green);
-            margin: 0 0 0.5rem 0;
-        }
-        .expanded-section p {
-            font-size: 0.95rem;
-            color: #555;
-            line-height: 1.6;
             margin: 0;
+            flex: 1;
         }
-        .expanded-section ul {
+        .theme-card-count {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        .theme-card-list {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .expanded-section ul li {
-            padding: 0.5rem 0.75rem;
-            background: #f8f9fa;
-            margin: 0.25rem 0;
-            border-radius: 4px;
-            border-left: 3px solid var(--olive-green);
-            font-size: 0.95rem;
-            color: #555;
-        }
-        .expanded-links {
+        .theme-card-item {
+            padding: 10px 1.25rem;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            cursor: pointer;
+            transition: background 0.15s;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        .expanded-links a {
-            color: var(--slate-blue);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
+            justify-content: space-between;
+            gap: 10px;
         }
-        .expanded-links a:hover {
-            text-decoration: underline;
+        .theme-card-item:last-child { border-bottom: none; }
+        .theme-card-item:hover { background: rgba(185,201,138,0.08); }
+        .theme-card-item.hidden { display: none; }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 0;
         }
-        .provider-attribution {
-            background: rgba(185, 201, 138, 0.1);
+        .item-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--olive-green);
+            opacity: 0.5;
+            min-width: 20px;
+        }
+        .item-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .item-provider {
+            font-size: 0.7rem;
+            color: #aaa;
+            white-space: nowrap;
+        }
+        .item-badges { display: flex; gap: 4px; flex-shrink: 0; }
+        .item-badge {
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 2px 7px;
             border-radius: 8px;
-            padding: 1rem 1.5rem;
+            white-space: nowrap;
+            background: rgba(0,0,0,0.05);
+            color: #666;
         }
-        .provider-name {
+
+        /* Project Detail Modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .project-modal.active { display: flex; }
+        .project-modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+        }
+        .project-modal-content {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            max-width: 700px;
+            width: calc(100% - 40px);
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+        }
+        .project-modal-header {
+            padding: 1.5rem;
+            background: var(--forest-green);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 12px 12px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        .project-modal-header h2 { margin: 0; color: white; font-size: 1.25rem; }
+        .modal-close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .modal-close-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+        .project-modal-body { padding: 1.5rem; }
+        .project-modal-body .detail-section { margin-bottom: 1.25rem; }
+        .project-modal-body .detail-section h4 {
+            font-size: 0.9rem;
             font-weight: 700;
             color: var(--forest-green);
-            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .contact-cta-btn {
+        .project-modal-body .detail-section p { color: #555; font-size: 0.9rem; line-height: 1.6; margin: 0; }
+        .project-modal-body .detail-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .project-modal-body .detail-section li {
+            padding: 6px 10px;
+            background: #f8f9fa;
+            margin: 3px 0;
+            border-radius: 4px;
+            border-left: 3px solid var(--olive-green);
+            font-size: 0.85rem;
+            color: #555;
+        }
+        .provider-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(185,201,138,0.1);
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--forest-green);
+            font-size: 0.9rem;
+        }
+        .detail-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--forest-green);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .detail-links a:hover { text-decoration: underline; }
+        .modal-effort-indicators {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .modal-effort-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .modal-effort-label {
+            font-size: 0.75rem;
+            color: #888;
+            font-weight: 600;
+        }
+        .modal-effort-bar {
+            display: flex;
+            gap: 2px;
+        }
+        .modal-effort-segment {
+            width: 14px;
+            height: 6px;
+            border-radius: 2px;
+            background: #e0e0e0;
+        }
+        .modal-effort-item.time .modal-effort-segment.filled { background: var(--slate-blue); }
+        .modal-effort-item.workload .modal-effort-segment.filled { background: var(--terracotta); }
+        .modal-effort-item.budget .modal-effort-segment.filled { background: var(--mustard-yellow); }
+        .modal-contact-btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -420,12 +390,12 @@
             cursor: pointer;
             text-decoration: none;
             transition: all 0.2s ease;
-            margin-top: 1rem;
+            margin-top: 0.5rem;
             font-family: inherit;
         }
-        .contact-cta-btn:hover {
-            background: var(--forest-green-dark);
-            transform: translateY(-2px);
+        .modal-contact-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
         /* Bottom CTA */
@@ -520,7 +490,7 @@
                 padding: 0.4rem 0.75rem;
                 font-size: 0.8rem;
             }
-            .projects-grid {
+            .theme-cards-grid {
                 grid-template-columns: 1fr;
             }
             .process-bar {
@@ -557,11 +527,22 @@
             .bottom-cta h2 {
                 font-size: 1.5rem;
             }
-            .project-number {
-                font-size: 2.25rem;
+            .project-modal-content {
+                width: 100%;
+                max-height: 95vh;
+                border-radius: 12px 12px 0 0;
             }
-            .theme-section-header h2 {
-                font-size: 1.25rem;
+            .project-modal {
+                align-items: flex-end;
+            }
+            .project-modal-header {
+                border-radius: 12px 12px 0 0;
+            }
+            .item-provider {
+                display: none;
+            }
+            .item-badges {
+                display: none;
             }
         }
     </style>
@@ -632,35 +613,29 @@
                     <button class="theme-nav-pill active" data-theme="" data-i18n="catalogPage.filter.allThemes">
                         <i class="fa-solid fa-border-all"></i> All
                     </button>
-                    <button class="theme-nav-pill" data-theme="Waste Management" data-i18n="catalogPage.filter.wasteManagement">
-                        <i class="fa-solid fa-recycle"></i> Waste Management
+                    <button class="theme-nav-pill" data-theme="Waste & Circular Economy" data-i18n="catalogPage.filter.wasteCircular">
+                        <i class="fa-solid fa-recycle"></i> Waste & Circular Economy
                     </button>
-                    <button class="theme-nav-pill" data-theme="Education" data-i18n="catalogPage.filter.education">
-                        <i class="fa-solid fa-graduation-cap"></i> Education
+                    <button class="theme-nav-pill" data-theme="Placemaking & Urban Ecology" data-i18n="catalogPage.filter.placemakingEcology">
+                        <i class="fa-solid fa-tree"></i> Placemaking & Urban Ecology
                     </button>
-                    <button class="theme-nav-pill" data-theme="Livelihoods" data-i18n="catalogPage.filter.livelihoods">
-                        <i class="fa-solid fa-briefcase"></i> Livelihoods
+                    <button class="theme-nav-pill" data-theme="Governance & Policy" data-i18n="catalogPage.filter.governancePolicy">
+                        <i class="fa-solid fa-landmark"></i> Governance & Policy
                     </button>
-                    <button class="theme-nav-pill" data-theme="Health" data-i18n="catalogPage.filter.health">
-                        <i class="fa-solid fa-heart-pulse"></i> Health
+                    <button class="theme-nav-pill" data-theme="Energy & Climate" data-i18n="catalogPage.filter.energyClimate">
+                        <i class="fa-solid fa-bolt"></i> Energy & Climate
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Livelihoods & Inclusion" data-i18n="catalogPage.filter.livelihoodsInclusion">
+                        <i class="fa-solid fa-briefcase"></i> Livelihoods & Inclusion
+                    </button>
+                    <button class="theme-nav-pill" data-theme="Water & Ecology" data-i18n="catalogPage.filter.waterEcology">
+                        <i class="fa-solid fa-droplet"></i> Water & Ecology
                     </button>
                     <button class="theme-nav-pill" data-theme="Mobility" data-i18n="catalogPage.filter.mobility">
-                        <i class="fa-solid fa-car"></i> Mobility
+                        <i class="fa-solid fa-train"></i> Mobility
                     </button>
-                    <button class="theme-nav-pill" data-theme="Governance" data-i18n="catalogPage.filter.governance">
-                        <i class="fa-solid fa-landmark"></i> Governance
-                    </button>
-                    <button class="theme-nav-pill" data-theme="Awareness" data-i18n="catalogPage.filter.awareness">
-                        <i class="fa-solid fa-bullhorn"></i> Awareness
-                    </button>
-                    <button class="theme-nav-pill" data-theme="Water" data-i18n="catalogPage.filter.water">
-                        <i class="fa-solid fa-droplet"></i> Water
-                    </button>
-                    <button class="theme-nav-pill" data-theme="Community" data-i18n="catalogPage.filter.community">
-                        <i class="fa-solid fa-people-group"></i> Community
-                    </button>
-                    <button class="theme-nav-pill" data-theme="Urban Ecology" data-i18n="catalogPage.filter.greenSpaces">
-                        <i class="fa-solid fa-tree"></i> Urban Ecology
+                    <button class="theme-nav-pill" data-theme="Place-Based Centres" data-i18n="catalogPage.filter.placeBasedCentres">
+                        <i class="fa-solid fa-building"></i> Place-Based Centres
                     </button>
                 </div>
 
@@ -669,9 +644,24 @@
                     <input type="text" id="searchInput" data-i18n-placeholder="catalogPage.filter.searchPlaceholder" placeholder="Search projects..." aria-label="Search projects">
                 </div>
 
-                <!-- Projects Container (grouped by theme) -->
+                <!-- Projects Container (theme cards grid) -->
                 <div id="projectsContainer">
                     <!-- Rendered by JS -->
+                </div>
+
+                <!-- Project Detail Modal -->
+                <div class="project-modal" id="projectModal">
+                    <div class="project-modal-overlay" onclick="closeProjectModal()"></div>
+                    <div class="project-modal-content">
+                        <div class="project-modal-header">
+                            <h2 id="modalProjectTitle"></h2>
+                            <button onclick="closeProjectModal()" class="modal-close-btn" aria-label="Close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div class="project-modal-body" id="modalProjectBody">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Bottom CTA -->
@@ -704,7 +694,7 @@
                 id: 1,
                 title: "Learning Experience Centre",
                 description: "Neighbourhood community spaces for you and your family where you can learn about everyday issues in a fun and interactive manner.",
-                themes: ["Education", "Awareness"],
+                themes: ["Place-Based Centres"],
                 time: 4, workload: 4, budget: 3,
                 whatIsIt: "Immersive, neighbourhood-anchored spaces where people learn about complex public issues through hands-on exploration, storytelling, and interaction. Each centre focuses on one theme \u2014 rivers, textiles, everyday materials. Growing into a city-wide network across Bengaluru.",
                 whyExists: "Complex sustainability, ecology, and livelihood issues need to be made understandable and relatable. Learning should move out of classrooms and conferences into neighbourhood spaces, creating emotional connections that encourage civic engagement.",
@@ -719,7 +709,7 @@
                 id: 2,
                 title: "RRR Maadi",
                 description: "A one-day repair event, hosted in your apartment, where cobblers, tailors, and experts fix your items.",
-                themes: ["Waste Management", "Circular Economy"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 2, budget: 1,
                 whatIsIt: "Community-led initiative bringing repair services directly into neighbourhoods. Encourages repair over disposal and supports informal repair vendor livelihoods. RRR stands for Refuse, Reduce, Repair. Maadi means \u2018do\u2019 in Kannada.",
                 whyExists: "Bengaluru generates 5,000-6,000 tonnes of waste daily. Many discarded items are repairable. Supports Government of India\u2019s Mission LiFE.",
@@ -734,7 +724,7 @@
                 id: 3,
                 title: "Cutlery Bank",
                 description: "Have an event coming up? Borrow steel plates and spoons from this community service.",
-                themes: ["Waste Management", "Community Service"],
+                themes: ["Waste & Circular Economy"],
                 time: 2, workload: 2, budget: 1,
                 whatIsIt: "Community-led initiative run by a Self-Help Group (SHG) to reduce single-use waste at source. Provides reusable cups, plates, and cutlery for local events.",
                 whyExists: "Community events rely heavily on disposable cups, plates, cutlery \u2014 contributing to local waste generation and pressure on Panchayat-level waste systems.",
@@ -749,7 +739,7 @@
                 id: 4,
                 title: "Zero Waste School",
                 description: "Students learn to compost, sort waste, reduce plastics, save water and build habits that help the whole neighbourhood.",
-                themes: ["Education", "Waste Management"],
+                themes: ["Waste & Circular Economy"],
                 time: 4, workload: 3, budget: 2,
                 whatIsIt: "School adoption initiative turning educational institutions into everyday sites of environmental action. Works directly with teachers and students to build lasting habits.",
                 whyExists: "Schools generate significant waste daily and are powerful spaces for shaping habits and values. Students carry practices home and into communities.",
@@ -764,7 +754,7 @@
                 id: 5,
                 title: "Cloth Pad Bank",
                 description: "A small vending machine placed in schools to help students access reusable cloth pads easily and with privacy.",
-                themes: ["Health", "Gender"],
+                themes: ["Livelihoods & Inclusion"],
                 time: 2, workload: 2, budget: 2,
                 whatIsIt: "Community-based initiative providing girls and young women with easy, dignified access to reusable cloth pads through pad vending machines installed in public institutions, especially government schools.",
                 whyExists: "Despite awareness, access remains a challenge especially in government schools. Girls are open to using cloth pads but lack safe, affordable, private ways to obtain them.",
@@ -779,7 +769,7 @@
                 id: 6,
                 title: "Kasa Kiosk",
                 description: "A staffed waste drop-off stall where people can leave their waste at any time, even if they miss the collection truck.",
-                themes: ["Waste Management", "Urban Infrastructure"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 3, budget: 3,
                 whatIsIt: "Neighbourhood-level, manned waste collection kiosk designed to eliminate garbage black spots \u2014 places where waste is repeatedly dumped in public spaces. Named after \u2018Kasa\u2019 (waste in Kannada).",
                 whyExists: "Garbage black spots emerge when waste collection systems don\u2019t align with residents\u2019 routines. Missed pickups and timing issues lead to public dumping.",
@@ -794,7 +784,7 @@
                 id: 7,
                 title: "Waste-Free Worship Hubs",
                 description: "Helps temples, mosques, and churches manage waste through sorting, plastic reduction, and material reuse for eco-friendly celebrations.",
-                themes: ["Waste Management", "Community"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "Community-led initiative working with places of worship to transform them into zero-waste centres. Links faith, daily practice, and environmental responsibility.",
                 whyExists: "Places of worship generate significant waste during festivals, special prayers, and community gatherings \u2014 mixed, single-use, and difficult to manage.",
@@ -809,7 +799,7 @@
                 id: 8,
                 title: "Model DWCC",
                 description: "Transforms your Dry Waste Collection Centres into neat, bright, well-managed spaces that reduce smell and improve recycling.",
-                themes: ["Waste Management", "Placemaking"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 4, budget: 3,
                 whatIsIt: "Placemaking initiative transforming Dry Waste Collection Centres (DWCCs) into clean, well-designed, community-friendly spaces. Also called \u2018Kasa Kuppa Khoobsurat\u2019 (Beautiful Waste Bin).",
                 whyExists: "DWCCs are essential to decentralised waste management but are resisted by communities due to poor maintenance and visual clutter. This reimagines them as assets rather than eyesores.",
@@ -824,7 +814,7 @@
                 id: 9,
                 title: "First Job Fellowship",
                 description: "The First Job Fellowship gives guidance, mentorship, and opportunities to help you get your first real job with confidence.",
-                themes: ["Livelihoods", "Youth"],
+                themes: ["Livelihoods & Inclusion"],
                 time: 5, workload: 5, budget: 4,
                 whatIsIt: "Six-month, supported transition programme helping young people navigate their first real experience of work. Combines paid work exposure with mentoring, reflection, and life skills support. Rs 10,000/month fellowship stipend.",
                 whyExists: "Skill training often does not translate into meaningful first jobs, especially for young women facing mobility constraints and social restrictions.",
@@ -839,7 +829,7 @@
                 id: 10,
                 title: "Neighbourhood Green Score",
                 description: "Your area's report card on the quality of water, parks, waste, and community life \u2014 showing what's good and what can get better.",
-                themes: ["Assessment", "Community"],
+                themes: ["Energy & Climate"],
                 time: 3, workload: 3, budget: 1,
                 whatIsIt: "Simple, community-facing tool looking at everyday aspects of local life \u2014 air quality, water, parks, green cover, waste management, local businesses, and community life. A neighbourhood report card.",
                 whyExists: "People experience city quality at the neighbourhood level, but this information is often scattered, technical, or hard to access.",
@@ -854,7 +844,7 @@
                 id: 11,
                 title: "Smart Refill",
                 description: "Refill station for everyday household products. Bring your own jars to refill detergent, dishwash, and floor cleaner.",
-                themes: ["Waste Management", "Sustainable Living"],
+                themes: ["Waste & Circular Economy"],
                 time: 2, workload: 1, budget: 2,
                 whatIsIt: "Refill station dispensing everyday household products (laundry detergent, dishwash, floor cleaner). Residents bring their own jars. Machine is ~6.5 ft tall with 6 dispensing nozzles offering natural and branded options.",
                 whyExists: "Reducing plastic waste from single-use product packaging. Tracks how much is refilled, plastic saved, and estimated CO2 reduction.",
@@ -869,7 +859,7 @@
                 id: 12,
                 title: "Noisewatchers",
                 description: "A citizen-led movement against vehicular noise pollution, running localised awareness campaigns at busy junctions and advocating for better enforcement.",
-                themes: ["Awareness", "Community"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 2, workload: 3, budget: 1,
                 whatIsIt: "Noisewatchers is a movement against noise pollution. They identify that vehicular noise pollution is rampant in the city and design localised campaigns involving citizens at junctions where vehicular movement is high and residents, hospitals, educational institutions, street-side businesses, traffic police, and biodiversity are at stake. Apart from awareness campaigns, they also advocate for better enforcement and interventions by government agencies.",
                 whyExists: "Noise pollution from vehicles \u2014 unnecessary honking, habitual honking, additionally fitted post-manufacturing horns, and modified silencers \u2014 is a widespread urban problem affecting health, wellbeing, and biodiversity.",
@@ -884,7 +874,7 @@
                 id: 13,
                 title: "The Blue Bag Project",
                 description: "A dry waste recycling programme where households collect clean dry waste in blue bags for weekly pickup and earn money through the Bintix app.",
-                themes: ["Waste Management", "Community"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 2, budget: 1,
                 whatIsIt: "The Blue Bag Project promotes at-source segregation, ensures responsible processing of dry waste, and rewards residents for participation. The project aims to enact behavioural change within households and communities to increase participation in the waste management process. Run in collaboration with Reconstruct Sustainable Solutions, Start Upcycling Now, and Bintix.",
                 whyExists: "Mumbai generates 6,000 tonnes of municipal solid waste daily. Recycling is largely driven by the informal sector without safety equipment. Due to lack of source segregation, recyclable materials end up in landfills. A behavioural shift is needed to increase public participation in waste management.",
@@ -899,7 +889,7 @@
                 id: 14,
                 title: "Namma Banna",
                 description: "A neighbourhood art initiative that transforms shared public spaces through murals, workshops, and community participation \u2014 turning walls into sites of expression and belonging.",
-                themes: ["Community", "Awareness"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "Namma Banna (\u2018Our Colours\u2019) is a neighbourhood art initiative that transforms shared public spaces through creativity, participation, and collective responsibility. The project engages marginalised communities and local youth, encouraging them to reclaim and care for the spaces around them by turning walls, corners, and streets into vibrant sites of expression. Through murals, workshops, and art classes led by practising artists, Namma Banna creates opportunities for underprivileged children and young adolescents to explore their creativity while building a sense of ownership over their neighbourhood.",
                 whyExists: "In many neighbourhoods \u2014 especially those with marginalised populations \u2014 public spaces are often neglected or seen as areas that don\u2019t belong to the people who live there. This lack of ownership leads to littering, vandalism, and the gradual decline of shared environments. Young people from these communities often have limited access to creative platforms and constructive activities. Namma Banna addresses this by activating spaces beyond private boundaries, where art becomes a tool for connection, learning, and long-term community care.",
@@ -914,7 +904,7 @@
                 id: 15,
                 title: "Ek Saath - The Earth Foundation",
                 description: "Community-led waste management, coastal clean-ups, and Miyawaki afforestation for sustainable island and slum communities.",
-                themes: ["Waste Management", "Awareness"],
+                themes: ["Waste & Circular Economy"],
                 time: 4, workload: 4, budget: 3,
                 whatIsIt: "Ek Saath - The Earth Foundation is an environmental organisation working to build sustainable and waste-free communities. It focuses on community-led waste management, protecting water bodies, reducing carbon emissions, and sustainable afforestation. By working with communities at Elephanta Island, Alibaug, and slum settlements like Kokari Agar, Ek Saath helps create systems that divert waste from landfills and water bodies, restore ecosystems, and encourage people to take ownership of their environment. Supports the Government of India\u2019s Swachh Bharat Abhiyan.",
                 whyExists: "Tourist destinations like UNESCO world heritage site Elephanta Island and Alibaug attract large numbers of visitors, generating significant waste. Without proper waste-management systems, waste is burned, dumped into the sea, or mixed with marine debris. In slum settlements like Kokari Agar, waste accumulation has choked local nalas that once carried the flow of the Mithi River. In just 1.5 years, over 44 tonnes of waste from Elephanta Island alone have been diverted from landfills.",
@@ -929,7 +919,7 @@
                 id: 16,
                 title: "Wheels of Change",
                 description: "Auto driving training programme for economically vulnerable women and transgender persons to become licensed auto drivers with sustainable livelihoods.",
-                themes: ["Livelihoods", "Mobility", "Gender"],
+                themes: ["Livelihoods & Inclusion"],
                 time: 4, workload: 4, budget: 4,
                 whatIsIt: "Wheels of Change is an auto driving training programme for women and transgender persons. It trains economically vulnerable women and transgender persons to become licensed auto drivers, creating sustainable, independent livelihoods with flexible working hours. Run in collaboration with CGI and Namma Saarathi.",
                 whyExists: "Bengaluru has 1,75,000+ auto drivers but only ~800 are women \u2014 a huge gender gap in last-mile mobility. There is strong demand for women-driven autos, and auto driving offers a flexible earning opportunity suited for women managing household responsibilities. It also creates a safer mobility ecosystem for women passengers. B.PAC\u2019s vision is 10,000 women auto drivers in Bengaluru.",
@@ -944,7 +934,7 @@
                 id: 17,
                 title: "Public Leadership Training Program",
                 description: "Workshops equipping grassroots political leaders with essential leadership principles, public policy understanding, and practical campaign skills.",
-                themes: ["Governance", "Education"],
+                themes: ["Governance & Policy"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "B.PAC conducts Public Leadership workshops on request from specific groups to facilitate sessions that improve and introduce concepts of public leadership to grassroots leaders. The core objective is to help leaders understand basics of public leadership, media and stakeholder engagement, Bengaluru history, and other relevant sessions to aid their journey in public life.",
                 whyExists: "There is a need to create leadership capacity at the municipal level to enable better city governance. Grassroots leaders need to understand the complexities and dynamics of managing a ward and a city, aspire to public offices with capability and integrity, and participate in the political process to improve governance.",
@@ -959,7 +949,7 @@
                 id: 18,
                 title: "Do Your Own Cleanup (DYOC)",
                 description: "A community-driven model that enables citizens, schools, and local groups to independently organise and lead cleanup drives in their neighbourhoods.",
-                themes: ["Waste Management", "Community"],
+                themes: ["Waste & Circular Economy"],
                 time: 2, workload: 2, budget: 1,
                 whatIsIt: "DYOC is a community-driven model that enables citizens, schools, and local groups to independently organise and lead cleanup drives in their neighbourhoods, supported by simple tools, guidance, and motivation from facilitators. It empowers individuals and communities to take direct responsibility for their surroundings, turning passive concern into collective action.",
                 whyExists: "Public spaces often accumulate waste due to low ownership and dependence on external actors. While many people are willing to act, they lack the structure, confidence, or support to initiate action themselves. DYOC addresses this by empowering communities to take direct responsibility for their surroundings.",
@@ -974,7 +964,7 @@
                 id: 19,
                 title: "Financial & Digital Literacy for Green Workers",
                 description: "A structured literacy and capacity-building programme for sanitation workers and waste handlers to strengthen their reading, writing, and numeracy skills.",
-                themes: ["Education", "Livelihoods"],
+                themes: ["Livelihoods & Inclusion"],
                 time: 4, workload: 3, budget: 2,
                 whatIsIt: "A structured literacy and capacity-building programme designed for sanitation workers and waste handlers to strengthen their reading, writing, and numeracy skills \u2014 enabling them to perform their roles more effectively and engage with waste systems with greater confidence and independence.",
                 whyExists: "Many sanitation and waste workers operate with limited literacy and numeracy skills, which affects their ability to manage records, understand waste categories, follow processes, and engage with communities. Limited literacy also restricts their access to essential services such as banking, documentation, and government welfare schemes.",
@@ -989,7 +979,7 @@
                 id: 20,
                 title: "Weaving Lives: Neighbourhood Textile Circularity",
                 description: "Community-led cloth donation drives that divert textile waste from landfills through redistribution to informal workers and upcycling by local self-help groups.",
-                themes: ["Waste Management", "Circular Economy"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 2, budget: 1,
                 whatIsIt: "Community-led donation drives that enable neighbourhoods to responsibly manage textile waste through cloth donation drives, redistribution, and upcycling \u2014 ensuring that usable clothing is reused, and low-value textiles are converted into new products through local self-help groups (SHGs). Run in collaboration with Jack & Jones and local SHGs.",
                 whyExists: "Households generate significant textile waste, much of which ends up in landfills despite being reusable or recyclable. At the same time, many informal workers lack access to usable clothing, and local livelihood opportunities in textile reuse remain underutilised. This initiative creates a circular system of diverting textile waste from landfills while enabling reuse and supporting local livelihoods through upcycling.",
@@ -1004,7 +994,7 @@
                 id: 21,
                 title: "School Recycling Gullaks",
                 description: "Labelled collection units installed in schools that help children learn waste segregation hands-on while creating a dry waste collection system.",
-                themes: ["Education", "Waste Management"],
+                themes: ["Waste & Circular Economy"],
                 time: 2, workload: 2, budget: 2,
                 whatIsIt: "School-based learning infrastructure that through recycling gullaks (collection units) helps children learn waste segregation in a hands-on way, while also creating a simple system for dry waste collection and storage within the school. Run in collaboration with Livguard.",
                 whyExists: "Waste segregation is often taught theoretically but not practised consistently due to lack of infrastructure and reinforcement. Schools generate dry waste but often lack simple systems to manage it effectively. This initiative combines learning with action \u2014 helping children understand segregation categories while providing a physical system to practise and sustain it.",
@@ -1019,7 +1009,7 @@
                 id: 22,
                 title: "Zero Waste Community Events",
                 description: "A model that works with communities to design zero-waste systems for bhandaras, religious events, school functions, marathons, and local fairs.",
-                themes: ["Waste Management", "Awareness"],
+                themes: ["Waste & Circular Economy"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "A neighbourhood engagement model that works with communities to design and implement zero-waste events, such as bhandaras, religious events, school functions, marathons, local fairs, and menstrual hygiene sessions, while using these spaces to drive awareness and behaviour change around waste management and sustainable practices. Run in collaboration with Project Balla and Dehradun Municipal Corporation.",
                 whyExists: "Community events and gatherings often generate large amounts of waste due to single-use materials and lack of planning for waste management. At the same time, these events bring together large groups of people, making them powerful but underutilised platforms for awareness and behaviour change. Zero waste events transforms everyday events into live demonstrations of sustainable practices.",
@@ -1034,7 +1024,7 @@
                 id: 23,
                 title: "Community Public Space Transformations",
                 description: "Transforms waste hotspots and public spaces into engaging art installations, murals, and creative structures using locally collected waste materials.",
-                themes: ["Community", "Awareness"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "A community-led approach that transforms waste hotspots and public spaces into engaging art installations, murals, and creative structures using locally collected waste. These interventions use visual storytelling to spark awareness, shift behaviour, and build community ownership around waste management. Art forms include wall murals, waste-based sculptures, installations, creative signboards, and traditional performances like street theatre and puppetry.",
                 whyExists: "Urban neighbourhoods often struggle with waste dumping, littering, and low community ownership of public spaces. Traditional awareness tools such as signboards and posters often fail to create lasting behaviour change. This model uses art as a medium to trigger curiosity, emotional connection, and reflection \u2014 turning passive awareness into active engagement and responsibility.",
@@ -1049,7 +1039,7 @@
                 id: 24,
                 title: "YUWA Climate Chaupal",
                 description: "Recurring community gatherings where residents discuss local climate and waste issues, learn about sustainable practices, and collectively identify neighbourhood actions.",
-                themes: ["Awareness", "Community"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 2, workload: 2, budget: 1,
                 whatIsIt: "YUWA Climate Chaupal is a recurring city-based community gathering that brings together residents to discuss local climate and waste issues, learn about sustainable practices, and collectively identify actions for their neighbourhoods. It creates an informal and accessible space for dialogue, learning, and community-led climate action. Run in collaboration with SAP (India).",
                 whyExists: "Urban neighbourhoods often lack platforms where residents can come together to understand and act on climate and waste-related challenges. Issues such as waste dumping, open burning, and unsustainable consumption continue due to low awareness and limited community engagement. Climate Chaupals address this gap by creating a consistent, localised space for discussion, awareness, and action.",
@@ -1064,7 +1054,7 @@
                 id: 25,
                 title: "Urban Reforms",
                 description: "Advocacy and research-driven initiative strengthening city governance through reforms in municipal finance, e-governance, citizen participation, and institutional accountability.",
-                themes: ["Governance", "Community"],
+                themes: ["Governance & Policy"],
                 time: 5, workload: 4, budget: 3,
                 whatIsIt: "Praja Foundation\u2019s urban reforms focus on strengthening the foundations of city governance to make it more accountable, transparent, and citizen-responsive. Through advocacy for systemic changes, Praja works to improve key areas such as procedure rules of the corporation, capacity building of urban leaders, municipal finance, citizen participation through e-governance, spatial planning and service delivery, and institutional accountability.",
                 whyExists: "Cities are at the forefront of economic growth and population expansion, yet their governance systems often remain under-resourced, fragmented, and outdated. Without reforms, issues such as inadequate service delivery, poor infrastructure, weak financial management, and limited citizen participation persist, reducing the quality of urban life.",
@@ -1079,7 +1069,7 @@
                 id: 26,
                 title: "Capacity Building of Elected Representatives",
                 description: "Workshops and training sessions that equip municipal councillors with knowledge of urban governance, city planning, budgeting, and service delivery.",
-                themes: ["Governance", "Education"],
+                themes: ["Governance & Policy"],
                 time: 4, workload: 3, budget: 3,
                 whatIsIt: "An initiative by Praja Foundation that strengthens the knowledge and leadership skills of municipal councillors and local representatives. It equips them with a better understanding of urban governance, city planning, budgeting, and service delivery. Through workshops, training sessions, and practical tools, the programme enables representatives to make informed decisions and effectively address urban challenges.",
                 whyExists: "Many municipal elected representatives assume office without formal training in urban governance and city management. These workshops bridge this knowledge gap so representatives can better understand their roles and make informed decisions for their cities.",
@@ -1094,7 +1084,7 @@
                 id: 27,
                 title: "Capacity Building of Youth",
                 description: "Workshops, fellowships, and internships that empower young people with civic leadership skills and awareness of urban governance to participate in democratic processes.",
-                themes: ["Governance", "Education"],
+                themes: ["Governance & Policy"],
                 time: 4, workload: 3, budget: 2,
                 whatIsIt: "Praja Foundation empowers young people by building their capacity for civic leadership and raising awareness of urban governance. Through workshops, internships, fellowships, and a national network, they actively engage youth in democratic processes.",
                 whyExists: "While young people are vital stakeholders in cities, they often lack formal platforms and specialised knowledge required to shape them. This initiative bridges the gap by equipping the next generation with understanding and skills needed to participate in democratic processes and contribute to better city development.",
@@ -1109,7 +1099,7 @@
                 id: 28,
                 title: "E-QLT",
                 description: "A simulation tool that assesses household vulnerabilities and maps social protection gaps by modelling demographics, income, expenditure, and scheme access over time.",
-                themes: ["Assessment", "Governance"],
+                themes: ["Energy & Climate"],
                 time: 4, workload: 4, budget: 3,
                 whatIsIt: "E-QLT is a simulation tool designed to assess vulnerabilities and integrate social protection measures for households. By analysing factors such as demography, income, expenditure, and access to social protection measures, it offers insights into a household\u2019s vulnerability level and pathways for resilience. Uses system dynamic modelling to simulate a household\u2019s state and calculate a Social Protection Score across health, education, and finance dimensions.",
                 whyExists: "Vulnerabilities are temporal and dynamic, forming an intricate web across finance, caste, gender, education, health, and social capital. Schemes and policies exist to help families tackle vulnerabilities, but it\u2019s difficult to map how different schemes stitch together social protection for a particular household. E-QLT helps by quantifying dynamic vulnerabilities and scheme effectiveness.",
@@ -1124,7 +1114,7 @@
                 id: 29,
                 title: "Rubbish! Board Game",
                 description: "A tri-lingual board game set in the urban waste management system where players experience the trade-offs faced by Dry Waste Collection Centre managers.",
-                themes: ["Education", "Waste Management"],
+                themes: ["Waste & Circular Economy"],
                 time: 2, workload: 1, budget: 1,
                 whatIsIt: "Rubbish! is a tri-lingual board game set in the urban waste management system of an Indian city. Players take the role of Dry Waste Collection Centre managers, experiencing trade-offs between the environment and fiscal sustainability. A cross-cultural design collaboration between Bangalore and Amsterdam with mediaLAB Amsterdam and IIIT-B.",
                 whyExists: "Bangalore adopted a decentralised approach to its waste crisis with Dry Waste Collection Centres (DWCCs) set up in every ward. Challenges include citizen apathy toward waste and lack of knowledge about the decentralised system. The game addresses knowledge gaps and promotes understanding at both micro and macro levels.",
@@ -1139,7 +1129,7 @@
                 id: 30,
                 title: "74th Amendment Workshop",
                 description: "A day-long interactive workshop teaching communities and CBOs about the 74th Constitutional Amendment and how to participate in urban governance.",
-                themes: ["Governance", "Education"],
+                themes: ["Governance & Policy"],
                 time: 2, workload: 2, budget: 1,
                 whatIsIt: "A curriculum designed as a day-long workshop module addressing the lack of awareness of the 74th Constitutional Amendment Act. The training uses comic books, group-based interactive activities, and peer learning to help communities understand urban governance, institutional hierarchy, and how to engage with local bodies. Developed in collaboration with Indo Global Social Service Society (IGSSS).",
                 whyExists: "The 74th Amendment Act was a milestone in decentralising governance, but critical gaps in implementation lie in the interface between urban local bodies and communities. The language, technicalities, and lack of awareness make it difficult for people to participate effectively in the planning process.",
@@ -1154,7 +1144,7 @@
                 id: 31,
                 title: "Ondu Kathe Keli",
                 description: "A storytelling tool that builds dialogue between groups, helping communities share experiences, identify shared risks, and surface common issues for policy input.",
-                themes: ["Community", "Governance"],
+                themes: ["Governance & Policy"],
                 time: 2, workload: 1, budget: 1,
                 whatIsIt: "Ondu Kathe Keli (\u2018Listen to a Story\u2019) is a tool to build dialogue where individuals from different groups share their experiences, recognise commonalities and diversities, and identify shared risks and values. Storytellers visit themed booths where listeners collect stories and assign coloured blocks (challenge or support). The blocks fill a collective jar, visualising the community\u2019s shared experience.",
                 whyExists: "Stories provide rich qualitative data about people\u2019s lived experiences \u2014 their needs, preferences, and challenges. When shared collectively, two outcomes emerge: a sense of collective understanding built on shared experiences, and a pool of common issues that can inform policy decisions.",
@@ -1169,7 +1159,7 @@
                 id: 32,
                 title: "Framework for Lake Rejuvenation",
                 description: "A systems-based decision-support tool that guides planning, implementation, and evaluation of urban and peri-urban lake restoration through hydrological assessment and community stewardship.",
-                themes: ["Water", "Community"],
+                themes: ["Water & Ecology"],
                 time: 5, workload: 4, budget: 3,
                 whatIsIt: "The Framework for Lake Rejuvenation is a systems-based decision-support tool that guides the planning, implementation, and evaluation of urban and peri-urban lake restoration. It provides a step-by-step, evidence-based process integrating hydrological assessment, water quality management, ecological restoration, and community stewardship. It helps stakeholders diagnose lake health, identify degradation drivers, prioritise interventions, and track outcomes. Developed with Bangalore Climate Action Cell, WELL Labs, and Friends of Lakes, supported by DCB Bank in collaboration with CDD India, Biome, ATREE, ICCW, CSTEP, ACIWRM, and Bangalore University Water Institute.",
                 whyExists: "Lake restoration is often fragmented and ad-hoc \u2014 interventions are implemented without a clear understanding of hydrology, pollution sources, ecological dynamics, community needs, or long-term management. These gaps lead to short-lived or ineffective outcomes. The framework provides a structured, science-based process for systematic diagnosis, prioritised interventions, and transparent, measurable outcomes.",
@@ -1184,7 +1174,7 @@
                 id: 33,
                 title: "Strategy Tool for RWAs (STP Upgrades)",
                 description: "A structured six-step process helping Resident Welfare Associations evaluate, upgrade, or refurbish their on-site Sewage Treatment Plants with ROI analysis and transparent decision-making.",
-                themes: ["Water", "Community"],
+                themes: ["Water & Ecology"],
                 time: 4, workload: 3, budget: 3,
                 whatIsIt: "The Strategy Tool for RWAs is a structured six-step process designed to guide Resident Welfare Associations in rectifying, upgrading, or refurbishing their on-site Sewage Treatment Plants (STPs) to improve decentralised wastewater treatment and reuse. It uses a detailed STP audit to evaluate current performance and an ROI calculator to help residents compare financial, health, and environmental benefits of different investment options. Developed with Eawag (Swiss Federal Institute of Aquatic Science and Technology), BAF (Bangalore Apartments\u2019 Federation), and CDD India.",
                 whyExists: "Many RWAs lack sufficient technical expertise to evaluate treatment options and balance upfront investment costs with longer-term benefits like increased water security or reduced risks of fines. Decisions are often delayed, poorly informed, or influenced by biased external advice. This tool provides a structured, transparent framework combining performance audits and ROI analysis, enabling RWAs to compare options clearly and invest in solutions that strengthen water security.",
@@ -1199,7 +1189,7 @@
                 id: 34,
                 title: "Urban Resource Centre (URC)",
                 description: "A community-anchored hub providing integrated access to livelihoods, social protection, financial inclusion, and basic urban services for informal sector households.",
-                themes: ["Livelihoods", "Community"],
+                themes: ["Place-Based Centres"],
                 time: 5, workload: 5, budget: 4,
                 whatIsIt: "The Urban Resource Centre (URC) is a community-anchored institutional platform designed to provide integrated access to livelihoods, social protection, financial inclusion, and basic urban services for informal sector households. It serves as a physical and facilitative hub where urban poor communities can access information, training, documentation support, and collective organising opportunities.",
                 whyExists: "Urban informal workers face fragmented access to services. Government schemes, livelihood support, financial systems, and documentation processes are disconnected and difficult to navigate. Informal households lack recognised identity within systems, access to structured livelihood upgrading, support in documentation and entitlements, and a physical space for collective problem-solving. URC bridges this institutional gap by creating a trusted, community-level interface between citizens, markets, and government systems.",
@@ -1214,7 +1204,7 @@
                 id: 35,
                 title: "Handbook on Urban Services for Small Cities",
                 description: "An illustrated practice-oriented guide for sustainable infrastructure planning in small and transitioning cities, covering streets, natural environment, solid waste, liquid waste, and water systems.",
-                themes: ["Governance", "Water"],
+                themes: ["Governance & Policy"],
                 time: 4, workload: 3, budget: 2,
                 whatIsIt: "The Handbook on Urban Services for Small Cities in Uttar Pradesh is a visually driven, practice-oriented guide on sustainable development for transitioning city-regions. It covers streets and public spaces, natural environment, solid waste, liquid waste, and water systems. Through focus principles and best practices, it aims to inform government functionaries, local communities, planners, and builders to co-design right-sized, contextual, and scalable urban service provision. Developed with IIT Bombay, Biome Environmental Solutions, The Urban Lab, Saahas, and Lemnion Green Solutions.",
                 whyExists: "Small cities in UP face persistent challenges in urban service delivery. Planning frameworks and infrastructure investments are often borrowed from large city contexts, resulting in systems misaligned with local demand, institutional capacity, and financial realities.",
@@ -1229,7 +1219,7 @@
                 id: 36,
                 title: "Climate Hazard and Vulnerability Assessment (CHVA)",
                 description: "A participatory framework helping communities identify, map, and prioritise areas vulnerable to climate risks like heat and flooding by combining community knowledge with city data.",
-                themes: ["Assessment", "Community"],
+                themes: ["Energy & Climate"],
                 time: 4, workload: 4, budget: 3,
                 whatIsIt: "The Climate Hazard and Vulnerability Assessment (CHVA) is a participatory framework developed by WRI India. It helps communities identify and map climate risks and prioritise vulnerable areas. It evaluates differential vulnerability by analysing the interaction between climate hazards, social/economic/infrastructure sensitivity, and adaptive capacity. By combining community knowledge and city data, the framework highlights which communities are at most risk. Developed with C40, Mahila Housing Trust, and Climate Voices.",
                 whyExists: "Existing vulnerability assessments often fail to capture sociopolitical and economic inequalities that determine differential climate vulnerability. They mostly rely on technical or city-level data and don\u2019t capture lived experiences. The CHVA brings community voices and local knowledge into climate planning.",
@@ -1244,7 +1234,7 @@
                 id: 37,
                 title: "Data Lab (Geospatial Climate Analysis)",
                 description: "On-demand geospatial analysis and modelling services translating satellite imagery into actionable insights for communities and local leaders to plan climate solutions.",
-                themes: ["Assessment", "Awareness"],
+                themes: ["Energy & Climate"],
                 time: 3, workload: 3, budget: 3,
                 whatIsIt: "Data Lab provides geospatial analysis and modelling services to inform localised climate action. By translating satellite imagery and spatial analysis into easy-to-read insights, the service helps residents, community groups, and local leaders identify climate hotspots and plan local solutions. Partners include Socratus, CSTEP, WELL Labs, Hasiru Dala, Jansahas, and Sensing Local.",
                 whyExists: "Many institutions and communities lack in-house technical capacity to process satellite data, spatial datasets, or advanced modelling outputs. Data Lab makes climate data accessible to citizens, helping communities understand local risks, identify vulnerable areas, and work with local authorities to plan solutions.",
@@ -1259,7 +1249,7 @@
                 id: 38,
                 title: "Greening Mumbai Manual",
                 description: "A practical citizens' handbook showing how anyone from a balcony gardener to a community managing a vacant plot can contribute to increasing green cover in Mumbai.",
-                themes: ["Urban Ecology", "Community"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 3, workload: 2, budget: 1,
                 whatIsIt: "The Greening Mumbai Manual is a practical guide helping residents, communities, and organisations create and care for green spaces. It shows how anyone \u2014 from an individual with a balcony to a community managing a vacant plot \u2014 can contribute to increasing green cover. Tailored for Mumbai with specific native plant species and governance mechanisms. Developed with BMC, TISS, and Oikos for Ecological Services.",
                 whyExists: "Mumbai faces extreme heat and urban heat islands due to urbanisation, with limited space for parks and gardens. Many residents want to contribute to greening but lack clear guidance. The manual provides a holistic approach to guide creation of green spaces through ecological practices and citizen engagement.",
@@ -1274,7 +1264,7 @@
                 id: 39,
                 title: "Mapathon",
                 description: "A participatory mapping exercise engaging citizens to create a comprehensive inventory of open spaces across city wards to identify sites for climate-resilient blue-green infrastructure.",
-                themes: ["Urban Ecology", "Community"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "The Mapathon is a participatory mapping exercise creating a comprehensive inventory of open spaces across a city\u2019s wards. Open spaces \u2014 parks, green corridors, water bodies \u2014 are vital for mitigating climate change impacts. It gathers local knowledge through ground-truthing and semi-structured interviews. Partners include BMC, BBMP, Kochi Municipal Corporation, UDRI, Project Mumbai, Kudumbashree, TISS, and others.",
                 whyExists: "Cities often lack reliable data on vacant and underutilised open spaces that could support climate-responsive interventions. Many such plots remain undocumented or overlooked in planning processes. The Mapathon generates hyperlocal, community-driven spatial data to inform future planning and community-led greening initiatives.",
@@ -1289,7 +1279,7 @@
                 id: 40,
                 title: "Shift Transport (Mobility Data Platform)",
                 description: "A shared mobility data and analytics ecosystem enabling governments, researchers, and communities to understand and shape urban transport systems through data-driven insights.",
-                themes: ["Mobility", "Awareness"],
+                themes: ["Mobility"],
                 time: 4, workload: 4, budget: 3,
                 whatIsIt: "Shift Transport builds digital public infrastructure for people-centric and sustainable urban mobility. It creates a shared mobility data commons and analytics ecosystem through three components: the Transport Analytics Hub (TAH) integrating diverse datasets, a Scenario Builder for evidence-based planning, and an Immersion programme bringing together government, academia, industry, and civil society. Partners include Rainmatter Foundation, ASAR, and ITDP India.",
                 whyExists: "Urban mobility data in India is fragmented and difficult to access, limiting the ability of governments, researchers, and citizens to understand how cities move. Transport planning remains project-driven and infrastructure-focused rather than people-centric and evidence-based.",
@@ -1304,7 +1294,7 @@
                 id: 41,
                 title: "A Park for All",
                 description: "A socio-legal study examining how public parks in urban Karnataka are planned, governed, and accessed \u2014 with recommendations for legal reform, inclusive design, and better accountability.",
-                themes: ["Urban Ecology", "Governance"],
+                themes: ["Placemaking & Urban Ecology"],
                 time: 3, workload: 3, budget: 2,
                 whatIsIt: "A Park for All is a socio-legal effort examining how public parks in urban Karnataka, with a focus on Bengaluru, are planned, governed, and accessed in rapidly urbanising cities. It analyses legal and policy frameworks around parks and highlights governance gaps like poor implementation, land diversion, and weak maintenance systems. It also focuses on making parks inclusive for marginalised communities such as gig workers and waste pickers. Developed with MOD Foundation, NOTF, Policy Adda at BIC, and Citizen Matters.",
                 whyExists: "Urban parks suffer from inadequate and fragmented governance \u2014 overlapping authorities, weak laws, and poor implementation lead to badly planned, maintained, and protected green spaces. Park land is lost through diversion, encroachment, and lack of accountability. Access is unequal \u2014 parks are not designed or managed to serve marginalised groups in cities.",
@@ -1314,184 +1304,60 @@
                 whatsNeeded: "Multi-stakeholder dialogues to align government, civil society, and community actors. Convening practitioners and stakeholders with shared tools and research. Community workshops on legal reform. Continuous feedback loops between communities and decision-makers.",
                 links: ["https://vidhilegalpolicy.in/research/a-park-for-all-planning-and-governing-green-for-urban-karnataka/"],
                 provider: "Vidhi Centre for Legal Policy"
+            },
+            {
+                id: 42,
+                title: "Institutional Neighbourhood Enhancement",
+                description: "A street redesign project creating safe, NMT-friendly Complete Streets around educational institutions in Gandhinagar, improving walkability, cycling infrastructure, and last-mile metro connectivity for 8,000+ daily users.",
+                themes: ["Mobility"],
+                time: 4, workload: 4, budget: 4,
+                whatIsIt: "An institutional neighbourhood development project initiated by Gandhinagar Urban Development Authority (GUDA) in the Knowledge Hub precinct (TP Scheme 19, Raysan). It involves the redesign of 6.5 km of roads under a Complete Street framework, with development of utilities, streetscapes, and landscaping to create safe and accessible NMT-friendly streets around a cluster of educational institutes and improve their connectivity to the upcoming metro station. Key collaborators include Multimedia Consultants Pvt Ltd, JIT Engineering Services Pvt Ltd, GUDA, and Knowledge Hub Consortium institutions.",
+                whyExists: "The Knowledge Hub area, despite housing multiple educational institutions, lacks safe, continuous, and accessible street infrastructure for pedestrians and cyclists. Existing roads are primarily vehicle-oriented with no NMT facilities, poor junction safety, and no integration with the upcoming metro station. Inadequate street lighting creates an unsafe public realm in the evening, leaving streets empty after college hours. Issues with stormwater infrastructure also cause waterlogging in the neighbourhood.",
+                involves: ["Topographical and traffic surveys with traffic analysis and demand assessment", "Stakeholder consultation with institute heads and college students", "Street layout design with cross-sections, footpaths (min 2.5 m), and cycle tracks (min 2.5 m)", "Junction design, traffic calming measures, and designated slow zone precinct", "Utilities planning, street lighting, and stormwater infrastructure integration", "Streetscape design including parking, landscaping, street furniture, signage, and public amenities", "Branding, wayfinding, and placemaking at key locations", "Tender documents, bid evaluation, and Good-for-Construction (GFC) drawings"],
+                whereDone: "Knowledge Hub precinct in Raysan, Gandhinagar \u2014 an emerging institutional cluster comprising Pandit Deendayal Energy University (PDEU), Gujarat Institute of Disaster Management (GIDM), Institute of Seismological Research (ISR), Gujarat State Fire Safety and Training Institute, International Automobile Centre of Excellence, and Gujarat National Law University.",
+                impact: "6.5 km of streets redesigned under a Complete Street framework. Improved access for 8,000+ daily users across institutional campuses. Designated slow zone precinct reducing vehicular speeds. Continuous 2.5 m wide footpath and cycle track network encouraging walking and cycling. Enhanced last-mile connectivity within 5\u201310 minutes walking distance to the upcoming metro station. Well-lit and safe neighbourhood enabling street use after college hours into late night.",
+                whatsNeeded: "Student-friendly and safe streets. Seamless connectivity between institutions. Enhanced NMT infrastructure and changed user behaviour. Interactive student-centric public spaces. Cohesive institutional branding and wayfinding system.",
+                links: ["https://theurbanlab.org/work"],
+                provider: "The Urban Lab"
             }
         ];
-
-        // Theme to CSS class mapping
-        function themeToClass(theme) {
-            return theme.toLowerCase().replace(/\s+/g, '-');
-        }
-
-        // Render effort bar
-        function renderEffortBar(value, max) {
-            let html = '';
-            for (let i = 0; i < max; i++) {
-                html += `<span class="effort-segment${i < value ? ' filled' : ''}"></span>`;
-            }
-            return html;
-        }
-
-        // Render a single project card
-        function renderProjectCard(project) {
-            const themePills = project.themes.map(t =>
-                `<span class="theme-pill ${themeToClass(t)}">${t}</span>`
-            ).join('');
-
-            const involvesItems = project.involves.map(item =>
-                `<li>${item}</li>`
-            ).join('');
-
-            let linksHtml = '';
-            if (project.links && project.links.length > 0) {
-                linksHtml = `
-                    <div class="expanded-section">
-                        <h4 data-i18n="catalogPage.details.links"><i class="fa-solid fa-link"></i> Links</h4>
-                        <div class="expanded-links">
-                            ${project.links.map(link => `<a href="${link}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${new URL(link).hostname}</a>`).join('')}
-                        </div>
-                    </div>
-                `;
-            }
-
-            return `
-                <div class="project-card" id="project-${project.id}" data-themes="${project.themes.join(',').toLowerCase()}">
-                    <div class="project-card-header" onclick="toggleProject(${project.id})">
-                        <div class="project-number">${String(project.id).padStart(2, '0')}</div>
-                        <div class="project-title">${project.title}</div>
-                        <div class="project-description">${project.description}</div>
-                        <div class="effort-indicators">
-                            <div class="effort-indicator effort-time">
-                                <span class="effort-label" data-i18n="catalogPage.effort.time">Time</span>
-                                <div class="effort-bar">${renderEffortBar(project.time, 5)}</div>
-                            </div>
-                            <div class="effort-indicator effort-workload">
-                                <span class="effort-label" data-i18n="catalogPage.effort.workload">Workload</span>
-                                <div class="effort-bar">${renderEffortBar(project.workload, 5)}</div>
-                            </div>
-                            <div class="effort-indicator effort-budget">
-                                <span class="effort-label" data-i18n="catalogPage.effort.budget">Budget</span>
-                                <div class="effort-bar">${renderEffortBar(project.budget, 5)}</div>
-                            </div>
-                        </div>
-                        <div class="project-themes">${themePills}</div>
-                        <button class="learn-more-btn" id="btn-${project.id}" onclick="event.stopPropagation(); toggleProject(${project.id});">
-                            <span data-i18n="catalogPage.detailsButton">Details</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                    </div>
-                    <div class="project-expanded" id="expanded-${project.id}">
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.whatIsIt"><i class="fa-solid fa-circle-info"></i> What is it?</h4>
-                            <p>${project.whatIsIt}</p>
-                        </div>
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.whyExists"><i class="fa-solid fa-lightbulb"></i> Why does it exist?</h4>
-                            <p>${project.whyExists}</p>
-                        </div>
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.involves"><i class="fa-solid fa-list-check"></i> What does it involve?</h4>
-                            <ul>${involvesItems}</ul>
-                        </div>
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.whereDone"><i class="fa-solid fa-location-dot"></i> Where has it been done?</h4>
-                            <p>${project.whereDone}</p>
-                        </div>
-                        ${project.impact ? `
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.impact"><i class="fa-solid fa-chart-line"></i> Impact so far</h4>
-                            <p>${project.impact}</p>
-                        </div>
-                        ` : ''}
-                        <div class="expanded-section">
-                            <h4 data-i18n="catalogPage.details.whatsNeeded"><i class="fa-solid fa-clipboard-list"></i> What's needed?</h4>
-                            <p>${project.whatsNeeded}</p>
-                        </div>
-                        ${linksHtml}
-                        ${project.provider ? `
-                        <div class="expanded-section provider-attribution">
-                            <h4><i class="fa-solid fa-building"></i> Offered by</h4>
-                            <p class="provider-name">${project.provider}</p>
-                        </div>
-                        ` : ''}
-                        <a href="mailto:contact@notf.in" class="contact-cta-btn">
-                            <i class="fa-solid fa-envelope"></i>
-                            <span data-i18n="catalogPage.contactAboutProject">Contact Us About This Project</span>
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Toggle project accordion
-        function toggleProject(id) {
-            const expanded = document.getElementById(`expanded-${id}`);
-            const btn = document.getElementById(`btn-${id}`);
-
-            if (expanded.classList.contains('active')) {
-                expanded.classList.remove('active');
-                btn.classList.remove('expanded');
-            } else {
-                expanded.classList.add('active');
-                btn.classList.add('expanded');
-            }
-        }
 
         // Theme display config: order, icons, labels
         const themeConfig = [
-            { key: 'Waste Management', icon: 'fa-solid fa-recycle', label: 'Waste Management', i18nKey: 'catalogPage.filter.wasteManagement' },
-            { key: 'Education', icon: 'fa-solid fa-graduation-cap', label: 'Education', i18nKey: 'catalogPage.filter.education' },
-            { key: 'Livelihoods', icon: 'fa-solid fa-briefcase', label: 'Livelihoods', i18nKey: 'catalogPage.filter.livelihoods' },
-            { key: 'Health', icon: 'fa-solid fa-heart-pulse', label: 'Health', i18nKey: 'catalogPage.filter.health' },
-            { key: 'Mobility', icon: 'fa-solid fa-car', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
-            { key: 'Governance', icon: 'fa-solid fa-landmark', label: 'Governance', i18nKey: 'catalogPage.filter.governance' },
-            { key: 'Awareness', icon: 'fa-solid fa-bullhorn', label: 'Awareness', i18nKey: 'catalogPage.filter.awareness' },
-            { key: 'Water', icon: 'fa-solid fa-droplet', label: 'Water', i18nKey: 'catalogPage.filter.water' },
-            { key: 'Community', icon: 'fa-solid fa-people-group', label: 'Community', i18nKey: 'catalogPage.filter.community' },
-            { key: 'Urban Ecology', icon: 'fa-solid fa-tree', label: 'Urban Ecology', i18nKey: 'catalogPage.filter.greenSpaces' },
+            { key: 'Waste & Circular Economy', iconImg: '/assets/images/icons/waste-circular.svg', label: 'Waste & Circular Economy', i18nKey: 'catalogPage.filter.wasteCircular' },
+            { key: 'Placemaking & Urban Ecology', iconImg: '/assets/images/icons/placemaking-ecology.svg', label: 'Placemaking & Urban Ecology', i18nKey: 'catalogPage.filter.placemakingEcology' },
+            { key: 'Governance & Policy', iconImg: '/assets/images/icons/governance-policy.svg', label: 'Governance & Policy', i18nKey: 'catalogPage.filter.governancePolicy' },
+            { key: 'Energy & Climate', iconImg: '/assets/images/icons/energy-climate.svg', label: 'Energy & Climate', i18nKey: 'catalogPage.filter.energyClimate' },
+            { key: 'Livelihoods & Inclusion', iconImg: '/assets/images/icons/livelihoods-inclusion.svg', label: 'Livelihoods & Inclusion', i18nKey: 'catalogPage.filter.livelihoodsInclusion' },
+            { key: 'Water & Ecology', iconImg: '/assets/images/icons/water-ecology.svg', label: 'Water & Ecology', i18nKey: 'catalogPage.filter.waterEcology' },
+            { key: 'Mobility', icon: 'fa-solid fa-train', label: 'Mobility', i18nKey: 'catalogPage.filter.mobility' },
+            { key: 'Place-Based Centres', iconImg: '/assets/images/icons/place-based-centres.svg', label: 'Place-Based Centres', i18nKey: 'catalogPage.filter.placeBasedCentres' },
         ];
+
+        // Cross-cutting tags for projects with notable secondary themes
+        const projectTags = {
+            4: ['Education'],
+            5: ['Gender'],
+            15: ['Awareness'],
+            16: ['Mobility', 'Gender'],
+            18: ['Community'],
+            21: ['Education'],
+            22: ['Awareness'],
+            29: ['Education'],
+            31: ['Community'],
+            34: ['Livelihoods'],
+            41: ['Governance'],
+        };
 
         let activeTheme = '';
 
-        // Filter and render projects grouped by theme
-        function filterAndRender() {
-            const themeFilter = activeTheme;
-            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
-
-            const filtered = catalogProjects.filter(project => {
-                const matchesTheme = !themeFilter || project.themes.some(t => t === themeFilter);
-                const matchesSearch = !searchText ||
-                    project.title.toLowerCase().includes(searchText) ||
-                    project.description.toLowerCase().includes(searchText) ||
-                    project.themes.some(t => t.toLowerCase().includes(searchText)) ||
-                    (project.provider && project.provider.toLowerCase().includes(searchText));
-                return matchesTheme && matchesSearch;
-            });
-
-            const container = document.getElementById('projectsContainer');
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="no-results">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <p data-i18n="catalogPage.noResults">No projects match your search. Try a different filter or search term.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // If a specific theme is selected, show flat grid
-            if (themeFilter) {
-                container.innerHTML = `<div class="projects-grid">${filtered.map(renderProjectCard).join('')}</div>`;
-                return;
-            }
-
-            // Group projects by primary theme (first matching theme from themeConfig)
+        // Group projects by theme
+        function groupProjectsByTheme() {
             const grouped = new Map();
             for (const config of themeConfig) {
                 grouped.set(config.key, []);
             }
-
-            for (const project of filtered) {
+            for (const project of catalogProjects) {
                 const placed = new Set();
                 for (const theme of project.themes) {
                     if (grouped.has(theme) && !placed.has(project.id)) {
@@ -1500,30 +1366,251 @@
                     }
                 }
             }
+            return grouped;
+        }
 
-            let html = '';
+        // Render theme cards
+        function renderThemeCards() {
+            const grouped = groupProjectsByTheme();
+            const container = document.getElementById('projectsContainer');
+
+            let html = '<div class="theme-cards-grid">';
+
             for (const config of themeConfig) {
                 const projects = grouped.get(config.key);
                 if (!projects || projects.length === 0) continue;
 
-                const themeClass = config.key.toLowerCase().replace(/\s+/g, '-');
-                html += `
-                    <div class="theme-section" data-theme="${config.key}">
-                        <div class="theme-section-header">
-                            <div class="theme-icon ${themeClass}">
-                                <i class="${config.icon}"></i>
+                const iconHtml = config.iconImg
+                    ? `<img src="${config.iconImg}" alt="" class="theme-card-icon">`
+                    : `<i class="${config.icon} theme-card-fa-icon"></i>`;
+
+                let itemsHtml = '';
+                for (const project of projects) {
+                    const tags = projectTags[project.id] || [];
+                    const badgesHtml = tags.map(t => `<span class="item-badge">${t}</span>`).join('');
+
+                    itemsHtml += `
+                        <li class="theme-card-item" data-project-id="${project.id}" onclick="showProjectModal(${project.id})">
+                            <div class="item-left">
+                                <span class="item-number">${String(project.id).padStart(2, '0')}</span>
+                                <span class="item-title">${project.title}</span>
+                                <span class="item-provider">${project.provider || ''}</span>
                             </div>
+                            <div class="item-badges">
+                                ${badgesHtml}
+                            </div>
+                        </li>
+                    `;
+                }
+
+                html += `
+                    <div class="theme-card" data-theme="${config.key}">
+                        <div class="theme-card-header">
+                            ${iconHtml}
                             <h2 data-i18n="${config.i18nKey}">${config.label}</h2>
-                            <span class="theme-count">${projects.length} project${projects.length !== 1 ? 's' : ''}</span>
+                            <span class="theme-card-count">${projects.length} project${projects.length !== 1 ? 's' : ''}</span>
                         </div>
-                        <div class="projects-grid">
-                            ${projects.map(renderProjectCard).join('')}
+                        <ul class="theme-card-list">
+                            ${itemsHtml}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Render effort bar for modal
+        function renderModalEffortBar(value, max) {
+            let html = '';
+            for (let i = 0; i < max; i++) {
+                html += `<span class="modal-effort-segment${i < value ? ' filled' : ''}"></span>`;
+            }
+            return html;
+        }
+
+        // Show project detail modal
+        function showProjectModal(projectId) {
+            const project = catalogProjects.find(p => p.id === projectId);
+            if (!project) return;
+
+            document.getElementById('modalProjectTitle').textContent = project.title;
+
+            const involvesItems = project.involves.map(item =>
+                `<li>${item}</li>`
+            ).join('');
+
+            let linksHtml = '';
+            if (project.links && project.links.length > 0) {
+                linksHtml = `
+                    <div class="detail-section">
+                        <h4><i class="fa-solid fa-link"></i> Links</h4>
+                        <div class="detail-links">
+                            ${project.links.map(link => `<a href="${link}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${new URL(link).hostname}</a>`).join(' ')}
                         </div>
                     </div>
                 `;
             }
 
-            container.innerHTML = html;
+            const body = document.getElementById('modalProjectBody');
+            body.innerHTML = `
+                <p style="color:#666; font-size:0.9rem; line-height:1.6; margin:0 0 1.25rem 0;">${project.description}</p>
+                <div class="modal-effort-indicators">
+                    <div class="modal-effort-item time">
+                        <span class="modal-effort-label" data-i18n="catalogPage.effort.time">Time</span>
+                        <div class="modal-effort-bar">${renderModalEffortBar(project.time, 5)}</div>
+                    </div>
+                    <div class="modal-effort-item workload">
+                        <span class="modal-effort-label" data-i18n="catalogPage.effort.workload">Workload</span>
+                        <div class="modal-effort-bar">${renderModalEffortBar(project.workload, 5)}</div>
+                    </div>
+                    <div class="modal-effort-item budget">
+                        <span class="modal-effort-label" data-i18n="catalogPage.effort.budget">Budget</span>
+                        <div class="modal-effort-bar">${renderModalEffortBar(project.budget, 5)}</div>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-circle-info"></i> What is it?</h4>
+                    <p>${project.whatIsIt}</p>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-lightbulb"></i> Why does it exist?</h4>
+                    <p>${project.whyExists}</p>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-list-check"></i> What does it involve?</h4>
+                    <ul>${involvesItems}</ul>
+                </div>
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-location-dot"></i> Where has it been done?</h4>
+                    <p>${project.whereDone}</p>
+                </div>
+                ${project.impact ? `
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-chart-line"></i> Impact so far</h4>
+                    <p>${project.impact}</p>
+                </div>
+                ` : ''}
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-clipboard-list"></i> What's needed?</h4>
+                    <p>${project.whatsNeeded}</p>
+                </div>
+                ${linksHtml}
+                ${project.provider ? `
+                <div class="detail-section">
+                    <h4><i class="fa-solid fa-building"></i> Offered by</h4>
+                    <span class="provider-badge"><i class="fa-solid fa-building"></i> ${project.provider}</span>
+                </div>
+                ` : ''}
+                <a href="mailto:contact@notf.in" class="modal-contact-btn">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span data-i18n="catalogPage.contactAboutProject">Contact Us About This Project</span>
+                </a>
+            `;
+
+            document.getElementById('projectModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close project modal
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeProjectModal();
+            }
+        });
+
+        // Filter and render (show/hide items and cards based on search + theme)
+        function filterAndRender() {
+            const themeFilter = activeTheme;
+            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            const themeCards = document.querySelectorAll('.theme-card');
+            let anyVisible = false;
+
+            themeCards.forEach(card => {
+                const cardTheme = card.getAttribute('data-theme');
+
+                // If a specific theme is selected, hide cards that don't match
+                if (themeFilter && cardTheme !== themeFilter) {
+                    card.classList.add('hidden');
+                    return;
+                }
+
+                card.classList.remove('hidden');
+
+                const items = card.querySelectorAll('.theme-card-item');
+                let visibleCount = 0;
+                const totalCount = items.length;
+
+                items.forEach(item => {
+                    const projectId = parseInt(item.getAttribute('data-project-id'));
+                    const project = catalogProjects.find(p => p.id === projectId);
+
+                    if (!project) {
+                        item.classList.add('hidden');
+                        return;
+                    }
+
+                    if (!searchText) {
+                        item.classList.remove('hidden');
+                        visibleCount++;
+                        return;
+                    }
+
+                    const matchesSearch =
+                        project.title.toLowerCase().includes(searchText) ||
+                        project.description.toLowerCase().includes(searchText) ||
+                        project.themes.some(t => t.toLowerCase().includes(searchText)) ||
+                        (project.provider && project.provider.toLowerCase().includes(searchText));
+
+                    if (matchesSearch) {
+                        item.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+
+                // Update count
+                const countEl = card.querySelector('.theme-card-count');
+                if (searchText) {
+                    countEl.textContent = `${visibleCount} of ${totalCount} projects`;
+                } else {
+                    countEl.textContent = `${totalCount} project${totalCount !== 1 ? 's' : ''}`;
+                }
+
+                // Hide entire card if no items match
+                if (visibleCount === 0) {
+                    card.classList.add('hidden');
+                } else {
+                    anyVisible = true;
+                }
+            });
+
+            // Show/hide no results message
+            let noResults = document.getElementById('noResultsMsg');
+            if (!anyVisible && (searchText || themeFilter)) {
+                if (!noResults) {
+                    noResults = document.createElement('div');
+                    noResults.id = 'noResultsMsg';
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = `
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <p data-i18n="catalogPage.noResults">No projects match your search. Try a different filter or search term.</p>
+                    `;
+                    document.getElementById('projectsContainer').appendChild(noResults);
+                }
+                noResults.style.display = 'block';
+            } else if (noResults) {
+                noResults.style.display = 'none';
+            }
         }
 
         // Theme pill click handlers
@@ -1534,21 +1621,19 @@
                 document.querySelectorAll('.theme-nav-pill').forEach(p => p.classList.remove('active'));
                 pill.classList.add('active');
 
-                if (!theme) {
-                    // "All" pill — reset and show grouped view
-                    activeTheme = '';
-                    filterAndRender();
-                    window.scrollTo({ top: document.getElementById('projectsContainer').offsetTop - 80, behavior: 'smooth' });
-                } else {
-                    // Specific theme — keep grouped view but scroll to section
-                    activeTheme = '';
-                    filterAndRender();
-                    const section = document.querySelector(`.theme-section[data-theme="${theme}"]`);
-                    if (section) {
+                activeTheme = theme || '';
+                filterAndRender();
+
+                if (theme) {
+                    // Scroll to the specific theme card
+                    const card = document.querySelector(`.theme-card[data-theme="${theme}"]`);
+                    if (card) {
                         const offset = document.querySelector('.theme-nav').offsetHeight + 16;
-                        const top = section.getBoundingClientRect().top + window.scrollY - offset;
+                        const top = card.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                     }
+                } else {
+                    window.scrollTo({ top: document.getElementById('projectsContainer').offsetTop - 80, behavior: 'smooth' });
                 }
             });
         });
@@ -1556,7 +1641,7 @@
         document.getElementById('searchInput').addEventListener('input', filterAndRender);
 
         // Initial render
-        filterAndRender();
+        renderThemeCards();
     </script>
 
     <script src="/assets/js/components/common-scripts.js"></script>

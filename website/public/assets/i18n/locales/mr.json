@@ -897,17 +897,15 @@
     },
     "filter": {
       "allThemes": "सर्व विषय",
-      "wasteManagement": "कचरा व्यवस्थापन",
-      "education": "शिक्षण",
-      "livelihoods": "उपजीविका",
-      "health": "आरोग्य",
       "searchPlaceholder": "प्रकल्प शोधा...",
       "mobility": "वाहतूक",
-      "governance": "शासन",
-      "awareness": "जागरूकता",
-      "water": "पाणी",
-      "community": "समुदाय",
-      "greenSpaces": "शहरी पर्यावरणशास्त्र"
+      "wasteCircular": "कचरा आणि वर्तुळाकार अर्थव्यवस्था",
+      "placemakingEcology": "स्थळनिर्मिती आणि शहरी पर्यावरण",
+      "governancePolicy": "शासन आणि धोरण",
+      "energyClimate": "ऊर्जा आणि हवामान",
+      "livelihoodsInclusion": "उपजीविका आणि समावेशन",
+      "waterEcology": "पाणी आणि पर्यावरण",
+      "placeBasedCentres": "स्थळ-आधारित केंद्रे"
     },
     "effort": {
       "time": "वेळ",

@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "ସବୁ ବିଷୟ",
-      "wasteManagement": "ଆବର୍ଜନା ପରିଚାଳନା",
-      "education": "ଶିକ୍ଷା",
-      "livelihoods": "ଜୀବିକା",
-      "health": "ସ୍ବାସ୍ଥ୍ଯ",
       "searchPlaceholder": "ପ୍ରକଳ୍ପ ଖୋଜନ୍ତୁ...",
       "mobility": "ଯାତାୟାତ",
-      "governance": "ଶାସନ",
-      "awareness": "ସଚେତନତା",
-      "water": "ଜଳ",
-      "community": "ସମୁଦାୟ",
-      "greenSpaces": "ସହରୀ ପରିସ୍ଥିତିବିଜ୍ଞାନ"
+      "wasteCircular": "ବର୍ଜ୍ୟବସ୍ତୁ ଏବଂ ବୃତ୍ତାକାର ଅର୍ଥନୀତି",
+      "placemakingEcology": "ସ୍ଥାନ ନିର୍ମାଣ ଏବଂ ସହରୀ ପରିବେଶ",
+      "governancePolicy": "ଶାସନ ଏବଂ ନୀତି",
+      "energyClimate": "ଶକ୍ତି ଏବଂ ଜଳବାୟୁ",
+      "livelihoodsInclusion": "ଜୀବିକା ଏବଂ ଅନ୍ତର୍ଭୁକ୍ତି",
+      "waterEcology": "ଜଳ ଏବଂ ପରିବେଶ",
+      "placeBasedCentres": "ସ୍ଥାନ-ଆଧାରିତ କେନ୍ଦ୍ର"
     },
     "effort": {
       "time": "ସମୟ",

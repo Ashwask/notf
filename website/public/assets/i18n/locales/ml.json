@@ -688,17 +688,15 @@
     },
     "filter": {
       "allThemes": "എല്ലാ വിഷയങ്ങളും",
-      "wasteManagement": "മാലിന്യ നിർമാർജ്ജനം",
-      "education": "വിദ്യാഭ്യാസം",
-      "livelihoods": "ജീവനോപാധി",
-      "health": "ആരോഗ്യം",
       "searchPlaceholder": "പദ്ധതികള് തിരയുക...",
       "mobility": "ഗതാഗതം",
-      "governance": "ഭരണം",
-      "awareness": "ബോധവൽക്കരണം",
-      "water": "ജലം",
-      "community": "സമൂഹം",
-      "greenSpaces": "നഗര പരിസ്ഥിതിശാസ്ത്രം"
+      "wasteCircular": "മാലിന്യവും വൃത്താകാര സമ്പദ്‌വ്യവസ്ഥയും",
+      "placemakingEcology": "സ്ഥലനിർമ്മാണവും നഗര പരിസ്ഥിതിയും",
+      "governancePolicy": "ഭരണവും നയവും",
+      "energyClimate": "ഊർജ്ജവും കാലാവസ്ഥയും",
+      "livelihoodsInclusion": "ഉപജീവനവും ഉൾപ്പെടുത്തലും",
+      "waterEcology": "ജലവും പരിസ്ഥിതിയും",
+      "placeBasedCentres": "സ്ഥലാധിഷ്ഠിത കേന്ദ്രങ്ങൾ"
     },
     "effort": {
       "time": "സമയം",
