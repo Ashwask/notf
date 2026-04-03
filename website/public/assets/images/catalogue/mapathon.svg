@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#F5B82E"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#C45A2A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Map with pin markers -->
+  <g transform="translate(200, 145)">
+    <!-- Folded map base -->
+    <path d="M-70,40 L-70,-40 L-23,-50 L23,-40 L70,-50 L70,40 L23,30 L-23,40 Z" fill="#FAF6E8" opacity="0.75"/>
+    <!-- Map fold lines -->
+    <line x1="-23" y1="-50" x2="-23" y2="40" stroke="#F5B82E" stroke-width="1.5" opacity="0.3"/>
+    <line x1="23" y1="-40" x2="23" y2="30" stroke="#F5B82E" stroke-width="1.5" opacity="0.3"/>
+    <!-- Map road lines -->
+    <path d="M-55,0 C-30,-10 0,15 40,5" fill="none" stroke="#F5B82E" stroke-width="2" opacity="0.25"/>
+    <path d="M-40,20 C-10,10 20,25 55,15" fill="none" stroke="#F5B82E" stroke-width="1.5" opacity="0.2"/>
+    <!-- Pin marker 1 -->
+    <g transform="translate(-25, -25)">
+      <path d="M0,-18 C-10,-18 -14,-8 -14,0 C-14,12 0,22 0,22 C0,22 14,12 14,0 C14,-8 10,-18 0,-18 Z" fill="#C45A2A" opacity="0.8"/>
+      <circle cx="0" cy="-2" r="5" fill="#FAF6E8" opacity="0.8"/>
+    </g>
+    <!-- Pin marker 2 -->
+    <g transform="translate(25, -15)">
+      <path d="M0,-14 C-8,-14 -11,-6 -11,0 C-11,10 0,18 0,18 C0,18 11,10 11,0 C11,-6 8,-14 0,-14 Z" fill="#2F4A2C" opacity="0.7"/>
+      <circle cx="0" cy="-1" r="4" fill="#FAF6E8" opacity="0.7"/>
+    </g>
+    <!-- Pin marker 3 -->
+    <g transform="translate(5, 0)">
+      <path d="M0,-12 C-7,-12 -9,-5 -9,0 C-9,8 0,15 0,15 C0,15 9,8 9,0 C9,-5 7,-12 0,-12 Z" fill="#3F5F7A" opacity="0.7"/>
+      <circle cx="0" cy="0" r="3.5" fill="#FAF6E8" opacity="0.7"/>
+    </g>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#2F4A2C" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">Mapathon</text>
+</svg>

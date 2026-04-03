@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#C45A2A"/>
+  <circle cx="340" cy="60" r="80" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Building / Hub icon -->
+  <g transform="translate(200, 145)">
+    <!-- Main building -->
+    <rect x="-45" y="-50" width="90" height="80" rx="6" fill="#FAF6E8" opacity="0.8"/>
+    <!-- Door -->
+    <rect x="-12" y="0" width="24" height="30" rx="3" fill="#C45A2A" opacity="0.6"/>
+    <!-- Windows -->
+    <rect x="-35" y="-35" width="16" height="14" rx="2" fill="#C45A2A" opacity="0.4"/>
+    <rect x="19" y="-35" width="16" height="14" rx="2" fill="#C45A2A" opacity="0.4"/>
+    <!-- Roof accent -->
+    <rect x="-50" y="-55" width="100" height="8" rx="3" fill="#FAF6E8" opacity="0.6"/>
+    <!-- People on sides -->
+    <circle cx="-70" cy="10" r="8" fill="#FAF6E8" opacity="0.5"/>
+    <rect x="-74" y="20" width="8" height="14" rx="3" fill="#FAF6E8" opacity="0.4"/>
+    <circle cx="70" cy="10" r="8" fill="#FAF6E8" opacity="0.5"/>
+    <rect x="66" y="20" width="8" height="14" rx="3" fill="#FAF6E8" opacity="0.4"/>
+    <circle cx="-55" cy="20" r="6" fill="#FAF6E8" opacity="0.35"/>
+    <circle cx="55" cy="20" r="6" fill="#FAF6E8" opacity="0.35"/>
+  </g>
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#FAF6E8" opacity="0.1"/>
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#FAF6E8" opacity="0.9">Urban Resource Centre</text>
+</svg>

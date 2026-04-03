@@ -7,7 +7,7 @@ const THEME_CATEGORIES = [
     'Water',
     'Energy',
     'Mobility',
-    'Green Spaces',
+    'Urban Ecology',
     'Education',
     'Livelihoods',
     'Health',
