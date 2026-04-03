@@ -1166,6 +1166,15 @@ body.menu-open {
         height: 120px;
         right: -30px;
     }
+
+    /* City Sub-Navigation */
+    .city-sub-nav {
+        padding: 0 8px;
+    }
+    .city-sub-nav-link {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
 
 /* === UTILITY CLASSES === */

@@ -82,7 +82,7 @@
 
         .communities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
             gap: 1.5rem;
         }
 
@@ -322,8 +322,8 @@
             cursor: pointer;
             color: white;
             padding: 0;
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -550,8 +550,10 @@
                 align-items: stretch;
             }
 
-            .filter-select, .sort-select {
-                min-width: unset;
+            .search-input-wrapper,
+            .filter-select,
+            .sort-select {
+                min-width: 0;
                 width: 100%;
             }
 
@@ -584,11 +586,18 @@
                 padding: 0.875rem 2rem;
                 font-size: 1rem;
             }
+
+            .modal {
+                padding: 0.5rem;
+            }
+            .modal-content {
+                border-radius: 12px 12px 0 0;
+                max-height: 95vh;
+            }
         }
     </style>
     <link rel="stylesheet" href="/assets/chat/chat.css">
 </head>
-<body>
 <body>
     <div id="notf-header"></div>
     <script src="/assets/js/components/header.js"></script>
