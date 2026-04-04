@@ -1006,10 +1006,10 @@ button.btn-green:hover {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: #C45A2A;
-    color: #FAF6E8;
+    background: #f6e6c4;
+    color: #2B2B2B;
     border: none;
-    box-shadow: 0 4px 20px rgba(196, 90, 42, 0.4);
+    box-shadow: 0 4px 20px rgba(246, 230, 196, 0.5);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1021,8 +1021,8 @@ button.btn-green:hover {
 
 .chat-fab:hover {
     transform: scale(1.1);
-    background: #B04E24;
-    box-shadow: 0 6px 30px rgba(196, 90, 42, 0.6);
+    background: #eddbb0;
+    box-shadow: 0 6px 30px rgba(246, 230, 196, 0.7);
 }
 
 .chat-fab:active {
