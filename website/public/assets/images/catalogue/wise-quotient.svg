@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#F5B82E"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#C45A2A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Chart / meter icon -->
+  <g transform="translate(200, 150)">
+    <!-- Meter arc -->
+    <path d="M-70,20 A75,75 0 0,1 70,20" fill="none" stroke="#FAF6E8" stroke-width="8" opacity="0.6" stroke-linecap="round"/>
+    <!-- Meter tick marks -->
+    <line x1="-65" y1="-15" x2="-55" y2="-10" stroke="#FAF6E8" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="-45" y1="-45" x2="-38" y2="-37" stroke="#FAF6E8" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="0" y1="-60" x2="0" y2="-50" stroke="#FAF6E8" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="45" y1="-45" x2="38" y2="-37" stroke="#FAF6E8" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <line x1="65" y1="-15" x2="55" y2="-10" stroke="#FAF6E8" stroke-width="3" opacity="0.4" stroke-linecap="round"/>
+    <!-- Needle -->
+    <line x1="0" y1="15" x2="35" y2="-40" stroke="#FAF6E8" stroke-width="4" opacity="0.85" stroke-linecap="round"/>
+    <circle cx="0" cy="15" r="8" fill="#FAF6E8" opacity="0.75"/>
+    <!-- Bar chart below -->
+    <rect x="-60" y="35" width="20" height="35" rx="3" fill="#FAF6E8" opacity="0.5"/>
+    <rect x="-30" y="25" width="20" height="45" rx="3" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="0" y="15" width="20" height="55" rx="3" fill="#FAF6E8" opacity="0.7"/>
+    <rect x="30" y="30" width="20" height="40" rx="3" fill="#FAF6E8" opacity="0.55"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#2F4A2C" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">WISE Quotient</text>
+</svg>

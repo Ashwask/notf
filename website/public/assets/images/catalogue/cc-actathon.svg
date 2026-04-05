@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#C45A2A"/>
+  <!-- Geometric background shapes -->
+  <circle cx="340" cy="60" r="80" fill="#F5B82E" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#2F4A2C" opacity="0.08"/>
+  <!-- Lightning bolt / action -->
+  <g transform="translate(200, 150)">
+    <!-- Main lightning bolt -->
+    <polygon points="10,-75 -30,-5 5,-5 -15,75 50,0 15,0 45,-75" fill="#FAF6E8" opacity="0.85"/>
+    <!-- Energy ring left -->
+    <path d="M-55,-30 C-75,-15 -75,15 -55,30" fill="none" stroke="#FAF6E8" stroke-width="3.5" opacity="0.35" stroke-linecap="round"/>
+    <path d="M-68,-45 C-95,-22 -95,22 -68,45" fill="none" stroke="#FAF6E8" stroke-width="3" opacity="0.2" stroke-linecap="round"/>
+    <!-- Energy ring right -->
+    <path d="M55,-30 C75,-15 75,15 55,30" fill="none" stroke="#FAF6E8" stroke-width="3.5" opacity="0.35" stroke-linecap="round"/>
+    <path d="M68,-45 C95,-22 95,22 68,45" fill="none" stroke="#FAF6E8" stroke-width="3" opacity="0.2" stroke-linecap="round"/>
+    <!-- Spark dots -->
+    <circle cx="-40" cy="-50" r="4" fill="#FAF6E8" opacity="0.4"/>
+    <circle cx="45" cy="-55" r="3" fill="#FAF6E8" opacity="0.3"/>
+    <circle cx="-50" cy="40" r="3.5" fill="#FAF6E8" opacity="0.3"/>
+    <circle cx="50" cy="45" r="3" fill="#FAF6E8" opacity="0.25"/>
+  </g>
+  <!-- Small decorative shapes -->
+  <rect x="60" y="90" width="12" height="12" fill="#F5B82E" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#2B2B2B" opacity="0.1"/>
+  <!-- Project name -->
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#FAF6E8" opacity="0.9">CC Actathon</text>
+</svg>
