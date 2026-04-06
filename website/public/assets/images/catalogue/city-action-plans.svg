@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 380">
+  <rect width="400" height="380" fill="#2F4A2C"/>
+  <circle cx="340" cy="60" r="80" fill="#B9C98A" opacity="0.1"/>
+  <circle cx="50" cy="320" r="70" fill="#F5B82E" opacity="0.08"/>
+  <!-- City buildings + people + document -->
+  <g transform="translate(200, 135)">
+    <!-- Buildings silhouette -->
+    <rect x="-60" y="-20" width="20" height="50" rx="2" fill="#FAF6E8" opacity="0.5"/>
+    <rect x="-35" y="-40" width="25" height="70" rx="2" fill="#FAF6E8" opacity="0.6"/>
+    <rect x="-5" y="-10" width="18" height="40" rx="2" fill="#FAF6E8" opacity="0.45"/>
+    <!-- Document/plan -->
+    <rect x="25" y="-35" width="35" height="45" rx="3" fill="#FAF6E8" opacity="0.75"/>
+    <line x1="32" y1="-25" x2="53" y2="-25" stroke="#2F4A2C" stroke-width="2" opacity="0.3"/>
+    <line x1="32" y1="-16" x2="53" y2="-16" stroke="#2F4A2C" stroke-width="2" opacity="0.3"/>
+    <line x1="32" y1="-7" x2="48" y2="-7" stroke="#2F4A2C" stroke-width="2" opacity="0.3"/>
+    <!-- Checkmark on document -->
+    <path d="M38,2 L42,6 L50,-2" stroke="#B9C98A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <!-- People figures -->
+    <circle cx="-50" cy="45" r="6" fill="#FAF6E8" opacity="0.7"/>
+    <path d="M-50,52 L-50,68" stroke="#FAF6E8" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="-30" cy="45" r="6" fill="#FAF6E8" opacity="0.7"/>
+    <path d="M-30,52 L-30,68" stroke="#FAF6E8" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="-10" cy="45" r="6" fill="#FAF6E8" opacity="0.7"/>
+    <path d="M-10,52 L-10,68" stroke="#FAF6E8" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    <!-- Arrow connecting people to plan -->
+    <path d="M5,55 L20,55 L20,0 L25,0" stroke="#B9C98A" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
+  </g>
+  <rect x="60" y="90" width="12" height="12" fill="#B9C98A" opacity="0.15" transform="rotate(45 66 96)"/>
+  <circle cx="120" cy="280" r="5" fill="#FAF6E8" opacity="0.25"/>
+  <polygon points="320,260 328,245 336,260" fill="#FAF6E8" opacity="0.15"/>
+  <circle cx="330" cy="180" r="4" fill="#FAF6E8" opacity="0.1"/>
+  <text x="200" y="340" text-anchor="middle" font-family="'Okta Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600" fill="#FAF6E8" opacity="0.9">City Action Plans</text>
+</svg>
