@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      update_snapshots:
+        description: 'Regenerate baselines (uploads as artifact)'
+        type: boolean
+        default: false
 
 jobs:
   visual:
@@ -30,9 +36,22 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Run visual + a11y suite
-        run: npx playwright test
+        run: |
+          if [ "${{ inputs.update_snapshots }}" = "true" ]; then
+            npx playwright test --update-snapshots
+          else
+            npx playwright test
+          fi
         env:
           CI: 'true'
+
+      - name: Upload regenerated snapshots
+        if: inputs.update_snapshots == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-snapshots
+          path: website/tests/visual/**/*-snapshots/**
+          retention-days: 7
 
       - name: Upload Playwright report
         if: always()
