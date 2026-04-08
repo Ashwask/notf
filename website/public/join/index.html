@@ -242,20 +242,22 @@
         .theme-checkboxes {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 8px;
         }
 
         .theme-checkboxes label {
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
+            gap: 8px;
+            padding: 10px 16px;
             background: rgba(0, 0, 0, 0.04);
-            border-radius: 1rem;
+            border-radius: 999px;
             font-size: 0.9rem;
+            line-height: 1.2;
+            white-space: nowrap;
             cursor: pointer;
-            font-weight: 400;
+            font-weight: 500;
             transition: all 0.2s;
             border: 2px solid transparent;
         }
@@ -461,29 +463,58 @@
         }
 
         @media (max-width: 768px) {
+            .join-container {
+                padding: 0 1rem;
+            }
+
             .form-card {
-                padding: 2rem 1.5rem;
+                padding: 2rem 1.25rem;
+                border-radius: 1rem;
+            }
+
+            .wizard-step h2 {
+                font-size: 1.25rem;
             }
 
             .form-type-selector {
                 grid-template-columns: 1fr;
             }
 
+            .wizard-step-circle {
+                width: 36px;
+                height: 36px;
+                font-size: 0.9rem;
+            }
+
             .wizard-step-line {
-                width: 40px;
+                width: 32px;
+                margin: 0 0.35rem 1.5rem;
             }
 
             .wizard-step-label {
                 font-size: 0.7rem;
             }
 
+            .theme-checkboxes {
+                gap: 8px;
+            }
+
+            .theme-checkboxes label {
+                padding: 9px 14px;
+                font-size: 0.85rem;
+            }
+
             .wizard-nav {
-                flex-direction: column;
+                flex-direction: column-reverse;
+                gap: 0.75rem;
             }
 
             .wizard-nav .btn-next,
-            .wizard-nav .btn-submit {
+            .wizard-nav .btn-submit,
+            .wizard-nav .btn-prev {
                 margin-left: 0;
+                width: 100%;
+                justify-content: center;
             }
 
             .confirmation-links {
@@ -492,6 +523,21 @@
 
             .confirmation-cards {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .form-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .wizard-step-line {
+                width: 20px;
+                margin: 0 0.25rem 1.5rem;
+            }
+
+            .wizard-step-label {
+                font-size: 0.65rem;
             }
         }
     </style>
