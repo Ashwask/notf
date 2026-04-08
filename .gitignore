@@ -36,3 +36,7 @@ test-*.html
 
 # Old build output
 docs/
+
+# Playwright visual harness — keep specs + baselines, ignore reports/results
+website/playwright-report/
+website/test-results/

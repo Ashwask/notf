@@ -5,12 +5,17 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "clean": "echo 'No build artifacts to clean - using static HTML'"
+    "clean": "echo 'No build artifacts to clean - using static HTML'",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:report": "playwright show-report"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.78.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.59.1",
     "vite": "^6.1.0"
   }
 }
