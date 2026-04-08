@@ -89,6 +89,11 @@ body {
     background: var(--warm-cream);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+}
+
+html {
+    overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -427,8 +432,10 @@ nav {
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 12px 24px;
+    min-height: 44px;
     font-size: 14px;
     font-weight: 600;
     border-radius: 4px;
@@ -887,7 +894,7 @@ footer a:hover {
     padding: 4px 0;
     font-size: 12px;
     color: var(--charcoal);
-    opacity: 0.45;
+    opacity: 0.7;
 }
 
 .footer-license {
@@ -1173,7 +1180,7 @@ body.menu-open {
     }
     .city-sub-nav-link {
         padding: 6px 12px;
-        font-size: 0.8rem;
+        font-size: 0.875rem;
     }
 }
 
@@ -1242,7 +1249,7 @@ body.menu-open {
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: var(--space-lg);
     margin-top: var(--space-xl);
 }
@@ -1254,6 +1261,7 @@ body.menu-open {
     box-shadow: var(--shadow-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-top: 4px solid var(--forest-green);
+    min-width: 0;
 }
 
 .info-card:hover {
@@ -1345,7 +1353,7 @@ body.menu-open {
 
 .principles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: var(--space-lg);
     margin-top: var(--space-xl);
     position: relative;
@@ -1358,6 +1366,7 @@ body.menu-open {
     padding: var(--space-lg);
     box-shadow: var(--shadow-md);
     border-top: 4px solid var(--accent-color);
+    min-width: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1536,8 +1545,9 @@ body.menu-open {
 
 .nudge-hub-diagram {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
     margin: 0 auto;
 }
 .nudge-hub-lines {
@@ -1955,9 +1965,9 @@ body.menu-open {
 }
 
 .carousel-arrow {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
     border: none;
     background: rgba(0,0,0,0.06);
     cursor: pointer;
@@ -1966,8 +1976,8 @@ body.menu-open {
     justify-content: center;
     transition: background 0.2s ease, color 0.2s ease;
     color: var(--charcoal);
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 14px;
+    opacity: 0.7;
 }
 
 .carousel-arrow:hover {
@@ -2102,7 +2112,7 @@ body.menu-open {
 }
 .notf-explainer-lead {
     font-size: 1.1rem;
-    color: #555;
+    color: #3a3a3a;
     line-height: 1.7;
     margin-bottom: 32px;
 }
@@ -2284,11 +2294,23 @@ body.menu-open {
 }
 
 /* === STATS BAR / HOW IT WORKS / JOIN CTA RESPONSIVE === */
+@media (max-width: 1024px) {
+    .notf-explainer-points,
+    .preview-row-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
 @media (max-width: 768px) {
-    .stats-bar { gap: 24px; flex-wrap: wrap; }
+    .stats-bar { gap: 16px; flex-wrap: wrap; justify-content: center; }
     .stat-number { font-size: 1.75rem; }
     .steps-row { flex-direction: column; }
     .step-connector { transform: rotate(90deg); }
+    .notf-explainer-points,
+    .preview-row-cards {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* === SECTOR TAB NAVIGATION === */

@@ -44,6 +44,8 @@ jobs:
           fi
         env:
           CI: 'true'
+          NOTF_STRICT_OVERFLOW: '1'
+          NOTF_STRICT_TAP: '1'
 
       - name: Upload regenerated snapshots
         if: inputs.update_snapshots == true

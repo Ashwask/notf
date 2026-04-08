@@ -24,6 +24,13 @@
             margin-top: 1rem;
         }
 
+        @media (max-width: 768px) {
+            #map {
+                height: 60vh;
+                min-height: 400px;
+            }
+        }
+
         .map-legend {
             background: white;
             padding: 1rem;
@@ -234,7 +241,8 @@
     <div id="notf-footer"></div>
     <script src="/assets/js/components/footer.js"></script>
 
-    <!-- Leaflet JS -->
+    <!-- Leaflet JS (must load before omnivore, which depends on the L global) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- Leaflet Omnivore for loading KML/GeoJSON -->
     <script defer src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
 
@@ -622,7 +630,7 @@
                     const container = L.DomUtil.create('div', 'city-selector-control leaflet-bar');
 
                     container.innerHTML = `
-                        <label class="city-selector-label">Select City</label>
+                        <label class="city-selector-label" for="citySelector">Select City</label>
                         <select class="city-selector-dropdown" id="citySelector">
                             <option value="Bengaluru">Bengaluru</option>
                             <option value="Mumbai">Mumbai</option>

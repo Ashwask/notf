@@ -73,6 +73,7 @@ export async function auditPage(
       .locator('button:visible, a.btn:visible, [role="button"]:visible')
       .evaluateAll((els) =>
         els
+          .filter((el) => !el.closest('.leaflet-container'))
           .map((el) => {
             const r = (el as HTMLElement).getBoundingClientRect();
             return { tag: el.tagName, h: r.height, w: r.width, text: (el.textContent ?? '').trim().slice(0, 30) };
@@ -97,16 +98,13 @@ export async function auditPage(
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
       .disableRules([
-        // Rules disabled for PR 0 baseline. Each is tracked as an audit finding
-        // and re-enabled in the corresponding fix PR.
-        'color-contrast', // PR 1 — footer-pdgi opacity, explainer lead color
-        'region', // PR 1 — landmark structure (injected header/footer)
+        // Rules still tracked for later PRs.
+        'color-contrast', // PR 1.5 — sitewide audit needed (~19 nodes); spot fixes shipped in PR 1
+        'region', // PR 4/5 — landmark structure on injected header/footer
         'aria-prohibited-attr', // PR 5 — .chat-resize-handle div
-        'label', // PR 1 — join #city select missing <label for>, communities search
-        'aria-allowed-role', // PR 1 — minor cleanup
-        'select-name', // PR 1 — same root cause as label
       ])
       .exclude('#chat-fab, .chat-fab, .chat-widget, #chat-widget, .chat-container')
+      .exclude('.leaflet-container') // 3rd-party Leaflet controls
       .analyze();
     expect(
       results.violations,

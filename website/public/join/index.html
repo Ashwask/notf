@@ -528,16 +528,25 @@
 
         @media (max-width: 420px) {
             .form-card {
-                padding: 1.5rem 1rem;
+                padding: 1.5rem 0.875rem;
+            }
+
+            .wizard-step-circle {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
             }
 
             .wizard-step-line {
-                width: 20px;
-                margin: 0 0.25rem 1.5rem;
+                width: 16px;
+                margin: 0 0.2rem 1.5rem;
             }
 
             .wizard-step-label {
-                font-size: 0.65rem;
+                font-size: 0.6rem;
+                max-width: 70px;
+                white-space: normal;
+                line-height: 1.2;
             }
         }
     </style>
@@ -595,23 +604,24 @@
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step1.name">Organisation/Community Name<span class="required">*</span></label>
+                    <label for="name" data-i18n="joinPage.step1.name">Organisation/Community Name<span class="required">*</span></label>
                     <input type="text" id="name" required placeholder="e.g., HSR Layout Residents Association">
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step1.city">City<span class="required">*</span></label>
+                    <label for="city" data-i18n="joinPage.step1.city">City<span class="required">*</span></label>
                     <select id="city" required>
                         <option value="">-- Select a city --</option>
                         <!-- Populated dynamically from SUPPORTED_CITIES -->
                     </select>
                     <div id="cityOtherGroup">
+                        <label for="cityOther" class="sr-only">Other city</label>
                         <input type="text" id="cityOther" placeholder="Enter your city" data-i18n-placeholder="joinPage.step1.cityOther">
                     </div>
                 </div>
 
                 <div class="form-group" id="neighbourhoodGroup">
-                    <label data-i18n="joinPage.step1.neighbourhood">Neighbourhood<span class="required">*</span></label>
+                    <label for="neighbourhood" data-i18n="joinPage.step1.neighbourhood">Neighbourhood<span class="required">*</span></label>
                     <input type="text" id="neighbourhood" placeholder="e.g., HSR Layout">
                 </div>
 
@@ -634,18 +644,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step2.description">Description<span class="required">*</span></label>
+                    <label for="description" data-i18n="joinPage.step2.description">Description<span class="required">*</span></label>
                     <textarea id="description" required maxlength="140" placeholder="Tell us briefly about your organisation and what you do..."></textarea>
                     <div class="char-counter"><span id="charCount">0</span> / 140</div>
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step2.offers">What can you offer?</label>
+                    <label for="offers" data-i18n="joinPage.step2.offers">What can you offer?</label>
                     <textarea id="offers" placeholder="e.g., Community space, volunteer network, expertise in waste management"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step2.asks">What do you need?</label>
+                    <label for="asks" data-i18n="joinPage.step2.asks">What do you need?</label>
                     <textarea id="asks" placeholder="e.g., Funding, technical expertise, training materials"></textarea>
                 </div>
 
@@ -660,22 +670,22 @@
                 <h2 data-i18n="joinPage.step3.title">How can we reach you?</h2>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step3.contactPerson">Contact Person Name<span class="required">*</span></label>
+                    <label for="contactPerson" data-i18n="joinPage.step3.contactPerson">Contact Person Name<span class="required">*</span></label>
                     <input type="text" id="contactPerson" required placeholder="Full name">
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step3.email">Email<span class="required">*</span></label>
+                    <label for="email" data-i18n="joinPage.step3.email">Email<span class="required">*</span></label>
                     <input type="email" id="email" required placeholder="contact@example.org">
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step3.phone">Phone</label>
+                    <label for="phone" data-i18n="joinPage.step3.phone">Phone</label>
                     <input type="tel" id="phone" placeholder="+91 98765 43210">
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="joinPage.step3.website">Website / Social Media</label>
+                    <label for="website" data-i18n="joinPage.step3.website">Website / Social Media</label>
                     <input type="url" id="website" placeholder="https://example.org or @handle">
                 </div>
 
