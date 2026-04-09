@@ -215,11 +215,9 @@ class NotfChatbot {
                         <span class="label">Join NOTF</span>
                         <span class="description">Register your community or organisation to join the network</span>
                     </button>
-                    <button class="intent-button complaint-button" data-intent="complaint">
-                        <span class="icon"><i class="fa-solid fa-file-pen"></i></span>
-                        <span class="label">File a Complaint</span>
-                        <span class="description">Report civic issues in Bengaluru, Mumbai, Delhi, Chennai, Hyderabad, Pune, Kolkata, Kochi, Ahmedabad, Jaipur, Gurugram, Bhubaneswar, Visakhapatnam, or Thane</span>
-                    </button>
+                    <!-- File a Complaint intent temporarily hidden while notf-cms
+                         complaint management is under repair. Re-enable by
+                         uncommenting this button. -->
                 </div>
                 <p class="chat-tips"><i class="fa-solid fa-lightbulb"></i> <strong>Tips:</strong> You can switch modes anytime using the <i class="fa-solid fa-repeat"></i> button in the header. Resize this window by dragging the top-left corner.</p>
             </div>
