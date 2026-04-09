@@ -19,9 +19,36 @@
     <link rel="stylesheet" href="/assets/i18n/language-selector.css">
 </head>
 <body>
-    <div id="notf-header" data-city="bengaluru" data-city-subpage="climate"></div>
-    <script src="/assets/js/components/header.js"></script>
-<main>
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <a href="/" class="logo-link">
+                    <img src="/assets/images/notf-terracotta.png" alt="NOTF Logo" class="nav-logo">
+                </a>
+            </div>
+
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-menu" id="navMenu">
+                <a href="/cities/bengaluru/" class="back-button">
+                    <i class="fa-solid fa-arrow-left"></i> Bengaluru Hub
+                </a>
+                <a href="/cities/bengaluru/communities/">Communities</a>
+                <a href="/cities/bengaluru/solution-providers/">Providers</a>
+                <a href="/cities/bengaluru/map/">Map</a>
+                <a href="/join/" class="join-link">Join</a>
+                <a href="/admin/login.html" class="admin-link" title="Admin Login">
+                    <i class="fa-solid fa-user-lock"></i>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
         <!-- Ward Hero -->
         <section class="ward-hero" style="background-color: #B9C98A">
             <div class="ward-hero-content">
@@ -216,8 +243,10 @@
                         
                         <a href="/cities/bengaluru/climate/energy/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #F5B82E">
-                            <i class="fa-solid fa-bolt"></i>
+                           style="background-color: #F5B82E"
+                           title="Energy & Buildings"
+                           aria-label="Energy & Buildings">
+                            <img src="/assets/images/icons/energy-climate.svg" alt="" aria-hidden="true" class="sector-brand-icon">
                             
                         </a>
                         
@@ -225,8 +254,10 @@
                         
                         <a href="/cities/bengaluru/climate/transportation/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #3F5F7A">
-                            <i class="fa-solid fa-bus"></i>
+                           style="background-color: #3F5F7A"
+                           title="Transportation"
+                           aria-label="Transportation">
+                            <img src="/assets/images/icons/mobility.svg" alt="" aria-hidden="true" class="sector-brand-icon">
                             
                         </a>
                         
@@ -236,8 +267,10 @@
                         
                         <a href="/cities/bengaluru/climate/air-quality/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #C45A2A">
-                            <i class="fa-solid fa-wind"></i>
+                           style="background-color: #C45A2A"
+                           title="Air Quality"
+                           aria-label="Air Quality">
+                            <i class="fa-solid fa-wind" aria-hidden="true"></i>
                             
                         </a>
                         
@@ -245,8 +278,10 @@
                         
                         <a href="/cities/bengaluru/climate/water/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #3F5F7A">
-                            <i class="fa-solid fa-droplet"></i>
+                           style="background-color: #3F5F7A"
+                           title="Water Resources"
+                           aria-label="Water Resources">
+                            <img src="/assets/images/icons/water-ecology.svg" alt="" aria-hidden="true" class="sector-brand-icon">
                             
                         </a>
                         
@@ -254,8 +289,10 @@
                         
                         <a href="/cities/bengaluru/climate/greening/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #2F4A2C">
-                            <i class="fa-solid fa-tree"></i>
+                           style="background-color: #2F4A2C"
+                           title="Urban Greening"
+                           aria-label="Urban Greening">
+                            <img src="/assets/images/icons/plant.svg" alt="" aria-hidden="true" class="sector-brand-icon">
                             
                         </a>
                         
@@ -263,8 +300,10 @@
                         
                         <a href="/cities/bengaluru/climate/disaster/wards/dr-vishnuvardhan-ward/"
                            class="sector-chip"
-                           style="background-color: #2B2B2B">
-                            <i class="fa-solid fa-shield-halved"></i>
+                           style="background-color: #2B2B2B"
+                           title="Disaster Preparedness"
+                           aria-label="Disaster Preparedness">
+                            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
                             
                         </a>
                         
@@ -275,13 +314,43 @@
         </section>
     </main>
 
+    <footer>
+        <p>
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="license noopener noreferrer" class="cc-license">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="CC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="BY" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="NC" class="cc-icon">
+                <img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="SA" class="cc-icon">
+            </a>
+            <span class="cc-text">2025 Neighbourhoods of the Future. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a></span>
+        </p>
+    </footer>
 
-    <div id="notf-chatbot"></div>
-    <script src="/assets/js/components/chatbot-loader.js"></script>
-
-    <div id="notf-footer"></div>
-    <script src="/assets/js/components/footer.js"></script>
     <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!hamburger.contains(event.target) && !navMenu.contains(event.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+
         // Toggle source details
         function toggleSource(metricKey) {
             const sourceDetails = document.getElementById('source-' + metricKey);
@@ -291,9 +360,23 @@
                 sourceDetails.style.display = 'block';
                 toggleBtn.innerHTML = '<i class="fa-solid fa-database"></i> Hide Source';
                 toggleBtn.classList.add('active');
+            } else {
+                sourceDetails.style.display = 'none';
+                toggleBtn.innerHTML = '<i class="fa-solid fa-database"></i> Data Source';
+                toggleBtn.classList.remove('active');
             }
+        }
     </script>
 
-    <script src="/assets/js/components/common-scripts.js"></script>
+    <!-- i18n Translation System -->
+    <script src="/assets/i18n/translator.js"></script>
+    <script src="/assets/i18n/language-selector.js"></script>
+
+    <!-- Chatbot Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <link rel="stylesheet" href="/assets/chat/chatbot.css">
+    <script src="/assets/chat/discovery-engine.js"></script>
+    <script src="/assets/chat/chatbot.js"></script>
+    <script src="/assets/js/nav-highlight.js"></script>
 </body>
 </html>

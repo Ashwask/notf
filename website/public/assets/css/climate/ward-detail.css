@@ -329,6 +329,14 @@
     font-size: 16px;
 }
 
+.sector-brand-icon {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
 /* === DATA SOURCE DETAILS === */
 .metric-source-toggle {
     margin-top: var(--space-sm);
