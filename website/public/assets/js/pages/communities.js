@@ -34,7 +34,39 @@
         setupSorting();
         setupFilters();
         setupSearch();
+        injectSchema();
     })();
+
+    function injectSchema() {
+        if (!window.notfSeo) return;
+        window.notfSeo.injectItemList({
+            name: 'NOTF Communities',
+            url: 'https://notf.in/communities/',
+            items: allCommunities,
+            toItem: function (c) {
+                const themes = Array.isArray(c.themes) ? c.themes.filter(Boolean) : [];
+                const item = {
+                    '@type': 'Organization',
+                    name: c.name,
+                    url: 'https://notf.in/communities/',
+                };
+                if (c.description) item.description = String(c.description).slice(0, 300);
+                if (c.city) {
+                    item.address = {
+                        '@type': 'PostalAddress',
+                        addressLocality: c.city,
+                        addressCountry: 'IN',
+                    };
+                }
+                if (themes.length) item.knowsAbout = themes;
+                return item;
+            },
+        });
+        window.notfSeo.injectBreadcrumb([
+            { name: 'Home', url: 'https://notf.in/' },
+            { name: 'Communities', url: 'https://notf.in/communities/' },
+        ]);
+    }
 
     function renderCards() {
         const grid = document.getElementById('communitiesGrid');

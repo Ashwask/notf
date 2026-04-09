@@ -473,6 +473,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/assets/js/data-loader.js"></script>
+    <script src="/assets/js/seo-schema.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         // All stories data
@@ -693,6 +694,45 @@
             document.getElementById('cityFilter').addEventListener('change', filterStories);
             document.getElementById('themeFilter').addEventListener('change', filterStories);
             document.getElementById('searchInput').addEventListener('input', filterStories);
+
+            // SEO: emit ItemList of Article for the stories, once data is loaded.
+            if (window.notfSeo) {
+                window.notfSeo.injectItemList({
+                    name: 'NOTF Community Stories',
+                    url: 'https://notf.in/stories/',
+                    items: allStories,
+                    toItem: function (s) {
+                        const item = {
+                            '@type': 'Article',
+                            headline: s.title || s.name || 'NOTF community story',
+                            url: 'https://notf.in/stories/',
+                            publisher: {
+                                '@type': 'Organization',
+                                name: 'Neighbourhoods of the Future',
+                                logo: { '@type': 'ImageObject', url: 'https://notf.in/assets/images/notf-logo.png' },
+                            },
+                        };
+                        if (s.description || s.excerpt) {
+                            item.description = String(s.description || s.excerpt).slice(0, 500);
+                        }
+                        if (s.author || s.community) {
+                            item.author = { '@type': 'Organization', name: s.author || s.community };
+                        }
+                        const youtubeId = s.youtube_id || (s.youtube_url || '').match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/)?.[1];
+                        if (youtubeId) {
+                            item.image = 'https://img.youtube.com/vi/' + youtubeId + '/hqdefault.jpg';
+                        }
+                        if (s.date_published || s.created_at || s.submitted_at) {
+                            item.datePublished = s.date_published || s.created_at || s.submitted_at;
+                        }
+                        return item;
+                    },
+                });
+                window.notfSeo.injectBreadcrumb([
+                    { name: 'Home', url: 'https://notf.in/' },
+                    { name: 'Stories', url: 'https://notf.in/stories/' },
+                ]);
+            }
         }
 
         init();

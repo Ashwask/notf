@@ -706,6 +706,7 @@
 
     <div id="notf-footer"></div>
     <script src="/assets/js/components/footer.js"></script>
+    <script src="/assets/js/seo-schema.js"></script>
 
     <script>
         // Catalog project data
@@ -1767,6 +1768,35 @@
 
         // Initial render
         renderThemeCards();
+
+        // SEO: emit ItemList of CreativeWork for the catalog projects.
+        if (window.notfSeo) {
+            window.notfSeo.injectItemList({
+                name: 'NOTF Catalogue of Neighbourhood Projects',
+                url: 'https://notf.in/catalog/',
+                items: catalogProjects,
+                toItem: function (p) {
+                    const item = {
+                        '@type': 'CreativeWork',
+                        name: p.title,
+                        url: 'https://notf.in/catalog/#project-' + p.id,
+                    };
+                    if (p.description) item.description = String(p.description).slice(0, 500);
+                    if (p.provider) {
+                        item.creator = { '@type': 'Organization', name: p.provider };
+                    }
+                    if (Array.isArray(p.themes) && p.themes.length) {
+                        item.about = p.themes.join(', ');
+                        item.keywords = p.themes.join(', ');
+                    }
+                    return item;
+                },
+            });
+            window.notfSeo.injectBreadcrumb([
+                { name: 'Home', url: 'https://notf.in/' },
+                { name: 'Catalogue', url: 'https://notf.in/catalog/' },
+            ]);
+        }
     </script>
 
     <script src="/assets/js/components/common-scripts.js"></script>
