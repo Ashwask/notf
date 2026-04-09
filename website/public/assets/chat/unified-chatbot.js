@@ -666,15 +666,19 @@ class NotfChatbot {
             this.disableInput();
         }
 
-        // If response only has text and an inputType, enable the input
+        // If response only has text and an inputType, enable the input.
+        // The field is a <textarea> which has no `type` setter — only
+        // assign it when we actually have a text <input>.
         if (response.inputType && !response.buttons && !response.checkboxes) {
             this.enableInput();
+            const field = this.elements.inputField;
+            const isInput = field && field.tagName === 'INPUT';
             if (response.inputType === 'email') {
-                this.elements.inputField.type = 'email';
-                this.elements.inputField.placeholder = 'Enter your email address';
+                if (isInput) field.type = 'email';
+                if (field) field.placeholder = 'Enter your email address';
             } else {
-                this.elements.inputField.type = 'text';
-                this.elements.inputField.placeholder = 'Type your answer...';
+                if (isInput) field.type = 'text';
+                if (field) field.placeholder = 'Type your answer...';
             }
         }
 
@@ -698,9 +702,14 @@ class NotfChatbot {
 
     handleOnboardingButton(value) {
         this.addUserMessage(value === '_other' ? 'Other' : value);
-        // Reset input field type
-        this.elements.inputField.type = 'text';
-        this.elements.inputField.placeholder = 'Type your message...';
+        // Reset input field — the field is a <textarea> which has no `type`
+        // setter, so only set it when we're dealing with an <input>.
+        if (this.elements.inputField && this.elements.inputField.tagName === 'INPUT') {
+            this.elements.inputField.type = 'text';
+        }
+        if (this.elements.inputField) {
+            this.elements.inputField.placeholder = 'Type your message...';
+        }
         this.processOnboardingMessage(value);
     }
 
