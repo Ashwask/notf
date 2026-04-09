@@ -43,7 +43,8 @@
         '/assets/chat/notf-cms-api.js',
         '/assets/js/theme-categories.js',
         '/assets/js/utils.js',
-        '/assets/chat/onboarding-engine.js'
+        '/assets/chat/onboarding-engine.js',
+        '/assets/chat/modes/complaint.js'
     ];
     var lastScript = '/assets/chat/unified-chatbot.js';
     var moduleScript = '/assets/chat/semantic-matcher.js';

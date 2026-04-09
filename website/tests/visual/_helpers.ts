@@ -98,9 +98,9 @@ export async function auditPage(
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
       .disableRules([
-        // Rules still tracked for later PRs.
-        'region', // PR 4/5 — landmark structure on injected header/footer
-        'aria-prohibited-attr', // PR 5 — .chat-resize-handle div
+        // Still excluded: landmark structure on the injected header/footer.
+        // Tracked separately; not in scope for the audit PRs.
+        'region',
       ])
       .exclude('#chat-fab')
       .exclude('.chat-fab')
