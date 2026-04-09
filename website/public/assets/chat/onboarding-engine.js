@@ -6,7 +6,7 @@
 
 class OnboardingEngine {
     constructor() {
-        this.steps = ['type', 'name', 'city', 'themes', 'description', 'contact', 'confirm'];
+        this.steps = ['type', 'name', 'city', 'neighborhood', 'themes', 'description', 'email', 'contactPerson', 'confirm'];
         this.currentStep = 0;
         this.data = {};
         this.supabase = null;
@@ -65,10 +65,26 @@ class OnboardingEngine {
                 }
                 this.data.city = input;
                 this.currentStep++;
-                const themes = THEME_CATEGORIES;
+                // Neighbourhood is only asked for communities — skip for
+                // solution providers and go straight to themes.
+                if (this.data.type !== 'community') {
+                    this.currentStep++; // skip 'neighborhood'
+                    return {
+                        text: "What topics does your organisation focus on? (pick all that apply)",
+                        checkboxes: THEME_CATEGORIES.map(t => ({ label: t, value: t }))
+                    };
+                }
+                return {
+                    text: `Which neighbourhood or area in ${input}?`,
+                    inputType: "text"
+                };
+
+            case 'neighborhood':
+                this.data.neighborhood = input;
+                this.currentStep++;
                 return {
                     text: "What topics does your community focus on? (pick all that apply)",
-                    checkboxes: themes.map(t => ({ label: t, value: t }))
+                    checkboxes: THEME_CATEGORIES.map(t => ({ label: t, value: t }))
                 };
 
             case 'themes':
@@ -94,7 +110,7 @@ class OnboardingEngine {
                     inputType: "email"
                 };
 
-            case 'contact':
+            case 'email':
                 // Basic email validation
                 if (!isValidEmail(input)) {
                     return {
@@ -104,6 +120,22 @@ class OnboardingEngine {
                     };
                 }
                 this.data.email = input;
+                this.currentStep++;
+                return {
+                    text: "And who should we reach out to? (contact person's name)",
+                    inputType: "text"
+                };
+
+            case 'contactPerson':
+                const cp = (input || '').trim();
+                if (cp.length < 2) {
+                    return {
+                        text: "Please share a name we can address you by (at least 2 characters).",
+                        inputType: "text",
+                        stayOnStep: true
+                    };
+                }
+                this.data.contactPerson = cp;
                 this.currentStep++;
                 return await this.submit();
 
@@ -128,8 +160,10 @@ class OnboardingEngine {
             type: this.data.type,
             name: this.data.name,
             city: this.data.city,
+            neighborhood: this.data.neighborhood || null,
             description: this.data.description,
             themes: this.data.themes,
+            contactPerson: this.data.contactPerson,
             email: this.data.email,
             source: 'chatbot'
         });
