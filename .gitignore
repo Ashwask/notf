@@ -40,3 +40,6 @@ docs/
 # Playwright visual harness — keep specs + baselines, ignore reports/results
 website/playwright-report/
 website/test-results/
+
+# Playwright HTML report at repo root (when run from notf root)
+playwright-report/
