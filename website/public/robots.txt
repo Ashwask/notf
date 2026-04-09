@@ -1,0 +1,11 @@
+# Neighbourhoods of the Future
+# https://notf.in
+User-agent: *
+Allow: /
+
+# Block admin + test pages from crawl
+Disallow: /admin/
+Disallow: /test-*
+Disallow: /_*
+
+Sitemap: https://notf.in/sitemap.xml
