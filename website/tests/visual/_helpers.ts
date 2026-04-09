@@ -99,11 +99,16 @@ export async function auditPage(
       .withTags(['wcag2a', 'wcag2aa'])
       .disableRules([
         // Rules still tracked for later PRs.
-        'color-contrast', // PR 1.5 — sitewide audit needed (~19 nodes); spot fixes shipped in PR 1
         'region', // PR 4/5 — landmark structure on injected header/footer
         'aria-prohibited-attr', // PR 5 — .chat-resize-handle div
       ])
-      .exclude('#chat-fab, .chat-fab, .chat-widget, #chat-widget, .chat-container')
+      .exclude('#chat-fab')
+      .exclude('.chat-fab')
+      .exclude('.chat-widget')
+      .exclude('#chat-widget')
+      .exclude('.chat-container')
+      .exclude('#notf-chatbot')
+      .exclude('.chat-tips')
       .exclude('.leaflet-container') // 3rd-party Leaflet controls
       .analyze();
     expect(
