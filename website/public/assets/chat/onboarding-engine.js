@@ -6,7 +6,7 @@
 
 class OnboardingEngine {
     constructor() {
-        this.steps = ['type', 'name', 'city', 'neighborhood', 'themes', 'description', 'email', 'contactPerson', 'confirm'];
+        this.steps = ['type', 'name', 'city', 'neighborhood', 'themes', 'description', 'offersAsks', 'email', 'phone', 'contactPerson', 'confirm'];
         this.currentStep = 0;
         this.data = {};
         this.supabase = null;
@@ -106,6 +106,25 @@ class OnboardingEngine {
                 this.data.description = input;
                 this.currentStep++;
                 return {
+                    text: "What can you offer to the network, and what do you need? (optional — type \"skip\" to continue)",
+                    inputType: "text"
+                };
+
+            case 'offersAsks':
+                if (input.toLowerCase() !== 'skip' && input.trim()) {
+                    // Simple heuristic: split on "need" / "ask" / "looking for"
+                    // to separate offers from asks, else store everything as offers.
+                    const lower = input.toLowerCase();
+                    const needIdx = lower.search(/\b(need|ask|looking for|require)\b/);
+                    if (needIdx > 0) {
+                        this.data.offers = input.substring(0, needIdx).trim();
+                        this.data.asks = input.substring(needIdx).trim();
+                    } else {
+                        this.data.offers = input.trim();
+                    }
+                }
+                this.currentStep++;
+                return {
                     text: "Almost done! What's your email address?",
                     inputType: "email"
                 };
@@ -120,6 +139,16 @@ class OnboardingEngine {
                     };
                 }
                 this.data.email = input;
+                this.currentStep++;
+                return {
+                    text: "Phone number? (optional — type \"skip\" to continue)",
+                    inputType: "text"
+                };
+
+            case 'phone':
+                if (input.toLowerCase() !== 'skip' && input.trim()) {
+                    this.data.phone = input.trim();
+                }
                 this.currentStep++;
                 return {
                     text: "And who should we reach out to? (contact person's name)",
@@ -165,6 +194,9 @@ class OnboardingEngine {
             themes: this.data.themes,
             contactPerson: this.data.contactPerson,
             email: this.data.email,
+            phone: this.data.phone || null,
+            offers: this.data.offers || null,
+            asks: this.data.asks || null,
             source: 'chatbot'
         });
 

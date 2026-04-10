@@ -249,10 +249,13 @@ async function editOrganization(id) {
         orgOtherInput.style.display = 'none';
         orgOtherInput.value = '';
     }
+    document.getElementById('orgCity').value = org.metadata?.city || org.city || '';
     document.getElementById('orgLocation').value = org.metadata?.location || '';
     document.getElementById('orgDescription').value = org.metadata?.description || '';
     document.getElementById('orgContactPerson').value = org.metadata?.contact?.person || '';
     document.getElementById('orgContactEmail').value = org.metadata?.contact?.email || '';
+    document.getElementById('orgContactPhone').value = org.metadata?.contact?.phone || '';
+    document.getElementById('orgWebsite').value = org.metadata?.website || '';
     document.getElementById('orgOffers').value = (org.metadata?.offers || []).join('\n');
     document.getElementById('orgAsks').value = (org.metadata?.asks || []).join('\n');
     document.getElementById('orgStatus').value = org.status || 'active';
@@ -300,12 +303,15 @@ async function handleFormSubmit(e) {
             }
             return checked;
         })(),
+        city: document.getElementById('orgCity').value.trim(),
         location: document.getElementById('orgLocation').value.trim(),
         description: document.getElementById('orgDescription').value.trim(),
         contact: {
             person: document.getElementById('orgContactPerson').value.trim(),
-            email: document.getElementById('orgContactEmail').value.trim()
+            email: document.getElementById('orgContactEmail').value.trim(),
+            phone: document.getElementById('orgContactPhone').value.trim()
         },
+        website: document.getElementById('orgWebsite').value.trim(),
         offers: document.getElementById('orgOffers').value.split('\n').map(s => s.trim()).filter(s => s),
         asks: document.getElementById('orgAsks').value.split('\n').map(s => s.trim()).filter(s => s),
         stories: null

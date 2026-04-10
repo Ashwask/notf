@@ -678,13 +678,20 @@ function unflattenCommunity(row) {
 function unflattenProvider(row) {
     const { semicolonToArray } = window.ExcelCommon;
 
+    // Normalize themes: build both `themes` (canonical array) and
+    // `theme` (CSV string for backward compat) from whichever column exists.
+    const themesArr = semicolonToArray(row['Focus Areas'] || row['Theme/Sector'] || '');
+    const themeStr = row['Theme/Sector'] || themesArr.join(', ') || null;
+
     const data = {
         name: row['Name'],
-        theme: row['Theme/Sector'] || null,
+        theme: themeStr,
+        themes: themesArr.length ? themesArr : null,
         focus_areas: semicolonToArray(row['Focus Areas']),
         domains: semicolonToArray(row['Domains']),
 
         contact: {
+            person: row['Contact Person'] || null,
             email: row['Contact Email'] || null,
             phone: row['Contact Phone'] || null
         },
