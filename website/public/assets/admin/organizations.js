@@ -95,6 +95,24 @@ function renderOrganizations(orgs) {
         const statusIcon = org.status === 'active' ? 'fa-circle-check' : org.status === 'pending' ? 'fa-clock' : 'fa-circle';
         const statusEscaped = escapeHtml(org.status);
 
+        // Source badge
+        const source = org.metadata?.submitted_via;
+        const sourceLabel = source === 'join_form' ? 'Form'
+            : source === 'chatbot' ? 'Chatbot'
+            : source === 'admin' ? 'Admin'
+            : source === 'excel_import' ? 'Import'
+            : 'Legacy';
+        const sourceIcon = source === 'join_form' ? 'fa-file-pen'
+            : source === 'chatbot' ? 'fa-robot'
+            : source === 'admin' ? 'fa-user-lock'
+            : source === 'excel_import' ? 'fa-file-excel'
+            : 'fa-database';
+        const sourceColor = source === 'join_form' ? '#3F5F7A'
+            : source === 'chatbot' ? '#B04E24'
+            : source === 'admin' ? '#2F4A2C'
+            : source === 'excel_import' ? '#F5B82E'
+            : '#888';
+
         return `
             <div class="org-card minimal ${org.status === 'pending' ? 'pending-highlight' : ''}">
                 <div class="org-info">
@@ -103,6 +121,9 @@ function renderOrganizations(orgs) {
                         <span class="status-indicator ${statusEscaped}">
                             <i class="fa-solid ${statusIcon}"></i>
                             ${statusEscaped}
+                        </span>
+                        <span style="font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; background: ${sourceColor}15; color: ${sourceColor}; font-weight: 600; white-space: nowrap;">
+                            <i class="fa-solid ${sourceIcon}" style="margin-right: 3px;"></i>${sourceLabel}
                         </span>
                     </div>
                     ${focusText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${focusText}</p>` : ''}
@@ -201,7 +222,7 @@ async function editOrganization(id) {
     document.getElementById('modalTitle').textContent = 'Edit Solution Provider';
     document.getElementById('orgId').value = org.id;
     document.getElementById('orgFilePath').value = org.file_path;
-    document.getElementById('orgName').value = org.metadata?.name || '';
+    document.getElementById('orgName').value = org.metadata?.name || org.name || org.slug || '';
     // Set theme checkboxes
     const orgThemes = org.metadata?.theme ? org.metadata.theme.split(',').map(s => s.trim()) : (org.metadata?.themes || []);
     document.querySelectorAll('#orgThemeCheckboxes input[type="checkbox"]').forEach(cb => {
@@ -282,6 +303,20 @@ async function handleFormSubmit(e) {
 
     // Add status to metadata
     metadata.status = status;
+
+    // Preserve or set source tracking
+    if (isEditing && editingId) {
+        const existing = organizations.find(o => o.id === editingId);
+        if (existing?.metadata?.submitted_via) {
+            metadata.submitted_via = existing.metadata.submitted_via;
+        }
+        if (existing?.metadata?.submitted_at) {
+            metadata.submitted_at = existing.metadata.submitted_at;
+        }
+    } else {
+        metadata.submitted_via = 'admin';
+        metadata.submitted_at = new Date().toISOString();
+    }
 
     const supabase = authUtils.supabase;
 
