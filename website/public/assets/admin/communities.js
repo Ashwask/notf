@@ -139,6 +139,21 @@ function renderCommunities(comms) {
         const statusIcon = comm.status === 'active' ? 'fa-circle-check' : comm.status === 'pending' ? 'fa-clock' : 'fa-circle';
         const statusEscaped = escapeHtml(comm.status);
 
+        // Source badge — shows how this community was created
+        const source = comm.metadata?.submitted_via;
+        const sourceLabel = source === 'join_form' ? 'Form'
+            : source === 'chatbot' ? 'Chatbot'
+            : source === 'admin' ? 'Admin'
+            : 'Legacy';
+        const sourceIcon = source === 'join_form' ? 'fa-file-pen'
+            : source === 'chatbot' ? 'fa-robot'
+            : source === 'admin' ? 'fa-user-lock'
+            : 'fa-database';
+        const sourceColor = source === 'join_form' ? '#3F5F7A'
+            : source === 'chatbot' ? '#B04E24'
+            : source === 'admin' ? '#2F4A2C'
+            : '#888';
+
         return `
             <div class="org-card minimal ${comm.status === 'pending' ? 'pending-highlight' : ''}">
                 <div class="org-info">
@@ -147,6 +162,9 @@ function renderCommunities(comms) {
                         <span class="status-indicator ${statusEscaped}">
                             <i class="fa-solid ${statusIcon}"></i>
                             ${statusEscaped}
+                        </span>
+                        <span style="font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; background: ${sourceColor}15; color: ${sourceColor}; font-weight: 600; white-space: nowrap;">
+                            <i class="fa-solid ${sourceIcon}" style="margin-right: 3px;"></i>${sourceLabel}
                         </span>
                     </div>
                     ${themesText ? `<p style="color: #666; font-size: 0.875rem; margin-bottom: 0.5rem;">${themesText}</p>` : ''}
@@ -297,7 +315,7 @@ async function editCommunity(id) {
     document.getElementById('modalTitle').textContent = 'Edit Community';
     document.getElementById('commId').value = comm.id;
     document.getElementById('commFilePath').value = comm.file_path;
-    document.getElementById('commName').value = comm.metadata?.name || '';
+    document.getElementById('commName').value = comm.metadata?.name || comm.name || comm.slug || '';
     document.getElementById('commCity').value = comm.metadata?.city || comm.city || '';
     document.getElementById('commState').value = comm.metadata?.state || '';
 
@@ -450,6 +468,22 @@ async function handleFormSubmit(e) {
         started: document.getElementById('commStarted').value,
         last_updated: new Date().toISOString().split('T')[0]
     };
+
+    // Preserve the original source tracking fields from the existing record
+    // so admin edits don't erase how the community was originally submitted.
+    if (editingId) {
+        const existing = communities.find(c => c.id === editingId);
+        if (existing?.metadata?.submitted_via) {
+            metadata.submitted_via = existing.metadata.submitted_via;
+        }
+        if (existing?.metadata?.submitted_at) {
+            metadata.submitted_at = existing.metadata.submitted_at;
+        }
+    } else {
+        // New community created by admin
+        metadata.submitted_via = 'admin';
+        metadata.submitted_at = new Date().toISOString();
+    }
 
     // Add Elected Representatives information
     const mlaName = document.getElementById('commMlaName').value.trim();
