@@ -661,7 +661,9 @@ function unflattenCommunity(row) {
         neighborhood_size: row['Neighborhood Size'] || null,
         population_served: row['Population Served'] || null,
 
-        status: (row['Status'] || 'active').toLowerCase()
+        status: (row['Status'] || 'active').toLowerCase(),
+        submitted_via: 'excel_import',
+        submitted_at: new Date().toISOString()
     };
 
     // Remove null/empty values to preserve existing data

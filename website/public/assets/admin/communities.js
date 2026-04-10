@@ -144,14 +144,17 @@ function renderCommunities(comms) {
         const sourceLabel = source === 'join_form' ? 'Form'
             : source === 'chatbot' ? 'Chatbot'
             : source === 'admin' ? 'Admin'
+            : source === 'excel_import' ? 'Import'
             : 'Legacy';
         const sourceIcon = source === 'join_form' ? 'fa-file-pen'
             : source === 'chatbot' ? 'fa-robot'
             : source === 'admin' ? 'fa-user-lock'
+            : source === 'excel_import' ? 'fa-file-excel'
             : 'fa-database';
         const sourceColor = source === 'join_form' ? '#3F5F7A'
             : source === 'chatbot' ? '#B04E24'
             : source === 'admin' ? '#2F4A2C'
+            : source === 'excel_import' ? '#F5B82E'
             : '#888';
 
         return `
