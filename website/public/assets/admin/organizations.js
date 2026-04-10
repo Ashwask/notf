@@ -219,6 +219,14 @@ async function editOrganization(id) {
     isEditing = true;
     editingId = id;
 
+    console.log('[Admin] editOrganization data:', JSON.stringify({
+        id: org.id, slug: org.slug,
+        name: org.metadata?.name, contact: org.metadata?.contact,
+        location: org.metadata?.location, themes: org.metadata?.themes
+    }));
+
+    try {
+
     document.getElementById('modalTitle').textContent = 'Edit Solution Provider';
     document.getElementById('orgId').value = org.id;
     document.getElementById('orgFilePath').value = org.file_path;
@@ -250,6 +258,11 @@ async function editOrganization(id) {
     document.getElementById('orgStatus').value = org.status || 'active';
 
     document.getElementById('formModal').style.display = 'flex';
+
+    } catch (err) {
+        console.error('[Admin] editOrganization error — some fields may not have populated:', err);
+        alert('Warning: some form fields may not have loaded correctly. Check browser console for details.\n\n' + err.message);
+    }
 }
 
 async function handleFormSubmit(e) {

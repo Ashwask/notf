@@ -315,6 +315,15 @@ async function editCommunity(id) {
     isEditing = true;
     editingId = id;
 
+    // Debug: log the raw data so we can inspect in console if fields appear empty
+    console.log('[Admin] editCommunity data:', JSON.stringify({
+        id: comm.id, slug: comm.slug,
+        name: comm.metadata?.name, contact: comm.metadata?.contact,
+        city: comm.metadata?.city, themes: comm.metadata?.themes
+    }));
+
+    try {
+
     document.getElementById('modalTitle').textContent = 'Edit Community';
     document.getElementById('commId').value = comm.id;
     document.getElementById('commFilePath').value = comm.file_path;
@@ -400,6 +409,11 @@ async function editCommunity(id) {
             setLocation(comm.latitude, comm.longitude);
         }
     }, 100);
+
+    } catch (err) {
+        console.error('[Admin] editCommunity error — some fields may not have populated:', err);
+        alert('Warning: some form fields may not have loaded correctly. Check browser console for details.\n\n' + err.message);
+    }
 }
 
 async function handleFormSubmit(e) {
