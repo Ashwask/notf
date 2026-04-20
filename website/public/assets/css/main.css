@@ -2152,7 +2152,7 @@ body.menu-open {
 .climate-stat .stat-number small {
     font-size: 0.7em;
     font-weight: 700;
-    opacity: 0.85;
+    color: var(--forest-green, #2F4A2C);
 }
 .climate-stat .stat-label {
     font-size: 0.78rem;
