@@ -73,24 +73,40 @@
             </div>
         </section>
 
-        <!-- Live Network Stats Bar -->
-        <section class="stats-bar">
-            <div class="stat-item">
-                <span class="stat-number" id="statCommunities">-</span>
-                <span class="stat-label" data-i18n="homepage.stats.communities">Communities</span>
+        <!-- Climate Impact Stats Bar -->
+        <section class="stats-bar climate-stats-bar" aria-labelledby="climateImpactHeading">
+            <h2 id="climateImpactHeading" class="climate-stats-title" data-i18n="homepage.climateStats.title">Climate Action on the Ground</h2>
+            <div class="climate-stats-grid">
+                <div class="stat-item climate-stat">
+                    <img src="/assets/images/icons/waste-management.svg" alt="" aria-hidden="true" class="climate-stat-icon">
+                    <span class="stat-number">65+ <small>t</small></span>
+                    <span class="stat-label" data-i18n="homepage.climateStats.waste">Waste diverted from landfill</span>
+                </div>
+                <div class="stat-item climate-stat">
+                    <img src="/assets/images/icons/environment.svg" alt="" aria-hidden="true" class="climate-stat-icon">
+                    <span class="stat-number">60K+ <small>kg</small></span>
+                    <span class="stat-label" data-i18n="homepage.climateStats.co2">CO₂ emissions prevented</span>
+                </div>
+                <div class="stat-item climate-stat">
+                    <img src="/assets/images/icons/recycle.svg" alt="" aria-hidden="true" class="climate-stat-icon">
+                    <span class="stat-number">20K+</span>
+                    <span class="stat-label" data-i18n="homepage.climateStats.bottles">Plastic bottles avoided</span>
+                </div>
+                <div class="stat-item climate-stat">
+                    <img src="/assets/images/icons/trees.svg" alt="" aria-hidden="true" class="climate-stat-icon">
+                    <span class="stat-number">12K+</span>
+                    <span class="stat-label" data-i18n="homepage.climateStats.trees">Trees & saplings planted</span>
+                </div>
+                <div class="stat-item climate-stat">
+                    <img src="/assets/images/icons/policy.svg" alt="" aria-hidden="true" class="climate-stat-icon">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label" data-i18n="homepage.climateStats.plans">City climate action plans</span>
+                </div>
             </div>
-            <div class="stat-item">
-                <span class="stat-number" id="statProviders">-</span>
-                <span class="stat-label" data-i18n="homepage.stats.providers">Solution Providers</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" id="statProjects">-</span>
-                <span class="stat-label" data-i18n="homepage.stats.projects">Projects</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number" id="statCities">-</span>
-                <span class="stat-label" data-i18n="homepage.stats.cities">Cities</span>
-            </div>
+            <p class="climate-stats-footer">
+                <span data-i18n="homepage.climateStats.attribution">Delivered by 15 climate projects in our catalogue.</span>
+                <a href="/catalog/" class="climate-stats-cta" data-i18n="homepage.climateStats.cta">Browse climate projects <i class="fa-solid fa-arrow-right"></i></a>
+            </p>
         </section>
 
         <!-- What is NOTF -->
@@ -119,6 +135,24 @@
                             <strong data-i18n="homepage.explainer.point3.title">Climate Resilient</strong>
                             <span data-i18n="homepage.explainer.point3.desc">Track climate action across wards and sectors, from waste management to green cover to clean energy</span>
                         </div>
+                    </div>
+                </div>
+                <div class="stats-bar platform-stats-bar" aria-label="Platform reach">
+                    <div class="stat-item">
+                        <span class="stat-number" id="statCommunities">-</span>
+                        <span class="stat-label" data-i18n="homepage.stats.communities">Communities</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="statProviders">-</span>
+                        <span class="stat-label" data-i18n="homepage.stats.providers">Solution Providers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="statProjects">-</span>
+                        <span class="stat-label" data-i18n="homepage.stats.projects">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="statCities">-</span>
+                        <span class="stat-label" data-i18n="homepage.stats.cities">Cities</span>
                     </div>
                 </div>
                 <a href="/about/" class="notf-explainer-cta" data-i18n="homepage.explainer.cta">Learn more about NOTF <i class="fa-solid fa-arrow-right"></i></a>

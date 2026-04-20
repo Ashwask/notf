@@ -2097,6 +2097,86 @@ body.menu-open {
     display: block;
 }
 
+/* Platform stats bar nested inside the explainer card */
+.platform-stats-bar {
+    background: transparent;
+    border: none;
+    padding: 24px 0 16px;
+    margin: 8px 0 16px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* === CLIMATE IMPACT STATS BAR === */
+.climate-stats-bar {
+    flex-direction: column;
+    gap: 20px;
+    background: var(--warm-cream, #FAF6E8);
+    padding: 36px 24px 28px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.climate-stats-title {
+    font-size: 1.25rem;
+    color: var(--forest-green);
+    margin: 0;
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+.climate-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.climate-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.climate-stat-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 6px;
+    object-fit: contain;
+}
+.climate-stat .stat-number {
+    color: var(--terracotta, #C45A2A);
+    font-size: 1.85rem;
+    font-weight: 800;
+    line-height: 1.05;
+}
+.climate-stat .stat-number small {
+    font-size: 0.7em;
+    font-weight: 700;
+    opacity: 0.85;
+}
+.climate-stat .stat-label {
+    font-size: 0.78rem;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 160px;
+}
+.climate-stats-footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--charcoal);
+    opacity: 0.8;
+    margin: 4px 0 0;
+}
+.climate-stats-cta {
+    margin-left: 8px;
+    color: var(--forest-green);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.climate-stats-cta:hover { text-decoration: underline; }
+.climate-stats-cta i { font-size: 0.75em; margin-left: 2px; }
+
 /* === NOTF EXPLAINER === */
 .notf-explainer {
     padding: 64px 24px;
@@ -2312,6 +2392,20 @@ body.menu-open {
     .preview-row-cards {
         grid-template-columns: 1fr;
     }
+    .climate-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+    .climate-stat .stat-number { font-size: 1.5rem; }
+    .climate-stat-icon { width: 36px; height: 36px; }
+    .climate-stats-footer .climate-stats-cta {
+        display: block;
+        margin: 6px 0 0;
+    }
+}
+@media (max-width: 420px) {
+    .climate-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .climate-stats-title { font-size: 1.1rem; }
 }
 
 /* === SECTOR TAB NAVIGATION === */

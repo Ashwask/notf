@@ -233,6 +233,16 @@
         "desc": "Track climate action across wards and sectors, from waste management to green cover to clean energy"
       },
       "cta": "Learn more about NOTF"
+    },
+    "climateStats": {
+      "title": "Climate Action on the Ground",
+      "waste": "Waste diverted from landfill",
+      "co2": "CO₂ emissions prevented",
+      "bottles": "Plastic bottles avoided",
+      "trees": "Trees & saplings planted",
+      "plans": "City climate action plans",
+      "attribution": "Delivered by 15 climate projects in our catalogue.",
+      "cta": "Browse climate projects"
     }
   },
   "stats": {
