@@ -2,6 +2,13 @@
     var container = document.getElementById('notf-chatbot');
     if (!container) return;
 
+    if (!document.querySelector('link[href="/assets/chat/chat.css"]')) {
+        var css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = '/assets/chat/chat.css';
+        document.head.appendChild(css);
+    }
+
     container.innerHTML =
         '<button id="chat-fab" class="chat-fab hidden" data-i18n-aria="chatbot.openChat" aria-label="Open NOTF Assistant">' +
             '<img src="/assets/images/icons/communication.svg" alt="" style="width:40px;height:40px;">' +

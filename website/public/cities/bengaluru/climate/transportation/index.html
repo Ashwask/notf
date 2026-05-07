@@ -298,6 +298,38 @@
             justify-content: center;
             flex-wrap: wrap;
         }
+    
+        /* === Brand SVG icon sizing === */
+        .brand-icon {
+            display: inline-block;
+            object-fit: contain;
+            vertical-align: -0.18em;
+        }
+        .sector-hero-icon .brand-icon {
+            width: 52px;
+            height: 52px;
+            vertical-align: middle;
+        }
+        .sector-tab .brand-icon {
+            width: 22px;
+            height: 22px;
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+        .target-card h3 .brand-icon,
+        .ward-info-box h3 .brand-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .action-icon .brand-icon {
+            width: 28px;
+            height: 28px;
+            vertical-align: middle;
+        }
+        .btn .brand-icon {
+            width: 18px;
+            height: 18px;
+        }
     </style>
 </head>
 <body>
@@ -311,7 +343,7 @@
                     <a href="/">Home</a> / <a href="/cities/bengaluru/">Bengaluru</a> / <a href="/cities/bengaluru/climate/">Climate</a> / Transportation
                 </div>
                 <div class="sector-hero-icon">
-                    <img src="/assets/images/icons/cycle.svg" alt="" style="width:18px;height:18px;vertical-align:middle;">
+                    <img src="/assets/images/icons/mobility.svg" alt="" class="brand-icon">
                 </div>
                 <h1>Transportation</h1>
                 <p class="sector-subtitle">Creating sustainable, low-carbon transportation systems with focus on public transit, electric vehicles, and active mobility.</p>
@@ -321,25 +353,25 @@
         <!-- Sector Tabs -->
         <nav class="sector-tabs">
             <a href="/cities/bengaluru/climate/energy/" class="sector-tab">
-                <img src="/assets/images/icons/solar.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Energy
+                <img src="/assets/images/icons/energy-climate.svg" alt="" class="brand-icon"> Energy
             </a>
             <a href="/cities/bengaluru/climate/transportation/" class="sector-tab active">
-                <img src="/assets/images/icons/cycle.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Transport
+                <img src="/assets/images/icons/mobility.svg" alt="" class="brand-icon"> Transport
             </a>
             <a href="/cities/bengaluru/climate/waste/" class="sector-tab">
-                <img src="/assets/images/icons/waste-circular.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Waste
+                <img src="/assets/images/icons/waste-circular.svg" alt="" class="brand-icon"> Waste
             </a>
             <a href="/cities/bengaluru/climate/air-quality/" class="sector-tab">
-                <img src="/assets/images/icons/wind.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Air
+                <img src="/assets/images/icons/air-quality.svg" alt="" class="brand-icon"> Air
             </a>
             <a href="/cities/bengaluru/climate/water/" class="sector-tab">
-                <img src="/assets/images/icons/water-ecology.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Water
+                <img src="/assets/images/icons/water-ecology.svg" alt="" class="brand-icon"> Water
             </a>
             <a href="/cities/bengaluru/climate/greening/" class="sector-tab">
-                <img src="/assets/images/icons/plant.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Greening
+                <img src="/assets/images/icons/plant.svg" alt="" class="brand-icon"> Greening
             </a>
             <a href="/cities/bengaluru/climate/disaster/" class="sector-tab">
-                <img src="/assets/images/icons/safety.svg" alt="" style="width:18px;height:18px;vertical-align:middle;"> Disaster
+                <img src="/assets/images/icons/safety.svg" alt="" class="brand-icon"> Disaster
             </a>
         </nav>
 
@@ -353,7 +385,7 @@
             <div class="targets-grid">
                 <div class="target-card">
                     <h3>
-                        <img src="/assets/images/icons/cycle.svg" alt="" style="width:18px;height:18px;vertical-align:middle;">
+                        <img src="/assets/images/icons/mobility.svg" alt="" class="brand-icon">
                         Public Transport Share
                     </h3>
                     <div class="target-value">80%</div>
@@ -379,7 +411,7 @@
 
                 <div class="target-card">
                     <h3>
-                        <i class="fa-solid fa-bicycle"></i>
+                        <img src="/assets/images/icons/cycle.svg" alt="" class="brand-icon">
                         Cycling Lanes
                     </h3>
                     <div class="target-value">500km</div>
@@ -392,7 +424,7 @@
 
                 <div class="target-card">
                     <h3>
-                        <img src="/assets/images/icons/conservation.svg" alt="" style="width:20px;height:20px;">
+                        <img src="/assets/images/icons/conservation.svg" alt="" class="brand-icon">
                         Zero Emission Transit
                     </h3>
                     <div class="target-value">100%</div>
@@ -415,7 +447,7 @@
 
                 <div class="ward-info-box">
                     <h3>
-                        <img src="/assets/images/icons/location.svg" alt="" style="width:20px;height:20px;">
+                        <img src="/assets/images/icons/location.svg" alt="" class="brand-icon">
                         369 Wards Monitored
                     </h3>
                     <p>Each ward reports on public transport connectivity, cycling infrastructure, EV charging stations, and vehicle registration data. Ward-level data will be updated quarterly to track progress toward 2030 and 2035 targets.</p>
@@ -454,7 +486,7 @@
 
                 <div class="action-card">
                     <div class="action-icon">
-                        <i class="fa-solid fa-bicycle"></i>
+                        <img src="/assets/images/icons/cycle.svg" alt="" class="brand-icon">
                     </div>
                     <div class="action-content">
                         <h4>Cycling Infrastructure</h4>
@@ -464,7 +496,7 @@
 
                 <div class="action-card">
                     <div class="action-icon">
-                        <img src="/assets/images/icons/cycle.svg" alt="" style="width:18px;height:18px;vertical-align:middle;">
+                        <img src="/assets/images/icons/mobility.svg" alt="" class="brand-icon">
                     </div>
                     <div class="action-content">
                         <h4>Electric Bus Fleet</h4>
@@ -474,7 +506,7 @@
 
                 <div class="action-card">
                     <div class="action-icon">
-                        <i class="fa-solid fa-walking"></i>
+                        <img src="/assets/images/icons/mobility.svg" alt="" class="brand-icon">
                     </div>
                     <div class="action-content">
                         <h4>Pedestrian-Friendly Streets</h4>
@@ -493,7 +525,7 @@
                     View All Climate Sectors
                 </a>
                 <a href="/cities/bengaluru/map/" class="btn btn-secondary">
-                    <img src="/assets/images/icons/location.svg" alt="" style="width:20px;height:20px;">
+                    <img src="/assets/images/icons/location.svg" alt="" class="brand-icon">
                     View Ward Map
                 </a>
             </div>
