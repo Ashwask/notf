@@ -301,14 +301,23 @@ nav {
 /* === HERO SECTION === */
 .hero {
     background: var(--forest-green) url('/assets/images/hero-neighbourhood.png') center center / cover no-repeat;
-    padding: var(--space-lg) var(--space-md) var(--space-3xl);
+    aspect-ratio: 5100 / 1477;
+    padding: 4% var(--space-md) var(--space-md);
     text-align: center;
     position: relative;
     overflow: hidden;
-    min-height: 520px;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+@media (max-width: 720px) {
+    .hero {
+        aspect-ratio: auto;
+        min-height: 240px;
+        padding: var(--space-md);
+    }
 }
 
 .hero::before {
@@ -362,11 +371,23 @@ nav {
 /* === PAGE HERO (Standard - with background image) === */
 .page-hero {
     background: var(--forest-green) url('/assets/images/hero-neighbourhood.png') center center / cover no-repeat;
-    padding: var(--space-2xl) var(--space-md);
+    aspect-ratio: 5100 / 1477;
+    padding: 4% var(--space-md) var(--space-md);
     margin-bottom: var(--space-xl);
     text-align: center;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+@media (max-width: 720px) {
+    .page-hero {
+        aspect-ratio: auto;
+        min-height: 240px;
+    }
 }
 
 .page-hero::before {
@@ -2525,6 +2546,7 @@ body.menu-open {
 
 /* === BREADCRUMB === */
 .breadcrumb {
+    display: block;
     padding: var(--space-sm) 0;
     margin-bottom: var(--space-md);
     font-size: 0.95rem;
