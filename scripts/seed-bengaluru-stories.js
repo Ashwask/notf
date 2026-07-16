@@ -1,5 +1,5 @@
 /**
- * Seed Script: Insert 2 Bengaluru community stories into Supabase
+ * Seed Script: Insert 3 Bengaluru community stories into Supabase
  *
  * HOW TO RUN:
  * ===========
@@ -123,6 +123,38 @@ This is not a story about infrastructure. It is a story about the countless men 
 The Neighbourhoods of the Future program did not arrive in JP Nagar with a grand theory of change. It arrived with a willingness to listen.
 
 That is the future. Not a smart city. Just a corner that became a home.`
+  },
+  {
+    title: "Prakruthi Shaale: A Nature School Blooms at C.V. Raman's Panchavati",
+    city: "Bengaluru",
+    community: "Prakruthi Shaale",
+    location: "Malleshwaram",
+    themes: ["Community", "Waste Management", "Green Cover", "Education"],
+    youtube_url: "https://www.youtube.com/watch?v=-MuaNC964Rw",
+    excerpt: "At Panchavati, the historic Malleshwaram home of Nobel laureate Sir C.V. Raman, a community-run nature school is helping neighbours of all ages reconnect with nature — from composting temple flower waste to raising the city's next Earth Scouts.",
+    status: "active",
+    content: `## Prakruthi Shaale: A Nature School Blooms at C.V. Raman's Panchavati
+
+**Program:** Neighbourhoods of the Future
+**Community:** Prakruthi Shaale ([@prakruthishaale](https://instagram.com/prakruthishaale))
+**Location:** Panchavati, 15th Cross, Malleshwaram, Bengaluru
+
+### A Heritage Space Reborn as a Living Classroom
+
+Tucked behind the trees of 15th Cross, Malleshwaram, sits Panchavati - the 2.5-acre home where Sir C.V. Raman lived and planted fruit trees by hand. Today, this heritage space hosts **Prakruthi Shaale**, a community nature school where the neighbourhood comes to rediscover the joy of learning outdoors.
+
+### The Neighbourhood at Play and Purpose
+
+On any given day you might find children sewing and crafting under the trees, school groups turning temple flower waste into compost, families pitching tents under the open sky, or young Earth Scouts learning to observe, question, and care for the world around them.
+
+### Led by the Community, for the Community
+
+What makes Prakruthi Shaale special is that it's led by the community itself. Waste that would have gone to landfill becomes soil. A historic space becomes a living classroom. And a neighbourhood becomes a little more connected, curious, and climate-resilient - one activity at a time.
+
+*Everyone is welcome. Come embrace the child within you.*
+
+Panchavati, 15th Cross, Malleshwaram, Bengaluru
+Instagram: [@prakruthishaale](https://instagram.com/prakruthishaale)`
   }
 ];
 
